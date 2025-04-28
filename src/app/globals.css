@@ -57,18 +57,31 @@
     --success-25: 142 76% 97%;
     --success-50: 141 84% 93%;
     --success-100: 141 79% 85%;
-    --success-200: 141 79% 85%;
-    --success-300: 142 77% 73%;
-    --success-400: 142 69% 58%;
-    --success-500: 142 71% 45%;
-    --success-600: 142 76% 36%;
-    --success-700: 142 72% 29%;
-    --success-800: 143 64% 24%;
-    --success-900: 144 61% 20%;
-    --success-950: 145 80% 10%;
-    --success: 142 71% 45%;
-    --success-foreground: 355 100% 100%;
+    --success-200: 141 74% 73%;
+    --success-300: 141 66% 58%;
+    --success-400: 141 68% 45%;
+    --success-500: 141 73% 36%;
+    --success-600: 141 69% 29%;
+    --success-700: 142 61% 24%;
+    --success-800: 142 54% 19%;
+    --success-900: 142 50% 14%;
+    --success-950: 143 56% 7%;
+    --success:  141 73% 36%;
+    --success-foreground: 210 40% 98%;
 
+    /* Gray colors - Light Mode (from FloatColorVariables.json) */
+    --gray-25: #fcfcfc;
+    --gray-50: #fafafa;
+    --gray-100: #f4f4f5;
+    --gray-200: #e4e4e7;
+    --gray-300: #d1d1d6;
+    --gray-400: #a0a0ab;
+    --gray-500: #70707b;
+    --gray-600: #51515c;
+    --gray-700: #3f3f46;
+    --gray-800: #26262b;
+    --gray-900: #1a1a1e;
+    --gray-950: #131316;
     /* Semantic colors */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
