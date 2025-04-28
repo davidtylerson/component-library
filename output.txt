@@ -44,6 +44,9 @@ The content is organized as follows:
 </file_summary>
 
 <directory_structure>
+.storybook/
+  main.js
+  preview.tsx
 src/
   app/
     components/
@@ -54,11 +57,15 @@ src/
   components/
     typography/
       heading/
+        heading.stories.tsx
         heading.tsx
         index.ts
       text/
         index.ts
+        text.stories.tsx
         text.tsx
+      index.ts
+      showcase.tsx
     ui/
       button/
         button.tsx
@@ -77,7 +84,26 @@ src/
       index.ts
   lib/
     theme-utils.ts
+    types.ts
     utils.ts
+  stories/
+    assets/
+      accessibility.svg
+      discord.svg
+      github.svg
+      tutorials.svg
+      youtube.svg
+    button.css
+    Button.stories.ts
+    Button.tsx
+    Configure.mdx
+    header.css
+    Header.stories.ts
+    Header.tsx
+    page.css
+    Page.stories.ts
+    Page.tsx
+    Typography.stories.tsx
   themes/
     catalog.tsx
     theme-context.tsx
@@ -90,6 +116,7 @@ src/
     spacing.ts
     typography.ts
 .gitignore
+.npmrc
 .repomixrc
 components.json
 next-env.d.ts
@@ -103,6 +130,2317 @@ tsconfig.json
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path=".storybook/main.js">
+const config = {
+  framework: '@storybook/nextjs',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
+  ],
+  docs: {
+    autodocs: 'tag',
+  },
+};
+
+export default config;
+</file>
+
+<file path=".storybook/preview.tsx">
+import type { Preview } from '@storybook/react';
+import '../src/app/globals.css';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '../src/themes/theme-provider';
+import { ThemeContextProvider } from '../src/themes/theme-context';
+import * as React from 'react';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const decorators = [
+  (Story) => (
+    <div className={inter.variable}>
+      <ThemeProvider>
+        <ThemeContextProvider>
+          <div className="p-4">
+            <Story />
+          </div>
+        </ThemeContextProvider>
+      </ThemeProvider>
+    </div>
+  ),
+];
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+  },
+  decorators: decorators,
+};
+
+export default preview;
+</file>
+
+<file path="src/components/typography/heading/heading.stories.tsx">
+import type { Meta, StoryObj } from "@storybook/react";
+import { Heading } from "./heading";
+
+const meta: Meta<typeof Heading> = {
+  title: "Typography/Heading",
+  component: Heading,
+  parameters: {
+    layout: "centered",
+  },
+  argTypes: {
+    level: {
+      control: { type: "range", min: 1, max: 6 },
+      description: "The heading level (h1-h6)",
+      defaultValue: 1,
+    },
+    size: {
+      control: "select",
+      options: ["2xl", "xl", "lg", "md", "sm", "xs"],
+      description: "The size of the heading",
+    },
+    weight: {
+      control: "select",
+      options: ["regular", "medium", "semibold", "bold"],
+      description: "The font weight of the heading",
+      defaultValue: "bold",
+    },
+    color: {
+      control: "select",
+      options: ["default", "muted", "brand", "error", "warning", "success"],
+      description: "The color of the heading",
+      defaultValue: "default",
+    },
+    italic: {
+      control: "boolean",
+      description: "Whether the text should be italic",
+      defaultValue: false,
+    },
+    underline: {
+      control: "boolean",
+      description: "Whether the text should be underlined",
+      defaultValue: false,
+    },
+    children: {
+      control: "text",
+      description: "The content of the heading",
+      defaultValue: "Heading Text",
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Heading>;
+
+export const Default: Story = {
+  args: {
+    level: 1,
+    children: "Default Heading (h1)",
+  },
+};
+
+export const HeadingLevels: Story = {
+  render: () => (
+    <div className="space-y-4">
+      <Heading level={1}>Heading 1</Heading>
+      <Heading level={2}>Heading 2</Heading>
+      <Heading level={3}>Heading 3</Heading>
+      <Heading level={4}>Heading 4</Heading>
+      <Heading level={5}>Heading 5</Heading>
+      <Heading level={6}>Heading 6</Heading>
+    </div>
+  ),
+};
+
+export const HeadingSizes: Story = {
+  render: () => (
+    <div className="space-y-4">
+      <Heading size="2xl">Display 2XL</Heading>
+      <Heading size="xl">Display XL</Heading>
+      <Heading size="lg">Display LG</Heading>
+      <Heading size="md">Display MD</Heading>
+      <Heading size="sm">Display SM</Heading>
+      <Heading size="xs">Display XS</Heading>
+    </div>
+  ),
+};
+
+export const HeadingWeights: Story = {
+  render: () => (
+    <div className="space-y-4">
+      <Heading weight="regular">Regular Heading</Heading>
+      <Heading weight="medium">Medium Heading</Heading>
+      <Heading weight="semibold">Semibold Heading</Heading>
+      <Heading weight="bold">Bold Heading</Heading>
+    </div>
+  ),
+};
+
+export const HeadingColors: Story = {
+  render: () => (
+    <div className="space-y-4">
+      <Heading color="default">Default Color</Heading>
+      <Heading color="muted">Muted Color</Heading>
+      <Heading color="brand">Brand Color</Heading>
+      <Heading color="error">Error Color</Heading>
+      <Heading color="warning">Warning Color</Heading>
+      <Heading color="success">Success Color</Heading>
+    </div>
+  ),
+};
+
+export const CustomElement: Story = {
+  args: {
+    as: "div",
+    children: "Heading as a div element",
+  },
+};
+</file>
+
+<file path="src/components/typography/text/text.stories.tsx">
+import type { Meta, StoryObj } from "@storybook/react";
+import { Text } from "./text";
+
+const meta: Meta<typeof Text> = {
+  title: "Typography/Text",
+  component: Text,
+  parameters: {
+    layout: "centered",
+  },
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["xl", "lg", "md", "sm", "xs"],
+      description: "The size of the text",
+      defaultValue: "md",
+    },
+    weight: {
+      control: "select",
+      options: ["regular", "medium", "semibold", "bold"],
+      description: "The font weight of the text",
+      defaultValue: "regular",
+    },
+    color: {
+      control: "select",
+      options: ["default", "muted", "brand", "error", "warning", "success"],
+      description: "The color of the text",
+      defaultValue: "default",
+    },
+    italic: {
+      control: "boolean",
+      description: "Whether the text should be italic",
+      defaultValue: false,
+    },
+    underline: {
+      control: "boolean",
+      description: "Whether the text should be underlined",
+      defaultValue: false,
+    },
+    children: {
+      control: "text",
+      description: "The content of the text",
+      defaultValue: "Sample text",
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Text>;
+
+export const Default: Story = {
+  args: {
+    children: "Default Text",
+  },
+};
+
+export const TextSizes: Story = {
+  render: () => (
+    <div className="space-y-2">
+      <Text size="xl">Text XL</Text>
+      <Text size="lg">Text LG</Text>
+      <Text size="md">Text MD</Text>
+      <Text size="sm">Text SM</Text>
+      <Text size="xs">Text XS</Text>
+    </div>
+  ),
+};
+
+export const TextWeights: Story = {
+  render: () => (
+    <div className="space-y-2">
+      <Text weight="regular">Regular Text</Text>
+      <Text weight="medium">Medium Text</Text>
+      <Text weight="semibold">Semibold Text</Text>
+      <Text weight="bold">Bold Text</Text>
+    </div>
+  ),
+};
+
+export const TextColors: Story = {
+  render: () => (
+    <div className="space-y-2">
+      <Text color="default">Default Color</Text>
+      <Text color="muted">Muted Color</Text>
+      <Text color="brand">Brand Color</Text>
+      <Text color="error">Error Color</Text>
+      <Text color="warning">Warning Color</Text>
+      <Text color="success">Success Color</Text>
+    </div>
+  ),
+};
+
+export const TextStyles: Story = {
+  render: () => (
+    <div className="space-y-2">
+      <Text>Normal Text</Text>
+      <Text italic>Italic Text</Text>
+      <Text underline>Underlined Text</Text>
+      <Text italic underline>Italic and Underlined Text</Text>
+    </div>
+  ),
+};
+
+export const CustomElement: Story = {
+  args: {
+    as: "span",
+    children: "Text as a span element",
+  },
+};
+
+export const CombinedExample: Story = {
+  render: () => (
+    <div className="space-y-2">
+      <Text size="lg" weight="bold" color="brand">
+        Large, Bold, Brand-colored Text
+      </Text>
+      <Text size="sm" weight="medium" color="muted" italic>
+        Small, Medium-weight, Muted Italic Text
+      </Text>
+      <Text size="xs" weight="semibold" color="error" underline>
+        Extra Small, Semibold, Error-colored Underlined Text
+      </Text>
+    </div>
+  ),
+};
+</file>
+
+<file path="src/components/typography/index.ts">
+// src/components/typography/text/index.ts
+export * from './text';
+
+// src/components/typography/heading/index.ts
+export * from './heading';
+
+// src/components/typography/index.ts
+export * from './text';
+export * from './heading';
+</file>
+
+<file path="src/components/typography/showcase.tsx">
+import React from "react";
+import { Heading } from "./heading";
+import { Text } from "./text";
+
+/**
+ * A component that showcases all typography variants in the design system
+ */
+export const TypographyShowcase: React.FC = () => {
+  return (
+    <div className="p-8 space-y-12">
+      {/* Heading display sizes */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Display Scale</Heading>
+        <div className="space-y-4">
+          <Heading size="2xl">Display 2XL</Heading>
+          <Heading size="xl">Display XL</Heading>
+          <Heading size="lg">Display LG</Heading>
+          <Heading size="md">Display MD</Heading>
+          <Heading size="sm">Display SM</Heading>
+          <Heading size="xs">Display XS</Heading>
+        </div>
+      </section>
+
+      {/* Text sizes */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Text Scale</Heading>
+        <div className="space-y-4">
+          <Text size="xl">Text XL</Text>
+          <Text size="lg">Text LG</Text>
+          <Text size="md">Text MD (Default)</Text>
+          <Text size="sm">Text SM</Text>
+          <Text size="xs">Text XS</Text>
+        </div>
+      </section>
+
+      {/* Font weights */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Font Weights</Heading>
+        <div className="space-y-4">
+          <Text weight="regular">Regular (400) - Default for Text</Text>
+          <Text weight="medium">Medium (500)</Text>
+          <Text weight="semibold">Semibold (600)</Text>
+          <Text weight="bold">Bold (700) - Default for Headings</Text>
+        </div>
+      </section>
+
+      {/* Text styles */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Text Styles</Heading>
+        <div className="space-y-4">
+          <Text>Normal Text</Text>
+          <Text italic>Italic Text</Text>
+          <Text underline>Underlined Text</Text>
+          <Text italic underline>Italic and Underlined Text</Text>
+        </div>
+      </section>
+
+      {/* Text colors */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Text Colors</Heading>
+        <div className="space-y-4">
+          <Text color="default">Default Text Color</Text>
+          <Text color="muted">Muted Text Color</Text>
+          <Text color="brand">Brand Text Color</Text>
+          <Text color="error">Error Text Color</Text>
+          <Text color="warning">Warning Text Color</Text>
+          <Text color="success">Success Text Color</Text>
+        </div>
+      </section>
+
+      {/* Heading levels */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Heading Levels (h1-h6)</Heading>
+        <div className="space-y-4">
+          <Heading level={1}>Heading Level 1 (h1)</Heading>
+          <Heading level={2}>Heading Level 2 (h2)</Heading>
+          <Heading level={3}>Heading Level 3 (h3)</Heading>
+          <Heading level={4}>Heading Level 4 (h4)</Heading>
+          <Heading level={5}>Heading Level 5 (h5)</Heading>
+          <Heading level={6}>Heading Level 6 (h6)</Heading>
+        </div>
+      </section>
+
+      {/* Examples of different HTML elements */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Custom HTML Elements</Heading>
+        <div className="space-y-4">
+          <Text as="span">Text as span</Text><br />
+          <Text as="label">Text as label</Text><br />
+          <Text as="div">Text as div</Text>
+          <Heading as="legend" size="xs">Heading as legend</Heading>
+        </div>
+      </section>
+
+      {/* Combined examples */}
+      <section className="space-y-6">
+        <Heading level={2} size="md">Combined Examples</Heading>
+        <div className="space-y-4 border p-4 rounded-md">
+          <Heading size="md" color="brand">Product Features</Heading>
+          <Text size="lg" weight="medium">Introducing our new financial platform</Text>
+          <Text>Manage your finances with ease using our intuitive dashboard and powerful analytics.</Text>
+          <Text weight="semibold" color="success">Special offer ends soon!</Text>
+          <Text size="sm" color="muted" italic>Terms and conditions apply.</Text>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default TypographyShowcase;
+</file>
+
+<file path="src/lib/types.ts">
+/**
+ * Generic types to support polymorphic components
+ */
+
+// Base type for props without ref
+export type AsProp<C extends React.ElementType> = {
+    /**
+     * An override of the default HTML tag.
+     * @default based on component default
+     */
+    as?: C;
+  };
+  
+  // Props that should be excluded from component props when defining "as" prop
+  export type PropsToOmit<C extends React.ElementType, P> = keyof (AsProp<C> & P);
+  
+  // Polymorphic component props (without ref)
+  export type PolymorphicComponentProps<
+    C extends React.ElementType,
+    Props = {}
+  > = React.PropsWithChildren<Props & AsProp<C>> &
+    Omit<React.ComponentPropsWithoutRef<C>, PropsToOmit<C, Props>>;
+  
+  // Polymorphic component props (with ref)
+  export type PolymorphicComponentPropsWithRef<
+    C extends React.ElementType,
+    Props = {}
+  > = PolymorphicComponentProps<C, Props> & { ref?: PolymorphicRef<C> };
+  
+  // For polymorphic components that need refs
+  export type PolymorphicRef<C extends React.ElementType> =
+    React.ComponentPropsWithRef<C>["ref"];
+  
+  // For creating polymorphic components with proper ref forwarding
+  export type PolymorphicComponentWithRef<
+    Props,
+    DefaultElementType extends React.ElementType
+  > = <C extends React.ElementType = DefaultElementType>(
+    props: PolymorphicComponentPropsWithRef<C, Props>
+  ) => React.ReactElement | null;
+</file>
+
+<file path="src/stories/assets/accessibility.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 48 48"><title>Accessibility</title><circle cx="24.334" cy="24" r="24" fill="#A849FF" fill-opacity=".3"/><path fill="#A470D5" fill-rule="evenodd" d="M27.8609 11.585C27.8609 9.59506 26.2497 7.99023 24.2519 7.99023C22.254 7.99023 20.6429 9.65925 20.6429 11.585C20.6429 13.575 22.254 15.1799 24.2519 15.1799C26.2497 15.1799 27.8609 13.575 27.8609 11.585ZM21.8922 22.6473C21.8467 23.9096 21.7901 25.4788 21.5897 26.2771C20.9853 29.0462 17.7348 36.3314 17.3325 37.2275C17.1891 37.4923 17.1077 37.7955 17.1077 38.1178C17.1077 39.1519 17.946 39.9902 18.9802 39.9902C19.6587 39.9902 20.253 39.6293 20.5814 39.0889L20.6429 38.9874L24.2841 31.22C24.2841 31.22 27.5529 37.9214 27.9238 38.6591C28.2948 39.3967 28.8709 39.9902 29.7168 39.9902C30.751 39.9902 31.5893 39.1519 31.5893 38.1178C31.5893 37.7951 31.3639 37.2265 31.3639 37.2265C30.9581 36.3258 27.698 29.0452 27.0938 26.2771C26.8975 25.4948 26.847 23.9722 26.8056 22.7236C26.7927 22.333 26.7806 21.9693 26.7653 21.6634C26.7008 21.214 27.0231 20.8289 27.4097 20.7005L35.3366 18.3253C36.3033 18.0685 36.8834 16.9773 36.6256 16.0144C36.3678 15.0515 35.2722 14.4737 34.3055 14.7305C34.3055 14.7305 26.8619 17.1057 24.2841 17.1057C21.7062 17.1057 14.456 14.7947 14.456 14.7947C13.4893 14.5379 12.3937 14.9873 12.0715 15.9502C11.7493 16.9131 12.3293 18.0044 13.3604 18.3253L21.2873 20.7005C21.674 20.8289 21.9318 21.214 21.9318 21.6634C21.9174 21.9493 21.9053 22.2857 21.8922 22.6473Z" clip-rule="evenodd"/></svg>
+</file>
+
+<file path="src/stories/assets/discord.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32"><g clip-path="url(#clip0_10031_177575)"><mask id="mask0_10031_177575" style="mask-type:luminance" width="33" height="25" x="0" y="4" maskUnits="userSpaceOnUse"><path fill="#fff" d="M32.5034 4.00195H0.503906V28.7758H32.5034V4.00195Z"/></mask><g mask="url(#mask0_10031_177575)"><path fill="#5865F2" d="M27.5928 6.20817C25.5533 5.27289 23.3662 4.58382 21.0794 4.18916C21.0378 4.18154 20.9962 4.20057 20.9747 4.23864C20.6935 4.73863 20.3819 5.3909 20.1637 5.90358C17.7042 5.53558 15.2573 5.53558 12.8481 5.90358C12.6299 5.37951 12.307 4.73863 12.0245 4.23864C12.003 4.20184 11.9614 4.18281 11.9198 4.18916C9.63431 4.58255 7.44721 5.27163 5.40641 6.20817C5.38874 6.21578 5.3736 6.22848 5.36355 6.24497C1.21508 12.439 0.078646 18.4809 0.636144 24.4478C0.638667 24.477 0.655064 24.5049 0.677768 24.5227C3.41481 26.5315 6.06609 27.7511 8.66815 28.5594C8.70979 28.5721 8.75392 28.5569 8.78042 28.5226C9.39594 27.6826 9.94461 26.7968 10.4151 25.8653C10.4428 25.8107 10.4163 25.746 10.3596 25.7244C9.48927 25.3945 8.66058 24.9922 7.86343 24.5354C7.80038 24.4986 7.79533 24.4084 7.85333 24.3653C8.02108 24.2397 8.18888 24.109 8.34906 23.977C8.37804 23.9529 8.41842 23.9478 8.45249 23.963C13.6894 26.3526 19.359 26.3526 24.5341 23.963C24.5682 23.9465 24.6086 23.9516 24.6388 23.9757C24.799 24.1077 24.9668 24.2397 25.1358 24.3653C25.1938 24.4084 25.19 24.4986 25.127 24.5354C24.3298 25.0011 23.5011 25.3945 22.6296 25.7232C22.5728 25.7447 22.5476 25.8107 22.5754 25.8653C23.0559 26.7955 23.6046 27.6812 24.2087 28.5213C24.234 28.5569 24.2794 28.5721 24.321 28.5594C26.9357 27.7511 29.5869 26.5315 32.324 24.5227C32.348 24.5049 32.3631 24.4783 32.3656 24.4491C33.0328 17.5506 31.2481 11.5584 27.6344 6.24623C27.6256 6.22848 27.6105 6.21578 27.5928 6.20817ZM11.1971 20.8146C9.62043 20.8146 8.32129 19.3679 8.32129 17.5913C8.32129 15.8146 9.59523 14.368 11.1971 14.368C12.8115 14.368 14.0981 15.8273 14.0729 17.5913C14.0729 19.3679 12.7989 20.8146 11.1971 20.8146ZM21.8299 20.8146C20.2533 20.8146 18.9541 19.3679 18.9541 17.5913C18.9541 15.8146 20.228 14.368 21.8299 14.368C23.4444 14.368 24.7309 15.8273 24.7057 17.5913C24.7057 19.3679 23.4444 20.8146 21.8299 20.8146Z"/></g></g><defs><clipPath id="clip0_10031_177575"><rect width="32" height="32" fill="#fff" transform="translate(0.5)"/></clipPath></defs></svg>
+</file>
+
+<file path="src/stories/assets/github.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32"><path fill="#161614" d="M16.0001 0C7.16466 0 0 7.17472 0 16.0256C0 23.1061 4.58452 29.1131 10.9419 31.2322C11.7415 31.3805 12.0351 30.8845 12.0351 30.4613C12.0351 30.0791 12.0202 28.8167 12.0133 27.4776C7.56209 28.447 6.62283 25.5868 6.62283 25.5868C5.89499 23.7345 4.8463 23.2419 4.8463 23.2419C3.39461 22.2473 4.95573 22.2678 4.95573 22.2678C6.56242 22.3808 7.40842 23.9192 7.40842 23.9192C8.83547 26.3691 11.1514 25.6609 12.0645 25.2514C12.2081 24.2156 12.6227 23.5087 13.0803 23.1085C9.52648 22.7032 5.7906 21.3291 5.7906 15.1886C5.7906 13.4389 6.41563 12.0094 7.43916 10.8871C7.27303 10.4834 6.72537 8.85349 7.59415 6.64609C7.59415 6.64609 8.93774 6.21539 11.9953 8.28877C13.2716 7.9337 14.6404 7.75563 16.0001 7.74953C17.3599 7.75563 18.7297 7.9337 20.0084 8.28877C23.0623 6.21539 24.404 6.64609 24.404 6.64609C25.2749 8.85349 24.727 10.4834 24.5608 10.8871C25.5868 12.0094 26.2075 13.4389 26.2075 15.1886C26.2075 21.3437 22.4645 22.699 18.9017 23.0957C19.4756 23.593 19.9869 24.5683 19.9869 26.0634C19.9869 28.2077 19.9684 29.9334 19.9684 30.4613C19.9684 30.8877 20.2564 31.3874 21.0674 31.2301C27.4213 29.1086 32 23.1037 32 16.0256C32 7.17472 24.8364 0 16.0001 0ZM5.99257 22.8288C5.95733 22.9084 5.83227 22.9322 5.71834 22.8776C5.60229 22.8253 5.53711 22.7168 5.57474 22.6369C5.60918 22.5549 5.7345 22.5321 5.85029 22.587C5.9666 22.6393 6.03284 22.7489 5.99257 22.8288ZM6.7796 23.5321C6.70329 23.603 6.55412 23.5701 6.45291 23.4581C6.34825 23.3464 6.32864 23.197 6.40601 23.125C6.4847 23.0542 6.62937 23.0874 6.73429 23.1991C6.83895 23.3121 6.85935 23.4605 6.7796 23.5321ZM7.31953 24.4321C7.2215 24.5003 7.0612 24.4363 6.96211 24.2938C6.86407 24.1513 6.86407 23.9804 6.96422 23.9119C7.06358 23.8435 7.2215 23.905 7.32191 24.0465C7.41968 24.1914 7.41968 24.3623 7.31953 24.4321ZM8.23267 25.4743C8.14497 25.5712 7.95818 25.5452 7.82146 25.413C7.68156 25.2838 7.64261 25.1004 7.73058 25.0035C7.81934 24.9064 8.00719 24.9337 8.14497 25.0648C8.28381 25.1938 8.3262 25.3785 8.23267 25.4743ZM9.41281 25.8262C9.37413 25.9517 9.19423 26.0088 9.013 25.9554C8.83203 25.9005 8.7136 25.7535 8.75016 25.6266C8.78778 25.5003 8.96848 25.4408 9.15104 25.4979C9.33174 25.5526 9.45044 25.6985 9.41281 25.8262ZM10.7559 25.9754C10.7604 26.1076 10.6067 26.2172 10.4165 26.2196C10.2252 26.2238 10.0704 26.1169 10.0683 25.9868C10.0683 25.8534 10.2185 25.7448 10.4098 25.7416C10.6001 25.7379 10.7559 25.8441 10.7559 25.9754ZM12.0753 25.9248C12.0981 26.0537 11.9658 26.1862 11.7769 26.2215C11.5912 26.2554 11.4192 26.1758 11.3957 26.0479C11.3726 25.9157 11.5072 25.7833 11.6927 25.7491C11.8819 25.7162 12.0512 25.7937 12.0753 25.9248Z"/></svg>
+</file>
+
+<file path="src/stories/assets/tutorials.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" fill="none" viewBox="0 0 33 32"><g clip-path="url(#clip0_10031_177597)"><path fill="#B7F0EF" fill-rule="evenodd" d="M17 7.87059C17 6.48214 17.9812 5.28722 19.3431 5.01709L29.5249 2.99755C31.3238 2.64076 33 4.01717 33 5.85105V22.1344C33 23.5229 32.0188 24.7178 30.6569 24.9879L20.4751 27.0074C18.6762 27.3642 17 25.9878 17 24.1539L17 7.87059Z" clip-rule="evenodd" opacity=".7"/><path fill="#87E6E5" fill-rule="evenodd" d="M1 5.85245C1 4.01857 2.67623 2.64215 4.47507 2.99895L14.6569 5.01848C16.0188 5.28861 17 6.48354 17 7.87198V24.1553C17 25.9892 15.3238 27.3656 13.5249 27.0088L3.34311 24.9893C1.98119 24.7192 1 23.5242 1 22.1358V5.85245Z" clip-rule="evenodd"/><path fill="#61C1FD" fill-rule="evenodd" d="M15.543 5.71289C15.543 5.71289 16.8157 5.96289 17.4002 6.57653C17.9847 7.19016 18.4521 9.03107 18.4521 9.03107C18.4521 9.03107 18.4521 25.1106 18.4521 26.9629C18.4521 28.8152 19.3775 31.4174 19.3775 31.4174L17.4002 28.8947L16.2575 31.4174C16.2575 31.4174 15.543 29.0765 15.543 27.122C15.543 25.1674 15.543 5.71289 15.543 5.71289Z" clip-rule="evenodd"/></g><defs><clipPath id="clip0_10031_177597"><rect width="32" height="32" fill="#fff" transform="translate(0.5)"/></clipPath></defs></svg>
+</file>
+
+<file path="src/stories/assets/youtube.svg">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32"><path fill="#ED1D24" d="M31.3313 8.44657C30.9633 7.08998 29.8791 6.02172 28.5022 5.65916C26.0067 5.00026 16 5.00026 16 5.00026C16 5.00026 5.99333 5.00026 3.4978 5.65916C2.12102 6.02172 1.03665 7.08998 0.668678 8.44657C0 10.9053 0 16.0353 0 16.0353C0 16.0353 0 21.1652 0.668678 23.6242C1.03665 24.9806 2.12102 26.0489 3.4978 26.4116C5.99333 27.0703 16 27.0703 16 27.0703C16 27.0703 26.0067 27.0703 28.5022 26.4116C29.8791 26.0489 30.9633 24.9806 31.3313 23.6242C32 21.1652 32 16.0353 32 16.0353C32 16.0353 32 10.9053 31.3313 8.44657Z"/><path fill="#fff" d="M12.7266 20.6934L21.0902 16.036L12.7266 11.3781V20.6934Z"/></svg>
+</file>
+
+<file path="src/stories/button.css">
+.storybook-button {
+  display: inline-block;
+  cursor: pointer;
+  border: 0;
+  border-radius: 3em;
+  font-weight: 700;
+  line-height: 1;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.storybook-button--primary {
+  background-color: #555ab9;
+  color: white;
+}
+.storybook-button--secondary {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+  background-color: transparent;
+  color: #333;
+}
+.storybook-button--small {
+  padding: 10px 16px;
+  font-size: 12px;
+}
+.storybook-button--medium {
+  padding: 11px 20px;
+  font-size: 14px;
+}
+.storybook-button--large {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+</file>
+
+<file path="src/stories/Button.stories.ts">
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { Button } from './Button';
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+const meta = {
+  title: 'Example/Button',
+  component: Button,
+  parameters: {
+    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
+    layout: 'centered',
+  },
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  // More on argTypes: https://storybook.js.org/docs/api/argtypes
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Primary: Story = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    label: 'Button',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    size: 'large',
+    label: 'Button',
+  },
+};
+
+export const Small: Story = {
+  args: {
+    size: 'small',
+    label: 'Button',
+  },
+};
+</file>
+
+<file path="src/stories/Button.tsx">
+import React from 'react';
+import './button.css';
+
+interface ButtonProps {
+  /**
+   * Is this the principal call to action on the page?
+   */
+  primary?: boolean;
+  /**
+   * What background color to use
+   */
+  backgroundColor?: string;
+  /**
+   * How large should the button be?
+   */
+  size?: 'small' | 'medium' | 'large';
+  /**
+   * Button contents
+   */
+  label: string;
+  /**
+   * Optional click handler
+   */
+  onClick?: () => void;
+}
+
+/**
+ * Primary UI component for user interaction
+ */
+export const Button = ({
+  primary = false,
+  size = 'medium',
+  backgroundColor,
+  label,
+  ...props
+}: ButtonProps) => {
+  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+  return (
+    <button
+      type="button"
+      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+      {...props}
+    >
+      {label}
+      <style jsx>{`
+        button {
+          background-color: ${backgroundColor};
+        }
+      `}</style>
+    </button>
+  );
+};
+</file>
+
+<file path="src/stories/Configure.mdx">
+import { Meta } from "@storybook/blocks";
+import Image from "next/image";
+
+import Github from "./assets/github.svg";
+import Discord from "./assets/discord.svg";
+import Youtube from "./assets/youtube.svg";
+import Tutorials from "./assets/tutorials.svg";
+import Styling from "./assets/styling.png";
+import Context from "./assets/context.png";
+import Assets from "./assets/assets.png";
+import Docs from "./assets/docs.png";
+import Share from "./assets/share.png";
+import FigmaPlugin from "./assets/figma-plugin.png";
+import Testing from "./assets/testing.png";
+import Accessibility from "./assets/accessibility.png";
+import Theming from "./assets/theming.png";
+import AddonLibrary from "./assets/addon-library.png";
+
+export const RightArrow = () => <svg 
+    viewBox="0 0 14 14" 
+    width="8px" 
+    height="14px" 
+    style={{ 
+      marginLeft: '4px',
+      display: 'inline-block',
+      shapeRendering: 'inherit',
+      verticalAlign: 'middle',
+      fill: 'currentColor',
+      'path fill': 'currentColor'
+    }}
+>
+  <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
+</svg>
+
+<Meta title="Configure your project" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # Configure your project
+
+    Because Storybook works separately from your app, you'll need to configure it for your specific stack and setup. Below, explore guides for configuring Storybook with popular frameworks and tools. If you get stuck, learn how you can ask for help from our community.
+  </div>
+  <div className="sb-section">
+    <div className="sb-section-item">
+      <Image
+        src={Styling}
+        alt="A wall of logos representing different styling technologies"
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }}
+      />
+      <h4 className="sb-section-item-heading">Add styling and CSS</h4>
+      <p className="sb-section-item-paragraph">Like with web applications, there are many ways to include CSS within Storybook. Learn more about setting up styling within Storybook.</p>
+      <a
+        href="https://storybook.js.org/docs/configure/styling-and-css"
+        target="_blank"
+      >Learn more<RightArrow /></a>
+    </div>
+    <div className="sb-section-item">
+      <Image 
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }}
+        src={Context}
+        alt="An abstraction representing the composition of data for a component"
+      />
+      <h4 className="sb-section-item-heading">Provide context and mocking</h4>
+      <p className="sb-section-item-paragraph">Often when a story doesn't render, it's because your component is expecting a specific environment or context (like a theme provider) to be available.</p>
+      <a
+        href="https://storybook.js.org/docs/writing-stories/decorators#context-for-mocking"
+        target="_blank"
+      >Learn more<RightArrow /></a>
+    </div>
+    <div className="sb-section-item">
+      <Image 
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }} 
+        src={Assets} 
+        alt="A representation of typography and image assets" 
+      />
+      <div>
+        <h4 className="sb-section-item-heading">Load assets and resources</h4>
+        <p className="sb-section-item-paragraph">To link static files (like fonts) to your projects and stories, use the
+        `staticDirs` configuration option to specify folders to load when
+        starting Storybook.</p>
+        <a
+          href="https://storybook.js.org/docs/configure/images-and-assets"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # Do more with Storybook
+
+    Now that you know the basics, let's explore other parts of Storybook that will improve your experience. This list is just to get you started. You can customise Storybook in many ways to fit your needs.
+  </div>
+
+  <div className="sb-section">
+    <div className="sb-features-grid">
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Docs} 
+          alt="A screenshot showing the autodocs tag being set, pointing a docs page being generated" 
+        />
+        <h4 className="sb-section-item-heading">Autodocs</h4>
+        <p className="sb-section-item-paragraph">Auto-generate living,
+          interactive reference documentation from your components and stories.</p>
+        <a
+          href="https://storybook.js.org/docs/writing-docs/autodocs"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Share} 
+          alt="A browser window showing a Storybook being published to a chromatic.com URL" 
+        />
+        <h4 className="sb-section-item-heading">Publish to Chromatic</h4>
+        <p className="sb-section-item-paragraph">Publish your Storybook to review and collaborate with your entire team.</p>
+        <a
+          href="https://storybook.js.org/docs/sharing/publish-storybook#publish-storybook-with-chromatic"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={FigmaPlugin} 
+          alt="Windows showing the Storybook plugin in Figma" 
+        />
+        <h4 className="sb-section-item-heading">Figma Plugin</h4>
+        <p className="sb-section-item-paragraph">Embed your stories into Figma to cross-reference the design and live
+          implementation in one place.</p>
+        <a
+          href="https://storybook.js.org/docs/sharing/design-integrations#embed-storybook-in-figma-with-the-plugin"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Testing} 
+          alt="Screenshot of tests passing and failing" 
+        />
+        <h4 className="sb-section-item-heading">Testing</h4>
+        <p className="sb-section-item-paragraph">Use stories to test a component in all its variations, no matter how
+          complex.</p>
+        <a
+          href="https://storybook.js.org/docs/writing-tests"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Accessibility} 
+          alt="Screenshot of accessibility tests passing and failing" 
+        />
+        <h4 className="sb-section-item-heading">Accessibility</h4>
+        <p className="sb-section-item-paragraph">Automatically test your components for a11y issues as you develop.</p>
+        <a
+          href="https://storybook.js.org/docs/writing-tests/accessibility-testing"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+      <div className="sb-grid-item">
+        <Image 
+          width={0}
+          height={0}
+          style={{ width: '100%', height: 'auto' }} 
+          src={Theming} 
+          alt="Screenshot of Storybook in light and dark mode" 
+        />
+        <h4 className="sb-section-item-heading">Theming</h4>
+        <p className="sb-section-item-paragraph">Theme Storybook's UI to personalize it to your project.</p>
+        <a
+          href="https://storybook.js.org/docs/configure/theming"
+          target="_blank"
+        >Learn more<RightArrow /></a>
+      </div>
+    </div>
+  </div>
+</div>
+<div className='sb-addon'>
+  <div className='sb-addon-text'>
+    <h4>Addons</h4>
+    <p className="sb-section-item-paragraph">Integrate your tools with Storybook to connect workflows.</p>
+    <a
+        href="https://storybook.js.org/integrations/"
+        target="_blank"
+      >Discover all addons<RightArrow /></a>
+  </div>
+  <div className='sb-addon-img'>
+    <Image 
+      width={650}
+      height={347}
+      src={AddonLibrary} 
+      alt="Integrate your tools with Storybook to connect workflows." 
+    />
+  </div>
+</div>
+
+<div className="sb-section sb-socials">
+    <div className="sb-section-item">
+      <Image 
+        width={32}
+        height={32}
+        layout="fixed"
+        src={Github} 
+        alt="Github logo" 
+        className="sb-explore-image"
+      />
+      Join our contributors building the future of UI development.
+
+      <a
+        href="https://github.com/storybookjs/storybook"
+        target="_blank"
+      >Star on GitHub<RightArrow /></a>
+    </div>
+    <div className="sb-section-item">
+      <Image 
+        width={33}
+        height={32}
+        layout="fixed"
+        src={Discord} 
+        alt="Discord logo" 
+        className="sb-explore-image"
+      />
+      <div>
+        Get support and chat with frontend developers.
+
+        <a
+          href="https://discord.gg/storybook"
+          target="_blank"
+        >Join Discord server<RightArrow /></a>
+      </div>
+    </div>
+    <div className="sb-section-item">
+      <Image 
+        width={32}
+        height={32}
+        layout="fixed"
+        src={Youtube} 
+        alt="Youtube logo" 
+        className="sb-explore-image"
+      />
+      <div>
+        Watch tutorials, feature previews and interviews.
+
+        <a
+          href="https://www.youtube.com/@chromaticui"
+          target="_blank"
+        >Watch on YouTube<RightArrow /></a>
+      </div>
+    </div>
+    <div className="sb-section-item">
+      <Image 
+        width={33}
+        height={32}
+        layout="fixed"
+        src={Tutorials} 
+        alt="A book" 
+        className="sb-explore-image"
+      />
+      <p>Follow guided walkthroughs on for key workflows.</p>
+
+      <a
+          href="https://storybook.js.org/tutorials/"
+          target="_blank"
+        >Discover tutorials<RightArrow /></a>
+    </div>
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section a:not(h1 a, h2 a, h3 a) {
+    font-size: 14px;
+  }
+
+  .sb-section-item, .sb-grid-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sb-section-item-heading {
+    padding-top: 20px !important;
+    padding-bottom: 5px !important;
+    margin: 0 !important;
+  }
+  .sb-section-item-paragraph {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .sb-chevron {
+    margin-left: 5px;
+  }
+
+  .sb-features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 32px 20px;
+  }
+
+  .sb-socials {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sb-socials p {
+    margin-bottom: 10px;
+  }
+
+  .sb-explore-image {
+    max-height: 32px;
+    align-self: flex-start;
+  }
+
+  .sb-addon {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #EEF3F8;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: #EEF3F8;
+    height: 180px;
+    margin-bottom: 48px;
+    overflow: hidden;
+  }
+
+  .sb-addon-text {
+    padding-left: 48px;
+    max-width: 240px;
+  }
+
+  .sb-addon-text h4 {
+    padding-top: 0px;
+  }
+
+  .sb-addon-img {
+    position: absolute;
+    left: 345px;
+    top: 0;
+    height: 100%;
+    width: 200%;
+    overflow: hidden;
+  }
+
+  .sb-addon-img img {
+    width: 650px;
+    transform: rotate(-15deg);
+    margin-left: 40px;
+    margin-top: -72px;
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0);
+    backface-visibility: hidden;
+  }
+
+  @media screen and (max-width: 800px) {
+    .sb-addon-img {
+      left: 300px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .sb-section {
+      flex-direction: column;
+    }
+
+    .sb-features-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    .sb-socials {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sb-addon {
+      height: 280px;
+      align-items: flex-start;
+      padding-top: 32px;
+      overflow: hidden;
+    }
+
+    .sb-addon-text {
+      padding-left: 24px;
+    }
+
+    .sb-addon-img {
+      right: 0;
+      left: 0;
+      top: 130px;
+      bottom: 0;
+      overflow: hidden;
+      height: auto;
+      width: 124%;
+    }
+
+    .sb-addon-img img {
+      width: 1200px;
+      transform: rotate(-12deg);
+      margin-left: 0;
+      margin-top: 48px;
+      margin-bottom: -40px;
+      margin-left: -24px;
+    }
+  }
+  `}
+</style>
+</file>
+
+<file path="src/stories/header.css">
+.storybook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.storybook-header svg {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.storybook-header h1 {
+  display: inline-block;
+  vertical-align: top;
+  margin: 6px 0 6px 10px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.storybook-header button + button {
+  margin-left: 10px;
+}
+
+.storybook-header .welcome {
+  margin-right: 10px;
+  color: #333;
+  font-size: 14px;
+}
+</file>
+
+<file path="src/stories/Header.stories.ts">
+import type { Meta, StoryObj } from '@storybook/react';
+import { Header } from './Header';
+
+const meta = {
+  title: 'Example/Header',
+  component: Header,
+  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ['autodocs'],
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: 'fullscreen',
+  },
+} satisfies Meta<typeof Header>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const LoggedIn: Story = {
+  args: {
+    user: {
+      name: 'Jane Doe',
+    },
+  },
+};
+
+export const LoggedOut: Story = {};
+</file>
+
+<file path="src/stories/Header.tsx">
+import React from 'react';
+
+import { Button } from './Button';
+import './header.css';
+
+type User = {
+  name: string;
+};
+
+interface HeaderProps {
+  user?: User;
+  onLogin: () => void;
+  onLogout: () => void;
+  onCreateAccount: () => void;
+}
+
+export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
+  <header>
+    <div className="storybook-header">
+      <div>
+        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fillRule="evenodd">
+            <path
+              d="M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z"
+              fill="#FFF"
+            />
+            <path
+              d="M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z"
+              fill="#555AB9"
+            />
+            <path
+              d="M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z"
+              fill="#91BAF8"
+            />
+          </g>
+        </svg>
+        <h1>Acme</h1>
+      </div>
+      <div>
+        {user ? (
+          <>
+            <span className="welcome">
+              Welcome, <b>{user.name}</b>!
+            </span>
+            <Button size="small" onClick={onLogout} label="Log out" />
+          </>
+        ) : (
+          <>
+            <Button size="small" onClick={onLogin} label="Log in" />
+            <Button primary size="small" onClick={onCreateAccount} label="Sign up" />
+          </>
+        )}
+      </div>
+    </div>
+  </header>
+);
+</file>
+
+<file path="src/stories/page.css">
+.storybook-page {
+  margin: 0 auto;
+  padding: 48px 20px;
+  max-width: 600px;
+  color: #333;
+  font-size: 14px;
+  line-height: 24px;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.storybook-page h2 {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+}
+
+.storybook-page p {
+  margin: 1em 0;
+}
+
+.storybook-page a {
+  color: inherit;
+}
+
+.storybook-page ul {
+  margin: 1em 0;
+  padding-left: 30px;
+}
+
+.storybook-page li {
+  margin-bottom: 8px;
+}
+
+.storybook-page .tip {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  border-radius: 1em;
+  background: #e7fdd8;
+  padding: 4px 12px;
+  color: #357a14;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.storybook-page .tip-wrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.storybook-page .tip-wrapper svg {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 4px;
+  width: 12px;
+  height: 12px;
+}
+
+.storybook-page .tip-wrapper svg path {
+  fill: #1ea7fd;
+}
+</file>
+
+<file path="src/stories/Page.stories.ts">
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, userEvent, expect } from '@storybook/test';
+
+import { Page } from './Page';
+
+const meta = {
+  title: 'Example/Page',
+  component: Page,
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    layout: 'fullscreen',
+  },
+} satisfies Meta<typeof Page>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const LoggedOut: Story = {};
+
+// More on interaction testing: https://storybook.js.org/docs/writing-tests/interaction-testing
+export const LoggedIn: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const loginButton = canvas.getByRole('button', { name: /Log in/i });
+    await expect(loginButton).toBeInTheDocument();
+    await userEvent.click(loginButton);
+    await expect(loginButton).not.toBeInTheDocument();
+
+    const logoutButton = canvas.getByRole('button', { name: /Log out/i });
+    await expect(logoutButton).toBeInTheDocument();
+  },
+};
+</file>
+
+<file path="src/stories/Page.tsx">
+import React from 'react';
+
+import { Header } from './Header';
+import './page.css';
+
+type User = {
+  name: string;
+};
+
+export const Page: React.FC = () => {
+  const [user, setUser] = React.useState<User>();
+
+  return (
+    <article>
+      <Header
+        user={user}
+        onLogin={() => setUser({ name: 'Jane Doe' })}
+        onLogout={() => setUser(undefined)}
+        onCreateAccount={() => setUser({ name: 'Jane Doe' })}
+      />
+
+      <section className="storybook-page">
+        <h2>Pages in Storybook</h2>
+        <p>
+          We recommend building UIs with a{' '}
+          <a href="https://componentdriven.org" target="_blank" rel="noopener noreferrer">
+            <strong>component-driven</strong>
+          </a>{' '}
+          process starting with atomic components and ending with pages.
+        </p>
+        <p>
+          Render pages with mock data. This makes it easy to build and review page states without
+          needing to navigate to them in your app. Here are some handy patterns for managing page
+          data in Storybook:
+        </p>
+        <ul>
+          <li>
+            Use a higher-level connected component. Storybook helps you compose such data from the
+            "args" of child component stories
+          </li>
+          <li>
+            Assemble data in the page component from your services. You can mock these services out
+            using Storybook.
+          </li>
+        </ul>
+        <p>
+          Get a guided tutorial on component-driven development at{' '}
+          <a href="https://storybook.js.org/tutorials/" target="_blank" rel="noopener noreferrer">
+            Storybook tutorials
+          </a>
+          . Read more in the{' '}
+          <a href="https://storybook.js.org/docs" target="_blank" rel="noopener noreferrer">
+            docs
+          </a>
+          .
+        </p>
+        <div className="tip-wrapper">
+          <span className="tip">Tip</span> Adjust the width of the canvas with the{' '}
+          <svg width="10" height="10" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fillRule="evenodd">
+              <path
+                d="M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z"
+                id="a"
+                fill="#999"
+              />
+            </g>
+          </svg>
+          Viewports addon in the toolbar
+        </div>
+      </section>
+    </article>
+  );
+};
+</file>
+
+<file path="src/stories/Typography.stories.tsx">
+import * as React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { Heading } from '../components/typography/heading';
+import { Text } from '../components/typography/text';
+
+const meta: Meta = {
+  title: 'Core/Typography',
+  parameters: {
+    layout: 'centered',
+  },
+};
+
+export default meta;
+
+export const HeadingShowcase: StoryObj = {
+  render: () => (
+    <div className="space-y-8">
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Heading Sizes</Text>
+        <div className="space-y-4">
+          <Heading size="2xl">Display 2XL</Heading>
+          <Heading size="xl">Display XL</Heading>
+          <Heading size="lg">Display LG</Heading>
+          <Heading size="md">Display MD</Heading>
+          <Heading size="sm">Display SM</Heading>
+          <Heading size="xs">Display XS</Heading>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Heading Levels</Text>
+        <div className="space-y-4">
+          <Heading level={1}>Heading 1</Heading>
+          <Heading level={2}>Heading 2</Heading>
+          <Heading level={3}>Heading 3</Heading>
+          <Heading level={4}>Heading 4</Heading>
+          <Heading level={5}>Heading 5</Heading>
+          <Heading level={6}>Heading 6</Heading>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Heading Colors</Text>
+        <div className="space-y-4">
+          <Heading color="default">Default Color</Heading>
+          <Heading color="muted">Muted Color</Heading>
+          <Heading color="brand">Brand Color</Heading>
+          <Heading color="error">Error Color</Heading>
+          <Heading color="warning">Warning Color</Heading>
+          <Heading color="success">Success Color</Heading>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const TextShowcase: StoryObj = {
+  render: () => (
+    <div className="space-y-8">
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Text Sizes</Text>
+        <div className="space-y-4">
+          <Text size="xl">Text XL</Text>
+          <Text size="lg">Text LG</Text>
+          <Text size="md">Text MD (Default)</Text>
+          <Text size="sm">Text SM</Text>
+          <Text size="xs">Text XS</Text>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Text Weights</Text>
+        <div className="space-y-4">
+          <Text weight="regular">Regular Weight (Default)</Text>
+          <Text weight="medium">Medium Weight</Text>
+          <Text weight="semibold">Semibold Weight</Text>
+          <Text weight="bold">Bold Weight</Text>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Text Styles</Text>
+        <div className="space-y-4">
+          <Text>Normal Text</Text>
+          <Text italic>Italic Text</Text>
+          <Text underline>Underlined Text</Text>
+          <Text italic underline>Italic and Underlined Text</Text>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Text Colors</Text>
+        <div className="space-y-4">
+          <Text color="default">Default Color</Text>
+          <Text color="muted">Muted Color</Text>
+          <Text color="brand">Brand Color</Text>
+          <Text color="error">Error Color</Text>
+          <Text color="warning">Warning Color</Text>
+          <Text color="success">Success Color</Text>
+        </div>
+      </div>
+
+      <div>
+        <Text size="lg" weight="semibold" className="mb-4">Polymorphic Components</Text>
+        <div className="space-y-4">
+          <Text as="span" className="mr-2">This is a span</Text>
+          <Text as="label" className="mr-2">This is a label</Text>
+          <Heading as="legend" size="xs">This is a legend</Heading>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+export const RealWorldExample: StoryObj = {
+  render: () => (
+    <div className="max-w-2xl p-6 border rounded-lg shadow-sm">
+      <Heading size="md" color="brand" className="mb-4">Account Overview</Heading>
+      
+      <div className="mb-8">
+        <Text size="sm" color="muted" className="mb-2">Last updated: April 28, 2025</Text>
+        <div className="bg-gray-50 p-4 rounded-md">
+          <Text weight="medium">Current Balance</Text>
+          <Heading size="lg" color="success" className="mt-1">$24,567.89</Heading>
+        </div>
+      </div>
+      
+      <div className="mb-6">
+        <Heading level={3} size="xs" className="mb-3">Recent Transactions</Heading>
+        <div className="space-y-3">
+          <div className="p-3 border rounded flex justify-between items-center">
+            <div>
+              <Text weight="medium">Payment Received</Text>
+              <Text size="sm" color="muted">From: Acme Corp</Text>
+            </div>
+            <Text weight="bold" color="success">+$2,500.00</Text>
+          </div>
+          <div className="p-3 border rounded flex justify-between items-center">
+            <div>
+              <Text weight="medium">Transfer Sent</Text>
+              <Text size="sm" color="muted">To: Business Account</Text>
+            </div>
+            <Text weight="bold" color="error">-$1,200.00</Text>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        {/* @ts-ignore - TypeScript doesn't recognize href on polymorphic component */}
+        <Text size="sm" color="brand" underline as="a" href="#" className="mr-3">
+          View All Transactions
+        </Text>
+        {/* @ts-ignore - TypeScript doesn't recognize href on polymorphic component */}
+        <Text size="sm" color="brand" underline as="a" href="#">
+          Download Statement
+        </Text>
+      </div>
+    </div>
+  ),
+};
+</file>
+
+<file path=".npmrc">
+shamefully-hoist=true
+node-linker=hoisted
+
+public-hoist-pattern[]=*storybook*
+
+legacy-peer-deps=true
+</file>
+
+<file path="src/components/typography/heading/heading.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+// Define the possible element types
+type ElementType = React.ElementType;
+
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /**
+   * The level of the heading (1-6)
+   * @default 1
+   */
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * The size variant of the heading
+   * If not provided, defaults based on the heading level
+   */
+  size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
+
+  /**
+   * The font weight of the heading
+   * @default 'bold'
+   */
+  weight?: "regular" | "medium" | "semibold" | "bold";
+
+  /**
+   * Whether the heading should be italic
+   * @default false
+   */
+  italic?: boolean;
+
+  /**
+   * Whether the heading should be underlined
+   * @default false
+   */
+  underline?: boolean;
+
+  /**
+   * The color of the heading
+   * @default 'default'
+   */
+  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
+
+  /**
+   * The HTML element to render
+   * If not provided, uses h{level} based on the level prop
+   */
+  as?: ElementType;
+}
+
+/**
+ * Heading component that follows the design system guidelines.
+ * 
+ * This component renders headings following the design system's typography
+ * scale, with support for different levels, sizes, weights, styles, and colors.
+ */
+export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+  ({ 
+    level = 1,
+    size,
+    weight = "bold",
+    italic = false,
+    underline = false,
+    color = "default",
+    className = "",
+    as,
+    children,
+    ...props
+  }, ref) => {
+    // Default heading tag based on level
+    const defaultTag = `h${level}` as ElementType;
+    
+    // Use provided "as" prop or default based on level
+    const Component = as || defaultTag;
+    
+    // Default sizes based on heading level if not explicitly provided
+    const defaultSizes: Record<number, string> = {
+      1: "md",
+      2: "sm",
+      3: "xs",
+      4: "text-xl",
+      5: "text-lg",
+      6: "text-md",
+    };
+
+    // Determine the final size
+    const finalSize = size || defaultSizes[level];
+
+    const sizeClasses: Record<string, string> = {
+      "2xl": "text-display-2xl",
+      "xl": "text-display-xl",
+      "lg": "text-display-lg",
+      "md": "text-display-md",
+      "sm": "text-display-sm",
+      "xs": "text-display-xs",
+      "text-xl": "text-text-xl",
+      "text-lg": "text-text-lg",
+      "text-md": "text-text-md",
+    };
+
+    const weightClasses = {
+      regular: "font-regular",
+      medium: "font-medium",
+      semibold: "font-semibold",
+      bold: "font-bold",
+    };
+
+    const colorClasses = {
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      brand: "text-brand-700 dark:text-brand-400",
+      error: "text-error-700 dark:text-error-400",
+      warning: "text-warning-700 dark:text-warning-400",
+      success: "text-success-700 dark:text-success-400",
+    };
+
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          sizeClasses[finalSize],
+          weightClasses[weight],
+          colorClasses[color],
+          italic && "italic",
+          underline && "underline",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+Heading.displayName = "Heading";
+</file>
+
+<file path="src/components/typography/heading/index.ts">
+export * from './heading';
+</file>
+
+<file path="src/components/typography/text/index.ts">
+export * from './text';
+</file>
+
+<file path="src/components/typography/text/text.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+// Define the possible element types
+type ElementType = React.ElementType;
+
+export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  /**
+   * The size variant of the text
+   * @default 'md'
+   */
+  size?: "xl" | "lg" | "md" | "sm" | "xs";
+
+  /**
+   * The font weight of the text
+   * @default 'regular'
+   */
+  weight?: "regular" | "medium" | "semibold" | "bold";
+
+  /**
+   * Whether the text should be italic
+   * @default false
+   */
+  italic?: boolean;
+
+  /**
+   * Whether the text should be underlined
+   * @default false
+   */
+  underline?: boolean;
+
+  /**
+   * The color of the text
+   * @default 'default'
+   */
+  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
+
+  /**
+   * The HTML element to render
+   * @default 'p'
+   */
+  as?: ElementType;
+}
+
+/**
+ * Text component that follows the design system guidelines.
+ * 
+ * This component renders text following the design system's typography
+ * scale, with support for different sizes, weights, styles, and colors.
+ */
+export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
+  ({
+    size = "md",
+    weight = "regular",
+    italic = false,
+    underline = false,
+    color = "default",
+    className = "",
+    as: Component = "p",
+    children,
+    ...props
+  }, ref) => {
+    const sizeClasses = {
+      xl: "text-text-xl",
+      lg: "text-text-lg",
+      md: "text-text-md",
+      sm: "text-text-sm",
+      xs: "text-text-xs",
+    };
+
+    const weightClasses = {
+      regular: "font-regular",
+      medium: "font-medium",
+      semibold: "font-semibold",
+      bold: "font-bold",
+    };
+
+    const colorClasses = {
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      brand: "text-brand-700 dark:text-brand-400",
+      error: "text-error-700 dark:text-error-400",
+      warning: "text-warning-700 dark:text-warning-400",
+      success: "text-success-700 dark:text-success-400",
+    };
+
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          sizeClasses[size],
+          weightClasses[weight],
+          colorClasses[color],
+          italic && "italic",
+          underline && "underline",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+Text.displayName = "Text";
+</file>
+
+<file path="src/components/ui/button/index.ts">
+export * from './button';
+</file>
+
+<file path="src/components/ui/card/card.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Whether the card has a border
+   * @default false
+   */
+  bordered?: boolean;
+
+  /**
+   * Whether the card has a shadow
+   * @default true
+   */
+  shadowed?: boolean;
+
+  /**
+   * The padding size of the card
+   * @default 'md'
+   */
+  padding?: "none" | "sm" | "md" | "lg";
+}
+
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, bordered = false, shadowed = true, padding = "md", children, ...props }, ref) => {
+    const paddingClasses = {
+      none: "p-0",
+      sm: "p-3",
+      md: "p-4",
+      lg: "p-6",
+    };
+
+    const borderClass = bordered ? "border border-border" : "";
+    const shadowClass = shadowed ? "shadow-sm" : "";
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "rounded-lg bg-card text-card-foreground",
+          paddingClasses[padding],
+          borderClass,
+          shadowClass,
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+Card.displayName = "Card";
+
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("flex flex-col space-y-1.5", className)}
+      {...props}
+    />
+  )
+);
+
+CardHeader.displayName = "CardHeader";
+
+export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+
+export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, ...props }, ref) => (
+    <h3
+      ref={ref}
+      className={cn("text-display-xs font-semibold leading-none tracking-tight", className)}
+      {...props}
+    />
+  )
+);
+
+CardTitle.displayName = "CardTitle";
+
+export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+
+export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+);
+
+CardDescription.displayName = "CardDescription";
+
+export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("pt-0", className)} {...props} />
+  )
+);
+
+CardContent.displayName = "CardContent";
+
+export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("flex items-center mt-4 pt-4 border-t", className)}
+      {...props}
+    />
+  )
+);
+
+CardFooter.displayName = "CardFooter";
+</file>
+
+<file path="src/components/ui/card/index.ts">
+export * from './card';
+</file>
+
+<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
+// src/components/ui/dropdown-menu/dropdown-menu.tsx
+import * as React from "react";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { IconCheck, IconChevronRight } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
+import { ThemeColor } from "@/lib/theme-utils";
+
+// Root component
+const DropdownMenuRoot = DropdownMenuPrimitive.Root;
+
+// Trigger component
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    className={cn("outline-none", className)}
+    {...props}
+  >
+    {children}
+  </DropdownMenuPrimitive.Trigger>
+));
+
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
+
+// Content component
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
+    color?: ThemeColor;
+  }
+>(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
+  const colorClasses = {
+    brand: "border-brand-200 bg-white dark:bg-gray-800",
+    error: "border-error-200 bg-white dark:bg-gray-800",
+    warning: "border-warning-200 bg-white dark:bg-gray-800",
+    success: "border-success-200 bg-white dark:bg-gray-800",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
+          colorClasses[color],
+          className
+        )}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
+  );
+});
+
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
+
+// Item component
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    color?: ThemeColor;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+  }
+>(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
+  const colorClasses = {
+    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
+    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
+    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
+    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+        colorClasses[color],
+        className
+      )}
+      {...props}
+    >
+      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {children}
+      {rightIcon && <span className="ml-2">{rightIcon}</span>}
+    </DropdownMenuPrimitive.Item>
+  );
+});
+
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
+
+// Other dropdown menu components
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
+    {...props}
+  />
+));
+
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
+
+// Export the component with all its parts
+export const DropdownMenu = {
+  Root: DropdownMenuRoot,
+  Trigger: DropdownMenuTrigger,
+  Content: DropdownMenuContent,
+  Item: DropdownMenuItem,
+  Separator: DropdownMenuSeparator,
+  Group: DropdownMenuPrimitive.Group,
+  Label: DropdownMenuPrimitive.Label,
+};
+</file>
+
+<file path="src/components/ui/dropdown-menu/index.ts">
+export * from './dropdown-menu';
+</file>
+
+<file path="src/components/ui/theme-toggle/index.ts">
+export * from './theme-toggle';
+</file>
+
+<file path="src/components/ui/button.tsx">
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+</file>
+
+<file path="src/components/ui/card.tsx">
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight",
+      className
+    )}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+</file>
+
+<file path="src/components/ui/index.ts">
+// src/components/ui/index.ts
+// Re-export components that actually exist in your project
+
+// Button component (we've implemented this)
+export * from './button/button';
+
+// Dropdown menu (simple implementation for now)
+export * from './dropdown-menu/dropdown-menu';
+
+// Typography components - adjust these paths based on your actual folder structure
+export * from '../typography/heading'; 
+export * from '../typography/text';
+
+// Comment out components that don't exist yet
+// export * from './input/input'; // Uncomment when implemented
+// export * from './card/card'; // Uncomment when implemented
+// export * from './dialog/dialog'; // Uncomment when implemented
+</file>
+
+<file path="src/themes/catalog.tsx">
+// src/app/components/catalog.tsx
+import { 
+  Button, 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardContent,
+  CardFooter,
+  Text
+} from "@/components/ui";
+
+// Sample icons
+import { 
+  ChevronDownIcon, 
+  PlusIcon, 
+  CheckIcon,
+  XMarkIcon 
+} from "@heroicons/react/24/outline";
+
+export default function ComponentCatalog() {
+  // Component examples with different variants
+  const colorOptions: Array<"brand" | "error" | "warning" | "success"> = [
+    "brand", "error", "warning", "success"
+  ];
+  
+  const variantOptions: Array<"primary" | "secondary" | "tertiary"> = [
+    "primary", "secondary", "tertiary"
+  ];
+  
+  return (
+    <div className="container mx-auto p-8">
+      <h1 className="text-display-xl font-bold mb-8">Component Catalog</h1>
+      
+      <section className="mb-12">
+        <h2 className="text-display-md font-semibold mb-6">Buttons</h2>
+        <div className="grid grid-cols-4 gap-6">
+          {colorOptions.map(color => (
+            <Card key={color}>
+              <CardHeader>
+                <CardTitle>{color.charAt(0).toUpperCase() + color.slice(1)} Buttons</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {variantOptions.map(variant => (
+                  <div key={`${color}-${variant}`} className="flex items-center gap-2">
+                    <Button 
+                      color={color} 
+                      variant={variant}
+                    >
+                      {variant}
+                    </Button>
+                    <Button 
+                      color={color} 
+                      variant={variant} 
+                      leftIcon={<PlusIcon className="w-4 h-4" />}
+                    >
+                      With Icon
+                    </Button>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+      
+      {/* Add more component examples */}
+    </div>
+  );
+}
+</file>
 
 <file path="src/themes/theme-context.tsx">
 "use client"
@@ -516,971 +2854,6 @@ export const typography = {
 export type Typography = typeof typography;
 </file>
 
-<file path="src/app/layout.tsx">
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import { ThemeProvider } from "@/themes/theme-provider"
-import { ThemeContextProvider } from "@/themes/theme-context"
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-})
-
-export const metadata: Metadata = {
-  title: "Fintech UI Library",
-  description: "A component library for fintech applications",
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans`}>
-        <ThemeProvider>
-          <ThemeContextProvider>
-            {children}
-          </ThemeContextProvider>
-        </ThemeProvider>
-      </body>
-    </html>
-  )
-}
-</file>
-
-<file path="src/components/typography/heading/heading.tsx">
-import React from "react";
-import { cn } from "@/lib/utils";
-
-export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  /**
-   * The level of the heading
-   * @default '1'
-   */
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-
-  /**
-   * The size variant of the heading
-   * @default 'md' for h1, 'sm' for h2, 'xs' for h3, and 'text-xl' for the rest
-   */
-  size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
-
-  /**
-   * The font weight of the heading
-   * @default 'bold'
-   */
-  weight?: "regular" | "medium" | "semibold" | "bold";
-
-  /**
-   * Whether the heading should be italic
-   * @default false
-   */
-  italic?: boolean;
-
-  /**
-   * Whether the heading should be underlined
-   * @default false
-   */
-  underline?: boolean;
-
-  /**
-   * The content to be rendered
-   */
-  children: React.ReactNode;
-}
-
-/**
- * Heading component that follows the design system guidelines
- */
-export const Heading: React.FC<HeadingProps> = ({
-  level = 1,
-  size,
-  weight = "bold",
-  italic = false,
-  underline = false,
-  className = "",
-  children,
-  ...props
-}) => {
-  // Define possible size values explicitly
-  type SizeKey = "2xl" | "xl" | "lg" | "md" | "sm" | "xs" | "text-xl" | "text-lg" | "text-md";
-
-  // Default sizes based on heading level if not explicitly provided
-  const defaultSizes: Record<number, SizeKey> = {
-    1: "md",
-    2: "sm",
-    3: "xs",
-    4: "text-xl",
-    5: "text-lg",
-    6: "text-md",
-  };
-
-  // Determine the final size, ensuring it's a valid SizeKey
-  const finalSize: SizeKey = size || defaultSizes[level];
-
-  const sizeClasses: Record<SizeKey, string> = {
-    "2xl": "text-display-2xl",
-    xl: "text-display-xl",
-    lg: "text-display-lg",
-    md: "text-display-md",
-    sm: "text-display-sm",
-    xs: "text-display-xs",
-    "text-xl": "text-text-xl", // Renamed from text-xl to avoid conflict with Tailwind
-    "text-lg": "text-text-lg",   // Renamed from text-lg
-    "text-md": "text-text-md",   // Renamed from text-md
-  };
-
-  const weightClasses = {
-    regular: "font-regular",
-    medium: "font-medium",
-    semibold: "font-semibold",
-    bold: "font-bold",
-  };
-
-  const italicClass = italic ? "italic" : "";
-  const underlineClass = underline ? "underline" : "";
-
-  const classes = cn(
-    sizeClasses[finalSize],
-    weightClasses[weight],
-    italicClass,
-    underlineClass,
-    className
-  );
-
-  // HeadingTag is now just a string like "h1", "h2", etc.
-  const HeadingTag = `h${level}`;
-
-  return React.createElement(
-    HeadingTag, // Use the string tag name directly
-    { className: classes, ...props },
-    children
-  );
-};
-</file>
-
-<file path="src/components/typography/heading/index.ts">
-export * from './heading';
-</file>
-
-<file path="src/components/typography/text/index.ts">
-export * from './text';
-</file>
-
-<file path="src/components/typography/text/text.tsx">
-import React from "react";
-import { cn } from "@/lib/utils";
-
-export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  /**
-   * The size variant of the text
-   * @default 'md'
-   */
-  size?: "xl" | "lg" | "md" | "sm" | "xs";
-
-  /**
-   * The font weight of the text
-   * @default 'regular'
-   */
-  weight?: "regular" | "medium" | "semibold" | "bold";
-
-  /**
-   * Whether the text should be italic
-   * @default false
-   */
-  italic?: boolean;
-
-  /**
-   * Whether the text should be underlined
-   * @default false
-   */
-  underline?: boolean;
-
-  /**
-   * The content to be rendered
-   */
-  children: React.ReactNode;
-}
-
-/**
- * Text component that follows the design system guidelines
- */
-export const Text: React.FC<TextProps> = ({
-  size = "md",
-  weight = "regular",
-  italic = false,
-  underline = false,
-  className = "",
-  children,
-  ...props
-}) => {
-  const sizeClasses = {
-    xl: "text-text-xl",
-    lg: "text-text-lg",
-    md: "text-text-md",
-    sm: "text-text-sm",
-    xs: "text-text-xs",
-  };
-
-  const weightClasses = {
-    regular: "font-regular",
-    medium: "font-medium",
-    semibold: "font-semibold",
-    bold: "font-bold",
-  };
-
-  const italicClass = italic ? "italic" : "";
-  const underlineClass = underline ? "underline" : "";
-
-  const classes = cn(
-    sizeClasses[size],
-    weightClasses[weight],
-    italicClass,
-    underlineClass,
-    className
-  );
-
-  return (
-    <p className={classes} {...props}>
-      {children}
-    </p>
-  );
-};
-</file>
-
-<file path="src/components/ui/button/index.ts">
-export * from './button';
-</file>
-
-<file path="src/components/ui/card/card.tsx">
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Whether the card has a border
-   * @default false
-   */
-  bordered?: boolean;
-
-  /**
-   * Whether the card has a shadow
-   * @default true
-   */
-  shadowed?: boolean;
-
-  /**
-   * The padding size of the card
-   * @default 'md'
-   */
-  padding?: "none" | "sm" | "md" | "lg";
-}
-
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, bordered = false, shadowed = true, padding = "md", children, ...props }, ref) => {
-    const paddingClasses = {
-      none: "p-0",
-      sm: "p-3",
-      md: "p-4",
-      lg: "p-6",
-    };
-
-    const borderClass = bordered ? "border border-border" : "";
-    const shadowClass = shadowed ? "shadow-sm" : "";
-
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "rounded-lg bg-card text-card-foreground",
-          paddingClasses[padding],
-          borderClass,
-          shadowClass,
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  }
-);
-
-Card.displayName = "Card";
-
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("flex flex-col space-y-1.5", className)}
-      {...props}
-    />
-  )
-);
-
-CardHeader.displayName = "CardHeader";
-
-export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
-
-export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ className, ...props }, ref) => (
-    <h3
-      ref={ref}
-      className={cn("text-display-xs font-semibold leading-none tracking-tight", className)}
-      {...props}
-    />
-  )
-);
-
-CardTitle.displayName = "CardTitle";
-
-export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
-
-export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  ({ className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  )
-);
-
-CardDescription.displayName = "CardDescription";
-
-export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("pt-0", className)} {...props} />
-  )
-);
-
-CardContent.displayName = "CardContent";
-
-export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("flex items-center mt-4 pt-4 border-t", className)}
-      {...props}
-    />
-  )
-);
-
-CardFooter.displayName = "CardFooter";
-</file>
-
-<file path="src/components/ui/card/index.ts">
-export * from './card';
-</file>
-
-<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
-// src/components/ui/dropdown-menu/dropdown-menu.tsx
-import * as React from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { IconCheck, IconChevronRight } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { ThemeColor } from "@/lib/theme-utils";
-
-// Root component
-const DropdownMenuRoot = DropdownMenuPrimitive.Root;
-
-// Trigger component
-const DropdownMenuTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Trigger
-    ref={ref}
-    className={cn("outline-none", className)}
-    {...props}
-  >
-    {children}
-  </DropdownMenuPrimitive.Trigger>
-));
-
-DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
-
-// Content component
-const DropdownMenuContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
-    color?: ThemeColor;
-  }
->(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
-  const colorClasses = {
-    brand: "border-brand-200 bg-white dark:bg-gray-800",
-    error: "border-error-200 bg-white dark:bg-gray-800",
-    warning: "border-warning-200 bg-white dark:bg-gray-800",
-    success: "border-success-200 bg-white dark:bg-gray-800",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
-          colorClasses[color],
-          className
-        )}
-        {...props}
-      />
-    </DropdownMenuPrimitive.Portal>
-  );
-});
-
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-
-// Item component
-const DropdownMenuItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
-    color?: ThemeColor;
-    leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-  }
->(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
-  const colorClasses = {
-    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
-    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
-    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
-    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
-        colorClasses[color],
-        className
-      )}
-      {...props}
-    >
-      {leftIcon && <span className="mr-2">{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
-    </DropdownMenuPrimitive.Item>
-  );
-});
-
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-
-// Other dropdown menu components
-const DropdownMenuSeparator = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
-    {...props}
-  />
-));
-
-DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
-
-// Export the component with all its parts
-export const DropdownMenu = {
-  Root: DropdownMenuRoot,
-  Trigger: DropdownMenuTrigger,
-  Content: DropdownMenuContent,
-  Item: DropdownMenuItem,
-  Separator: DropdownMenuSeparator,
-  Group: DropdownMenuPrimitive.Group,
-  Label: DropdownMenuPrimitive.Label,
-};
-</file>
-
-<file path="src/components/ui/dropdown-menu/index.ts">
-export * from './dropdown-menu';
-</file>
-
-<file path="src/components/ui/theme-toggle/index.ts">
-export * from './theme-toggle';
-</file>
-
-<file path="src/components/ui/theme-toggle/theme-toggle.tsx">
-"use client"
-
-import * as React from "react"
-import { useTheme } from "@/themes/theme-context"
-import { cn } from "@/lib/utils"
-import { IconMoon, IconSun } from "@tabler/icons-react"
-
-/**
- * Props for the ThemeToggle component
- */
-export interface ThemeToggleProps extends React.HTMLAttributes<HTMLButtonElement> {
-  /**
-   * Variant of the toggle
-   * @default 'icon'
-   */
-  variant?: 'icon' | 'switch' | 'button';
-  
-  /**
-   * Size of the toggle
-   * @default 'md'
-   */
-  size?: 'sm' | 'md' | 'lg';
-}
-
-/**
- * ThemeToggle component to switch between light and dark themes
- */
-export function ThemeToggle({ 
-  className, 
-  variant = 'icon', 
-  size = 'md',
-  ...props 
-}: ThemeToggleProps) {
-  const { theme, setTheme, resolvedTheme, isClient } = useTheme()
-
-  // Only render on client to prevent hydration mismatch
-  if (!isClient) return null;
-
-  // Toggle between light and dark
-  const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark")
-  }
-
-  // Size mapping for Tabler icons
-  const iconSize = {
-    sm: 16,
-    md: 20,
-    lg: 24,
-  }
-
-  // Size classes for button
-  const sizeClasses = {
-    sm: 'h-8 w-8',
-    md: 'h-10 w-10',
-    lg: 'h-12 w-12',
-  }
-
-  // Text size classes
-  const textSizeClasses = {
-    sm: 'text-xs',
-    md: 'text-sm',
-    lg: 'text-base',
-  }
-
-  // Variant specific rendering
-  if (variant === 'icon') {
-    return (
-      <button
-        type="button"
-        onClick={toggleTheme}
-        className={cn(
-          "inline-flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-          sizeClasses[size],
-          className
-        )}
-        aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-        {...props}
-      >
-        {resolvedTheme === "dark" ? (
-          <IconSun size={iconSize[size]} stroke={1.5} />
-        ) : (
-          <IconMoon size={iconSize[size]} stroke={1.5} />
-        )}
-      </button>
-    )
-  }
-  
-  // Button variant
-  if (variant === 'button') {
-    return (
-      <button
-        type="button"
-        onClick={toggleTheme}
-        className={cn(
-          "inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2",
-          textSizeClasses[size],
-          "hover:bg-accent hover:text-accent-foreground",
-          className
-        )}
-        {...props}
-      >
-        {resolvedTheme === "dark" ? "Light Mode" : "Dark Mode"}
-      </button>
-    )
-  }
-  
-  // Switch variant
-  return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      className={cn(
-        "inline-flex items-center justify-center rounded-md px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        textSizeClasses[size],
-        resolvedTheme === "dark" 
-          ? "bg-accent text-accent-foreground hover:bg-accent/80" 
-          : "bg-muted text-muted-foreground hover:bg-muted/80",
-        className
-      )}
-      aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-      {...props}
-    >
-      {resolvedTheme === "dark" ? (
-        <span className="flex items-center">
-          <IconSun size={iconSize[size]} stroke={1.5} className="mr-2" />
-          Light
-        </span>
-      ) : (
-        <span className="flex items-center">
-          <IconMoon size={iconSize[size]} stroke={1.5} className="mr-2" />
-          Dark
-        </span>
-      )}
-    </button>
-  )
-}
-</file>
-
-<file path="src/components/ui/button.tsx">
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
-
-import { cn } from "@/lib/utils"
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
-
-export { Button, buttonVariants }
-</file>
-
-<file path="src/components/ui/card.tsx">
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
-
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
-
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
-
-const CardTitle = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
-
-const CardDescription = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
-
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
-
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
-
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
-</file>
-
-<file path="src/components/ui/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (simple implementation for now)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components - adjust these paths based on your actual folder structure
-export * from '../typography/heading'; 
-export * from '../typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
-</file>
-
-<file path="src/lib/theme-utils.ts">
-/**
- * Utility functions for theme handling
- */
-
-/**
- * Supported color theme values
- */
-export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
-
-/**
- * Supported component variant types
- */
-export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
-
-/**
- * Map design system colors to shadcn variants
- * 
- * @param color - The design system color
- * @returns The corresponding shadcn variant
- */
-export const mapColorToShadcnVariant = (color: ThemeColor) => {
-  switch (color) {
-    case 'brand': return 'default';
-    case 'error': return 'destructive';
-    case 'warning':
-    case 'success':
-      return 'secondary'; // Will need additional classes
-    default: return 'default';
-  }
-};
-
-/**
- * Map design system variants to shadcn variants
- * 
- * @param variant - The design system variant
- * @returns The corresponding shadcn variant
- */
-export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
-  switch (variant) {
-    case 'primary': return 'default';
-    case 'secondary': return 'outline';
-    case 'tertiary': return 'ghost';
-    default: return 'default';
-  }
-};
-
-/**
- * Generate Tailwind classes for color/variant combinations
- * 
- * @param color - The design system color
- * @param variant - The design system variant
- * @returns String of Tailwind classes
- */
-export const getColorVariantClasses = (
-  color: ThemeColor, 
-  variant: ComponentVariant
-): string => {
-  const colorVariantMap: Record<ComponentVariant, Record<ThemeColor, string>> = {
-    primary: {
-      brand: 'bg-brand-600 hover:bg-brand-700 text-white focus-visible:ring-brand-500',
-      error: 'bg-error-600 hover:bg-error-700 text-white focus-visible:ring-error-500',
-      warning: 'bg-warning-600 hover:bg-warning-700 text-white focus-visible:ring-warning-500',
-      success: 'bg-success-600 hover:bg-success-700 text-white focus-visible:ring-success-500',
-    },
-    secondary: {
-      brand: 'border-brand-300 text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'border-error-300 text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'border-warning-300 text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'border-success-300 text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    },
-    tertiary: {
-      brand: 'text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    }
-  };
-
-  return colorVariantMap[variant]?.[color] || '';
-};
-
-/**
- * Determine if the current theme is dark
- * 
- * @param theme - The current theme
- * @param systemTheme - The system theme
- * @returns True if the theme is dark
- */
-export const isDarkTheme = (theme: string | undefined, systemTheme: string | undefined): boolean => {
-  if (theme === 'system') {
-    return systemTheme === 'dark';
-  }
-  return theme === 'dark';
-};
-</file>
-
-<file path="src/themes/catalog.tsx">
-// src/app/components/catalog.tsx
-import { 
-  Button, 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent,
-  CardFooter,
-  Text
-} from "@/components/ui";
-
-// Sample icons
-import { 
-  ChevronDownIcon, 
-  PlusIcon, 
-  CheckIcon,
-  XMarkIcon 
-} from "@heroicons/react/24/outline";
-
-export default function ComponentCatalog() {
-  // Component examples with different variants
-  const colorOptions: Array<"brand" | "error" | "warning" | "success"> = [
-    "brand", "error", "warning", "success"
-  ];
-  
-  const variantOptions: Array<"primary" | "secondary" | "tertiary"> = [
-    "primary", "secondary", "tertiary"
-  ];
-  
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-display-xl font-bold mb-8">Component Catalog</h1>
-      
-      <section className="mb-12">
-        <h2 className="text-display-md font-semibold mb-6">Buttons</h2>
-        <div className="grid grid-cols-4 gap-6">
-          {colorOptions.map(color => (
-            <Card key={color}>
-              <CardHeader>
-                <CardTitle>{color.charAt(0).toUpperCase() + color.slice(1)} Buttons</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {variantOptions.map(variant => (
-                  <div key={`${color}-${variant}`} className="flex items-center gap-2">
-                    <Button 
-                      color={color} 
-                      variant={variant}
-                    >
-                      {variant}
-                    </Button>
-                    <Button 
-                      color={color} 
-                      variant={variant} 
-                      leftIcon={<PlusIcon className="w-4 h-4" />}
-                    >
-                      With Icon
-                    </Button>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-      
-      {/* Add more component examples */}
-    </div>
-  );
-}
-</file>
-
 <file path=".repomixrc">
 {
   "include": ["**/*.{js,jsx,ts,tsx,py,md,json}"],
@@ -1729,84 +3102,39 @@ export default function ComponentsPage() {
 }
 </file>
 
-<file path="src/app/page.tsx">
-import { ThemeToggle } from "@/components/ui/theme-toggle"
+<file path="src/app/layout.tsx">
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { ThemeProvider } from "@/themes/theme-provider"
+import { ThemeContextProvider } from "@/themes/theme-context"
 
-export default function Home() {
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
+
+export const metadata: Metadata = {
+  title: "Fintech UI Library",
+  description: "A component library for fintech applications",
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
-        <p className="text-lg">Fintech UI Library</p>
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-        </div>
-      </div>
-
-      <div className="mt-12 flex flex-col items-center">
-        <h1 className="text-display-md font-bold mb-6">
-          Theme System
-        </h1>
-        <p className="mb-4 text-text-lg">
-          This page demonstrates the theme switching functionality. 
-          The theme system provides support for light and dark modes.
-        </p>
-        
-        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
-          <div className="p-4 bg-background border border-border rounded-lg">
-            Background
-          </div>
-          <div className="p-4 bg-card text-card-foreground border border-border rounded-lg">
-            Card
-          </div>
-          <div className="p-4 bg-primary text-primary-foreground rounded-lg">
-            Primary
-          </div>
-          <div className="p-4 bg-secondary text-secondary-foreground rounded-lg">
-            Secondary
-          </div>
-          <div className="p-4 bg-muted text-muted-foreground rounded-lg">
-            Muted
-          </div>
-          <div className="p-4 bg-accent text-accent-foreground rounded-lg">
-            Accent
-          </div>
-          <div className="p-4 bg-destructive text-destructive-foreground rounded-lg">
-            Destructive
-          </div>
-        </div>
-        
-        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
-          <h2 className="text-display-sm font-bold">Brand Colors</h2>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="p-4 bg-brand-50 text-brand-900 rounded-lg text-center">Brand 50</div>
-            <div className="p-4 bg-brand-100 text-brand-900 rounded-lg text-center">Brand 100</div>
-            <div className="p-4 bg-brand-200 text-brand-900 rounded-lg text-center">Brand 200</div>
-            <div className="p-4 bg-brand-300 text-brand-900 rounded-lg text-center">Brand 300</div>
-            <div className="p-4 bg-brand-400 text-brand-900 rounded-lg text-center">Brand 400</div>
-            <div className="p-4 bg-brand-500 text-white rounded-lg text-center">Brand 500</div>
-            <div className="p-4 bg-brand-600 text-white rounded-lg text-center">Brand 600</div>
-            <div className="p-4 bg-brand-700 text-white rounded-lg text-center">Brand 700</div>
-            <div className="p-4 bg-brand-800 text-white rounded-lg text-center">Brand 800</div>
-            <div className="p-4 bg-brand-900 text-white rounded-lg text-center">Brand 900</div>
-          </div>
-        </div>
-        
-        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
-          <h2 className="text-display-sm font-bold">Typography</h2>
-          <h1 className="text-display-2xl">Display 2XL</h1>
-          <h1 className="text-display-xl">Display XL</h1>
-          <h1 className="text-display-lg">Display LG</h1>
-          <h1 className="text-display-md">Display MD</h1>
-          <h1 className="text-display-sm">Display SM</h1>
-          <h1 className="text-display-xs">Display XS</h1>
-          <p className="text-text-xl">Text XL</p>
-          <p className="text-text-lg">Text LG</p>
-          <p className="text-text-md">Text MD</p>
-          <p className="text-text-sm">Text SM</p>
-          <p className="text-text-xs">Text XS</p>
-        </div>
-      </div>
-    </main>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans`}>
+        <ThemeProvider>
+          <ThemeContextProvider>
+            {children}
+          </ThemeContextProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }
 </file>
@@ -1926,6 +3254,330 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button";
 </file>
 
+<file path="src/components/ui/theme-toggle/theme-toggle.tsx">
+"use client"
+
+import * as React from "react"
+import { useTheme } from "@/themes/theme-context"
+import { cn } from "@/lib/utils"
+import { IconMoon, IconSun } from "@tabler/icons-react"
+
+/**
+ * Props for the ThemeToggle component
+ */
+export interface ThemeToggleProps extends React.HTMLAttributes<HTMLButtonElement> {
+  /**
+   * Variant of the toggle
+   * @default 'icon'
+   */
+  variant?: 'icon' | 'switch' | 'button';
+  
+  /**
+   * Size of the toggle
+   * @default 'md'
+   */
+  size?: 'sm' | 'md' | 'lg';
+}
+
+/**
+ * ThemeToggle component to switch between light and dark themes
+ */
+export function ThemeToggle({ 
+  className, 
+  variant = 'icon', 
+  size = 'md',
+  ...props 
+}: ThemeToggleProps) {
+  const { theme, setTheme, resolvedTheme, isClient } = useTheme()
+
+  // Only render on client to prevent hydration mismatch
+  if (!isClient) return null;
+
+  // Toggle between light and dark
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  }
+
+  // Size mapping for Tabler icons
+  const iconSize = {
+    sm: 16,
+    md: 20,
+    lg: 24,
+  }
+
+  // Size classes for button
+  const sizeClasses = {
+    sm: 'h-8 w-8',
+    md: 'h-10 w-10',
+    lg: 'h-12 w-12',
+  }
+
+  // Text size classes
+  const textSizeClasses = {
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-base',
+  }
+
+  // Variant specific rendering
+  if (variant === 'icon') {
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={cn(
+          "inline-flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          sizeClasses[size],
+          className
+        )}
+        aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+        {...props}
+      >
+        {resolvedTheme === "dark" ? (
+          <IconSun size={iconSize[size]} stroke={1.5} />
+        ) : (
+          <IconMoon size={iconSize[size]} stroke={1.5} />
+        )}
+      </button>
+    )
+  }
+  
+  // Button variant
+  if (variant === 'button') {
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={cn(
+          "inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2",
+          textSizeClasses[size],
+          "hover:bg-accent hover:text-accent-foreground",
+          className
+        )}
+        {...props}
+      >
+        {resolvedTheme === "dark" ? "Light Mode" : "Dark Mode"}
+      </button>
+    )
+  }
+  
+  // Switch variant
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className={cn(
+        "inline-flex items-center justify-center rounded-md px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        textSizeClasses[size],
+        resolvedTheme === "dark" 
+          ? "bg-accent text-accent-foreground hover:bg-accent/80" 
+          : "bg-muted text-muted-foreground hover:bg-muted/80",
+        className
+      )}
+      aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      {...props}
+    >
+      {resolvedTheme === "dark" ? (
+        <span className="flex items-center">
+          <IconSun size={iconSize[size]} stroke={1.5} className="mr-2" />
+          Light
+        </span>
+      ) : (
+        <span className="flex items-center">
+          <IconMoon size={iconSize[size]} stroke={1.5} className="mr-2" />
+          Dark
+        </span>
+      )}
+    </button>
+  )
+}
+</file>
+
+<file path="src/lib/theme-utils.ts">
+/**
+ * Utility functions for theme handling
+ */
+
+/**
+ * Supported color theme values
+ */
+export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
+
+/**
+ * Supported component variant types
+ */
+export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
+
+/**
+ * Map design system colors to shadcn variants
+ * 
+ * @param color - The design system color
+ * @returns The corresponding shadcn variant
+ */
+export const mapColorToShadcnVariant = (color: ThemeColor) => {
+  switch (color) {
+    case 'brand': return 'default';
+    case 'error': return 'destructive';
+    case 'warning':
+    case 'success':
+      return 'secondary'; // Will need additional classes
+    default: return 'default';
+  }
+};
+
+/**
+ * Map design system variants to shadcn variants
+ * 
+ * @param variant - The design system variant
+ * @returns The corresponding shadcn variant
+ */
+export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
+  switch (variant) {
+    case 'primary': return 'default';
+    case 'secondary': return 'outline';
+    case 'tertiary': return 'ghost';
+    default: return 'default';
+  }
+};
+
+/**
+ * Generate Tailwind classes for color/variant combinations
+ * 
+ * @param color - The design system color
+ * @param variant - The design system variant
+ * @returns String of Tailwind classes
+ */
+export const getColorVariantClasses = (
+  color: ThemeColor, 
+  variant: ComponentVariant
+): string => {
+  const colorVariantMap: Record<ComponentVariant, Record<ThemeColor, string>> = {
+    primary: {
+      brand: 'bg-brand-600 hover:bg-brand-700 text-white focus-visible:ring-brand-500',
+      error: 'bg-error-600 hover:bg-error-700 text-white focus-visible:ring-error-500',
+      warning: 'bg-warning-600 hover:bg-warning-700 text-white focus-visible:ring-warning-500',
+      success: 'bg-success-600 hover:bg-success-700 text-white focus-visible:ring-success-500',
+    },
+    secondary: {
+      brand: 'border-brand-300 text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
+      error: 'border-error-300 text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
+      warning: 'border-warning-300 text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
+      success: 'border-success-300 text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
+    },
+    tertiary: {
+      brand: 'text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
+      error: 'text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
+      warning: 'text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
+      success: 'text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
+    }
+  };
+
+  return colorVariantMap[variant]?.[color] || '';
+};
+
+/**
+ * Determine if the current theme is dark
+ * 
+ * @param theme - The current theme
+ * @param systemTheme - The system theme
+ * @returns True if the theme is dark
+ */
+export const isDarkTheme = (theme: string | undefined, systemTheme: string | undefined): boolean => {
+  if (theme === 'system') {
+    return systemTheme === 'dark';
+  }
+  return theme === 'dark';
+};
+</file>
+
+<file path=".gitignore">
+node_modules/
+.next/
+*storybook.log
+</file>
+
+<file path="src/app/page.tsx">
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
+        <p className="text-lg">Fintech UI Library</p>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+        </div>
+      </div>
+
+      <div className="mt-12 flex flex-col items-center">
+        <h1 className="text-display-md font-bold mb-6">
+          Theme System
+        </h1>
+        <p className="mb-4 text-text-lg">
+          This page demonstrates the theme switching functionality. 
+          The theme system provides support for light and dark modes.
+        </p>
+        
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <div className="p-4 bg-background border border-border rounded-lg">
+            Background
+          </div>
+          <div className="p-4 bg-card text-card-foreground border border-border rounded-lg">
+            Card
+          </div>
+          <div className="p-4 bg-primary text-primary-foreground rounded-lg">
+            Primary
+          </div>
+          <div className="p-4 bg-secondary text-secondary-foreground rounded-lg">
+            Secondary
+          </div>
+          <div className="p-4 bg-muted text-muted-foreground rounded-lg">
+            Muted
+          </div>
+          <div className="p-4 bg-accent text-accent-foreground rounded-lg">
+            Accent
+          </div>
+          <div className="p-4 bg-destructive text-destructive-foreground rounded-lg">
+            Destructive
+          </div>
+        </div>
+        
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <h2 className="text-display-sm font-bold">Brand Colors</h2>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="p-4 bg-brand-50 text-brand-900 rounded-lg text-center">Brand 50</div>
+            <div className="p-4 bg-brand-100 text-brand-900 rounded-lg text-center">Brand 100</div>
+            <div className="p-4 bg-brand-200 text-brand-900 rounded-lg text-center">Brand 200</div>
+            <div className="p-4 bg-brand-300 text-brand-900 rounded-lg text-center">Brand 300</div>
+            <div className="p-4 bg-brand-400 text-brand-900 rounded-lg text-center">Brand 400</div>
+            <div className="p-4 bg-brand-500 text-white rounded-lg text-center">Brand 500</div>
+            <div className="p-4 bg-brand-600 text-white rounded-lg text-center">Brand 600</div>
+            <div className="p-4 bg-brand-700 text-white rounded-lg text-center">Brand 700</div>
+            <div className="p-4 bg-brand-800 text-white rounded-lg text-center">Brand 800</div>
+            <div className="p-4 bg-brand-900 text-white rounded-lg text-center">Brand 900</div>
+          </div>
+        </div>
+        
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <h2 className="text-display-sm font-bold">Typography</h2>
+          <h1 className="text-display-2xl">Display 2XL</h1>
+          <h1 className="text-display-xl">Display XL</h1>
+          <h1 className="text-display-lg">Display LG</h1>
+          <h1 className="text-display-md">Display MD</h1>
+          <h1 className="text-display-sm">Display SM</h1>
+          <h1 className="text-display-xs">Display XS</h1>
+          <p className="text-text-xl">Text XL</p>
+          <p className="text-text-lg">Text LG</p>
+          <p className="text-text-md">Text MD</p>
+          <p className="text-text-sm">Text SM</p>
+          <p className="text-text-xs">Text XS</p>
+        </div>
+      </div>
+    </main>
+  )
+}
+</file>
+
 <file path="src/lib/utils.ts">
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -2012,9 +3664,61 @@ export function ThemeProvider({
 }
 </file>
 
-<file path=".gitignore">
-node_modules/
-.next/
+<file path="package.json">
+{
+  "name": "float-prototype-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ui:add": "pnpm dlx shadcn-ui@latest add",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tabler/icons-react": "^2.29.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "next": "^14.0.0",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3",
+    "@shadcn/ui": "^0.0.4",
+    "@storybook/addon-a11y": "^7.6.6",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-links": "^7.6.6",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/addon-themes": "^7.6.6",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/nextjs": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/test": "^8.6.12",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.31",
+    "storybook": "^8.6.12",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3"
+  }
+}
 </file>
 
 <file path="src/app/globals.css">
@@ -2238,48 +3942,6 @@ node_modules/
   /* Add explicit font-family definition */
   .font-sans {
     font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  }
-}
-</file>
-
-<file path="package.json">
-{
-  "name": "float-prototype-library",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "ui:add": "pnpm dlx shadcn-ui@latest add"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@radix-ui/react-dropdown-menu": "^2.0.6",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@tabler/icons-react": "^2.29.0",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "next": "^14.0.0",
-    "next-themes": "^0.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.0.0"
-  },
-  "devDependencies": {
-    "@shadcn/ui": "^0.0.4",
-    "@types/node": "^20.11.5",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.4.1",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.3.3"
   }
 }
 </file>

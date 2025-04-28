@@ -1,16 +1,19 @@
-import React from "react";
+import * as React from "react";
 import { cn } from "@/lib/utils";
+
+// Define the possible element types
+type ElementType = React.ElementType;
 
 export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /**
-   * The level of the heading
-   * @default '1'
+   * The level of the heading (1-6)
+   * @default 1
    */
   level?: 1 | 2 | 3 | 4 | 5 | 6;
 
   /**
    * The size variant of the heading
-   * @default 'md' for h1, 'sm' for h2, 'xs' for h3, and 'text-xl' for the rest
+   * If not provided, defaults based on the heading level
    */
   size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
 
@@ -33,76 +36,101 @@ export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
   underline?: boolean;
 
   /**
-   * The content to be rendered
+   * The color of the heading
+   * @default 'default'
    */
-  children: React.ReactNode;
+  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
+
+  /**
+   * The HTML element to render
+   * If not provided, uses h{level} based on the level prop
+   */
+  as?: ElementType;
 }
 
 /**
- * Heading component that follows the design system guidelines
+ * Heading component that follows the design system guidelines.
+ * 
+ * This component renders headings following the design system's typography
+ * scale, with support for different levels, sizes, weights, styles, and colors.
  */
-export const Heading: React.FC<HeadingProps> = ({
-  level = 1,
-  size,
-  weight = "bold",
-  italic = false,
-  underline = false,
-  className = "",
-  children,
-  ...props
-}) => {
-  // Define possible size values explicitly
-  type SizeKey = "2xl" | "xl" | "lg" | "md" | "sm" | "xs" | "text-xl" | "text-lg" | "text-md";
+export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+  ({ 
+    level = 1,
+    size,
+    weight = "bold",
+    italic = false,
+    underline = false,
+    color = "default",
+    className = "",
+    as,
+    children,
+    ...props
+  }, ref) => {
+    // Default heading tag based on level
+    const defaultTag = `h${level}` as ElementType;
+    
+    // Use provided "as" prop or default based on level
+    const Component = as || defaultTag;
+    
+    // Default sizes based on heading level if not explicitly provided
+    const defaultSizes: Record<number, string> = {
+      1: "md",
+      2: "sm",
+      3: "xs",
+      4: "text-xl",
+      5: "text-lg",
+      6: "text-md",
+    };
 
-  // Default sizes based on heading level if not explicitly provided
-  const defaultSizes: Record<number, SizeKey> = {
-    1: "md",
-    2: "sm",
-    3: "xs",
-    4: "text-xl",
-    5: "text-lg",
-    6: "text-md",
-  };
+    // Determine the final size
+    const finalSize = size || defaultSizes[level];
 
-  // Determine the final size, ensuring it's a valid SizeKey
-  const finalSize: SizeKey = size || defaultSizes[level];
+    const sizeClasses: Record<string, string> = {
+      "2xl": "text-display-2xl",
+      "xl": "text-display-xl",
+      "lg": "text-display-lg",
+      "md": "text-display-md",
+      "sm": "text-display-sm",
+      "xs": "text-display-xs",
+      "text-xl": "text-text-xl",
+      "text-lg": "text-text-lg",
+      "text-md": "text-text-md",
+    };
 
-  const sizeClasses: Record<SizeKey, string> = {
-    "2xl": "text-display-2xl",
-    xl: "text-display-xl",
-    lg: "text-display-lg",
-    md: "text-display-md",
-    sm: "text-display-sm",
-    xs: "text-display-xs",
-    "text-xl": "text-text-xl", // Renamed from text-xl to avoid conflict with Tailwind
-    "text-lg": "text-text-lg",   // Renamed from text-lg
-    "text-md": "text-text-md",   // Renamed from text-md
-  };
+    const weightClasses = {
+      regular: "font-regular",
+      medium: "font-medium",
+      semibold: "font-semibold",
+      bold: "font-bold",
+    };
 
-  const weightClasses = {
-    regular: "font-regular",
-    medium: "font-medium",
-    semibold: "font-semibold",
-    bold: "font-bold",
-  };
+    const colorClasses = {
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      brand: "text-brand-700 dark:text-brand-400",
+      error: "text-error-700 dark:text-error-400",
+      warning: "text-warning-700 dark:text-warning-400",
+      success: "text-success-700 dark:text-success-400",
+    };
 
-  const italicClass = italic ? "italic" : "";
-  const underlineClass = underline ? "underline" : "";
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          sizeClasses[finalSize],
+          weightClasses[weight],
+          colorClasses[color],
+          italic && "italic",
+          underline && "underline",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
 
-  const classes = cn(
-    sizeClasses[finalSize],
-    weightClasses[weight],
-    italicClass,
-    underlineClass,
-    className
-  );
-
-  // HeadingTag is now just a string like "h1", "h2", etc.
-  const HeadingTag = `h${level}`;
-
-  return React.createElement(
-    HeadingTag, // Use the string tag name directly
-    { className: classes, ...props },
-    children
-  );
-};
+Heading.displayName = "Heading";
