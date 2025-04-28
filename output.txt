@@ -80,7 +80,6 @@ src/
     utils.ts
   themes/
     catalog.tsx
-    index.ts
     theme-provider.tsx
 .gitignore
 .repomixrc
@@ -96,626 +95,6 @@ tsconfig.json
 
 <files>
 This section contains the contents of the repository's files.
-
-<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
-// src/components/ui/dropdown-menu/dropdown-menu.tsx
-import * as React from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { cn } from "@/lib/utils";
-import { ThemeColor } from "@/lib/theme-utils";
-
-// Content component with custom styling based on your design system
-const DropdownMenuContent = React.forwardRef
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
-    color?: ThemeColor;
-  }
->(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
-  const colorClasses = {
-    brand: "border-brand-200 bg-white dark:bg-gray-800",
-    error: "border-error-200 bg-white dark:bg-gray-800",
-    warning: "border-warning-200 bg-white dark:bg-gray-800",
-    success: "border-success-200 bg-white dark:bg-gray-800",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
-          colorClasses[color],
-          className
-        )}
-        {...props}
-      />
-    </DropdownMenuPrimitive.Portal>
-  );
-});
-
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-
-// Item component with custom styling
-const DropdownMenuItem = React.forwardRef
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
-    color?: ThemeColor;
-    leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-  }
->(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
-  const colorClasses = {
-    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
-    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
-    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
-    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
-        colorClasses[color],
-        className
-      )}
-      {...props}
-    >
-      {leftIcon && <span className="mr-2">{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
-    </DropdownMenuPrimitive.Item>
-  );
-});
-
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-
-// Export the component with all its parts
-export const DropdownMenu = {
-  Root: DropdownMenuPrimitive.Root,
-  Trigger: DropdownMenuPrimitive.Trigger,
-  Content: DropdownMenuContent,
-  Item: DropdownMenuItem,
-  // Add other custom components as needed
-};
-</file>
-
-<file path="src/components/ui/dropdown-menu/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (simple implementation for now)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components - adjust these paths based on your actual folder structure
-export * from '../typography/heading'; 
-export * from '../typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
-</file>
-
-<file path="src/components/ui/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (simple implementation for now)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components - adjust these paths based on your actual folder structure
-export * from '../typography/heading'; 
-export * from '../typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
-</file>
-
-<file path="src/lib/theme-utils.ts">
-// src/lib/theme-utils.ts
-export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
-export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
-
-// Map design system colors to shadcn variants
-export const mapColorToShadcnVariant = (color: ThemeColor) => {
-  switch (color) {
-    case 'brand': return 'default';
-    case 'error': return 'destructive';
-    case 'warning':
-    case 'success':
-      return 'secondary'; // Will need additional classes
-    default: return 'default';
-  }
-};
-
-// Map design system variants to shadcn variants
-export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
-  switch (variant) {
-    case 'primary': return 'default';
-    case 'secondary': return 'outline';
-    case 'tertiary': return 'ghost';
-    default: return 'default';
-  }
-};
-
-// Generate tailwind classes for each color/variant combination
-export const getColorVariantClasses = (
-  color: ThemeColor, 
-  variant: ComponentVariant
-): string => {
-  const colorVariantMap: Record<ComponentVariant, Record<ThemeColor, string>> = {
-    primary: {
-      brand: 'bg-brand-600 hover:bg-brand-700 text-white focus-visible:ring-brand-500',
-      error: 'bg-error-600 hover:bg-error-700 text-white focus-visible:ring-error-500',
-      warning: 'bg-warning-600 hover:bg-warning-700 text-white focus-visible:ring-warning-500',
-      success: 'bg-success-600 hover:bg-success-700 text-white focus-visible:ring-success-500',
-    },
-    secondary: {
-      brand: 'border-brand-300 text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'border-error-300 text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'border-warning-300 text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'border-success-300 text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    },
-    tertiary: {
-      brand: 'text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    }
-  };
-
-  return colorVariantMap[variant][color] || '';
-};
-</file>
-
-<file path="src/themes/catalog.tsx">
-// src/app/components/catalog.tsx
-import { 
-  Button, 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent,
-  CardFooter,
-  Text
-} from "@/components/ui";
-
-// Sample icons
-import { 
-  ChevronDownIcon, 
-  PlusIcon, 
-  CheckIcon,
-  XMarkIcon 
-} from "@heroicons/react/24/outline";
-
-export default function ComponentCatalog() {
-  // Component examples with different variants
-  const colorOptions: Array<"brand" | "error" | "warning" | "success"> = [
-    "brand", "error", "warning", "success"
-  ];
-  
-  const variantOptions: Array<"primary" | "secondary" | "tertiary"> = [
-    "primary", "secondary", "tertiary"
-  ];
-  
-  return (
-    <div className="container mx-auto p-8">
-      <h1 className="text-display-xl font-bold mb-8">Component Catalog</h1>
-      
-      <section className="mb-12">
-        <h2 className="text-display-md font-semibold mb-6">Buttons</h2>
-        <div className="grid grid-cols-4 gap-6">
-          {colorOptions.map(color => (
-            <Card key={color}>
-              <CardHeader>
-                <CardTitle>{color.charAt(0).toUpperCase() + color.slice(1)} Buttons</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {variantOptions.map(variant => (
-                  <div key={`${color}-${variant}`} className="flex items-center gap-2">
-                    <Button 
-                      color={color} 
-                      variant={variant}
-                    >
-                      {variant}
-                    </Button>
-                    <Button 
-                      color={color} 
-                      variant={variant} 
-                      leftIcon={<PlusIcon className="w-4 h-4" />}
-                    >
-                      With Icon
-                    </Button>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-      
-      {/* Add more component examples */}
-    </div>
-  );
-}
-</file>
-
-<file path=".repomixrc">
-{
-  "include": ["**/*.{js,jsx,ts,tsx,py,md,json}"],
-  "exclude": ["**/node_modules/**", "**/build/**", "**/dist/**", "**/.git/**"],
-  "maxFileSize": 100000,
-  "maxTotalSize": 1000000,
-  "outputFormat": "markdown",
-  "prompt": "Here is the code from my repository:",
-  "outputFile": "output.txt"
-}
-</file>
-
-<file path="src/app/components/page.tsx">
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Heading } from "@/components/typography/heading";
-import { Text } from "@/components/typography/text";
-
-export default function ComponentsPage() {
-  return (
-    <div className="container mx-auto py-12">
-      <Heading level={1} size="lg" className="mb-8">Component Library</Heading>
-      
-      <section className="mb-12">
-        <Heading level={2} size="sm" className="mb-4">Typography</Heading>
-        <div className="space-y-6">
-          <div>
-            <Heading level={2} size="2xl">Display 2XL</Heading>
-            <Heading level={2} size="xl">Display XL</Heading>
-            <Heading level={2} size="lg">Display LG</Heading>
-            <Heading level={2} size="md">Display MD</Heading>
-            <Heading level={2} size="sm">Display SM</Heading>
-            <Heading level={2} size="xs">Display XS</Heading>
-          </div>
-          
-          <div>
-            <Text size="xl">Text XL</Text>
-            <Text size="lg">Text LG</Text>
-            <Text size="md">Text MD</Text>
-            <Text size="sm">Text SM</Text>
-            <Text size="xs">Text XS</Text>
-          </div>
-          
-          <div>
-            <Text weight="regular">Regular Text</Text>
-            <Text weight="medium">Medium Text</Text>
-            <Text weight="semibold">Semibold Text</Text>
-            <Text weight="bold">Bold Text</Text>
-            <Text italic>Italic Text</Text>
-            <Text underline>Underlined Text</Text>
-          </div>
-        </div>
-      </section>
-      
-      <section className="mb-12">
-        <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-4">
-            <Button variant="default">Default Button</Button>
-            <Button variant="destructive">Destructive Button</Button>
-            <Button variant="outline">Outline Button</Button>
-            <Button variant="secondary">Secondary Button</Button>
-            <Button variant="ghost">Ghost Button</Button>
-            <Button variant="link">Link Button</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button size="sm">Small Button</Button>
-            <Button>Default Size Button</Button>
-            <Button size="lg">Large Button</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button disabled>Disabled Button</Button>
-            <Button variant="outline" disabled>Disabled Outline</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button asChild>
-              <a href="#">Button as Link</a>
-            </Button>
-          </div>
-        </div>
-      </section>
-      
-      <section className="mb-12">
-        <Heading level={2} size="sm" className="mb-4">Cards</Heading>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Basic Card</CardTitle>
-              <CardDescription>A simple card component with default styling</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Text>This is the content of the card. It can contain any elements you need.</Text>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Card with Footer</CardTitle>
-              <CardDescription>A card with actions in the footer</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Text>This card demonstrates the use of a footer for actions.</Text>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline">Cancel</Button>
-              <Button>Submit</Button>
-            </CardFooter>
-          </Card>
-          
-          <Card>
-            <CardHeader className="pb-0">
-              <CardTitle>No Padding</CardTitle>
-              <CardDescription>Card with modified padding</CardDescription>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <Text>This card has adjusted padding between header and content.</Text>
-            </CardContent>
-          </Card>
-          
-          <Card className="overflow-hidden">
-            <img 
-              src="https://via.placeholder.com/400x200" 
-              alt="Placeholder" 
-              className="w-full h-40 object-cover"
-            />
-            <CardHeader>
-              <CardTitle>Card with Image</CardTitle>
-              <CardDescription>A card with an image at the top</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Text>Cards can include images and other media.</Text>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-muted">
-            <CardHeader>
-              <CardTitle>Alternate Style</CardTitle>
-              <CardDescription>A card with alternate styling</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Text>This card uses a different background color.</Text>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="border-b">
-              <CardTitle>Card with Borders</CardTitle>
-              <CardDescription>A card with internal borders</CardDescription>
-            </CardHeader>
-            <CardContent className="border-b py-4">
-              <Text>This section has a border at the bottom.</Text>
-            </CardContent>
-            <CardFooter className="pt-4">
-              <Text className="text-muted-foreground">Footer with top spacing</Text>
-            </CardFooter>
-          </Card>
-        </div>
-      </section>
-    </div>
-  );
-}
-</file>
-
-<file path="src/app/globals.css">
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    /* Brand colors - Light Mode */
-    --brand-25: 241 83% 97%;
-    --brand-50: 240 77% 91%;
-    --brand-100: 240 72% 81%;
-    --brand-200: 240 72% 81%;
-    --brand-300: 241 66% 69%;
-    --brand-400: 241 62% 58%;
-    --brand-500: 241 55% 47%;
-    --brand-600: 242 57% 41%;
-    --brand-700: 240 61% 28%;
-    --brand-800: 242 58% 25%;
-    --brand-900: 242 54% 20%;
-    --brand-950: 243 60% 11%;
-
-    /* Error colors - Light Mode */
-    --error-25: 0 86% 97%;
-    --error-50: 0 91% 94%;
-    --error-100: 0 93% 89%;
-    --error-200: 0 93% 80%;
-    --error-300: 0 93% 80%;
-    --error-400: 0 91% 69%;
-    --error-500: 0 84% 60%;
-    --error-600: 0 72% 51%;
-    --error-700: 0 74% 39%;
-    --error-800: 0 70% 35%;
-    --error-900: 0 63% 31%;
-    --error-950: 0 78% 16%;
-    --error: 0 84% 60%;
-    --error-foreground: 210 40% 98%;
-
-    /* Warning colors - Light Mode */
-    --warning-25: 36 100% 97%;
-    --warning-50: 36 93% 92%;
-    --warning-100: 36 93% 84%;
-    --warning-200: 36 93% 84%;
-    --warning-300: 36 88% 75%;
-    --warning-400: 36 85% 65%;
-    --warning-500: 35 85% 55%;
-    --warning-600: 33 77% 50%;
-    --warning-700: 32 69% 40%;
-    --warning-800: 32 62% 32%;
-    --warning-900: 27 57% 27%;
-    --warning-950: 27 63% 15%;
-    --warning: 35 85% 55%;
-    --warning-foreground: 210 40% 98%;
-
-    /* Success colors - Light Mode */
-    --success-25: 142 76% 97%;
-    --success-50: 141 84% 93%;
-    --success-100: 141 79% 85%;
-    --success-200: 141 79% 85%;
-    --success-300: 142 77% 73%;
-    --success-400: 142 69% 58%;
-    --success-500: 142 71% 45%;
-    --success-600: 142 76% 36%;
-    --success-700: 142 72% 29%;
-    --success-800: 143 64% 24%;
-    --success-900: 144 61% 20%;
-    --success-950: 145 80% 10%;
-    --success: 142 71% 45%;
-    --success-foreground: 355 100% 100%;
-
-    /* Semantic colors */
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --primary: 241 55% 47%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 241 55% 47%;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    /* Brand colors - Dark Mode */
-    --brand-950: 241 83% 97%;
-    --brand-900: 240 77% 91%;
-    --brand-800: 240 72% 81%;
-    --brand-700: 241 66% 69%;
-    --brand-600: 241 62% 58%;
-    --brand-500: 241 55% 47%;
-    --brand-400: 242 57% 41%;
-    --brand-300: 240 61% 28%;
-    --brand-200: 242 58% 25%;
-    --brand-100: 242 54% 20%;
-    --brand-50: 243 60% 11%;
-    --brand-25: 243 65% 8%;
-
-    /* Error colors - Dark Mode */
-    --error-950: 0 86% 97%;
-    --error-900: 0 91% 94%;
-    --error-800: 0 93% 89%;
-    --error-700: 0 93% 80%;
-    --error-600: 0 91% 69%;
-    --error-500: 0 84% 60%;
-    --error-400: 0 72% 51%;
-    --error-300: 0 74% 39%;
-    --error-200: 0 70% 35%;
-    --error-100: 0 63% 31%;
-    --error-50: 0 78% 16%;
-    --error-25: 0 83% 12%;
-
-    /* Warning colors - Dark Mode */
-    --warning-950: 36 100% 97%;
-    --warning-900: 36 93% 92%;
-    --warning-800: 36 93% 84%;
-    --warning-700: 36 88% 75%;
-    --warning-600: 36 85% 65%;
-    --warning-500: 35 85% 55%;
-    --warning-400: 33 77% 50%;
-    --warning-300: 32 69% 40%;
-    --warning-200: 32 62% 32%;
-    --warning-100: 27 57% 27%;
-    --warning-50: 27 63% 15%;
-    --warning-25: 27 67% 10%;
-
-    /* Success colors - Dark Mode */
-    --success-950: 142 76% 97%;
-    --success-900: 141 84% 93%;
-    --success-800: 141 79% 85%;
-    --success-700: 142 77% 73%;
-    --success-600: 142 69% 58%;
-    --success-500: 142 71% 45%;
-    --success-400: 142 76% 36%;
-    --success-300: 142 72% 29%;
-    --success-200: 143 64% 24%;
-    --success-100: 144 61% 20%;
-    --success-50: 145 80% 10%;
-    --success-25: 145 85% 8%;
-    
-    /* Semantic colors */
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --primary: 241 55% 47%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 241 55% 47%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    @apply font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-}
-</file>
 
 <file path="src/app/layout.tsx">
 import type { Metadata } from "next"
@@ -753,88 +132,6 @@ export default function RootLayout({
       </body>
     </html>
   )
-}
-</file>
-
-<file path="src/app/page.tsx">
-// src/app/page.tsx
-import { Button } from "@/components/ui/button/button";
-import { Heading } from "@/components/typography/heading";
-import { Text } from "@/components/typography/text";
-import { IconPlus, IconChevronDown, IconBrandGithub, IconCheck } from '@tabler/icons-react';
-
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm">
-        <Heading level={1} size="lg" className="text-center text-brand-700 mb-6">
-          Float UI Library
-        </Heading>
-        
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="primary" color="brand">Primary Button</Button>
-            <Button variant="secondary" color="brand">Secondary Button</Button>
-            <Button variant="tertiary" color="brand">Tertiary Button</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4 justify-center mt-4">
-            <Button 
-              leftIcon={<IconPlus size={18} />}
-              variant="primary"
-              color="brand"
-            >
-              With Left Icon
-            </Button>
-            
-            <Button 
-              rightIcon={<IconChevronDown size={18} />}
-              variant="secondary"
-              color="brand"
-            >
-              With Right Icon
-            </Button>
-            
-            <Button isLoading variant="primary" color="brand">
-              Loading Button
-            </Button>
-          </div>
-        </section>
-        
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Button Colors</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="primary" color="brand" leftIcon={<IconCheck size={18} />}>Brand</Button>
-            <Button variant="primary" color="error" leftIcon={<IconCheck size={18} />}>Error</Button>
-            <Button variant="primary" color="warning" leftIcon={<IconCheck size={18} />}>Warning</Button>
-            <Button variant="primary" color="success" leftIcon={<IconCheck size={18} />}>Success</Button>
-          </div>
-        </section>
-        
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Icon Examples</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button 
-              variant="primary" 
-              color="brand" 
-              leftIcon={<IconBrandGithub size={18} />}
-            >
-              GitHub
-            </Button>
-            <Button 
-              variant="secondary" 
-              color="brand" 
-              leftIcon={<IconPlus size={18} />} 
-              rightIcon={<IconChevronDown size={18} />}
-            >
-              Add Item
-            </Button>
-          </div>
-        </section>
-      </div>
-    </main>
-  );
 }
 </file>
 
@@ -1038,134 +335,8 @@ export const Text: React.FC<TextProps> = ({
 };
 </file>
 
-<file path="src/components/ui/button/button.tsx">
-// src/components/ui/button/button.tsx
-import * as React from "react";
-import { Button as ShadcnButton } from "@/components/ui/shadcn-button"; // Import your shadcn button
-import { 
-  ThemeColor, 
-  ComponentVariant, 
-  mapVariantToShadcnVariant, 
-  getColorVariantClasses 
-} from "@/lib/theme-utils";
-import { cn } from "@/lib/utils";
-
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * The visual style of the button
-   * @default 'primary'
-   */
-  variant?: ComponentVariant;
-
-  /**
-   * The color theme of the button
-   * @default 'brand'
-   */
-  color?: ThemeColor;
-
-  /**
-   * The size of the button
-   * @default 'md'
-   */
-  size?: "sm" | "md" | "lg";
-
-  /**
-   * Optional icon to display before the button text
-   */
-  leftIcon?: React.ReactNode;
-
-  /**
-   * Optional icon to display after the button text
-   */
-  rightIcon?: React.ReactNode;
-
-  /**
-   * Whether the button is in a loading state
-   * @default false
-   */
-  isLoading?: boolean;
-
-  /**
-   * Whether the button should render its children as a slot
-   * @default false
-   */
-  asChild?: boolean;
-}
-
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    className,
-    variant = "primary",
-    color = "brand",
-    size = "md",
-    leftIcon,
-    rightIcon, 
-    isLoading = false,
-    asChild = false,
-    disabled,
-    children,
-    ...props 
-  }, ref) => {
-    // Convert your design system size to shadcn size
-    const shadcnSize = size === "sm" ? "sm" : size === "lg" ? "lg" : "default";
-    
-    // Convert your design system variant to shadcn variant
-    const shadcnVariant = mapVariantToShadcnVariant(variant);
-    
-    // Get additional color-specific classes
-    const colorClasses = getColorVariantClasses(color, variant);
-    
-    return (
-      <ShadcnButton
-        ref={ref}
-        variant={shadcnVariant}
-        size={shadcnSize}
-        className={cn(colorClasses, className)}
-        disabled={disabled || isLoading}
-        asChild={asChild}
-        {...props}
-      >
-        <>
-          {leftIcon && <span className="mr-2">{leftIcon}</span>}
-          {isLoading ? (
-            <span className="flex items-center">
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              Loading...
-            </span>
-          ) : (
-            children
-          )}
-          {rightIcon && <span className="ml-2">{rightIcon}</span>}
-        </>
-      </ShadcnButton>
-    );
-  }
-);
-
-Button.displayName = "Button";
-</file>
-
 <file path="src/components/ui/button/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (we've implemented this)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components (assuming these paths are correct)
-export * from '../../components/typography/heading';
-export * from '../../components/typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
+export * from './button';
 </file>
 
 <file path="src/components/ui/card/card.tsx">
@@ -1293,6 +464,130 @@ CardFooter.displayName = "CardFooter";
 
 <file path="src/components/ui/card/index.ts">
 export * from './card';
+</file>
+
+<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
+// src/components/ui/dropdown-menu/dropdown-menu.tsx
+import * as React from "react";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { IconCheck, IconChevronRight } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
+import { ThemeColor } from "@/lib/theme-utils";
+
+// Root component
+const DropdownMenuRoot = DropdownMenuPrimitive.Root;
+
+// Trigger component
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    className={cn("outline-none", className)}
+    {...props}
+  >
+    {children}
+  </DropdownMenuPrimitive.Trigger>
+));
+
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
+
+// Content component
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
+    color?: ThemeColor;
+  }
+>(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
+  const colorClasses = {
+    brand: "border-brand-200 bg-white dark:bg-gray-800",
+    error: "border-error-200 bg-white dark:bg-gray-800",
+    warning: "border-warning-200 bg-white dark:bg-gray-800",
+    success: "border-success-200 bg-white dark:bg-gray-800",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
+          colorClasses[color],
+          className
+        )}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
+  );
+});
+
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
+
+// Item component
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    color?: ThemeColor;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+  }
+>(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
+  const colorClasses = {
+    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
+    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
+    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
+    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+        colorClasses[color],
+        className
+      )}
+      {...props}
+    >
+      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {children}
+      {rightIcon && <span className="ml-2">{rightIcon}</span>}
+    </DropdownMenuPrimitive.Item>
+  );
+});
+
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
+
+// Other dropdown menu components
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
+    {...props}
+  />
+));
+
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
+
+// Export the component with all its parts
+export const DropdownMenu = {
+  Root: DropdownMenuRoot,
+  Trigger: DropdownMenuTrigger,
+  Content: DropdownMenuContent,
+  Item: DropdownMenuItem,
+  Separator: DropdownMenuSeparator,
+  Group: DropdownMenuPrimitive.Group,
+  Label: DropdownMenuPrimitive.Label,
+};
+</file>
+
+<file path="src/components/ui/dropdown-menu/index.ts">
+export * from './dropdown-menu';
 </file>
 
 <file path="src/components/ui/theme-toggle/index.ts">
@@ -1462,6 +757,600 @@ CardFooter.displayName = "CardFooter"
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
 </file>
 
+<file path="src/components/ui/index.ts">
+// src/components/ui/index.ts
+// Re-export components that actually exist in your project
+
+// Button component (we've implemented this)
+export * from './button/button';
+
+// Dropdown menu (simple implementation for now)
+export * from './dropdown-menu/dropdown-menu';
+
+// Typography components - adjust these paths based on your actual folder structure
+export * from '../typography/heading'; 
+export * from '../typography/text';
+
+// Comment out components that don't exist yet
+// export * from './input/input'; // Uncomment when implemented
+// export * from './card/card'; // Uncomment when implemented
+// export * from './dialog/dialog'; // Uncomment when implemented
+</file>
+
+<file path="src/lib/theme-utils.ts">
+// src/lib/theme-utils.ts
+export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
+export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
+
+// Map design system colors to shadcn variants
+export const mapColorToShadcnVariant = (color: ThemeColor) => {
+  switch (color) {
+    case 'brand': return 'default';
+    case 'error': return 'destructive';
+    case 'warning':
+    case 'success':
+      return 'secondary'; // Will need additional classes
+    default: return 'default';
+  }
+};
+
+// Map design system variants to shadcn variants
+export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
+  switch (variant) {
+    case 'primary': return 'default';
+    case 'secondary': return 'outline';
+    case 'tertiary': return 'ghost';
+    default: return 'default';
+  }
+};
+
+// Generate tailwind classes for each color/variant combination
+export const getColorVariantClasses = (
+  color: ThemeColor, 
+  variant: ComponentVariant
+): string => {
+  const colorVariantMap: Record<ComponentVariant, Record<ThemeColor, string>> = {
+    primary: {
+      brand: 'bg-brand-600 hover:bg-brand-700 text-white focus-visible:ring-brand-500',
+      error: 'bg-error-600 hover:bg-error-700 text-white focus-visible:ring-error-500',
+      warning: 'bg-warning-600 hover:bg-warning-700 text-white focus-visible:ring-warning-500',
+      success: 'bg-success-600 hover:bg-success-700 text-white focus-visible:ring-success-500',
+    },
+    secondary: {
+      brand: 'border-brand-300 text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
+      error: 'border-error-300 text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
+      warning: 'border-warning-300 text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
+      success: 'border-success-300 text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
+    },
+    tertiary: {
+      brand: 'text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
+      error: 'text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
+      warning: 'text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
+      success: 'text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
+    }
+  };
+
+  return colorVariantMap[variant][color] || '';
+};
+</file>
+
+<file path="src/themes/catalog.tsx">
+// src/app/components/catalog.tsx
+import { 
+  Button, 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardContent,
+  CardFooter,
+  Text
+} from "@/components/ui";
+
+// Sample icons
+import { 
+  ChevronDownIcon, 
+  PlusIcon, 
+  CheckIcon,
+  XMarkIcon 
+} from "@heroicons/react/24/outline";
+
+export default function ComponentCatalog() {
+  // Component examples with different variants
+  const colorOptions: Array<"brand" | "error" | "warning" | "success"> = [
+    "brand", "error", "warning", "success"
+  ];
+  
+  const variantOptions: Array<"primary" | "secondary" | "tertiary"> = [
+    "primary", "secondary", "tertiary"
+  ];
+  
+  return (
+    <div className="container mx-auto p-8">
+      <h1 className="text-display-xl font-bold mb-8">Component Catalog</h1>
+      
+      <section className="mb-12">
+        <h2 className="text-display-md font-semibold mb-6">Buttons</h2>
+        <div className="grid grid-cols-4 gap-6">
+          {colorOptions.map(color => (
+            <Card key={color}>
+              <CardHeader>
+                <CardTitle>{color.charAt(0).toUpperCase() + color.slice(1)} Buttons</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {variantOptions.map(variant => (
+                  <div key={`${color}-${variant}`} className="flex items-center gap-2">
+                    <Button 
+                      color={color} 
+                      variant={variant}
+                    >
+                      {variant}
+                    </Button>
+                    <Button 
+                      color={color} 
+                      variant={variant} 
+                      leftIcon={<PlusIcon className="w-4 h-4" />}
+                    >
+                      With Icon
+                    </Button>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+      
+      {/* Add more component examples */}
+    </div>
+  );
+}
+</file>
+
+<file path=".repomixrc">
+{
+  "include": ["**/*.{js,jsx,ts,tsx,py,md,json}"],
+  "exclude": ["**/node_modules/**", "**/build/**", "**/dist/**", "**/.git/**"],
+  "maxFileSize": 100000,
+  "maxTotalSize": 1000000,
+  "outputFormat": "markdown",
+  "prompt": "Here is the code from my repository:",
+  "outputFile": "output.txt"
+}
+</file>
+
+<file path="components.json">
+{
+    "$schema": "https://ui.shadcn.com/schema.json",
+    "style": "default",
+    "rsc": true,
+    "tsx": true,
+    "tailwind": {
+      "config": "tailwind.config.js",
+      "css": "src/app/globals.css",
+      "baseColor": "slate",
+      "cssVariables": true
+    },
+    "aliases": {
+      "components": "@/components",
+      "utils": "@/lib/utils"
+    }
+  }
+</file>
+
+<file path="next-env.d.ts">
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.
+</file>
+
+<file path="next.config.js">
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+    reactStrictMode: true,
+    swcMinify: true,
+  };
+  
+  module.exports = nextConfig;
+</file>
+
+<file path="postcss.config.js">
+module.exports = {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  }
+</file>
+
+<file path="README.md">
+# component-library
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="src/app/components/page.tsx">
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Heading } from "@/components/typography/heading";
+import { Text } from "@/components/typography/text";
+
+export default function ComponentsPage() {
+  return (
+    <div className="container mx-auto py-12 bg-gray-100">
+      <Heading level={1} size="lg" className="mb-8">Component Library</Heading>
+      
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Typography</Heading>
+        <div className="space-y-6">
+          <div>
+            <Heading level={2} size="2xl">Display 2XL</Heading>
+            <Heading level={2} size="xl">Display XL</Heading>
+            <Heading level={2} size="lg">Display LG</Heading>
+            <Heading level={2} size="md">Display MD</Heading>
+            <Heading level={2} size="sm">Display SM</Heading>
+            <Heading level={2} size="xs">Display XS</Heading>
+          </div>
+          
+          <div>
+            <Text size="xl">Text XL</Text>
+            <Text size="lg">Text LG</Text>
+            <Text size="md">Text MD</Text>
+            <Text size="sm">Text SM</Text>
+            <Text size="xs">Text XS</Text>
+          </div>
+          
+          <div>
+            <Text weight="regular">Regular Text</Text>
+            <Text weight="medium">Medium Text</Text>
+            <Text weight="semibold">Semibold Text</Text>
+            <Text weight="bold">Bold Text</Text>
+            <Text italic>Italic Text</Text>
+            <Text underline>Underlined Text</Text>
+          </div>
+        </div>
+      </section>
+      
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
+        <div className="space-y-6">
+          <div className="flex flex-wrap gap-4">
+            <Button variant="default">Default Button</Button>
+            <Button variant="destructive">Destructive Button</Button>
+            <Button variant="outline">Outline Button</Button>
+            <Button variant="secondary">Secondary Button</Button>
+            <Button variant="ghost">Ghost Button</Button>
+            <Button variant="link">Link Button</Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-4">
+            <Button size="sm">Small Button</Button>
+            <Button>Default Size Button</Button>
+            <Button size="lg">Large Button</Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-4">
+            <Button disabled>Disabled Button</Button>
+            <Button variant="outline" disabled>Disabled Outline</Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-4">
+            <Button asChild>
+              <a href="#">Button as Link</a>
+            </Button>
+          </div>
+        </div>
+      </section>
+      
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Cards</Heading>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Basic Card</CardTitle>
+              <CardDescription>A simple card component with default styling</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Text>This is the content of the card. It can contain any elements you need.</Text>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Card with Footer</CardTitle>
+              <CardDescription>A card with actions in the footer</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Text>This card demonstrates the use of a footer for actions.</Text>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <Button variant="outline">Cancel</Button>
+              <Button>Submit</Button>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader className="pb-0">
+              <CardTitle>No Padding</CardTitle>
+              <CardDescription>Card with modified padding</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <Text>This card has adjusted padding between header and content.</Text>
+            </CardContent>
+          </Card>
+          
+          <Card className="overflow-hidden">
+            <img 
+              src="https://via.placeholder.com/400x200" 
+              alt="Placeholder" 
+              className="w-full h-40 object-cover"
+            />
+            <CardHeader>
+              <CardTitle>Card with Image</CardTitle>
+              <CardDescription>A card with an image at the top</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Text>Cards can include images and other media.</Text>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-muted">
+            <CardHeader>
+              <CardTitle>Alternate Style</CardTitle>
+              <CardDescription>A card with alternate styling</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Text>This card uses a different background color.</Text>
+            </CardContent>
+          </Card>
+          
+          <Card>
+            <CardHeader className="border-b">
+              <CardTitle>Card with Borders</CardTitle>
+              <CardDescription>A card with internal borders</CardDescription>
+            </CardHeader>
+            <CardContent className="border-b py-4">
+              <Text>This section has a border at the bottom.</Text>
+            </CardContent>
+            <CardFooter className="pt-4">
+              <Text className="text-muted-foreground">Footer with top spacing</Text>
+            </CardFooter>
+          </Card>
+        </div>
+      </section>
+    </div>
+  );
+}
+</file>
+
+<file path="src/app/page.tsx">
+// src/app/page.tsx
+import { Button } from "@/components/ui/button/button";
+import { Heading } from "@/components/typography/heading";
+import { Text } from "@/components/typography/text";
+import { IconPlus, IconChevronDown, IconBrandGithub, IconCheck } from '@tabler/icons-react';
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm">
+        <Heading level={1} size="lg" className="text-center text-brand-700 mb-6">
+          Float UI Library
+        </Heading>
+        
+        <section className="mb-12">
+          <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button variant="primary" color="brand">Primary Button</Button>
+            <Button variant="secondary" color="brand">Secondary Button</Button>
+            <Button variant="tertiary" color="brand">Tertiary Button</Button>
+          </div>
+          
+          <div className="flex flex-wrap gap-4 justify-center mt-4">
+            <Button 
+              leftIcon={<IconPlus size={18} />}
+              variant="primary"
+              color="brand"
+            >
+              With Left Icon
+            </Button>
+            
+            <Button 
+              rightIcon={<IconChevronDown size={18} />}
+              variant="secondary"
+              color="brand"
+            >
+              With Right Icon
+            </Button>
+            
+            <Button isLoading variant="primary" color="brand">
+              Loading Button
+            </Button>
+          </div>
+        </section>
+        
+        <section className="mb-12">
+          <Heading level={2} size="sm" className="mb-4">Button Colors</Heading>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button variant="primary" color="brand" leftIcon={<IconCheck size={18} />}>Brand</Button>
+            <Button variant="primary" color="error" leftIcon={<IconCheck size={18} />}>Error</Button>
+            <Button variant="primary" color="warning" leftIcon={<IconCheck size={18} />}>Warning</Button>
+            <Button variant="primary" color="success" leftIcon={<IconCheck size={18} />}>Success</Button>
+          </div>
+        </section>
+        
+        <section className="mb-12">
+          <Heading level={2} size="sm" className="mb-4">Icon Examples</Heading>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button 
+              variant="primary" 
+              color="brand" 
+              leftIcon={<IconBrandGithub size={18} />}
+            >
+              GitHub
+            </Button>
+            <Button 
+              variant="secondary" 
+              color="brand" 
+              leftIcon={<IconPlus size={18} />} 
+              rightIcon={<IconChevronDown size={18} />}
+            >
+              Add Item
+            </Button>
+          </div>
+        </section>
+      </div>
+    </main>
+  );
+}
+</file>
+
+<file path="src/components/ui/button/button.tsx">
+// src/components/ui/button/button.tsx
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { ThemeColor, ComponentVariant, getColorVariantClasses } from "@/lib/theme-utils";
+
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * The visual style of the button
+   * @default 'primary'
+   */
+  variant?: ComponentVariant;
+
+  /**
+   * The color theme of the button
+   * @default 'brand'
+   */
+  color?: ThemeColor;
+
+  /**
+   * The size of the button
+   * @default 'md'
+   */
+  size?: "sm" | "md" | "lg";
+
+  /**
+   * Optional icon to display before the button text
+   */
+  leftIcon?: React.ReactNode;
+
+  /**
+   * Optional icon to display after the button text
+   */
+  rightIcon?: React.ReactNode;
+
+  /**
+   * Whether the button is in a loading state
+   * @default false
+   */
+  isLoading?: boolean;
+}
+
+/**
+ * Button component that follows the design system guidelines
+ */
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ 
+    className, 
+    variant = "primary", 
+    size = "md", 
+    color = "brand",
+    isLoading = false, 
+    leftIcon, 
+    rightIcon,
+    disabled,
+    children, 
+    ...props 
+  }, ref) => {
+    // Get base size classes
+    const sizeClasses = {
+      sm: "px-3 py-1.5 text-sm h-9",
+      md: "px-4 py-2 text-md h-10",
+      lg: "px-5 py-2.5 text-lg h-11",
+    };
+    
+    // Get icon size based on button size
+    const iconSize = {
+      sm: 16,
+      md: 18, 
+      lg: 20
+    };
+    
+    // Get color+variant specific classes
+    const colorClasses = getColorVariantClasses(color, variant);
+    
+    // Combine all classes
+    const buttonClasses = cn(
+      "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+      "disabled:opacity-50 disabled:pointer-events-none",
+      sizeClasses[size],
+      colorClasses,
+      className
+    );
+    
+    return (
+      <button
+        ref={ref}
+        className={buttonClasses}
+        disabled={disabled || isLoading}
+        type="button"
+        {...props}
+      >
+        {leftIcon && <span className="mr-2">{leftIcon}</span>}
+        {isLoading ? (
+          <span className="flex items-center">
+            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Loading...
+          </span>
+        ) : (
+          children
+        )}
+        {rightIcon && <span className="ml-2">{rightIcon}</span>}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "Button";
+</file>
+
 <file path="src/lib/utils.ts">
 // src/lib/theme-utils.ts
 export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
@@ -1526,26 +1415,6 @@ export const getColorVariantClasses = (
 };
 </file>
 
-<file path="src/themes/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (simple implementation for now)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components - adjust these paths based on your actual folder structure
-export * from '../typography/heading'; 
-export * from '../typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
-</file>
-
 <file path="src/themes/theme-provider.tsx">
 // src/themes/theme-provider.tsx
 "use client"
@@ -1566,43 +1435,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
 <file path=".gitignore">
 node_modules/
-</file>
-
-<file path="components.json">
-{
-    "$schema": "https://ui.shadcn.com/schema.json",
-    "style": "default",
-    "rsc": true,
-    "tsx": true,
-    "tailwind": {
-      "config": "tailwind.config.js",
-      "css": "src/app/globals.css",
-      "baseColor": "slate",
-      "cssVariables": true
-    },
-    "aliases": {
-      "components": "@/components",
-      "utils": "@/lib/utils"
-    }
-  }
-</file>
-
-<file path="next-env.d.ts">
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.
-</file>
-
-<file path="next.config.js">
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-  };
-  
-  module.exports = nextConfig;
+.next/
 </file>
 
 <file path="package.json">
@@ -1625,6 +1458,8 @@ const nextConfig = {
     "@radix-ui/react-dropdown-menu": "^2.1.12",
     "@radix-ui/react-slot": "^1.2.0",
     "@tabler/icons-react": "^3.31.0",
+    "add": "^2.0.6",
+    "button": "^1.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "next": "^14.1.0",
@@ -1632,6 +1467,7 @@ const nextConfig = {
     "radix-ui": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "shadcn-ui": "^0.9.5",
     "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
@@ -1648,17 +1484,218 @@ const nextConfig = {
 }
 </file>
 
-<file path="postcss.config.js">
-module.exports = {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  }
-</file>
+<file path="src/app/globals.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-<file path="README.md">
-# component-library
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    /* Brand colors - Light Mode */
+    --brand-25: 241 83% 97%;
+    --brand-50: 240 77% 91%;
+    --brand-100: 240 72% 81%;
+    --brand-200: 240 72% 81%;
+    --brand-300: 241 66% 69%;
+    --brand-400: 241 62% 58%;
+    --brand-500: 241 55% 47%;
+    --brand-600: 242 57% 41%;
+    --brand-700: 240 61% 28%;
+    --brand-800: 242 58% 25%;
+    --brand-900: 242 54% 20%;
+    --brand-950: 243 60% 11%;
+
+    /* Error colors - Light Mode */
+    --error-25: 0 86% 97%;
+    --error-50: 0 91% 94%;
+    --error-100: 0 93% 89%;
+    --error-200: 0 93% 80%;
+    --error-300: 0 93% 80%;
+    --error-400: 0 91% 69%;
+    --error-500: 0 84% 60%;
+    --error-600: 0 72% 51%;
+    --error-700: 0 74% 39%;
+    --error-800: 0 70% 35%;
+    --error-900: 0 63% 31%;
+    --error-950: 0 78% 16%;
+    --error: 0 84% 60%;
+    --error-foreground: 210 40% 98%;
+
+    /* Warning colors - Light Mode */
+    --warning-25: 36 100% 97%;
+    --warning-50: 36 93% 92%;
+    --warning-100: 36 93% 84%;
+    --warning-200: 36 93% 84%;
+    --warning-300: 36 88% 75%;
+    --warning-400: 36 85% 65%;
+    --warning-500: 35 85% 55%;
+    --warning-600: 33 77% 50%;
+    --warning-700: 32 69% 40%;
+    --warning-800: 32 62% 32%;
+    --warning-900: 27 57% 27%;
+    --warning-950: 27 63% 15%;
+    --warning: 35 85% 55%;
+    --warning-foreground: 210 40% 98%;
+
+    /* Success colors - Light Mode */
+    --success-25: 142 76% 97%;
+    --success-50: 141 84% 93%;
+    --success-100: 141 79% 85%;
+    --success-200: 141 74% 73%;
+    --success-300: 141 66% 58%;
+    --success-400: 141 68% 45%;
+    --success-500: 141 73% 36%;
+    --success-600: 141 69% 29%;
+    --success-700: 142 61% 24%;
+    --success-800: 142 54% 19%;
+    --success-900: 142 50% 14%;
+    --success-950: 143 56% 7%;
+    --success:  141 73% 36%;
+    --success-foreground: 210 40% 98%;
+
+    /* Gray colors - Light Mode (from FloatColorVariables.json) */
+    --gray-25: #fcfcfc;
+    --gray-50: #fafafa;
+    --gray-100: #f4f4f5;
+    --gray-200: #e4e4e7;
+    --gray-300: #d1d1d6;
+    --gray-400: #a0a0ab;
+    --gray-500: #70707b;
+    --gray-600: #51515c;
+    --gray-700: #3f3f46;
+    --gray-800: #26262b;
+    --gray-900: #1a1a1e;
+    --gray-950: #131316;
+    /* Semantic colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 241 55% 47%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 241 55% 47%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    /* Brand colors - Dark Mode */
+    --brand-950: 241 83% 97%;
+    --brand-900: 240 77% 91%;
+    --brand-800: 240 72% 81%;
+    --brand-700: 241 66% 69%;
+    --brand-600: 241 62% 58%;
+    --brand-500: 241 55% 47%;
+    --brand-400: 242 57% 41%;
+    --brand-300: 240 61% 28%;
+    --brand-200: 242 58% 25%;
+    --brand-100: 242 54% 20%;
+    --brand-50: 243 60% 11%;
+    --brand-25: 243 65% 8%;
+
+    /* Error colors - Dark Mode */
+    --error-950: 0 86% 97%;
+    --error-900: 0 91% 94%;
+    --error-800: 0 93% 89%;
+    --error-700: 0 93% 80%;
+    --error-600: 0 91% 69%;
+    --error-500: 0 84% 60%;
+    --error-400: 0 72% 51%;
+    --error-300: 0 74% 39%;
+    --error-200: 0 70% 35%;
+    --error-100: 0 63% 31%;
+    --error-50: 0 78% 16%;
+    --error-25: 0 83% 12%;
+
+    /* Warning colors - Dark Mode */
+    --warning-950: 36 100% 97%;
+    --warning-900: 36 93% 92%;
+    --warning-800: 36 93% 84%;
+    --warning-700: 36 88% 75%;
+    --warning-600: 36 85% 65%;
+    --warning-500: 35 85% 55%;
+    --warning-400: 33 77% 50%;
+    --warning-300: 32 69% 40%;
+    --warning-200: 32 62% 32%;
+    --warning-100: 27 57% 27%;
+    --warning-50: 27 63% 15%;
+    --warning-25: 27 67% 10%;
+
+    /* Success colors - Dark Mode */
+    --success-950: 142 76% 97%;
+    --success-900: 141 84% 93%;
+    --success-800: 141 79% 85%;
+    --success-700: 142 77% 73%;
+    --success-600: 142 69% 58%;
+    --success-500: 142 71% 45%;
+    --success-400: 142 76% 36%;
+    --success-300: 142 72% 29%;
+    --success-200: 143 64% 24%;
+    --success-100: 144 61% 20%;
+    --success-50: 145 80% 10%;
+    --success-25: 145 85% 8%;
+    
+    /* Semantic colors */
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 241 55% 47%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 241 55% 47%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    @apply font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
 </file>
 
 <file path="tailwind.config.js">
@@ -1721,7 +1758,7 @@ module.exports = {
           warning: {
             DEFAULT: "hsl(var(--warning))",
             foreground: "hsl(var(--warning-foreground))",
-            25: "hsl(var(--warning-25))",
+             25: "hsl(var(--warning-25))",
             50: "hsl(var(--warning-50))",
             100: "hsl(var(--warning-100))",
             200: "hsl(var(--warning-200))",
@@ -1749,6 +1786,20 @@ module.exports = {
             800: "hsl(var(--success-800))",
             900: "hsl(var(--success-900))",
             950: "hsl(var(--success-950))",
+          },
+          gray: {
+            25: "hsl(var(--gray-25))",
+            50: "hsl(var(--gray-50))",
+            100: "hsl(var(--gray-100))",
+            200: "hsl(var(--gray-200))",
+            300: "hsl(var(--gray-300))",
+            400: "hsl(var(--gray-400))",
+            500: "hsl(var(--gray-500))",
+            600: "hsl(var(--gray-600))",
+            700: "hsl(var(--gray-700))",
+            800: "hsl(var(--gray-800))",
+            900: "hsl(var(--gray-900))",
+            950: "hsl(var(--gray-950))",
           },
           primary: {
             DEFAULT: "hsl(var(--primary))",
@@ -1824,38 +1875,6 @@ module.exports = {
     },
     plugins: [require("tailwindcss-animate")],
   }
-</file>
-
-<file path="tsconfig.json">
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
-}
 </file>
 
 </files>
