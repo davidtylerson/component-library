@@ -1,19 +1,21 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+// src/components/ui/button/button.tsx
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { ThemeColor, ComponentVariant, getColorVariantClasses } from "@/lib/theme-utils";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * The visual style of the button
    * @default 'primary'
    */
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: ComponentVariant;
 
   /**
    * The color theme of the button
    * @default 'brand'
    */
-  color?: "brand" | "error" | "warning" | "success";
+  color?: ThemeColor;
 
   /**
    * The size of the button
@@ -43,66 +45,50 @@ export interface ButtonProps
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
-    variant = "primary", 
-    color = "brand", 
-    size = "md", 
-    leftIcon, 
-    rightIcon, 
-    isLoading = false,
     className, 
+    variant = "primary", 
+    size = "md", 
+    color = "brand",
+    isLoading = false, 
+    leftIcon, 
+    rightIcon,
+    disabled,
     children, 
     ...props 
   }, ref) => {
-    // Base classes that apply to all buttons
-    const baseClasses = "inline-flex items-center justify-center rounded font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2";
-    
-    // Classes that vary by size
+    // Get base size classes
     const sizeClasses = {
-      sm: "px-3 py-1.5 text-sm",
-      md: "px-4 py-2 text-md",
-      lg: "px-5 py-2.5 text-lg",
+      sm: "px-3 py-1.5 text-sm h-9",
+      md: "px-4 py-2 text-md h-10",
+      lg: "px-5 py-2.5 text-lg h-11",
     };
     
-    // Classes that vary by variant and color
-    const variantColorClasses = {
-      primary: {
-        brand: "bg-brand-600 hover:bg-brand-700 text-white focus:ring-brand-500",
-        error: "bg-error-600 hover:bg-error-700 text-white focus:ring-error-500",
-        warning: "bg-warning-600 hover:bg-warning-700 text-white focus:ring-warning-500",
-        success: "bg-success-600 hover:bg-success-700 text-white focus:ring-success-500",
-      },
-      secondary: {
-        brand: "bg-transparent border border-brand-300 text-brand-700 hover:bg-brand-50 focus:ring-brand-500",
-        error: "bg-transparent border border-error-300 text-error-700 hover:bg-error-50 focus:ring-error-500",
-        warning: "bg-transparent border border-warning-300 text-warning-700 hover:bg-warning-50 focus:ring-warning-500",
-        success: "bg-transparent border border-success-300 text-success-700 hover:bg-success-50 focus:ring-success-500",
-      },
-      tertiary: {
-        brand: "bg-transparent text-brand-700 hover:bg-brand-50 focus:ring-brand-500",
-        error: "bg-transparent text-error-700 hover:bg-error-50 focus:ring-error-500",
-        warning: "bg-transparent text-warning-700 hover:bg-warning-50 focus:ring-warning-500",
-        success: "bg-transparent text-success-700 hover:bg-success-50 focus:ring-success-500",
-      },
+    // Get icon size based on button size
+    const iconSize = {
+      sm: 16,
+      md: 18, 
+      lg: 20
     };
     
-    // Classes for disabled state
-    const disabledClasses = "disabled:opacity-50 disabled:cursor-not-allowed";
+    // Get color+variant specific classes
+    const colorClasses = getColorVariantClasses(color, variant);
     
     // Combine all classes
-    const classes = cn(
-      baseClasses,
+    const buttonClasses = cn(
+      "inline-flex items-center justify-center rounded-md font-medium transition-colors",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+      "disabled:opacity-50 disabled:pointer-events-none",
       sizeClasses[size],
-      variantColorClasses[variant][color],
-      disabledClasses,
+      colorClasses,
       className
     );
     
     return (
       <button
-        type="button"
-        disabled={props.disabled || isLoading}
-        className={classes}
         ref={ref}
+        className={buttonClasses}
+        disabled={disabled || isLoading}
+        type="button"
         {...props}
       >
         {leftIcon && <span className="mr-2">{leftIcon}</span>}

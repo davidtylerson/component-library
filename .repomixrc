@@ -1,0 +1,9 @@
+{
+  "include": ["**/*.{js,jsx,ts,tsx,py,md,json}"],
+  "exclude": ["**/node_modules/**", "**/build/**", "**/dist/**", "**/.git/**"],
+  "maxFileSize": 100000,
+  "maxTotalSize": 1000000,
+  "outputFormat": "markdown",
+  "prompt": "Here is the code from my repository:",
+  "outputFile": "output.txt"
+}

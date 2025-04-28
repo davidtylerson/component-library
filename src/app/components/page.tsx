@@ -5,7 +5,7 @@ import { Text } from "@/components/typography/text";
 
 export default function ComponentsPage() {
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto py-12 bg-gray-100">
       <Heading level={1} size="lg" className="mb-8">Component Library</Heading>
       
       <section className="mb-12">
