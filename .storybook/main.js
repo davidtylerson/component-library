@@ -1,3 +1,5 @@
+const path = require('path');
+
 const config = {
   framework: '@storybook/nextjs',
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -11,8 +13,24 @@ const config = {
     autodocs: 'tag',
   },
   staticDirs: ['../public'],
-  features: {
-    postcss: true,
+  webpackFinal: async (config) => {
+    // Use the same PostCSS config as your project
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              config: path.resolve(__dirname, '../postcss.config.js'),
+            },
+          },
+        },
+      ],
+      include: path.resolve(__dirname, '../'),
+    });
+    
+    return config;
   },
 };
 
