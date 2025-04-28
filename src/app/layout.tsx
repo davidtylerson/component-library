@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/themes/theme-provider"
+import { ThemeContextProvider } from "@/themes/theme-context"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,14 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.variable}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
+      <body className={`${inter.variable} font-sans`}>
+        <ThemeProvider>
+          <ThemeContextProvider>
+            {children}
+          </ThemeContextProvider>
         </ThemeProvider>
       </body>
     </html>

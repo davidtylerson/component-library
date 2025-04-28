@@ -80,7 +80,15 @@ src/
     utils.ts
   themes/
     catalog.tsx
+    theme-context.tsx
     theme-provider.tsx
+  tokens/
+    colors.ts
+    index.ts
+    radius.ts
+    shadows.ts
+    spacing.ts
+    typography.ts
 .gitignore
 .repomixrc
 components.json
@@ -96,11 +104,424 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
+<file path="src/themes/theme-context.tsx">
+"use client"
+
+import React, { createContext, useContext, useEffect, useState } from "react"
+import { useTheme as useNextTheme } from "next-themes"
+import { isDarkTheme } from "@/lib/theme-utils"
+
+/**
+ * Theme context type definition
+ */
+type ThemeContextType = {
+  /** Current theme name (light, dark, system) */
+  theme: string;
+  
+  /** Method to change the theme */
+  setTheme: (theme: string) => void;
+  
+  /** Current resolved theme (light or dark) accounting for system preference */
+  resolvedTheme: string;
+  
+  /** Whether the client-side code has been initialized */
+  isClient: boolean;
+  
+  /** Whether the current theme is dark */
+  isDark: boolean;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+/**
+ * ThemeContextProvider wraps the app and provides theme context
+ */
+export function ThemeContextProvider({ 
+  children 
+}: { 
+  children: React.ReactNode 
+}) {
+  const [isClient, setIsClient] = useState(false);
+  const { theme, setTheme, resolvedTheme, systemTheme } = useNextTheme();
+
+  // Handle client-side hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Determine if the theme is dark
+  const isDark = isDarkTheme(theme, systemTheme);
+
+  return (
+    <ThemeContext.Provider value={{
+      theme: theme || "system",
+      setTheme,
+      resolvedTheme: resolvedTheme || "light",
+      isClient,
+      isDark,
+    }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+/**
+ * Custom hook to access theme context
+ * 
+ * @returns Theme context object
+ */
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeContextProvider");
+  }
+  
+  return context;
+}
+</file>
+
+<file path="src/tokens/colors.ts">
+/**
+ * Color token definitions based on the design system
+ */
+
+export const colors = {
+  // Base colors
+  brand: {
+    25: 'hsl(var(--brand-25))',
+    50: 'hsl(var(--brand-50))',
+    100: 'hsl(var(--brand-100))',
+    200: 'hsl(var(--brand-200))',
+    300: 'hsl(var(--brand-300))',
+    400: 'hsl(var(--brand-400))',
+    500: 'hsl(var(--brand-500))',
+    600: 'hsl(var(--brand-600))',
+    700: 'hsl(var(--brand-700))',
+    800: 'hsl(var(--brand-800))',
+    900: 'hsl(var(--brand-900))',
+    950: 'hsl(var(--brand-950))',
+  },
+  error: {
+    25: 'hsl(var(--error-25))',
+    50: 'hsl(var(--error-50))',
+    100: 'hsl(var(--error-100))',
+    200: 'hsl(var(--error-200))',
+    300: 'hsl(var(--error-300))',
+    400: 'hsl(var(--error-400))',
+    500: 'hsl(var(--error-500))',
+    600: 'hsl(var(--error-600))',
+    700: 'hsl(var(--error-700))',
+    800: 'hsl(var(--error-800))',
+    900: 'hsl(var(--error-900))',
+    950: 'hsl(var(--error-950))',
+  },
+  warning: {
+    25: 'hsl(var(--warning-25))',
+    50: 'hsl(var(--warning-50))',
+    100: 'hsl(var(--warning-100))',
+    200: 'hsl(var(--warning-200))',
+    300: 'hsl(var(--warning-300))',
+    400: 'hsl(var(--warning-400))',
+    500: 'hsl(var(--warning-500))',
+    600: 'hsl(var(--warning-600))',
+    700: 'hsl(var(--warning-700))',
+    800: 'hsl(var(--warning-800))',
+    900: 'hsl(var(--warning-900))',
+    950: 'hsl(var(--warning-950))',
+  },
+  success: {
+    25: 'hsl(var(--success-25))',
+    50: 'hsl(var(--success-50))',
+    100: 'hsl(var(--success-100))',
+    200: 'hsl(var(--success-200))',
+    300: 'hsl(var(--success-300))',
+    400: 'hsl(var(--success-400))',
+    500: 'hsl(var(--success-500))',
+    600: 'hsl(var(--success-600))',
+    700: 'hsl(var(--success-700))',
+    800: 'hsl(var(--success-800))',
+    900: 'hsl(var(--success-900))',
+    950: 'hsl(var(--success-950))',
+  },
+  gray: {
+    25: 'hsl(var(--gray-25))',
+    50: 'hsl(var(--gray-50))',
+    100: 'hsl(var(--gray-100))',
+    200: 'hsl(var(--gray-200))',
+    300: 'hsl(var(--gray-300))',
+    400: 'hsl(var(--gray-400))',
+    500: 'hsl(var(--gray-500))',
+    600: 'hsl(var(--gray-600))',
+    700: 'hsl(var(--gray-700))',
+    800: 'hsl(var(--gray-800))',
+    900: 'hsl(var(--gray-900))',
+    950: 'hsl(var(--gray-950))',
+  },
+  
+  // Semantic tokens
+  text: {
+    primary: 'hsl(var(--foreground))',
+    secondary: 'hsl(var(--muted-foreground))',
+    tertiary: 'hsl(var(--muted-foreground))',
+    disabled: 'hsl(var(--muted-foreground))',
+    brand: 'hsl(var(--brand-700))',
+    'on-brand': 'hsl(var(--brand-50))',
+    error: 'hsl(var(--error-600))',
+    warning: 'hsl(var(--warning-600))',
+    success: 'hsl(var(--success-600))',
+  },
+  background: {
+    primary: 'hsl(var(--background))',
+    secondary: 'hsl(var(--secondary))',
+    tertiary: 'hsl(var(--muted))',
+    brand: 'hsl(var(--brand-50))',
+    error: 'hsl(var(--error-50))',
+    warning: 'hsl(var(--warning-50))',
+    success: 'hsl(var(--success-50))',
+    card: 'hsl(var(--card))',
+  },
+  border: {
+    primary: 'hsl(var(--border))',
+    secondary: 'hsl(var(--input))',
+    tertiary: 'hsl(var(--accent))',
+    brand: 'hsl(var(--brand-300))',
+    error: 'hsl(var(--error-300))',
+    warning: 'hsl(var(--warning-300))',
+    success: 'hsl(var(--success-300))',
+  },
+  focus: {
+    ring: 'hsl(var(--ring))',
+    brand: 'hsl(var(--brand-500))',
+    error: 'hsl(var(--error-500))',
+    warning: 'hsl(var(--warning-500))',
+    success: 'hsl(var(--success-500))',
+  },
+  
+  // Component-specific
+  button: {
+    primary: {
+      bg: 'hsl(var(--brand-600))',
+      text: 'white',
+      hover: 'hsl(var(--brand-700))',
+      focus: 'hsl(var(--brand-500))',
+    },
+    secondary: {
+      bg: 'transparent',
+      text: 'hsl(var(--brand-700))',
+      border: 'hsl(var(--brand-300))',
+      hover: 'hsl(var(--brand-50))',
+      focus: 'hsl(var(--brand-500))',
+    },
+    tertiary: {
+      bg: 'transparent',
+      text: 'hsl(var(--brand-700))',
+      hover: 'hsl(var(--brand-50))',
+      focus: 'hsl(var(--brand-500))',
+    },
+  },
+};
+
+export type Colors = typeof colors;
+</file>
+
+<file path="src/tokens/index.ts">
+/**
+ * Re-exports all token definitions for easy consumption
+ */
+
+export * from './colors';
+export * from './typography';
+export * from './spacing';
+export * from './radius';
+export * from './shadows';
+
+// Export a consolidated tokens object
+import { colors } from './colors';
+import { typography } from './typography';
+import { spacing } from './spacing';
+import { radius } from './radius';
+import { shadows } from './shadows';
+
+export const tokens = {
+  colors,
+  typography,
+  spacing,
+  radius,
+  shadows,
+};
+
+export type Tokens = typeof tokens;
+</file>
+
+<file path="src/tokens/radius.ts">
+/**
+ * Border radius tokens used throughout the application
+ * 
+ * Note: This uses Tailwind's default radius naming but maps to our semantic values
+ * defined by CSS variables. We don't override Tailwind's defaults but use
+ * the semantic mappings for component consistency.
+ */
+
+export const radius = {
+  // Semantic radius values using CSS variables
+  default: 'var(--radius)',
+  card: 'var(--radius)',
+  button: 'var(--radius)',
+  input: 'var(--radius)',
+  badge: 'var(--radius)',
+  
+  // Shape variants
+  pill: '9999px',
+  circle: '50%',
+  
+  // Any custom radius values to extend Tailwind's defaults
+  // would be defined here
+  custom: {
+    // Example: 'medium': '0.375rem', // 6px
+  }
+};
+
+export type Radius = typeof radius;
+</file>
+
+<file path="src/tokens/shadows.ts">
+/**
+ * Shadow tokens used throughout the application
+ */
+
+export const shadows = {
+  // Base shadow values
+  none: 'none',
+  xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+  inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+  
+  // Semantic shadow values
+  'elevation-low': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  'elevation-medium': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  'elevation-high': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  
+  // Component specific
+  card: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  dropdown: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  modal: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+};
+
+export type Shadows = typeof shadows;
+</file>
+
+<file path="src/tokens/spacing.ts">
+/**
+ * Spacing tokens used throughout the application
+ * 
+ * Note: This extends Tailwind's default spacing values rather than replacing them.
+ * We only define semantic values here that map to Tailwind's spacing scale.
+ */
+
+export const spacing = {
+  // We don't need to redefine the base spacing scale
+  // as we'll use Tailwind's defaults
+  
+  // Semantic spacing that maps to Tailwind's scale
+  layout: {
+    page: '6', // maps to Tailwind's spacing-6 (1.5rem, 24px)
+    section: '8', // maps to Tailwind's spacing-8 (2rem, 32px)
+    subsection: '4', // maps to Tailwind's spacing-4 (1rem, 16px)
+    inline: '2', // maps to Tailwind's spacing-2 (0.5rem, 8px)
+  },
+  
+  // Component-specific spacing that maps to Tailwind's scale
+  component: {
+    xxs: '1', // maps to Tailwind's spacing-1 (0.25rem, 4px)
+    xs: '2',  // maps to Tailwind's spacing-2 (0.5rem, 8px)
+    sm: '3',  // maps to Tailwind's spacing-3 (0.75rem, 12px)
+    md: '4',  // maps to Tailwind's spacing-4 (1rem, 16px)
+    lg: '6',  // maps to Tailwind's spacing-6 (1.5rem, 24px)
+    xl: '8',  // maps to Tailwind's spacing-8 (2rem, 32px)
+    xxl: '12', // maps to Tailwind's spacing-12 (3rem, 48px)
+  },
+  
+  // Any custom spacing values not in Tailwind's default scale
+  // would be defined here for extending in the Tailwind config
+  custom: {
+    // Example: '4.5': '1.125rem', // 18px
+  }
+};
+
+export type Spacing = typeof spacing;
+</file>
+
+<file path="src/tokens/typography.ts">
+/**
+ * Typography token definitions based on the design system
+ */
+
+export const typography = {
+  fontFamily: {
+    sans: ['var(--font-inter)', 'sans-serif'],
+  },
+  fontWeight: {
+    regular: '400',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
+  },
+  fontSize: {
+    // Display sizes
+    'display-2xl': ['4.5rem', { lineHeight: '5.625rem', letterSpacing: '-0.02em' }],
+    'display-xl': ['3.75rem', { lineHeight: '4.5rem', letterSpacing: '-0.02em' }],
+    'display-lg': ['3rem', { lineHeight: '3.75rem', letterSpacing: '-0.02em' }],
+    'display-md': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
+    'display-sm': ['1.875rem', { lineHeight: '2.375rem', letterSpacing: '-0.02em' }],
+    'display-xs': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+    
+    // Text sizes
+    'text-xl': ['1.25rem', { lineHeight: '1.875rem' }],
+    'text-lg': ['1.125rem', { lineHeight: '1.75rem' }],
+    'text-md': ['1rem', { lineHeight: '1.5rem' }],
+    'text-sm': ['0.875rem', { lineHeight: '1.25rem' }],
+    'text-xs': ['0.75rem', { lineHeight: '1.125rem' }],
+  },
+  // Predefined style combinations
+  styles: {
+    h1: 'text-display-md font-bold',
+    h2: 'text-display-sm font-bold',
+    h3: 'text-display-xs font-bold',
+    h4: 'text-text-xl font-semibold',
+    h5: 'text-text-lg font-semibold',
+    h6: 'text-text-md font-semibold',
+    
+    // Body text
+    body: 'text-text-md font-regular',
+    'body-large': 'text-text-lg font-regular',
+    'body-small': 'text-text-sm font-regular',
+    
+    // Special styles
+    caption: 'text-text-xs font-medium',
+    overline: 'text-text-xs font-medium uppercase tracking-wider',
+    label: 'text-text-sm font-medium',
+  },
+  // For semantic variants
+  variants: {
+    italic: 'italic',
+    underline: 'underline',
+  },
+};
+
+export type Typography = typeof typography;
+</file>
+
 <file path="src/app/layout.tsx">
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/themes/theme-provider"
+import { ThemeContextProvider } from "@/themes/theme-context"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -120,14 +541,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.variable}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
+      <body className={`${inter.variable} font-sans`}>
+        <ThemeProvider>
+          <ThemeContextProvider>
+            {children}
+          </ThemeContextProvider>
         </ThemeProvider>
       </body>
     </html>
@@ -598,20 +1016,137 @@ export * from './theme-toggle';
 "use client"
 
 import * as React from "react"
-import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/button"
+import { useTheme } from "@/themes/theme-context"
+import { cn } from "@/lib/utils"
+import { IconMoon, IconSun } from "@tabler/icons-react"
 
-export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+/**
+ * Props for the ThemeToggle component
+ */
+export interface ThemeToggleProps extends React.HTMLAttributes<HTMLButtonElement> {
+  /**
+   * Variant of the toggle
+   * @default 'icon'
+   */
+  variant?: 'icon' | 'switch' | 'button';
+  
+  /**
+   * Size of the toggle
+   * @default 'md'
+   */
+  size?: 'sm' | 'md' | 'lg';
+}
 
+/**
+ * ThemeToggle component to switch between light and dark themes
+ */
+export function ThemeToggle({ 
+  className, 
+  variant = 'icon', 
+  size = 'md',
+  ...props 
+}: ThemeToggleProps) {
+  const { theme, setTheme, resolvedTheme, isClient } = useTheme()
+
+  // Only render on client to prevent hydration mismatch
+  if (!isClient) return null;
+
+  // Toggle between light and dark
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  }
+
+  // Size mapping for Tabler icons
+  const iconSize = {
+    sm: 16,
+    md: 20,
+    lg: 24,
+  }
+
+  // Size classes for button
+  const sizeClasses = {
+    sm: 'h-8 w-8',
+    md: 'h-10 w-10',
+    lg: 'h-12 w-12',
+  }
+
+  // Text size classes
+  const textSizeClasses = {
+    sm: 'text-xs',
+    md: 'text-sm',
+    lg: 'text-base',
+  }
+
+  // Variant specific rendering
+  if (variant === 'icon') {
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={cn(
+          "inline-flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          sizeClasses[size],
+          className
+        )}
+        aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+        {...props}
+      >
+        {resolvedTheme === "dark" ? (
+          <IconSun size={iconSize[size]} stroke={1.5} />
+        ) : (
+          <IconMoon size={iconSize[size]} stroke={1.5} />
+        )}
+      </button>
+    )
+  }
+  
+  // Button variant
+  if (variant === 'button') {
+    return (
+      <button
+        type="button"
+        onClick={toggleTheme}
+        className={cn(
+          "inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2",
+          textSizeClasses[size],
+          "hover:bg-accent hover:text-accent-foreground",
+          className
+        )}
+        {...props}
+      >
+        {resolvedTheme === "dark" ? "Light Mode" : "Dark Mode"}
+      </button>
+    )
+  }
+  
+  // Switch variant
   return (
-    <Button
-      variant="secondary"
-      size="sm"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className={cn(
+        "inline-flex items-center justify-center rounded-md px-3 py-2 font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        textSizeClasses[size],
+        resolvedTheme === "dark" 
+          ? "bg-accent text-accent-foreground hover:bg-accent/80" 
+          : "bg-muted text-muted-foreground hover:bg-muted/80",
+        className
+      )}
+      aria-label={resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+      {...props}
     >
-      {theme === "dark" ? "Light Mode" : "Dark Mode"}
-    </Button>
+      {resolvedTheme === "dark" ? (
+        <span className="flex items-center">
+          <IconSun size={iconSize[size]} stroke={1.5} className="mr-2" />
+          Light
+        </span>
+      ) : (
+        <span className="flex items-center">
+          <IconMoon size={iconSize[size]} stroke={1.5} className="mr-2" />
+          Dark
+        </span>
+      )}
+    </button>
   )
 }
 </file>
@@ -778,11 +1313,26 @@ export * from '../typography/text';
 </file>
 
 <file path="src/lib/theme-utils.ts">
-// src/lib/theme-utils.ts
+/**
+ * Utility functions for theme handling
+ */
+
+/**
+ * Supported color theme values
+ */
 export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
+
+/**
+ * Supported component variant types
+ */
 export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
 
-// Map design system colors to shadcn variants
+/**
+ * Map design system colors to shadcn variants
+ * 
+ * @param color - The design system color
+ * @returns The corresponding shadcn variant
+ */
 export const mapColorToShadcnVariant = (color: ThemeColor) => {
   switch (color) {
     case 'brand': return 'default';
@@ -794,7 +1344,12 @@ export const mapColorToShadcnVariant = (color: ThemeColor) => {
   }
 };
 
-// Map design system variants to shadcn variants
+/**
+ * Map design system variants to shadcn variants
+ * 
+ * @param variant - The design system variant
+ * @returns The corresponding shadcn variant
+ */
 export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
   switch (variant) {
     case 'primary': return 'default';
@@ -804,7 +1359,13 @@ export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
   }
 };
 
-// Generate tailwind classes for each color/variant combination
+/**
+ * Generate Tailwind classes for color/variant combinations
+ * 
+ * @param color - The design system color
+ * @param variant - The design system variant
+ * @returns String of Tailwind classes
+ */
 export const getColorVariantClasses = (
   color: ThemeColor, 
   variant: ComponentVariant
@@ -830,7 +1391,21 @@ export const getColorVariantClasses = (
     }
   };
 
-  return colorVariantMap[variant][color] || '';
+  return colorVariantMap[variant]?.[color] || '';
+};
+
+/**
+ * Determine if the current theme is dark
+ * 
+ * @param theme - The current theme
+ * @param systemTheme - The system theme
+ * @returns True if the theme is dark
+ */
+export const isDarkTheme = (theme: string | undefined, systemTheme: string | undefined): boolean => {
+  if (theme === 'system') {
+    return systemTheme === 'dark';
+  }
+  return theme === 'dark';
 };
 </file>
 
@@ -1155,84 +1730,84 @@ export default function ComponentsPage() {
 </file>
 
 <file path="src/app/page.tsx">
-// src/app/page.tsx
-import { Button } from "@/components/ui/button/button";
-import { Heading } from "@/components/typography/heading";
-import { Text } from "@/components/typography/text";
-import { IconPlus, IconChevronDown, IconBrandGithub, IconCheck } from '@tabler/icons-react';
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-center font-mono text-sm">
-        <Heading level={1} size="lg" className="text-center text-brand-700 mb-6">
-          Float UI Library
-        </Heading>
+      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
+        <p className="text-lg">Fintech UI Library</p>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+        </div>
+      </div>
+
+      <div className="mt-12 flex flex-col items-center">
+        <h1 className="text-display-md font-bold mb-6">
+          Theme System
+        </h1>
+        <p className="mb-4 text-text-lg">
+          This page demonstrates the theme switching functionality. 
+          The theme system provides support for light and dark modes.
+        </p>
         
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="primary" color="brand">Primary Button</Button>
-            <Button variant="secondary" color="brand">Secondary Button</Button>
-            <Button variant="tertiary" color="brand">Tertiary Button</Button>
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <div className="p-4 bg-background border border-border rounded-lg">
+            Background
           </div>
-          
-          <div className="flex flex-wrap gap-4 justify-center mt-4">
-            <Button 
-              leftIcon={<IconPlus size={18} />}
-              variant="primary"
-              color="brand"
-            >
-              With Left Icon
-            </Button>
-            
-            <Button 
-              rightIcon={<IconChevronDown size={18} />}
-              variant="secondary"
-              color="brand"
-            >
-              With Right Icon
-            </Button>
-            
-            <Button isLoading variant="primary" color="brand">
-              Loading Button
-            </Button>
+          <div className="p-4 bg-card text-card-foreground border border-border rounded-lg">
+            Card
           </div>
-        </section>
+          <div className="p-4 bg-primary text-primary-foreground rounded-lg">
+            Primary
+          </div>
+          <div className="p-4 bg-secondary text-secondary-foreground rounded-lg">
+            Secondary
+          </div>
+          <div className="p-4 bg-muted text-muted-foreground rounded-lg">
+            Muted
+          </div>
+          <div className="p-4 bg-accent text-accent-foreground rounded-lg">
+            Accent
+          </div>
+          <div className="p-4 bg-destructive text-destructive-foreground rounded-lg">
+            Destructive
+          </div>
+        </div>
         
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Button Colors</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="primary" color="brand" leftIcon={<IconCheck size={18} />}>Brand</Button>
-            <Button variant="primary" color="error" leftIcon={<IconCheck size={18} />}>Error</Button>
-            <Button variant="primary" color="warning" leftIcon={<IconCheck size={18} />}>Warning</Button>
-            <Button variant="primary" color="success" leftIcon={<IconCheck size={18} />}>Success</Button>
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <h2 className="text-display-sm font-bold">Brand Colors</h2>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="p-4 bg-brand-50 text-brand-900 rounded-lg text-center">Brand 50</div>
+            <div className="p-4 bg-brand-100 text-brand-900 rounded-lg text-center">Brand 100</div>
+            <div className="p-4 bg-brand-200 text-brand-900 rounded-lg text-center">Brand 200</div>
+            <div className="p-4 bg-brand-300 text-brand-900 rounded-lg text-center">Brand 300</div>
+            <div className="p-4 bg-brand-400 text-brand-900 rounded-lg text-center">Brand 400</div>
+            <div className="p-4 bg-brand-500 text-white rounded-lg text-center">Brand 500</div>
+            <div className="p-4 bg-brand-600 text-white rounded-lg text-center">Brand 600</div>
+            <div className="p-4 bg-brand-700 text-white rounded-lg text-center">Brand 700</div>
+            <div className="p-4 bg-brand-800 text-white rounded-lg text-center">Brand 800</div>
+            <div className="p-4 bg-brand-900 text-white rounded-lg text-center">Brand 900</div>
           </div>
-        </section>
+        </div>
         
-        <section className="mb-12">
-          <Heading level={2} size="sm" className="mb-4">Icon Examples</Heading>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button 
-              variant="primary" 
-              color="brand" 
-              leftIcon={<IconBrandGithub size={18} />}
-            >
-              GitHub
-            </Button>
-            <Button 
-              variant="secondary" 
-              color="brand" 
-              leftIcon={<IconPlus size={18} />} 
-              rightIcon={<IconChevronDown size={18} />}
-            >
-              Add Item
-            </Button>
-          </div>
-        </section>
+        <div className="flex flex-col gap-4 mt-8 w-full max-w-md">
+          <h2 className="text-display-sm font-bold">Typography</h2>
+          <h1 className="text-display-2xl">Display 2XL</h1>
+          <h1 className="text-display-xl">Display XL</h1>
+          <h1 className="text-display-lg">Display LG</h1>
+          <h1 className="text-display-md">Display MD</h1>
+          <h1 className="text-display-sm">Display SM</h1>
+          <h1 className="text-display-xs">Display XS</h1>
+          <p className="text-text-xl">Text XL</p>
+          <p className="text-text-lg">Text LG</p>
+          <p className="text-text-md">Text MD</p>
+          <p className="text-text-sm">Text SM</p>
+          <p className="text-text-xs">Text XS</p>
+        </div>
       </div>
     </main>
-  );
+  )
 }
 </file>
 
@@ -1352,81 +1927,85 @@ Button.displayName = "Button";
 </file>
 
 <file path="src/lib/utils.ts">
-// src/lib/theme-utils.ts
-export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
-export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-// Map design system colors to shadcn variants
-export const mapColorToShadcnVariant = (color: ThemeColor) => {
-  switch (color) {
-    case 'brand': return 'default';
-    case 'error': return 'destructive';
-    case 'warning':
-    case 'success':
-      return 'secondary'; // Will need additional classes
-    default: return 'default';
-  }
-};
-
-// Map design system variants to shadcn variants
-export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
-  switch (variant) {
-    case 'primary': return 'default';
-    case 'secondary': return 'outline';
-    case 'tertiary': return 'ghost';
-    default: return 'default';
-  }
-};
-
-//Combines multiple class values into a single className string with Tailwind-aware merging
+/**
+ * Combines multiple class values into a single className string
+ * with proper Tailwind CSS class merging.
+ * 
+ * @param inputs - Class values to merge
+ * @returns Merged className string
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Generate tailwind classes for each color/variant combination
-export const getColorVariantClasses = (
-  color: ThemeColor, 
-  variant: ComponentVariant
-): string => {
-  const colorVariantMap = {
-    primary: {
-      brand: 'bg-brand-600 hover:bg-brand-700 text-white focus-visible:ring-brand-500',
-      error: 'bg-error-600 hover:bg-error-700 text-white focus-visible:ring-error-500',
-      warning: 'bg-warning-600 hover:bg-warning-700 text-white focus-visible:ring-warning-500',
-      success: 'bg-success-600 hover:bg-success-700 text-white focus-visible:ring-success-500',
-    },
-    secondary: {
-      brand: 'border-brand-300 text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'border-error-300 text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'border-warning-300 text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'border-success-300 text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    },
-    tertiary: {
-      brand: 'text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500',
-      error: 'text-error-700 hover:bg-error-50 focus-visible:ring-error-500',
-      warning: 'text-warning-700 hover:bg-warning-50 focus-visible:ring-warning-500',
-      success: 'text-success-700 hover:bg-success-50 focus-visible:ring-success-500',
-    }
-  };
+/**
+ * Utility function to generate a unique ID.
+ * Useful for ensuring unique IDs for form elements.
+ * 
+ * @param prefix - Optional prefix for the ID
+ * @returns A unique ID string
+ */
+export function generateId(prefix = 'id'): string {
+  const randomId = Math.random().toString(36).substring(2, 9);
+  return `${prefix}-${randomId}`;
+}
 
-  return colorVariantMap[variant]?.[color] || '';
-};
+/**
+ * Type guard to check if a value is not null or undefined
+ * 
+ * @param value - Value to check
+ * @returns True if value is not null or undefined
+ */
+export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined;
+}
+
+/**
+ * Returns only the props that are safe to spread onto a DOM element
+ * by filtering out custom props
+ * 
+ * @param props - The props object
+ * @param propNames - Names of custom props to filter out
+ * @returns Object with only DOM-safe props
+ */
+export function filterDOMProps<T extends Record<string, any>, K extends keyof T>(
+  props: T, 
+  propNames: K[]
+): Omit<T, K> {
+  const result = { ...props };
+  propNames.forEach(name => delete result[name]);
+  return result;
+}
 </file>
 
 <file path="src/themes/theme-provider.tsx">
-// src/themes/theme-provider.tsx
 "use client"
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import type { ThemeProviderProps } from "next-themes/dist/types"
 
-// Enhanced theme provider with data attributes
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+/**
+ * ThemeProvider component for handling theme state
+ * 
+ * This wraps the next-themes provider with sensible defaults
+ * for handling light/dark themes and system preferences
+ */
+export function ThemeProvider({ 
+  children, 
+  ...props 
+}: ThemeProviderProps) {
   return (
-    <NextThemesProvider {...props}>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
       {children}
     </NextThemesProvider>
   )
@@ -1438,52 +2017,6 @@ node_modules/
 .next/
 </file>
 
-<file path="package.json">
-{
-  "name": "float-prototype-library",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "ui:add": "pnpm dlx shadcn-ui@latest add"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@radix-ui/react-dropdown-menu": "^2.1.12",
-    "@radix-ui/react-slot": "^1.2.0",
-    "@tabler/icons-react": "^3.31.0",
-    "add": "^2.0.6",
-    "button": "^1.1.1",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "next": "^14.1.0",
-    "next-themes": "^0.2.1",
-    "radix-ui": "^1.3.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "shadcn-ui": "^0.9.5",
-    "tailwind-merge": "^2.6.0"
-  },
-  "devDependencies": {
-    "@shadcn/ui": "^0.0.4",
-    "@types/node": "^20.11.5",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.4.1",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.3.3"
-  }
-}
-</file>
-
 <file path="src/app/globals.css">
 @tailwind base;
 @tailwind components;
@@ -1493,6 +2026,33 @@ node_modules/
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
 
     /* Brand colors - Light Mode */
     --brand-25: 241 83% 97%;
@@ -1521,8 +2081,6 @@ node_modules/
     --error-800: 0 70% 35%;
     --error-900: 0 63% 31%;
     --error-950: 0 78% 16%;
-    --error: 0 84% 60%;
-    --error-foreground: 210 40% 98%;
 
     /* Warning colors - Light Mode */
     --warning-25: 36 100% 97%;
@@ -1537,8 +2095,6 @@ node_modules/
     --warning-800: 32 62% 32%;
     --warning-900: 27 57% 27%;
     --warning-950: 27 63% 15%;
-    --warning: 35 85% 55%;
-    --warning-foreground: 210 40% 98%;
 
     /* Success colors - Light Mode */
     --success-25: 142 76% 97%;
@@ -1553,55 +2109,51 @@ node_modules/
     --success-800: 142 54% 19%;
     --success-900: 142 50% 14%;
     --success-950: 143 56% 7%;
-    --success:  141 73% 36%;
-    --success-foreground: 210 40% 98%;
 
-    /* Gray colors - Light Mode (from FloatColorVariables.json) */
-    --gray-25: #fcfcfc;
-    --gray-50: #fafafa;
-    --gray-100: #f4f4f5;
-    --gray-200: #e4e4e7;
-    --gray-300: #d1d1d6;
-    --gray-400: #a0a0ab;
-    --gray-500: #70707b;
-    --gray-600: #51515c;
-    --gray-700: #3f3f46;
-    --gray-800: #26262b;
-    --gray-900: #1a1a1e;
-    --gray-950: #131316;
-    /* Semantic colors */
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
-    --primary: 241 55% 47%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 241 55% 47%;
- 
-    --radius: 0.5rem;
+    /* Gray colors - Light Mode */
+    --gray-25: 0 0% 99%;
+    --gray-50: 0 0% 98%;
+    --gray-100: 240 4.8% 95.9%;
+    --gray-200: 240 5.9% 90%;
+    --gray-300: 240 4.9% 83.9%;
+    --gray-400: 240 5% 64.9%;
+    --gray-500: 240 3.8% 46.1%;
+    --gray-600: 240 5.2% 33.9%;
+    --gray-700: 240 5.3% 26.1%;
+    --gray-800: 240 3.7% 15.9%;
+    --gray-900: 240 5.9% 10%;
+    --gray-950: 240 10% 3.9%;
   }
  
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
  
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
     /* Brand colors - Dark Mode */
     --brand-950: 241 83% 97%;
     --brand-900: 240 77% 91%;
@@ -1658,31 +2210,19 @@ node_modules/
     --success-50: 145 80% 10%;
     --success-25: 145 85% 8%;
     
-    /* Semantic colors */
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --primary: 241 55% 47%;
-    --primary-foreground: 210 40% 98%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 241 55% 47%;
+    /* Gray colors - Dark Mode */
+    --gray-950: 0 0% 99%;
+    --gray-900: 0 0% 98%;
+    --gray-800: 240 4.8% 95.9%;
+    --gray-700: 240 5.9% 90%;
+    --gray-600: 240 4.9% 83.9%;
+    --gray-500: 240 5% 64.9%;
+    --gray-400: 240 3.8% 46.1%;
+    --gray-300: 240 5.2% 33.9%;
+    --gray-200: 240 5.3% 26.1%;
+    --gray-100: 240 3.7% 15.9%;
+    --gray-50: 240 5.9% 10%;
+    --gray-25: 240 10% 3.9%;
   }
 }
 
@@ -1691,190 +2231,233 @@ node_modules/
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    @apply font-sans;
+    @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Add explicit font-family definition */
+  .font-sans {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "float-prototype-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ui:add": "pnpm dlx shadcn-ui@latest add"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tabler/icons-react": "^2.29.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "next": "^14.0.0",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@shadcn/ui": "^0.0.4",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3"
   }
 }
 </file>
 
 <file path="tailwind.config.js">
-// tailwind.config.js (updated version)
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
-    content: [
-      './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-      './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-      './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-      './src/lib/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
-    theme: {
-      container: {
-        center: true,
-        padding: "2rem",
-        screens: {
-          "2xl": "1400px",
-        },
-      },
-      extend: {
-        colors: {
-          border: "hsl(var(--border))",
-          input: "hsl(var(--input))",
-          ring: "hsl(var(--ring))",
-          background: "hsl(var(--background))",
-          foreground: "hsl(var(--foreground))",
-          brand: {
-            DEFAULT: "hsl(var(--brand-500))",
-            25: "hsl(var(--brand-25))",
-            50: "hsl(var(--brand-50))",
-            100: "hsl(var(--brand-100))",
-            200: "hsl(var(--brand-200))",
-            300: "hsl(var(--brand-300))",
-            400: "hsl(var(--brand-400))",
-            500: "hsl(var(--brand-500))",
-            600: "hsl(var(--brand-600))",
-            700: "hsl(var(--brand-700))",
-            800: "hsl(var(--brand-800))",
-            900: "hsl(var(--brand-900))",
-            950: "hsl(var(--brand-950))",
-          },
-          error: {
-            DEFAULT: "hsl(var(--error))",
-            foreground: "hsl(var(--error-foreground))",
-            25: "hsl(var(--error-25))",
-            50: "hsl(var(--error-50))",
-            100: "hsl(var(--error-100))",
-            200: "hsl(var(--error-200))",
-            300: "hsl(var(--error-300))",
-            400: "hsl(var(--error-400))",
-            500: "hsl(var(--error-500))",
-            600: "hsl(var(--error-600))",
-            700: "hsl(var(--error-700))",
-            800: "hsl(var(--error-800))",
-            900: "hsl(var(--error-900))",
-            950: "hsl(var(--error-950))",
-          },
-          warning: {
-            DEFAULT: "hsl(var(--warning))",
-            foreground: "hsl(var(--warning-foreground))",
-             25: "hsl(var(--warning-25))",
-            50: "hsl(var(--warning-50))",
-            100: "hsl(var(--warning-100))",
-            200: "hsl(var(--warning-200))",
-            300: "hsl(var(--warning-300))",
-            400: "hsl(var(--warning-400))",
-            500: "hsl(var(--warning-500))",
-            600: "hsl(var(--warning-600))",
-            700: "hsl(var(--warning-700))",
-            800: "hsl(var(--warning-800))",
-            900: "hsl(var(--warning-900))",
-            950: "hsl(var(--warning-950))",
-          },
-          success: {
-            DEFAULT: "hsl(var(--success))",
-            foreground: "hsl(var(--success-foreground))",
-            25: "hsl(var(--success-25))",
-            50: "hsl(var(--success-50))",
-            100: "hsl(var(--success-100))",
-            200: "hsl(var(--success-200))",
-            300: "hsl(var(--success-300))",
-            400: "hsl(var(--success-400))",
-            500: "hsl(var(--success-500))",
-            600: "hsl(var(--success-600))",
-            700: "hsl(var(--success-700))",
-            800: "hsl(var(--success-800))",
-            900: "hsl(var(--success-900))",
-            950: "hsl(var(--success-950))",
-          },
-          gray: {
-            25: "hsl(var(--gray-25))",
-            50: "hsl(var(--gray-50))",
-            100: "hsl(var(--gray-100))",
-            200: "hsl(var(--gray-200))",
-            300: "hsl(var(--gray-300))",
-            400: "hsl(var(--gray-400))",
-            500: "hsl(var(--gray-500))",
-            600: "hsl(var(--gray-600))",
-            700: "hsl(var(--gray-700))",
-            800: "hsl(var(--gray-800))",
-            900: "hsl(var(--gray-900))",
-            950: "hsl(var(--gray-950))",
-          },
-          primary: {
-            DEFAULT: "hsl(var(--primary))",
-            foreground: "hsl(var(--primary-foreground))",
-          },
-          secondary: {
-            DEFAULT: "hsl(var(--secondary))",
-            foreground: "hsl(var(--secondary-foreground))",
-          },
-          destructive: {
-            DEFAULT: "hsl(var(--destructive))",
-            foreground: "hsl(var(--destructive-foreground))",
-          },
-          muted: {
-            DEFAULT: "hsl(var(--muted))",
-            foreground: "hsl(var(--muted-foreground))",
-          },
-          accent: {
-            DEFAULT: "hsl(var(--accent))",
-            foreground: "hsl(var(--accent-foreground))",
-          },
-          popover: {
-            DEFAULT: "hsl(var(--popover))",
-            foreground: "hsl(var(--popover-foreground))",
-          },
-          card: {
-            DEFAULT: "hsl(var(--card))",
-            foreground: "hsl(var(--card-foreground))",
-          },
-        },
-        fontFamily: {
-          sans: ["var(--font-inter)"],
-        },
-        fontWeight: {
-          regular: "400",
-          medium: "500",
-          semibold: "600",
-          bold: "700",
-        },
-        fontSize: {
-          "display-2xl": ["4.5rem", { lineHeight: "5.625rem", letterSpacing: "-0.02em" }],
-          "display-xl": ["3.75rem", { lineHeight: "4.5rem", letterSpacing: "-0.02em" }],
-          "display-lg": ["3rem", { lineHeight: "3.75rem", letterSpacing: "-0.02em" }],
-          "display-md": ["2.25rem", { lineHeight: "2.75rem", letterSpacing: "-0.02em" }],
-          "display-sm": ["1.875rem", { lineHeight: "2.375rem", letterSpacing: "-0.02em" }],
-          "display-xs": ["1.5rem", { lineHeight: "2rem", letterSpacing: "-0.02em" }],
-          "text-xl": ["1.25rem", { lineHeight: "1.875rem" }],
-          "text-lg": ["1.125rem", { lineHeight: "1.75rem" }],
-          "text-md": ["1rem", { lineHeight: "1.5rem" }],
-          "text-sm": ["0.875rem", { lineHeight: "1.25rem" }],
-          "text-xs": ["0.75rem", { lineHeight: "1.125rem" }],
-        },
-        borderRadius: {
-          lg: "var(--radius)",
-          md: "calc(var(--radius) - 2px)",
-          sm: "calc(var(--radius) - 4px)",
-        },
-        keyframes: {
-          "accordion-down": {
-            from: { height: 0 },
-            to: { height: "var(--radix-accordion-content-height)" },
-          },
-          "accordion-up": {
-            from: { height: "var(--radix-accordion-content-height)" },
-            to: { height: 0 },
-          },
-        },
-        animation: {
-          "accordion-down": "accordion-down 0.2s ease-out",
-          "accordion-up": "accordion-up 0.2s ease-out",
-        },
+  darkMode: ["class"],
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
       },
     },
-    plugins: [require("tailwindcss-animate")],
-  }
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        
+        // Design system colors
+        brand: {
+          25: "hsl(var(--brand-25))",
+          50: "hsl(var(--brand-50))",
+          100: "hsl(var(--brand-100))",
+          200: "hsl(var(--brand-200))",
+          300: "hsl(var(--brand-300))",
+          400: "hsl(var(--brand-400))",
+          500: "hsl(var(--brand-500))",
+          600: "hsl(var(--brand-600))",
+          700: "hsl(var(--brand-700))",
+          800: "hsl(var(--brand-800))",
+          900: "hsl(var(--brand-900))",
+          950: "hsl(var(--brand-950))",
+        },
+        error: {
+          25: "hsl(var(--error-25))",
+          50: "hsl(var(--error-50))",
+          100: "hsl(var(--error-100))",
+          200: "hsl(var(--error-200))",
+          300: "hsl(var(--error-300))",
+          400: "hsl(var(--error-400))",
+          500: "hsl(var(--error-500))",
+          600: "hsl(var(--error-600))",
+          700: "hsl(var(--error-700))",
+          800: "hsl(var(--error-800))",
+          900: "hsl(var(--error-900))",
+          950: "hsl(var(--error-950))",
+        },
+        warning: {
+          25: "hsl(var(--warning-25))",
+          50: "hsl(var(--warning-50))",
+          100: "hsl(var(--warning-100))",
+          200: "hsl(var(--warning-200))",
+          300: "hsl(var(--warning-300))",
+          400: "hsl(var(--warning-400))",
+          500: "hsl(var(--warning-500))",
+          600: "hsl(var(--warning-600))",
+          700: "hsl(var(--warning-700))",
+          800: "hsl(var(--warning-800))",
+          900: "hsl(var(--warning-900))",
+          950: "hsl(var(--warning-950))",
+        },
+        success: {
+          25: "hsl(var(--success-25))",
+          50: "hsl(var(--success-50))",
+          100: "hsl(var(--success-100))",
+          200: "hsl(var(--success-200))",
+          300: "hsl(var(--success-300))",
+          400: "hsl(var(--success-400))",
+          500: "hsl(var(--success-500))",
+          600: "hsl(var(--success-600))",
+          700: "hsl(var(--success-700))",
+          800: "hsl(var(--success-800))",
+          900: "hsl(var(--success-900))",
+          950: "hsl(var(--success-950))",
+        },
+        gray: {
+          25: "hsl(var(--gray-25))",
+          50: "hsl(var(--gray-50))",
+          100: "hsl(var(--gray-100))",
+          200: "hsl(var(--gray-200))",
+          300: "hsl(var(--gray-300))",
+          400: "hsl(var(--gray-400))",
+          500: "hsl(var(--gray-500))",
+          600: "hsl(var(--gray-600))",
+          700: "hsl(var(--gray-700))",
+          800: "hsl(var(--gray-800))",
+          900: "hsl(var(--gray-900))",
+          950: "hsl(var(--gray-950))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontSize: {
+        // Display sizes
+        'display-2xl': ['4.5rem', { lineHeight: '5.625rem', letterSpacing: '-0.02em' }],
+        'display-xl': ['3.75rem', { lineHeight: '4.5rem', letterSpacing: '-0.02em' }],
+        'display-lg': ['3rem', { lineHeight: '3.75rem', letterSpacing: '-0.02em' }],
+        'display-md': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
+        'display-sm': ['1.875rem', { lineHeight: '2.375rem', letterSpacing: '-0.02em' }],
+        'display-xs': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+        
+        // Text sizes
+        'text-xl': ['1.25rem', { lineHeight: '1.875rem' }],
+        'text-lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'text-md': ['1rem', { lineHeight: '1.5rem' }],
+        'text-sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'text-xs': ['0.75rem', { lineHeight: '1.125rem' }],
+      },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}
 </file>
 
 </files>

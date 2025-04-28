@@ -1,14 +1,27 @@
-// src/themes/theme-provider.tsx
 "use client"
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
 import type { ThemeProviderProps } from "next-themes/dist/types"
 
-// Enhanced theme provider with data attributes
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+/**
+ * ThemeProvider component for handling theme state
+ * 
+ * This wraps the next-themes provider with sensible defaults
+ * for handling light/dark themes and system preferences
+ */
+export function ThemeProvider({ 
+  children, 
+  ...props 
+}: ThemeProviderProps) {
   return (
-    <NextThemesProvider {...props}>
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+      {...props}
+    >
       {children}
     </NextThemesProvider>
   )

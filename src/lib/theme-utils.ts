@@ -1,8 +1,23 @@
-// src/lib/theme-utils.ts
+/**
+ * Utility functions for theme handling
+ */
+
+/**
+ * Supported color theme values
+ */
 export type ThemeColor = 'brand' | 'error' | 'warning' | 'success';
+
+/**
+ * Supported component variant types
+ */
 export type ComponentVariant = 'primary' | 'secondary' | 'tertiary';
 
-// Map design system colors to shadcn variants
+/**
+ * Map design system colors to shadcn variants
+ * 
+ * @param color - The design system color
+ * @returns The corresponding shadcn variant
+ */
 export const mapColorToShadcnVariant = (color: ThemeColor) => {
   switch (color) {
     case 'brand': return 'default';
@@ -14,7 +29,12 @@ export const mapColorToShadcnVariant = (color: ThemeColor) => {
   }
 };
 
-// Map design system variants to shadcn variants
+/**
+ * Map design system variants to shadcn variants
+ * 
+ * @param variant - The design system variant
+ * @returns The corresponding shadcn variant
+ */
 export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
   switch (variant) {
     case 'primary': return 'default';
@@ -24,7 +44,13 @@ export const mapVariantToShadcnVariant = (variant: ComponentVariant) => {
   }
 };
 
-// Generate tailwind classes for each color/variant combination
+/**
+ * Generate Tailwind classes for color/variant combinations
+ * 
+ * @param color - The design system color
+ * @param variant - The design system variant
+ * @returns String of Tailwind classes
+ */
 export const getColorVariantClasses = (
   color: ThemeColor, 
   variant: ComponentVariant
@@ -50,5 +76,19 @@ export const getColorVariantClasses = (
     }
   };
 
-  return colorVariantMap[variant][color] || '';
+  return colorVariantMap[variant]?.[color] || '';
+};
+
+/**
+ * Determine if the current theme is dark
+ * 
+ * @param theme - The current theme
+ * @param systemTheme - The system theme
+ * @returns True if the theme is dark
+ */
+export const isDarkTheme = (theme: string | undefined, systemTheme: string | undefined): boolean => {
+  if (theme === 'system') {
+    return systemTheme === 'dark';
+  }
+  return theme === 'dark';
 };
