@@ -60,21 +60,24 @@ export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
     children,
     ...props
   }, ref) => {
+    // Map to standard Tailwind size classes
     const sizeClasses = {
-      xl: "text-text-xl",
-      lg: "text-text-lg",
-      md: "text-text-md",
-      sm: "text-text-sm",
-      xs: "text-text-xs",
+      xl: "text-xl leading-relaxed",
+      lg: "text-lg leading-relaxed",
+      md: "text-base leading-relaxed",
+      sm: "text-sm leading-relaxed",
+      xs: "text-xs leading-relaxed",
     };
 
+    // Map to standard Tailwind weight classes
     const weightClasses = {
-      regular: "font-regular",
+      regular: "font-normal",
       medium: "font-medium",
       semibold: "font-semibold",
       bold: "font-bold",
     };
 
+    // Keep the existing color classes since they're semantic
     const colorClasses = {
       default: "text-foreground",
       muted: "text-muted-foreground",

@@ -86,25 +86,28 @@ export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
     // Determine the final size
     const finalSize = size || defaultSizes[level];
 
+    // Map to standard Tailwind classes with appropriate sizing
     const sizeClasses: Record<string, string> = {
-      "2xl": "text-display-2xl",
-      "xl": "text-display-xl",
-      "lg": "text-display-lg",
-      "md": "text-display-md",
-      "sm": "text-display-sm",
-      "xs": "text-display-xs",
-      "text-xl": "text-text-xl",
-      "text-lg": "text-text-lg",
-      "text-md": "text-text-md",
+      "2xl": "text-5xl leading-tight tracking-tight",
+      "xl": "text-4xl leading-tight tracking-tight",
+      "lg": "text-3xl leading-tight tracking-tight",
+      "md": "text-2xl leading-tight tracking-tight",
+      "sm": "text-xl leading-tight tracking-tight",
+      "xs": "text-lg leading-tight tracking-tight",
+      "text-xl": "text-xl leading-tight",
+      "text-lg": "text-lg leading-tight",
+      "text-md": "text-base leading-tight",
     };
 
+    // Map to standard Tailwind weight classes
     const weightClasses = {
-      regular: "font-regular",
+      regular: "font-normal",
       medium: "font-medium",
       semibold: "font-semibold",
       bold: "font-bold",
     };
 
+    // Keep the existing color classes since they're semantic
     const colorClasses = {
       default: "text-foreground",
       muted: "text-muted-foreground",
