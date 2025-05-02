@@ -10,366 +10,381 @@
  * This structure allows changes at any level without breaking the entire system.
  */
 
- @tailwind base;
- @tailwind components;
- @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
  
- @layer base {
-   :root {
-     /* -------------------------------- */
-     /* Foundational Colors: Light Theme */
-     /* -------------------------------- */
- 
-     /* Gray Scale */
-     --color-gray-25: #fcfcfc;
-     --color-gray-50: #fafafa;
-     --color-gray-100: #f4f4f5;
-     --color-gray-200: #e4e4e7;
-     --color-gray-300: #d1d1d6;
-     --color-gray-400: #a0a0ab;
-     --color-gray-500: #70707b;
-     --color-gray-600: #51515c;
-     --color-gray-700: #3f3f46;
-     --color-gray-800: #26262b;
-     --color-gray-900: #1a1a1e;
-     --color-gray-950: #131316;
- 
-     /* Brand Colors */
-     --color-brand-25: #f8faff;
-     --color-brand-50: #edf2ff;
-     --color-brand-100: #dee4fa;
-     --color-brand-200: #c6cdf4;
-     --color-brand-300: #a6afec;
-     --color-brand-400: #8f97e0;
-     --color-brand-500: #7479d6;
-     --color-brand-600: #6063bd;
-     --color-brand-700: #4a49a6;
-     --color-brand-800: #343688;
-     --color-brand-900: #232469;
-     --color-brand-950: #15154d;
- 
-     /* Error Colors */
-     --color-error-25: #fffbfa;
-     --color-error-50: #ffefeb;
-     --color-error-100: #fcdad1;
-     --color-error-200: #f7b8a8;
-     --color-error-300: #ef927a;
-     --color-error-400: #e37559;
-     --color-error-500: #d3593a;
-     --color-error-600: #bd3e1e;
-     --color-error-700: #99371e;
-     --color-error-800: #732c1a;
-     --color-error-900: #4d2014;
-     --color-error-950: #29120c;
- 
-     /* Warning Colors */
-     --color-warning-25: #fefdf0;
-     --color-warning-50: #fffce8;
-     --color-warning-100: #fef7c3;
-     --color-warning-200: #feee95;
-     --color-warning-300: #fde272;
-     --color-warning-400: #fac515;
-     --color-warning-500: #eaaa08;
-     --color-warning-600: #ca8504;
-     --color-warning-700: #a15c07;
-     --color-warning-800: #854a0e;
-     --color-warning-900: #713b12;
-     --color-warning-950: #542c0d;
- 
-     /* Success Colors */
-     --color-success-25: #f6fefb;
-     --color-success-50: #e6f5ee;
-     --color-success-100: #ccf0e0;
-     --color-success-200: #a6ebcd;
-     --color-success-300: #73e2b2;
-     --color-success-400: #3ccb8d;
-     --color-success-500: #36b37d;
-     --color-success-600: #2c9266;
-     --color-success-700: #1f744e;
-     --color-success-800: #185c3e;
-     --color-success-900: #084c2e;
-     --color-success-950: #0a2e1e;
- 
-     /* Base Colors */
-     --color-white: #ffffff;
-     --color-black: #000000;
-     
-     /* ------------------------------- */
-     /* Semantic Variables: Light Theme */
-     /* ------------------------------- */
- 
-     /* Text Colors - Used for typography elements */
-     --text-primary: var(--color-gray-900);     /* Main text color for body content */
-     --text-secondary: var(--color-gray-700);   /* Secondary text, used for descriptions, labels */
-     --text-tertiary: var(--color-gray-600);    /* Tertiary text, used for less important information */
-     --text-disabled: var(--color-gray-500);    /* Text for disabled elements */
-     
-     --text-brand-primary: var(--color-gray-50);    /* Primary text on brand color backgrounds */
-     --text-brand-secondary: var(--color-gray-300); /* Secondary text on brand backgrounds */
-     --text-brand-tertiary: var(--color-gray-400);  /* Tertiary text on brand backgrounds */
-     
-     --text-error-primary: var(--color-error-600);  /* Error message text */
-     --text-warning-primary: var(--color-warning-600); /* Warning message text */
-     --text-success-primary: var(--color-success-600); /* Success message text */
- 
-     /* Border Colors - Used for element boundaries */
-     --border-primary: var(--color-gray-300);      /* Primary border, used for inputs, cards */
-     --border-secondary: var(--color-gray-200);    /* Secondary border, for subtle separations */
-     --border-tertiary: var(--color-gray-100);     /* Tertiary border, very subtle */
-     --border-disabled: var(--color-gray-300);     /* Border for disabled elements */
-     
-     --border-brand: var(--color-brand-400);       /* Brand-colored borders for emphasis */
-     --border-brand-solid: var(--color-brand-600); /* Solid brand borders for stronger emphasis */
-     
-     --border-error: var(--color-error-400);       /* Error state borders */
-     --border-error-solid: var(--color-error-500); /* Strong error borders */
- 
-     /* Background Colors - Used for surfaces */
-     --bg-primary: var(--color-white);             /* Main background color */
-     --bg-secondary: var(--color-gray-50);         /* Secondary background, for subtle contrast */
-     --bg-tertiary: var(--color-gray-100);         /* Tertiary background, for stronger contrast */
-     --bg-quaternary: var(--color-gray-200);       /* Deeper background contrast */
-     --bg-disabled: var(--color-gray-100);         /* Background for disabled elements */
-     --bg-overlay: var(--color-gray-800);          /* Background for overlays with reduced opacity */
-     
-     --bg-brand-primary: var(--color-brand-50);    /* Subtle brand background */
-     --bg-brand-secondary: var(--color-brand-100); /* Stronger brand background */
-     --bg-brand-solid: var(--color-brand-600);     /* Solid brand background */
-     
-     --bg-error-primary: var(--color-error-50);    /* Subtle error background */
-     --bg-error-secondary: var(--color-error-100); /* Stronger error background */
-     --bg-error-solid: var(--color-error-600);     /* Solid error background */
-     
-     --bg-warning-primary: var(--color-warning-50);    /* Subtle warning background */
-     --bg-warning-secondary: var(--color-warning-100); /* Stronger warning background */
-     --bg-warning-solid: var(--color-warning-600);     /* Solid warning background */
-     
-     --bg-success-primary: var(--color-success-50);    /* Subtle success background */
-     --bg-success-secondary: var(--color-success-100); /* Stronger success background */
-     --bg-success-solid: var(--color-success-600);     /* Solid success background */
- 
-     /* Foreground Colors - Used for interactive elements */
-     --fg-primary: var(--color-gray-900);          /* Primary foreground for icons, buttons */
-     --fg-secondary: var(--color-gray-700);        /* Secondary foreground, less emphasis */
-     --fg-tertiary: var(--color-gray-600);         /* Tertiary foreground, minimal emphasis */
-     --fg-quaternary: var(--color-gray-500);       /* Quaternary foreground, very light emphasis */
-     --fg-quinary: var(--color-gray-400);          /* Quinary foreground, extremely subtle */
-     --fg-disabled: var(--color-gray-400);         /* Foreground for disabled elements */
-     
-     --fg-brand-primary: var(--color-brand-600);   /* Brand-colored foreground elements */
-     --fg-brand-secondary: var(--color-brand-500); /* Secondary brand foreground */
-     
-     --fg-error-primary: var(--color-error-500);   /* Error foreground for icons, indicators */
-     --fg-error-secondary: var(--color-error-400); /* Secondary error foreground */
-     
-     --fg-warning-primary: var(--color-warning-500);   /* Warning foreground */
-     --fg-warning-secondary: var(--color-warning-400); /* Secondary warning foreground */
-     
-     --fg-success-primary: var(--color-success-500);   /* Success foreground */
-     --fg-success-secondary: var(--color-success-400); /* Secondary success foreground */
-     
-     --fg-white: var(--color-white);               /* White foreground for contrast on dark backgrounds */
- 
-     /* ------------------------------------ */
-     /* shadcn Required Variables: Light Theme */
-     /* ------------------------------------ */
-     
-     /* These variables are required by shadcn components. 
-        They map to our semantic design system variables to ensure consistency */
-     
-     /* Base Theme Colors */
-     --background: var(--bg-primary);          /* Main app background color */
-     --foreground: var(--text-primary);        /* Main content text color */
-     
-     /* Card Component Colors */
-     --card: var(--bg-primary);                /* Card background color */
-     --card-foreground: var(--text-primary);   /* Card text color */
-     
-     /* Popover/Dropdown Colors */
-     --popover: var(--bg-primary);             /* Popover background color */
-     --popover-foreground: var(--text-primary); /* Popover text color */
-     
-     /* Primary Button Colors */
-     --primary: var(--color-brand-600);        /* Primary button background */
-     --primary-foreground: var(--color-white); /* Primary button text color */
-     
-     /* Secondary Button/Element Colors */
-     --secondary: var(--bg-tertiary);          /* Secondary button background */
-     --secondary-foreground: var(--fg-secondary); /* Secondary button text */
-     
-     /* Muted Elements Colors (e.g., disabled or subtle UI) */
-     --muted: var(--bg-tertiary);              /* Muted background */
-     --muted-foreground: var(--fg-quaternary); /* Muted text color */
-     
-     /* Accent Elements (e.g., hover states) */
-     --accent: var(--bg-brand-primary);        /* Accent background */
-     --accent-foreground: var(--fg-brand-primary); /* Accent text color */
-     
-     /* Destructive Elements (e.g., delete buttons) */
-     --destructive: var(--bg-error-solid);     /* Destructive action background */
-     --destructive-foreground: var(--color-white); /* Destructive action text */
-     
-     /* UI Element Border and Focus */
-     --border: var(--border-primary);          /* Border color for UI elements */
-     --input: var(--border-primary);           /* Input field border color */
-     --ring: var(--border-brand);              /* Focus ring color for interactive elements */
-     
-     /* Component Shape */
-     --radius: 0.5rem;                         /* Border radius for components */
-   }
- 
-   /* Dark theme variables */
-   .dark {
-     /* -------------------------------- */
-     /* Foundational Colors: Dark Theme */
-     /* -------------------------------- */
-     
-     /* Note: We're not redefining the base color variables in dark mode.
-        Instead, we're just updating the semantic variables to point to different colors. */
-     
-     /* ------------------------------- */
-     /* Semantic Variables: Dark Theme */
-     /* ------------------------------- */
-     
-     /* Text Colors - Adjusted for dark mode */
-     --text-primary: #fcfcfc;                /* Light text on dark background */
-     --text-secondary: #d1d1d6;              /* Secondary text on dark background */
-     --text-tertiary: #a0a0ab;               /* Tertiary text on dark background */
-     --text-disabled: #70707b;               /* Disabled text on dark background */
-     
-     --text-brand-primary: #edf2ff;          /* Brand text in dark mode */
-     --text-brand-secondary: #c6cdf4;        /* Secondary brand text */
-     --text-brand-tertiary: #a6afec;         /* Tertiary brand text */
-     
-     --text-error-primary: #ef927a;          /* Error text in dark mode */
-     --text-warning-primary: #fde272;        /* Warning text in dark mode */
-     --text-success-primary: #73e2b2;        /* Success text in dark mode */
-     
-     /* Border Colors - Adjusted for dark mode */
-     --border-primary: #3f3f46;              /* Main border color in dark mode */
-     --border-secondary: #26262b;            /* Secondary border in dark mode */
-     --border-tertiary: #26262b;             /* Tertiary border in dark mode */
-     --border-disabled: #3f3f46;             /* Disabled borders in dark mode */
-     
-     --border-brand: #7479d6;                /* Brand border in dark mode */
-     --border-brand-solid: #a6afec;          /* Solid brand border */
-     
-     --border-error: #e37559;                /* Error border in dark mode */
-     --border-error-solid: #ef927a;          /* Solid error border */
-     
-     /* Background Colors - Adjusted for dark mode */
-     --bg-primary: #131316;                  /* Main dark theme background */
-     --bg-secondary: #1a1a1e;                /* Secondary dark background */
-     --bg-tertiary: #26262b;                 /* Tertiary dark background */
-     --bg-quaternary: #3f3f46;               /* Quaternary dark background */
-     --bg-disabled: #26262b;                 /* Disabled background in dark mode */
-     --bg-overlay: #26262b;                  /* Overlay background */
-     
-     --bg-brand-primary: #1a1a1e;            /* Brand section background in dark mode */
-     --bg-brand-secondary: #131316;          /* Secondary brand background */
-     --bg-brand-solid: #4a49a6;              /* Solid brand background */
-     
-     --bg-error-primary: #d3593a;            /* Error background in dark mode */
-     --bg-error-secondary: #ef927a;          /* Secondary error background */
-     --bg-error-solid: #bd3e1e;              /* Solid error background */
-     
-     --bg-warning-primary: #eaaa08;          /* Warning background */
-     --bg-warning-secondary: #fde272;        /* Secondary warning background */
-     --bg-warning-solid: #ca8504;            /* Solid warning background */
-     
-     --bg-success-primary: #36b37d;          /* Success background */
-     --bg-success-secondary: #73e2b2;        /* Secondary success background */
-     --bg-success-solid: #2c9266;            /* Solid success background */
-     
-     /* Foreground Colors - Adjusted for dark mode */
-     --fg-primary: #ffffff;                  /* Primary foreground in dark mode */
-     --fg-secondary: #d1d1d6;                /* Secondary foreground */
-     --fg-tertiary: #a0a0ab;                 /* Tertiary foreground */
-     --fg-quaternary: #70707b;               /* Quaternary foreground */
-     --fg-quinary: #a0a0ab;                  /* Quinary foreground */
-     --fg-disabled: #70707b;                 /* Disabled foreground */
-     
-     --fg-brand-primary: #a6afec;            /* Brand foreground in dark mode */
-     --fg-brand-secondary: #7479d6;          /* Secondary brand foreground */
-     
-     --fg-error-primary: #ef927a;            /* Error foreground */
-     --fg-error-secondary: #e37559;          /* Secondary error foreground */
-     
-     --fg-warning-primary: #fde272;          /* Warning foreground */
-     --fg-warning-secondary: #fac515;        /* Secondary warning foreground */
-     
-     --fg-success-primary: #73e2b2;          /* Success foreground */
-     --fg-success-secondary: #3ccb8d;        /* Secondary success foreground */
-     
-     /* ----------------------------------- */
-     /* shadcn Required Variables: Dark Theme */
-     /* ----------------------------------- */
-     
-     /* Base Theme Colors */
-     --background: var(--bg-primary);         /* Main dark theme background */
-     --foreground: var(--text-primary);       /* Main content text in dark mode */
-     
-     /* Card Component Colors */
-     --card: var(--bg-primary);               /* Card background */
-     --card-foreground: var(--text-primary);  /* Card text */
-     
-     /* Popover/Dropdown Colors */
-     --popover: var(--bg-primary);            /* Popover background */
-     --popover-foreground: var(--text-primary); /* Popover text */
-     
-     /* Primary Button Colors */
-     --primary: var(--color-brand-600);       /* Primary button background */
-     --primary-foreground: #131316;           /* Primary button text */
-     
-     /* Secondary Button/Element Colors */
-     --secondary: var(--bg-tertiary);         /* Secondary button background */
-     --secondary-foreground: var(--fg-secondary); /* Secondary button text */
-     
-     /* Muted Elements Colors */
-     --muted: var(--bg-tertiary);             /* Muted background */
-     --muted-foreground: var(--fg-quaternary); /* Muted text */
-     
-     /* Accent Elements */
-     --accent: var(--bg-tertiary);            /* Accent background */
-     --accent-foreground: var(--fg-secondary); /* Accent text */
-     
-     /* Destructive Elements */
-     --destructive: var(--bg-error-solid);    /* Destructive action background */
-     --destructive-foreground: #131316;       /* Destructive action text */
-     
-     /* UI Element Border and Focus */
-     --border: var(--border-primary);         /* Border color */
-     --input: var(--border-primary);          /* Input field border */
-     --ring: var(--color-brand-500);          /* Focus ring color */
-   }
- }
- 
- @layer components {
-   /**
-    * Component Utilities
-    * 
-    * Define reusable utility classes for common component styles.
-    * These can be used to apply consistent styling across components.
-    */
-   
-   /* Example utility classes - add your own as needed */
-   .text-brand-heading {
-     @apply text-lg font-semibold text-[var(--text-brand-primary)];
-   }
-   
-   .card-highlight {
-     @apply border-[var(--border-brand)] bg-[var(--bg-brand-primary)];
-   }
-   
-   .alert-error {
-     @apply bg-[var(--bg-error-primary)] border-[var(--border-error)] text-[var(--text-error-primary)];
-   }
-   
-   .alert-warning {
-     @apply bg-[var(--bg-warning-primary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
-   }
-   
-   .alert-success {
-     @apply bg-[var(--bg-success-primary)] border-[var(--border-success)] text-[var(--text-success-primary)];
-   }
- }
+@layer base {
+  :root {
+    /* -------------------------------- */
+    /* Foundational Colors: Light Theme */
+    /* -------------------------------- */
+
+    /* Gray Scale */
+    --color-gray-25: #fcfcfc;
+    --color-gray-50: #fafafa;
+    --color-gray-100: #f4f4f5;
+    --color-gray-200: #e4e4e7;
+    --color-gray-300: #d1d1d6;
+    --color-gray-400: #a0a0ab;
+    --color-gray-500: #70707b;
+    --color-gray-600: #51515c;
+    --color-gray-700: #3f3f46;
+    --color-gray-800: #26262b;
+    --color-gray-900: #1a1a1e;
+    --color-gray-950: #131316;
+
+    /* Brand Colors */
+    --color-brand-25: #f8faff;
+    --color-brand-50: #edf2ff;
+    --color-brand-100: #dee4fa;
+    --color-brand-200: #c6cdf4;
+    --color-brand-300: #a6afec;
+    --color-brand-400: #8f97e0;
+    --color-brand-500: #7479d6;
+    --color-brand-600: #6063bd;
+    --color-brand-700: #4a49a6;
+    --color-brand-800: #343688;
+    --color-brand-900: #232469;
+    --color-brand-950: #15154d;
+
+    /* Error Colors */
+    --color-error-25: #fffbfa;
+    --color-error-50: #ffefeb;
+    --color-error-100: #fcdad1;
+    --color-error-200: #f7b8a8;
+    --color-error-300: #ef927a;
+    --color-error-400: #e37559;
+    --color-error-500: #d3593a;
+    --color-error-600: #bd3e1e;
+    --color-error-700: #99371e;
+    --color-error-800: #732c1a;
+    --color-error-900: #4d2014;
+    --color-error-950: #29120c;
+
+    /* Warning Colors */
+    --color-warning-25: #fefdf0;
+    --color-warning-50: #fffce8;
+    --color-warning-100: #fef7c3;
+    --color-warning-200: #feee95;
+    --color-warning-300: #fde272;
+    --color-warning-400: #fac515;
+    --color-warning-500: #eaaa08;
+    --color-warning-600: #ca8504;
+    --color-warning-700: #a15c07;
+    --color-warning-800: #854a0e;
+    --color-warning-900: #713b12;
+    --color-warning-950: #542c0d;
+
+    /* Success Colors */
+    --color-success-25: #f6fefb;
+    --color-success-50: #e6f5ee;
+    --color-success-100: #ccf0e0;
+    --color-success-200: #a6ebcd;
+    --color-success-300: #73e2b2;
+    --color-success-400: #3ccb8d;
+    --color-success-500: #36b37d;
+    --color-success-600: #2c9266;
+    --color-success-700: #1f744e;
+    --color-success-800: #185c3e;
+    --color-success-900: #084c2e;
+    --color-success-950: #0a2e1e;
+
+    /* Base Colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
+    /* ------------------------------- */
+    /* Semantic Variables: Light Theme */
+    /* ------------------------------- */
+
+    /* Text Colors - Used for typography elements */
+    --text-primary: var(--color-gray-900);     /* Main text color for body content */
+    --text-secondary: var(--color-gray-700);   /* Secondary text, used for descriptions, labels */
+    --text-tertiary: var(--color-gray-600);    /* Tertiary text, used for less important information */
+    --text-disabled: var(--color-gray-500);    /* Text for disabled elements */
+    
+    --text-brand-primary: var(--color-gray-50);    /* Primary text on brand color backgrounds */
+    --text-brand-secondary: var(--color-gray-300); /* Secondary text on brand backgrounds */
+    --text-brand-tertiary: var(--color-gray-400);  /* Tertiary text on brand backgrounds */
+    
+    --text-error-primary: var(--color-error-600);  /* Error message text */
+    --text-warning-primary: var(--color-warning-600); /* Warning message text */
+    --text-success-primary: var(--color-success-600); /* Success message text */
+
+    /* Border Colors - Used for element boundaries */
+    --border-primary: var(--color-gray-300);      /* Primary border, used for inputs, cards */
+    --border-secondary: var(--color-gray-200);    /* Secondary border, for subtle separations */
+    --border-tertiary: var(--color-gray-100);     /* Tertiary border, very subtle */
+    --border-disabled: var(--color-gray-300);     /* Border for disabled elements */
+    
+    --border-brand: var(--color-brand-400);       /* Brand-colored borders for emphasis */
+    --border-brand-solid: var(--color-brand-600); /* Solid brand borders for stronger emphasis */
+    
+    --border-error: var(--color-error-400);       /* Error state borders */
+    --border-error-solid: var(--color-error-500); /* Strong error borders */
+    
+    --border-warning: var(--color-warning-400);   /* Warning state borders */
+    --border-warning-solid: var(--color-warning-500); /* Strong warning borders */
+    
+    --border-success: var(--color-success-400);   /* Success state borders */
+    --border-success-solid: var(--color-success-500); /* Strong success borders */
+
+    /* Background Colors - Used for surfaces */
+    --bg-primary: var(--color-white);             /* Main background color */
+    --bg-secondary: var(--color-gray-50);         /* Secondary background, for subtle contrast */
+    --bg-tertiary: var(--color-gray-100);         /* Tertiary background, for stronger contrast */
+    --bg-quaternary: var(--color-gray-200);       /* Deeper background contrast */
+    --bg-disabled: var(--color-gray-100);         /* Background for disabled elements */
+    --bg-overlay: var(--color-gray-800);          /* Background for overlays with reduced opacity */
+    
+    --bg-brand-primary: var(--color-brand-50);    /* Subtle brand background */
+    --bg-brand-secondary: var(--color-brand-100); /* Stronger brand background */
+    --bg-brand-solid: var(--color-brand-600);     /* Solid brand background */
+    
+    --bg-error-primary: var(--color-error-50);    /* Subtle error background */
+    --bg-error-secondary: var(--color-error-100); /* Stronger error background */
+    --bg-error-solid: var(--color-error-600);     /* Solid error background */
+    
+    --bg-warning-primary: var(--color-warning-50);    /* Subtle warning background */
+    --bg-warning-secondary: var(--color-warning-100); /* Stronger warning background */
+    --bg-warning-solid: var(--color-warning-600);     /* Solid warning background */
+    
+    --bg-success-primary: var(--color-success-50);    /* Subtle success background */
+    --bg-success-secondary: var(--color-success-100); /* Stronger success background */
+    --bg-success-solid: var(--color-success-600);     /* Solid success background */
+
+    /* Foreground Colors - Used for interactive elements */
+    --fg-primary: var(--color-gray-900);          /* Primary foreground for icons, buttons */
+    --fg-secondary: var(--color-gray-700);        /* Secondary foreground, less emphasis */
+    --fg-tertiary: var(--color-gray-600);         /* Tertiary foreground, minimal emphasis */
+    --fg-quaternary: var(--color-gray-500);       /* Quaternary foreground, very light emphasis */
+    --fg-quinary: var(--color-gray-400);          /* Quinary foreground, extremely subtle */
+    --fg-disabled: var(--color-gray-400);         /* Foreground for disabled elements */
+    
+    --fg-brand-primary: var(--color-brand-600);   /* Brand-colored foreground elements */
+    --fg-brand-secondary: var(--color-brand-500); /* Secondary brand foreground */
+    
+    --fg-error-primary: var(--color-error-500);   /* Error foreground for icons, indicators */
+    --fg-error-secondary: var(--color-error-400); /* Secondary error foreground */
+    
+    --fg-warning-primary: var(--color-warning-500);   /* Warning foreground */
+    --fg-warning-secondary: var(--color-warning-400); /* Secondary warning foreground */
+    
+    --fg-success-primary: var(--color-success-500);   /* Success foreground */
+    --fg-success-secondary: var(--color-success-400); /* Secondary success foreground */
+    
+    --fg-white: var(--color-white);               /* White foreground for contrast on dark backgrounds */
+
+    /* ---------------------------------------- */
+    /* shadcn Required Variables: Light Theme   */
+    /* ---------------------------------------- */
+    
+    /* IMPORTANT: shadcn variables need to contain HSL parameters only, not complete colors.
+       These parameters will be wrapped in hsl() when used. */
+    
+    /* Base Theme Colors */
+    --background: 0 0% 100%;          /* Main app background (white) */
+    --foreground: 240 10% 3.9%;       /* Main text (gray-900) */
+    
+    /* Card Component Colors */
+    --card: 0 0% 100%;                /* Card background (white) */
+    --card-foreground: 240 10% 3.9%;  /* Card text (gray-900) */
+    
+    /* Popover/Dropdown Colors */
+    --popover: 0 0% 100%;             /* Popover background (white) */
+    --popover-foreground: 240 10% 3.9%; /* Popover text (gray-900) */
+    
+    /* Primary Button Colors */
+    --primary: 242 48% 56%;           /* Primary button (brand-600) */
+    --primary-foreground: 0 0% 100%;  /* Primary button text (white) */
+    
+    /* Secondary Button/Element Colors */
+    --secondary: 240 5% 96%;          /* Secondary button (gray-100) */
+    --secondary-foreground: 240 5% 26%; /* Secondary button text (gray-700) */
+    
+    /* Muted Elements Colors */
+    --muted: 240 5% 96%;              /* Muted background (gray-100) */
+    --muted-foreground: 240 4% 46%;   /* Muted text (gray-500) */
+    
+    /* Accent Elements */
+    --accent: 245 100% 97%;           /* Accent background (brand-50) */
+    --accent-foreground: 242 48% 56%; /* Accent text (brand-600) */
+    
+    /* Destructive Elements */
+    --destructive: 11 70% 44%;        /* Destructive background (error-600) */
+    --destructive-foreground: 0 0% 100%; /* Destructive text (white) */
+    
+    /* UI Element Border and Focus */
+    --border: 240 5% 84%;             /* Border color (gray-300) */
+    --input: 240 5% 84%;              /* Input field border (gray-300) */
+    --ring: 242 83% 71%;              /* Focus ring color (brand-400) */
+    
+    /* Component Shape */
+    --radius: 0.5rem;                 /* Border radius for components */
+  }
+
+  /* Dark theme variables */
+  .dark {
+    /* -------------------------------- */
+    /* Foundational Colors: Dark Theme */
+    /* -------------------------------- */
+    
+    /* Note: We're not redefining the base color variables in dark mode.
+       Instead, we're just updating the semantic variables to point to different colors. */
+    
+    /* ------------------------------- */
+    /* Semantic Variables: Dark Theme */
+    /* ------------------------------- */
+    
+    /* Text Colors - Adjusted for dark mode */
+    --text-primary: #fcfcfc;                /* Light text on dark background */
+    --text-secondary: #d1d1d6;              /* Secondary text on dark background */
+    --text-tertiary: #a0a0ab;               /* Tertiary text on dark background */
+    --text-disabled: #70707b;               /* Disabled text on dark background */
+    
+    --text-brand-primary: #edf2ff;          /* Brand text in dark mode */
+    --text-brand-secondary: #c6cdf4;        /* Secondary brand text */
+    --text-brand-tertiary: #a6afec;         /* Tertiary brand text */
+    
+    --text-error-primary: #ef927a;          /* Error text in dark mode */
+    --text-warning-primary: #fde272;        /* Warning text in dark mode */
+    --text-success-primary: #73e2b2;        /* Success text in dark mode */
+    
+    /* Border Colors - Adjusted for dark mode */
+    --border-primary: #3f3f46;              /* Main border color in dark mode */
+    --border-secondary: #26262b;            /* Secondary border in dark mode */
+    --border-tertiary: #26262b;             /* Tertiary border in dark mode */
+    --border-disabled: #3f3f46;             /* Disabled borders in dark mode */
+    
+    --border-brand: #7479d6;                /* Brand border in dark mode */
+    --border-brand-solid: #a6afec;          /* Solid brand border */
+    
+    --border-error: #e37559;                /* Error border in dark mode */
+    --border-error-solid: #ef927a;          /* Solid error border */
+    
+    --border-warning: #fac515;              /* Warning border in dark mode */
+    --border-warning-solid: #fde272;        /* Solid warning border */
+    
+    --border-success: #3ccb8d;              /* Success border in dark mode */
+    --border-success-solid: #73e2b2;        /* Solid success border */
+    
+    /* Background Colors - Adjusted for dark mode */
+    --bg-primary: #131316;                  /* Main dark theme background */
+    --bg-secondary: #1a1a1e;                /* Secondary dark background */
+    --bg-tertiary: #26262b;                 /* Tertiary dark background */
+    --bg-quaternary: #3f3f46;               /* Quaternary dark background */
+    --bg-disabled: #26262b;                 /* Disabled background in dark mode */
+    --bg-overlay: #26262b;                  /* Overlay background */
+    
+    --bg-brand-primary: #1a1a1e;            /* Brand section background in dark mode */
+    --bg-brand-secondary: #131316;          /* Secondary brand background */
+    --bg-brand-solid: #4a49a6;              /* Solid brand background */
+    
+    --bg-error-primary: #d3593a;            /* Error background in dark mode */
+    --bg-error-secondary: #ef927a;          /* Secondary error background */
+    --bg-error-solid: #bd3e1e;              /* Solid error background */
+    
+    --bg-warning-primary: #eaaa08;          /* Warning background */
+    --bg-warning-secondary: #fde272;        /* Secondary warning background */
+    --bg-warning-solid: #ca8504;            /* Solid warning background */
+    
+    --bg-success-primary: #36b37d;          /* Success background */
+    --bg-success-secondary: #73e2b2;        /* Secondary success background */
+    --bg-success-solid: #2c9266;            /* Solid success background */
+    
+    /* Foreground Colors - Adjusted for dark mode */
+    --fg-primary: #ffffff;                  /* Primary foreground in dark mode */
+    --fg-secondary: #d1d1d6;                /* Secondary foreground */
+    --fg-tertiary: #a0a0ab;                 /* Tertiary foreground */
+    --fg-quaternary: #70707b;               /* Quaternary foreground */
+    --fg-quinary: #a0a0ab;                  /* Quinary foreground */
+    --fg-disabled: #70707b;                 /* Disabled foreground */
+    
+    --fg-brand-primary: #a6afec;            /* Brand foreground in dark mode */
+    --fg-brand-secondary: #7479d6;          /* Secondary brand foreground */
+    
+    --fg-error-primary: #ef927a;            /* Error foreground */
+    --fg-error-secondary: #e37559;          /* Secondary error foreground */
+    
+    --fg-warning-primary: #fde272;          /* Warning foreground */
+    --fg-warning-secondary: #fac515;        /* Secondary warning foreground */
+    
+    --fg-success-primary: #73e2b2;          /* Success foreground */
+    --fg-success-secondary: #3ccb8d;        /* Secondary success foreground */
+    
+    /* ---------------------------------------- */
+    /* shadcn Required Variables: Dark Theme    */
+    /* ---------------------------------------- */
+    
+    /* IMPORTANT: shadcn variables need to contain HSL parameters only, not complete colors.
+       These parameters will be wrapped in hsl() when used. */
+    
+    /* Base Theme Colors */
+    --background: 240 10% 3.9%;          /* Main dark theme background */
+    --foreground: 0 0% 98%;              /* Main content text in dark mode */
+    
+    /* Card Component Colors */
+    --card: 240 10% 3.9%;                /* Card background */
+    --card-foreground: 0 0% 98%;         /* Card text */
+    
+    /* Popover/Dropdown Colors */
+    --popover: 240 10% 3.9%;             /* Popover background */
+    --popover-foreground: 0 0% 98%;      /* Popover text */
+    
+    /* Primary Button Colors */
+    --primary: 242 48% 56%;              /* Primary button background */
+    --primary-foreground: 240 10% 3.9%;  /* Primary button text */
+    
+    /* Secondary Button/Element Colors */
+    --secondary: 240 4% 16%;             /* Secondary button background */
+    --secondary-foreground: 0 0% 98%;    /* Secondary button text */
+    
+    /* Muted Elements Colors */
+    --muted: 240 4% 16%;                 /* Muted background */
+    --muted-foreground: 240 5% 64.9%;    /* Muted text */
+    
+    /* Accent Elements */
+    --accent: 240 4% 16%;                /* Accent background */
+    --accent-foreground: 0 0% 98%;       /* Accent text */
+    
+    /* Destructive Elements */
+    --destructive: 0 62% 45%;            /* Destructive action background */
+    --destructive-foreground: 240 10% 3.9%; /* Destructive action text */
+    
+    /* UI Element Border and Focus */
+    --border: 240 4% 16%;                /* Border color */
+    --input: 240 4% 16%;                 /* Input field border */
+    --ring: 242 83% 45%;                 /* Focus ring color */
+  }
+}
+
+@layer components {
+  /**
+   * Component Utilities
+   * 
+   * Define reusable utility classes for common component styles.
+   * These can be used to apply consistent styling across components.
+   */
+  
+  /* Example utility classes - add your own as needed */
+  .text-brand-heading {
+    @apply text-lg font-semibold text-[var(--text-brand-primary)];
+  }
+  
+  .card-highlight {
+    @apply border-[var(--border-brand)] bg-[var(--bg-brand-primary)];
+  }
+  
+  .alert-error {
+    @apply bg-[var(--bg-error-primary)] border-[var(--border-error)] text-[var(--text-error-primary)];
+  }
+  
+  .alert-warning {
+    @apply bg-[var(--bg-warning-primary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
+  }
+  
+  .alert-success {
+    @apply bg-[var(--bg-success-primary)] border-[var(--border-success)] text-[var(--text-success-primary)];
+  }
+}

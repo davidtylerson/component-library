@@ -52,6 +52,8 @@ src/
   app/
     components/
       page.tsx
+    design-system/
+      page.tsx
     globals.css
     layout.tsx
     page.tsx
@@ -188,6 +190,240 @@ const preview: Preview = {
 };
 
 export default preview;
+</file>
+
+<file path="src/app/design-system/page.tsx">
+// src/app/design-system/page.tsx
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { Button } from "@/components/ui/button/button";
+
+export default function DesignSystemPage() {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  
+  // Get initial theme on component mount
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'dark' : 'light');
+    }
+  }, []);
+  
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    
+    // Update document class
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    
+    // Update state
+    setTheme(newTheme);
+    
+    // Store in localStorage
+    localStorage.setItem('theme', newTheme);
+  };
+
+  // Function to render a color swatch with inline styles
+  const renderSwatch = (type: string, weight: number) => {
+    return (
+      <div key={`${type}-${weight}`} className="mb-4">
+        <div 
+          style={{ 
+            backgroundColor: `var(--color-${type}-${weight})`,
+            borderRadius: '0.375rem',
+            height: '6rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            padding: '0.5rem'
+          }}
+        >
+          <div style={{ 
+            color: weight <= 400 ? 'var(--color-gray-900)' : 'var(--color-gray-50)',
+            fontSize: '0.75rem',
+            fontWeight: '500'
+          }}>
+            {type}-{weight}
+          </div>
+          <div style={{ 
+            color: weight <= 400 ? 'var(--color-gray-900)' : 'var(--color-gray-50)',
+            fontSize: '0.75rem',
+            opacity: 0.7
+          }}>
+            Aa
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="p-8 max-w-6xl mx-auto min-h-screen bg-ds-bg-primary text-ds-text-primary">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold">Design System</h1>
+        <Button 
+          onClick={toggleTheme}
+          variant="primary"
+        >
+          {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+        </Button>
+      </div>
+      
+      {/* Theme Information */}
+      <section className="mb-8 p-4 bg-ds-bg-secondary border border-ds-border-primary rounded-md">
+        <h2 className="text-xl font-semibold mb-2">Current Theme: {theme}</h2>
+        <p className="mb-4">
+          This design system uses your custom Tailwind ds- prefixed classes.
+          Use the button in the top-right to toggle between light and dark mode.
+        </p>
+      </section>
+      
+      {/* Foundational Colors */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">Foundational Colors</h2>
+        
+        <h3 className="text-lg font-medium mb-3">Gray Scale</h3>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+          {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => 
+            renderSwatch('gray', weight)
+          )}
+        </div>
+
+        <h3 className="text-lg font-medium mb-3">Brand Colors</h3>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+          {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => 
+            renderSwatch('brand', weight)
+          )}
+        </div>
+        
+        <h3 className="text-lg font-medium mb-3">Error Colors</h3>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+          {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => 
+            renderSwatch('error', weight)
+          )}
+        </div>
+        
+        <h3 className="text-lg font-medium mb-3">Warning Colors</h3>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+          {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => 
+            renderSwatch('warning', weight)
+          )}
+        </div>
+        
+        <h3 className="text-lg font-medium mb-3">Success Colors</h3>
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+          {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((weight) => 
+            renderSwatch('success', weight)
+          )}
+        </div>
+      </section>
+      
+      {/* Semantic Colors */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">Semantic Colors</h2>
+        
+        <h3 className="text-lg font-medium mb-3">Text Colors</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="p-4 border border-ds-border-primary rounded-md">
+            <div className="text-ds-text-primary font-medium">Text Primary</div>
+            <div className="text-sm text-ds-text-secondary">text-ds-text-primary</div>
+          </div>
+          <div className="p-4 border border-ds-border-primary rounded-md">
+            <div className="text-ds-text-secondary font-medium">Text Secondary</div>
+            <div className="text-sm text-ds-text-secondary">text-ds-text-secondary</div>
+          </div>
+          <div className="p-4 border border-ds-border-primary rounded-md">
+            <div className="text-ds-text-tertiary font-medium">Text Tertiary</div>
+            <div className="text-sm text-ds-text-secondary">text-ds-text-tertiary</div>
+          </div>
+        </div>
+        
+        <h3 className="text-lg font-medium mb-3">Background Colors</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-ds-bg-primary p-4 border border-ds-border-primary rounded-md">
+            <div className="font-medium">Background Primary</div>
+            <div className="text-sm text-ds-text-secondary">bg-ds-bg-primary</div>
+          </div>
+          <div className="bg-ds-bg-secondary p-4 border border-ds-border-primary rounded-md">
+            <div className="font-medium">Background Secondary</div>
+            <div className="text-sm text-ds-text-secondary">bg-ds-bg-secondary</div>
+          </div>
+          <div className="bg-ds-bg-tertiary p-4 border border-ds-border-primary rounded-md">
+            <div className="font-medium">Background Tertiary</div>
+            <div className="text-sm text-ds-text-secondary">bg-ds-bg-tertiary</div>
+          </div>
+        </div>
+        
+        <h3 className="text-lg font-medium mb-3">Border Colors</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="p-4 rounded-md" style={{ border: '2px solid var(--border-primary)' }}>
+            <div className="font-medium">Border Primary</div>
+            <div className="text-sm text-ds-text-secondary">border-ds-border-primary</div>
+          </div>
+          <div className="p-4 rounded-md" style={{ border: '2px solid var(--border-secondary)' }}>
+            <div className="font-medium">Border Secondary</div>
+            <div className="text-sm text-ds-text-secondary">border-ds-border-secondary</div>
+          </div>
+          <div className="p-4 rounded-md" style={{ border: '2px solid var(--border-tertiary)' }}>
+            <div className="font-medium">Border Tertiary</div>
+            <div className="text-sm text-ds-text-secondary">border-ds-border-tertiary</div>
+          </div>
+        </div>
+      </section>
+      
+      {/* shadcn Components */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">shadcn Component Variables</h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="bg-primary text-primary-foreground p-4 rounded-md">
+            <div className="font-medium">Primary</div>
+            <div className="text-sm opacity-80">bg-primary / text-primary-foreground</div>
+          </div>
+          <div className="bg-secondary text-secondary-foreground p-4 rounded-md">
+            <div className="font-medium">Secondary</div>
+            <div className="text-sm opacity-80">bg-secondary / text-secondary-foreground</div>
+          </div>
+          <div className="bg-accent text-accent-foreground p-4 rounded-md">
+            <div className="font-medium">Accent</div>
+            <div className="text-sm opacity-80">bg-accent / text-accent-foreground</div>
+          </div>
+          <div className="bg-muted text-muted-foreground p-4 rounded-md">
+            <div className="font-medium">Muted</div>
+            <div className="text-sm opacity-80">bg-muted / text-muted-foreground</div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Combined Examples */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">Combined Examples</h2>
+        
+        <h3 className="text-lg font-medium mb-3">Alert Examples</h3>
+        <div className="space-y-4">
+          <div style={{ 
+            backgroundColor: 'var(--bg-error-primary)',
+            borderColor: 'var(--border-error)',
+            color: 'var(--text-error-primary)',
+            padding: '1rem',
+            borderRadius: '0.375rem',
+            borderWidth: '1px'
+          }}>
+            Error Alert: Using design system variables (ds- prefix)
+          </div>
+          <div className="bg-destructive/10 border border-destructive text-destructive p-4 rounded-md">
+            Error Alert: Using shadcn destructive with opacity
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
 </file>
 
 <file path="src/components/typography/heading/heading.stories.tsx">
@@ -3708,404 +3944,381 @@ node_modules/
 </file>
 
 <file path="src/app/globals.css">
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/**
+ * Global CSS for Design System
+ * 
+ * This file defines the color system based on our Figma design tokens.
+ * It follows a layered approach:
+ * 1. Foundational Colors: Raw color values from design system
+ * 2. Semantic Variables: Meaningful variables that map to foundational colors
+ * 3. shadcn Variables: Variables required by shadcn components
+ *
+ * This structure allows changes at any level without breaking the entire system.
+ */
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+ @layer base {
+   :root {
+     /* -------------------------------- */
+     /* Foundational Colors: Light Theme */
+     /* -------------------------------- */
  
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+     /* Gray Scale */
+     --color-gray-25: #fcfcfc;
+     --color-gray-50: #fafafa;
+     --color-gray-100: #f4f4f5;
+     --color-gray-200: #e4e4e7;
+     --color-gray-300: #d1d1d6;
+     --color-gray-400: #a0a0ab;
+     --color-gray-500: #70707b;
+     --color-gray-600: #51515c;
+     --color-gray-700: #3f3f46;
+     --color-gray-800: #26262b;
+     --color-gray-900: #1a1a1e;
+     --color-gray-950: #131316;
  
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+     /* Brand Colors */
+     --color-brand-25: #f8faff;
+     --color-brand-50: #edf2ff;
+     --color-brand-100: #dee4fa;
+     --color-brand-200: #c6cdf4;
+     --color-brand-300: #a6afec;
+     --color-brand-400: #8f97e0;
+     --color-brand-500: #7479d6;
+     --color-brand-600: #6063bd;
+     --color-brand-700: #4a49a6;
+     --color-brand-800: #343688;
+     --color-brand-900: #232469;
+     --color-brand-950: #15154d;
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+     /* Error Colors */
+     --color-error-25: #fffbfa;
+     --color-error-50: #ffefeb;
+     --color-error-100: #fcdad1;
+     --color-error-200: #f7b8a8;
+     --color-error-300: #ef927a;
+     --color-error-400: #e37559;
+     --color-error-500: #d3593a;
+     --color-error-600: #bd3e1e;
+     --color-error-700: #99371e;
+     --color-error-800: #732c1a;
+     --color-error-900: #4d2014;
+     --color-error-950: #29120c;
  
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+     /* Warning Colors */
+     --color-warning-25: #fefdf0;
+     --color-warning-50: #fffce8;
+     --color-warning-100: #fef7c3;
+     --color-warning-200: #feee95;
+     --color-warning-300: #fde272;
+     --color-warning-400: #fac515;
+     --color-warning-500: #eaaa08;
+     --color-warning-600: #ca8504;
+     --color-warning-700: #a15c07;
+     --color-warning-800: #854a0e;
+     --color-warning-900: #713b12;
+     --color-warning-950: #542c0d;
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+     /* Success Colors */
+     --color-success-25: #f6fefb;
+     --color-success-50: #e6f5ee;
+     --color-success-100: #ccf0e0;
+     --color-success-200: #a6ebcd;
+     --color-success-300: #73e2b2;
+     --color-success-400: #3ccb8d;
+     --color-success-500: #36b37d;
+     --color-success-600: #2c9266;
+     --color-success-700: #1f744e;
+     --color-success-800: #185c3e;
+     --color-success-900: #084c2e;
+     --color-success-950: #0a2e1e;
  
-    --radius: 0.5rem;
-
-    /* Brand colors - Light Mode */
-    --brand-25: 241 83% 97%;
-    --brand-50: 240 77% 91%;
-    --brand-100: 240 72% 81%;
-    --brand-200: 240 72% 81%;
-    --brand-300: 241 66% 69%;
-    --brand-400: 241 62% 58%;
-    --brand-500: 241 55% 47%;
-    --brand-600: 242 57% 41%;
-    --brand-700: 240 61% 28%;
-    --brand-800: 242 58% 25%;
-    --brand-900: 242 54% 20%;
-    --brand-950: 243 60% 11%;
-
-    /* Error colors - Light Mode */
-    --error-25: 0 86% 97%;
-    --error-50: 0 91% 94%;
-    --error-100: 0 93% 89%;
-    --error-200: 0 93% 80%;
-    --error-300: 0 93% 80%;
-    --error-400: 0 91% 69%;
-    --error-500: 0 84% 60%;
-    --error-600: 0 72% 51%;
-    --error-700: 0 74% 39%;
-    --error-800: 0 70% 35%;
-    --error-900: 0 63% 31%;
-    --error-950: 0 78% 16%;
-
-    /* Warning colors - Light Mode */
-    --warning-25: 36 100% 97%;
-    --warning-50: 36 93% 92%;
-    --warning-100: 36 93% 84%;
-    --warning-200: 36 93% 84%;
-    --warning-300: 36 88% 75%;
-    --warning-400: 36 85% 65%;
-    --warning-500: 35 85% 55%;
-    --warning-600: 33 77% 50%;
-    --warning-700: 32 69% 40%;
-    --warning-800: 32 62% 32%;
-    --warning-900: 27 57% 27%;
-    --warning-950: 27 63% 15%;
-
-    /* Success colors - Light Mode */
-    --success-25: 142 76% 97%;
-    --success-50: 141 84% 93%;
-    --success-100: 141 79% 85%;
-    --success-200: 141 74% 73%;
-    --success-300: 141 66% 58%;
-    --success-400: 141 68% 45%;
-    --success-500: 141 73% 36%;
-    --success-600: 141 69% 29%;
-    --success-700: 142 61% 24%;
-    --success-800: 142 54% 19%;
-    --success-900: 142 50% 14%;
-    --success-950: 143 56% 7%;
-
-    /* Gray colors - Light Mode */
-    --gray-25: 0 0% 99%;
-    --gray-50: 0 0% 98%;
-    --gray-100: 240 4.8% 95.9%;
-    --gray-200: 240 5.9% 90%;
-    --gray-300: 240 4.9% 83.9%;
-    --gray-400: 240 5% 64.9%;
-    --gray-500: 240 3.8% 46.1%;
-    --gray-600: 240 5.2% 33.9%;
-    --gray-700: 240 5.3% 26.1%;
-    --gray-800: 240 3.7% 15.9%;
-    --gray-900: 240 5.9% 10%;
-    --gray-950: 240 10% 3.9%;
-  }
+     /* Base Colors */
+     --color-white: #ffffff;
+     --color-black: #000000;
+     
+     /* ------------------------------- */
+     /* Semantic Variables: Light Theme */
+     /* ------------------------------- */
  
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+     /* Text Colors - Used for typography elements */
+     --text-primary: var(--color-gray-900);     /* Main text color for body content */
+     --text-secondary: var(--color-gray-700);   /* Secondary text, used for descriptions, labels */
+     --text-tertiary: var(--color-gray-600);    /* Tertiary text, used for less important information */
+     --text-disabled: var(--color-gray-500);    /* Text for disabled elements */
+     
+     --text-brand-primary: var(--color-gray-50);    /* Primary text on brand color backgrounds */
+     --text-brand-secondary: var(--color-gray-300); /* Secondary text on brand backgrounds */
+     --text-brand-tertiary: var(--color-gray-400);  /* Tertiary text on brand backgrounds */
+     
+     --text-error-primary: var(--color-error-600);  /* Error message text */
+     --text-warning-primary: var(--color-warning-600); /* Warning message text */
+     --text-success-primary: var(--color-success-600); /* Success message text */
  
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+     /* Border Colors - Used for element boundaries */
+     --border-primary: var(--color-gray-300);      /* Primary border, used for inputs, cards */
+     --border-secondary: var(--color-gray-200);    /* Secondary border, for subtle separations */
+     --border-tertiary: var(--color-gray-100);     /* Tertiary border, very subtle */
+     --border-disabled: var(--color-gray-300);     /* Border for disabled elements */
+     
+     --border-brand: var(--color-brand-400);       /* Brand-colored borders for emphasis */
+     --border-brand-solid: var(--color-brand-600); /* Solid brand borders for stronger emphasis */
+     
+     --border-error: var(--color-error-400);       /* Error state borders */
+     --border-error-solid: var(--color-error-500); /* Strong error borders */
  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+     /* Background Colors - Used for surfaces */
+     --bg-primary: var(--color-white);             /* Main background color */
+     --bg-secondary: var(--color-gray-50);         /* Secondary background, for subtle contrast */
+     --bg-tertiary: var(--color-gray-100);         /* Tertiary background, for stronger contrast */
+     --bg-quaternary: var(--color-gray-200);       /* Deeper background contrast */
+     --bg-disabled: var(--color-gray-100);         /* Background for disabled elements */
+     --bg-overlay: var(--color-gray-800);          /* Background for overlays with reduced opacity */
+     
+     --bg-brand-primary: var(--color-brand-50);    /* Subtle brand background */
+     --bg-brand-secondary: var(--color-brand-100); /* Stronger brand background */
+     --bg-brand-solid: var(--color-brand-600);     /* Solid brand background */
+     
+     --bg-error-primary: var(--color-error-50);    /* Subtle error background */
+     --bg-error-secondary: var(--color-error-100); /* Stronger error background */
+     --bg-error-solid: var(--color-error-600);     /* Solid error background */
+     
+     --bg-warning-primary: var(--color-warning-50);    /* Subtle warning background */
+     --bg-warning-secondary: var(--color-warning-100); /* Stronger warning background */
+     --bg-warning-solid: var(--color-warning-600);     /* Solid warning background */
+     
+     --bg-success-primary: var(--color-success-50);    /* Subtle success background */
+     --bg-success-secondary: var(--color-success-100); /* Stronger success background */
+     --bg-success-solid: var(--color-success-600);     /* Solid success background */
  
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+     /* Foreground Colors - Used for interactive elements */
+     --fg-primary: var(--color-gray-900);          /* Primary foreground for icons, buttons */
+     --fg-secondary: var(--color-gray-700);        /* Secondary foreground, less emphasis */
+     --fg-tertiary: var(--color-gray-600);         /* Tertiary foreground, minimal emphasis */
+     --fg-quaternary: var(--color-gray-500);       /* Quaternary foreground, very light emphasis */
+     --fg-quinary: var(--color-gray-400);          /* Quinary foreground, extremely subtle */
+     --fg-disabled: var(--color-gray-400);         /* Foreground for disabled elements */
+     
+     --fg-brand-primary: var(--color-brand-600);   /* Brand-colored foreground elements */
+     --fg-brand-secondary: var(--color-brand-500); /* Secondary brand foreground */
+     
+     --fg-error-primary: var(--color-error-500);   /* Error foreground for icons, indicators */
+     --fg-error-secondary: var(--color-error-400); /* Secondary error foreground */
+     
+     --fg-warning-primary: var(--color-warning-500);   /* Warning foreground */
+     --fg-warning-secondary: var(--color-warning-400); /* Secondary warning foreground */
+     
+     --fg-success-primary: var(--color-success-500);   /* Success foreground */
+     --fg-success-secondary: var(--color-success-400); /* Secondary success foreground */
+     
+     --fg-white: var(--color-white);               /* White foreground for contrast on dark backgrounds */
  
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+     /* ------------------------------------ */
+     /* shadcn Required Variables: Light Theme */
+     /* ------------------------------------ */
+     
+     /* These variables are required by shadcn components. 
+        They map to our semantic design system variables to ensure consistency */
+     
+     /* Base Theme Colors */
+     --background: var(--bg-primary);          /* Main app background color */
+     --foreground: var(--text-primary);        /* Main content text color */
+     
+     /* Card Component Colors */
+     --card: var(--bg-primary);                /* Card background color */
+     --card-foreground: var(--text-primary);   /* Card text color */
+     
+     /* Popover/Dropdown Colors */
+     --popover: var(--bg-primary);             /* Popover background color */
+     --popover-foreground: var(--text-primary); /* Popover text color */
+     
+     /* Primary Button Colors */
+     --primary: var(--color-brand-600);        /* Primary button background */
+     --primary-foreground: var(--color-white); /* Primary button text color */
+     
+     /* Secondary Button/Element Colors */
+     --secondary: var(--bg-tertiary);          /* Secondary button background */
+     --secondary-foreground: var(--fg-secondary); /* Secondary button text */
+     
+     /* Muted Elements Colors (e.g., disabled or subtle UI) */
+     --muted: var(--bg-tertiary);              /* Muted background */
+     --muted-foreground: var(--fg-quaternary); /* Muted text color */
+     
+     /* Accent Elements (e.g., hover states) */
+     --accent: var(--bg-brand-primary);        /* Accent background */
+     --accent-foreground: var(--fg-brand-primary); /* Accent text color */
+     
+     /* Destructive Elements (e.g., delete buttons) */
+     --destructive: var(--bg-error-solid);     /* Destructive action background */
+     --destructive-foreground: var(--color-white); /* Destructive action text */
+     
+     /* UI Element Border and Focus */
+     --border: var(--border-primary);          /* Border color for UI elements */
+     --input: var(--border-primary);           /* Input field border color */
+     --ring: var(--border-brand);              /* Focus ring color for interactive elements */
+     
+     /* Component Shape */
+     --radius: 0.5rem;                         /* Border radius for components */
+   }
  
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+   /* Dark theme variables */
+   .dark {
+     /* -------------------------------- */
+     /* Foundational Colors: Dark Theme */
+     /* -------------------------------- */
+     
+     /* Note: We're not redefining the base color variables in dark mode.
+        Instead, we're just updating the semantic variables to point to different colors. */
+     
+     /* ------------------------------- */
+     /* Semantic Variables: Dark Theme */
+     /* ------------------------------- */
+     
+     /* Text Colors - Adjusted for dark mode */
+     --text-primary: #fcfcfc;                /* Light text on dark background */
+     --text-secondary: #d1d1d6;              /* Secondary text on dark background */
+     --text-tertiary: #a0a0ab;               /* Tertiary text on dark background */
+     --text-disabled: #70707b;               /* Disabled text on dark background */
+     
+     --text-brand-primary: #edf2ff;          /* Brand text in dark mode */
+     --text-brand-secondary: #c6cdf4;        /* Secondary brand text */
+     --text-brand-tertiary: #a6afec;         /* Tertiary brand text */
+     
+     --text-error-primary: #ef927a;          /* Error text in dark mode */
+     --text-warning-primary: #fde272;        /* Warning text in dark mode */
+     --text-success-primary: #73e2b2;        /* Success text in dark mode */
+     
+     /* Border Colors - Adjusted for dark mode */
+     --border-primary: #3f3f46;              /* Main border color in dark mode */
+     --border-secondary: #26262b;            /* Secondary border in dark mode */
+     --border-tertiary: #26262b;             /* Tertiary border in dark mode */
+     --border-disabled: #3f3f46;             /* Disabled borders in dark mode */
+     
+     --border-brand: #7479d6;                /* Brand border in dark mode */
+     --border-brand-solid: #a6afec;          /* Solid brand border */
+     
+     --border-error: #e37559;                /* Error border in dark mode */
+     --border-error-solid: #ef927a;          /* Solid error border */
+     
+     /* Background Colors - Adjusted for dark mode */
+     --bg-primary: #131316;                  /* Main dark theme background */
+     --bg-secondary: #1a1a1e;                /* Secondary dark background */
+     --bg-tertiary: #26262b;                 /* Tertiary dark background */
+     --bg-quaternary: #3f3f46;               /* Quaternary dark background */
+     --bg-disabled: #26262b;                 /* Disabled background in dark mode */
+     --bg-overlay: #26262b;                  /* Overlay background */
+     
+     --bg-brand-primary: #1a1a1e;            /* Brand section background in dark mode */
+     --bg-brand-secondary: #131316;          /* Secondary brand background */
+     --bg-brand-solid: #4a49a6;              /* Solid brand background */
+     
+     --bg-error-primary: #d3593a;            /* Error background in dark mode */
+     --bg-error-secondary: #ef927a;          /* Secondary error background */
+     --bg-error-solid: #bd3e1e;              /* Solid error background */
+     
+     --bg-warning-primary: #eaaa08;          /* Warning background */
+     --bg-warning-secondary: #fde272;        /* Secondary warning background */
+     --bg-warning-solid: #ca8504;            /* Solid warning background */
+     
+     --bg-success-primary: #36b37d;          /* Success background */
+     --bg-success-secondary: #73e2b2;        /* Secondary success background */
+     --bg-success-solid: #2c9266;            /* Solid success background */
+     
+     /* Foreground Colors - Adjusted for dark mode */
+     --fg-primary: #ffffff;                  /* Primary foreground in dark mode */
+     --fg-secondary: #d1d1d6;                /* Secondary foreground */
+     --fg-tertiary: #a0a0ab;                 /* Tertiary foreground */
+     --fg-quaternary: #70707b;               /* Quaternary foreground */
+     --fg-quinary: #a0a0ab;                  /* Quinary foreground */
+     --fg-disabled: #70707b;                 /* Disabled foreground */
+     
+     --fg-brand-primary: #a6afec;            /* Brand foreground in dark mode */
+     --fg-brand-secondary: #7479d6;          /* Secondary brand foreground */
+     
+     --fg-error-primary: #ef927a;            /* Error foreground */
+     --fg-error-secondary: #e37559;          /* Secondary error foreground */
+     
+     --fg-warning-primary: #fde272;          /* Warning foreground */
+     --fg-warning-secondary: #fac515;        /* Secondary warning foreground */
+     
+     --fg-success-primary: #73e2b2;          /* Success foreground */
+     --fg-success-secondary: #3ccb8d;        /* Secondary success foreground */
+     
+     /* ----------------------------------- */
+     /* shadcn Required Variables: Dark Theme */
+     /* ----------------------------------- */
+     
+     /* Base Theme Colors */
+     --background: var(--bg-primary);         /* Main dark theme background */
+     --foreground: var(--text-primary);       /* Main content text in dark mode */
+     
+     /* Card Component Colors */
+     --card: var(--bg-primary);               /* Card background */
+     --card-foreground: var(--text-primary);  /* Card text */
+     
+     /* Popover/Dropdown Colors */
+     --popover: var(--bg-primary);            /* Popover background */
+     --popover-foreground: var(--text-primary); /* Popover text */
+     
+     /* Primary Button Colors */
+     --primary: var(--color-brand-600);       /* Primary button background */
+     --primary-foreground: #131316;           /* Primary button text */
+     
+     /* Secondary Button/Element Colors */
+     --secondary: var(--bg-tertiary);         /* Secondary button background */
+     --secondary-foreground: var(--fg-secondary); /* Secondary button text */
+     
+     /* Muted Elements Colors */
+     --muted: var(--bg-tertiary);             /* Muted background */
+     --muted-foreground: var(--fg-quaternary); /* Muted text */
+     
+     /* Accent Elements */
+     --accent: var(--bg-tertiary);            /* Accent background */
+     --accent-foreground: var(--fg-secondary); /* Accent text */
+     
+     /* Destructive Elements */
+     --destructive: var(--bg-error-solid);    /* Destructive action background */
+     --destructive-foreground: #131316;       /* Destructive action text */
+     
+     /* UI Element Border and Focus */
+     --border: var(--border-primary);         /* Border color */
+     --input: var(--border-primary);          /* Input field border */
+     --ring: var(--color-brand-500);          /* Focus ring color */
+   }
+ }
  
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-
-    /* Brand colors - Dark Mode */
-    --brand-950: 241 83% 97%;
-    --brand-900: 240 77% 91%;
-    --brand-800: 240 72% 81%;
-    --brand-700: 241 66% 69%;
-    --brand-600: 241 62% 58%;
-    --brand-500: 241 55% 47%;
-    --brand-400: 242 57% 41%;
-    --brand-300: 240 61% 28%;
-    --brand-200: 242 58% 25%;
-    --brand-100: 242 54% 20%;
-    --brand-50: 243 60% 11%;
-    --brand-25: 243 65% 8%;
-
-    /* Error colors - Dark Mode */
-    --error-950: 0 86% 97%;
-    --error-900: 0 91% 94%;
-    --error-800: 0 93% 89%;
-    --error-700: 0 93% 80%;
-    --error-600: 0 91% 69%;
-    --error-500: 0 84% 60%;
-    --error-400: 0 72% 51%;
-    --error-300: 0 74% 39%;
-    --error-200: 0 70% 35%;
-    --error-100: 0 63% 31%;
-    --error-50: 0 78% 16%;
-    --error-25: 0 83% 12%;
-
-    /* Warning colors - Dark Mode */
-    --warning-950: 36 100% 97%;
-    --warning-900: 36 93% 92%;
-    --warning-800: 36 93% 84%;
-    --warning-700: 36 88% 75%;
-    --warning-600: 36 85% 65%;
-    --warning-500: 35 85% 55%;
-    --warning-400: 33 77% 50%;
-    --warning-300: 32 69% 40%;
-    --warning-200: 32 62% 32%;
-    --warning-100: 27 57% 27%;
-    --warning-50: 27 63% 15%;
-    --warning-25: 27 67% 10%;
-
-    /* Success colors - Dark Mode */
-    --success-950: 142 76% 97%;
-    --success-900: 141 84% 93%;
-    --success-800: 141 79% 85%;
-    --success-700: 142 77% 73%;
-    --success-600: 142 69% 58%;
-    --success-500: 142 71% 45%;
-    --success-400: 142 76% 36%;
-    --success-300: 142 72% 29%;
-    --success-200: 143 64% 24%;
-    --success-100: 144 61% 20%;
-    --success-50: 145 80% 10%;
-    --success-25: 145 85% 8%;
-    
-    /* Gray colors - Dark Mode */
-    --gray-950: 0 0% 99%;
-    --gray-900: 0 0% 98%;
-    --gray-800: 240 4.8% 95.9%;
-    --gray-700: 240 5.9% 90%;
-    --gray-600: 240 4.9% 83.9%;
-    --gray-500: 240 5% 64.9%;
-    --gray-400: 240 3.8% 46.1%;
-    --gray-300: 240 5.2% 33.9%;
-    --gray-200: 240 5.3% 26.1%;
-    --gray-100: 240 3.7% 15.9%;
-    --gray-50: 240 5.9% 10%;
-    --gray-25: 240 10% 3.9%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  
-  /* Add explicit font-family definition */
-  .font-sans {
-    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  }
-}
-</file>
-
-<file path="tailwind.config.js">
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  darkMode: ["class"],
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    extend: {
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        
-        // Design system colors
-        brand: {
-          25: "hsl(var(--brand-25))",
-          50: "hsl(var(--brand-50))",
-          100: "hsl(var(--brand-100))",
-          200: "hsl(var(--brand-200))",
-          300: "hsl(var(--brand-300))",
-          400: "hsl(var(--brand-400))",
-          500: "hsl(var(--brand-500))",
-          600: "hsl(var(--brand-600))",
-          700: "hsl(var(--brand-700))",
-          800: "hsl(var(--brand-800))",
-          900: "hsl(var(--brand-900))",
-          950: "hsl(var(--brand-950))",
-        },
-        error: {
-          25: "hsl(var(--error-25))",
-          50: "hsl(var(--error-50))",
-          100: "hsl(var(--error-100))",
-          200: "hsl(var(--error-200))",
-          300: "hsl(var(--error-300))",
-          400: "hsl(var(--error-400))",
-          500: "hsl(var(--error-500))",
-          600: "hsl(var(--error-600))",
-          700: "hsl(var(--error-700))",
-          800: "hsl(var(--error-800))",
-          900: "hsl(var(--error-900))",
-          950: "hsl(var(--error-950))",
-        },
-        warning: {
-          25: "hsl(var(--warning-25))",
-          50: "hsl(var(--warning-50))",
-          100: "hsl(var(--warning-100))",
-          200: "hsl(var(--warning-200))",
-          300: "hsl(var(--warning-300))",
-          400: "hsl(var(--warning-400))",
-          500: "hsl(var(--warning-500))",
-          600: "hsl(var(--warning-600))",
-          700: "hsl(var(--warning-700))",
-          800: "hsl(var(--warning-800))",
-          900: "hsl(var(--warning-900))",
-          950: "hsl(var(--warning-950))",
-        },
-        success: {
-          25: "hsl(var(--success-25))",
-          50: "hsl(var(--success-50))",
-          100: "hsl(var(--success-100))",
-          200: "hsl(var(--success-200))",
-          300: "hsl(var(--success-300))",
-          400: "hsl(var(--success-400))",
-          500: "hsl(var(--success-500))",
-          600: "hsl(var(--success-600))",
-          700: "hsl(var(--success-700))",
-          800: "hsl(var(--success-800))",
-          900: "hsl(var(--success-900))",
-          950: "hsl(var(--success-950))",
-        },
-        gray: {
-          25: "hsl(var(--gray-25))",
-          50: "hsl(var(--gray-50))",
-          100: "hsl(var(--gray-100))",
-          200: "hsl(var(--gray-200))",
-          300: "hsl(var(--gray-300))",
-          400: "hsl(var(--gray-400))",
-          500: "hsl(var(--gray-500))",
-          600: "hsl(var(--gray-600))",
-          700: "hsl(var(--gray-700))",
-          800: "hsl(var(--gray-800))",
-          900: "hsl(var(--gray-900))",
-          950: "hsl(var(--gray-950))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      fontSize: {
-        // Display sizes
-        'display-2xl': ['4.5rem', { lineHeight: '5.625rem', letterSpacing: '-0.02em' }],
-        'display-xl': ['3.75rem', { lineHeight: '4.5rem', letterSpacing: '-0.02em' }],
-        'display-lg': ['3rem', { lineHeight: '3.75rem', letterSpacing: '-0.02em' }],
-        'display-md': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
-        'display-sm': ['1.875rem', { lineHeight: '2.375rem', letterSpacing: '-0.02em' }],
-        'display-xs': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-        
-        // Text sizes
-        'text-xl': ['1.25rem', { lineHeight: '1.875rem' }],
-        'text-lg': ['1.125rem', { lineHeight: '1.75rem' }],
-        'text-md': ['1rem', { lineHeight: '1.5rem' }],
-        'text-sm': ['0.875rem', { lineHeight: '1.25rem' }],
-        'text-xs': ['0.75rem', { lineHeight: '1.125rem' }],
-      },
-      fontWeight: {
-        regular: '400',
-        medium: '500',
-        semibold: '600',
-        bold: '700',
-      },
-      fontFamily: {
-        sans: ['var(--font-inter)'],
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-}
+ @layer components {
+   /**
+    * Component Utilities
+    * 
+    * Define reusable utility classes for common component styles.
+    * These can be used to apply consistent styling across components.
+    */
+   
+   /* Example utility classes - add your own as needed */
+   .text-brand-heading {
+     @apply text-lg font-semibold text-[var(--text-brand-primary)];
+   }
+   
+   .card-highlight {
+     @apply border-[var(--border-brand)] bg-[var(--bg-brand-primary)];
+   }
+   
+   .alert-error {
+     @apply bg-[var(--bg-error-primary)] border-[var(--border-error)] text-[var(--text-error-primary)];
+   }
+   
+   .alert-warning {
+     @apply bg-[var(--bg-warning-primary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
+   }
+   
+   .alert-success {
+     @apply bg-[var(--bg-success-primary)] border-[var(--border-success)] text-[var(--text-success-primary)];
+   }
+ }
 </file>
 
 <file path="package.json">
@@ -4162,6 +4375,251 @@ module.exports = {
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.3.3"
   }
+}
+</file>
+
+<file path="tailwind.config.js">
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './src/pages/**/*.{ts,tsx}',
+    './src/components/**/*.{ts,tsx}',
+    './src/app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        // shadcn default colors - maintained for compatibility
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        
+        // Design system semantic colors available as Tailwind classes
+        // Using the 'ds-' prefix to avoid conflicts with default Tailwind classes
+        ds: {
+          // Foundational colors
+          gray: {
+            25: "var(--color-gray-25)",
+            50: "var(--color-gray-50)",
+            100: "var(--color-gray-100)",
+            200: "var(--color-gray-200)",
+            300: "var(--color-gray-300)",
+            400: "var(--color-gray-400)",
+            500: "var(--color-gray-500)",
+            600: "var(--color-gray-600)",
+            700: "var(--color-gray-700)",
+            800: "var(--color-gray-800)",
+            900: "var(--color-gray-900)",
+            950: "var(--color-gray-950)",
+          },
+          brand: {
+            25: "var(--color-brand-25)",
+            50: "var(--color-brand-50)",
+            100: "var(--color-brand-100)",
+            200: "var(--color-brand-200)",
+            300: "var(--color-brand-300)",
+            400: "var(--color-brand-400)",
+            500: "var(--color-brand-500)",
+            600: "var(--color-brand-600)",
+            700: "var(--color-brand-700)",
+            800: "var(--color-brand-800)",
+            900: "var(--color-brand-900)",
+            950: "var(--color-brand-950)",
+          },
+          error: {
+            25: "var(--color-error-25)",
+            50: "var(--color-error-50)",
+            100: "var(--color-error-100)",
+            200: "var(--color-error-200)",
+            300: "var(--color-error-300)",
+            400: "var(--color-error-400)",
+            500: "var(--color-error-500)",
+            600: "var(--color-error-600)",
+            700: "var(--color-error-700)",
+            800: "var(--color-error-800)",
+            900: "var(--color-error-900)",
+            950: "var(--color-error-950)",
+          },
+          warning: {
+            25: "var(--color-warning-25)",
+            50: "var(--color-warning-50)",
+            100: "var(--color-warning-100)",
+            200: "var(--color-warning-200)",
+            300: "var(--color-warning-300)",
+            400: "var(--color-warning-400)",
+            500: "var(--color-warning-500)",
+            600: "var(--color-warning-600)",
+            700: "var(--color-warning-700)",
+            800: "var(--color-warning-800)",
+            900: "var(--color-warning-900)",
+            950: "var(--color-warning-950)",
+          },
+          success: {
+            25: "var(--color-success-25)",
+            50: "var(--color-success-50)",
+            100: "var(--color-success-100)",
+            200: "var(--color-success-200)",
+            300: "var(--color-success-300)",
+            400: "var(--color-success-400)",
+            500: "var(--color-success-500)",
+            600: "var(--color-success-600)",
+            700: "var(--color-success-700)",
+            800: "var(--color-success-800)",
+            900: "var(--color-success-900)",
+            950: "var(--color-success-950)",
+          },
+          
+          // Text colors
+          text: {
+            primary: "var(--text-primary)",
+            secondary: "var(--text-secondary)",
+            tertiary: "var(--text-tertiary)",
+            disabled: "var(--text-disabled)",
+            "brand-primary": "var(--text-brand-primary)",
+            "brand-secondary": "var(--text-brand-secondary)",
+            "brand-tertiary": "var(--text-brand-tertiary)",
+            "error-primary": "var(--text-error-primary)",
+            "warning-primary": "var(--text-warning-primary)",
+            "success-primary": "var(--text-success-primary)",
+          },
+          
+          // Background colors
+          bg: {
+            primary: "var(--bg-primary)",
+            secondary: "var(--bg-secondary)",
+            tertiary: "var(--bg-tertiary)",
+            quaternary: "var(--bg-quaternary)",
+            disabled: "var(--bg-disabled)",
+            overlay: "var(--bg-overlay)",
+            "brand-primary": "var(--bg-brand-primary)",
+            "brand-secondary": "var(--bg-brand-secondary)",
+            "brand-solid": "var(--bg-brand-solid)",
+            "error-primary": "var(--bg-error-primary)",
+            "error-secondary": "var(--bg-error-secondary)",
+            "error-solid": "var(--bg-error-solid)",
+            "warning-primary": "var(--bg-warning-primary)",
+            "warning-secondary": "var(--bg-warning-secondary)",
+            "warning-solid": "var(--bg-warning-solid)",
+            "success-primary": "var(--bg-success-primary)",
+            "success-secondary": "var(--bg-success-secondary)",
+            "success-solid": "var(--bg-success-solid)",
+          },
+          
+          // Border colors
+          border: {
+            primary: "var(--border-primary)",
+            secondary: "var(--border-secondary)",
+            tertiary: "var(--border-tertiary)",
+            disabled: "var(--border-disabled)",
+            brand: "var(--border-brand)",
+            "brand-solid": "var(--border-brand-solid)",
+            error: "var(--border-error)",
+            "error-solid": "var(--border-error-solid)",
+          },
+          
+          // Foreground colors (icons, solid UI elements)
+          fg: {
+            primary: "var(--fg-primary)",
+            secondary: "var(--fg-secondary)",
+            tertiary: "var(--fg-tertiary)",
+            quaternary: "var(--fg-quaternary)",
+            quinary: "var(--fg-quinary)",
+            disabled: "var(--fg-disabled)",
+            "brand-primary": "var(--fg-brand-primary)",
+            "brand-secondary": "var(--fg-brand-secondary)",
+            "error-primary": "var(--fg-error-primary)",
+            "error-secondary": "var(--fg-error-secondary)",
+            "warning-primary": "var(--fg-warning-primary)",
+            "warning-secondary": "var(--fg-warning-secondary)",
+            "success-primary": "var(--fg-success-primary)",
+            "success-secondary": "var(--fg-success-secondary)",
+            white: "var(--fg-white)",
+          },
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontSize: {
+        // Display sizes
+        'display-2xl': ['4.5rem', { lineHeight: '5.625rem', letterSpacing: '-0.02em' }],
+        'display-xl': ['3.75rem', { lineHeight: '4.5rem', letterSpacing: '-0.02em' }],
+        'display-lg': ['3rem', { lineHeight: '3.75rem', letterSpacing: '-0.02em' }],
+        'display-md': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
+        'display-sm': ['1.875rem', { lineHeight: '2.375rem', letterSpacing: '-0.02em' }],
+        'display-xs': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
+        
+        // Text sizes
+        'text-xl': ['1.25rem', { lineHeight: '1.875rem' }],
+        'text-lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'text-md': ['1rem', { lineHeight: '1.5rem' }],
+        'text-sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'text-xs': ['0.75rem', { lineHeight: '1.125rem' }],
+      },
+      fontWeight: {
+        regular: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
 }
 </file>
 
