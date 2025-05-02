@@ -2,8 +2,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button } from "@/components/ui/button/button";
 import { useTheme } from "@/themes/theme-context";
+import { ThemeToggle } from "@/components/ui/theme-toggle/theme-toggle";
 
 export default function DesignSystemPage() {
   const { isDark, setTheme } = useTheme();
@@ -102,12 +102,7 @@ export default function DesignSystemPage() {
     <div className="p-8 max-w-6xl mx-auto min-h-screen bg-ds-bg-primary text-ds-text-primary">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">Design System</h1>
-        <Button 
-          onClick={toggleDarkMode}
-          variant="primary"
-        >
-          {isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        </Button>
+        <ThemeToggle variant="icon" size="md" />
       </div>
       
       {/* Theme Information */}
@@ -126,6 +121,25 @@ export default function DesignSystemPage() {
         {/* Test box with Tailwind dark mode */}
         <div className="p-2 mt-2 bg-white dark:bg-gray-800 text-black dark:text-white border rounded">
           This box uses Tailwind dark: variant
+        </div>
+        
+        {/* Theme toggle component examples */}
+        <div className="mt-4 p-4 bg-ds-bg-tertiary rounded-md">
+          <h3 className="text-lg font-medium mb-2">Theme Toggle Variants</h3>
+          <div className="flex items-center gap-4 mt-2">
+            <div className="flex flex-col items-center gap-2">
+              <ThemeToggle variant="icon" size="md" />
+              <span className="text-xs">Icon</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <ThemeToggle variant="button" size="md" />
+              <span className="text-xs">Button</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <ThemeToggle variant="switch" size="md" />
+              <span className="text-xs">Switch</span>
+            </div>
+          </div>
         </div>
       </section>
       
