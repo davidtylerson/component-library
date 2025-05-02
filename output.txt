@@ -46,6 +46,7 @@ The content is organized as follows:
 <directory_structure>
 .storybook/
   main.js
+  postCSSConfig.js
   preview.tsx
 src/
   app/
@@ -131,22 +132,13 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path=".storybook/main.js">
-const config = {
-  framework: '@storybook/nextjs',
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-onboarding',
-    '@storybook/addon-interactions',
-  ],
-  docs: {
-    autodocs: 'tag',
-  },
-};
-
-export default config;
+<file path=".storybook/postCSSConfig.js">
+module.exports = {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    }
+  }
 </file>
 
 <file path=".storybook/preview.tsx">
@@ -157,6 +149,7 @@ import { ThemeProvider } from '../src/themes/theme-provider';
 import { ThemeContextProvider } from '../src/themes/theme-context';
 import * as React from 'react';
 
+// Load Inter font
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
@@ -165,7 +158,11 @@ const inter = Inter({
 
 const decorators = [
   (Story) => (
-    <div className={inter.variable}>
+    <div style={{ 
+      // Apply font variables directly to ensure they're available
+      ['--font-inter' as any]: inter.style.fontFamily 
+    }} 
+    className={`${inter.variable} font-sans antialiased`}>
       <ThemeProvider>
         <ThemeContextProvider>
           <div className="p-4">
@@ -195,7 +192,7 @@ export default preview;
 
 <file path="src/components/typography/heading/heading.stories.tsx">
 import type { Meta, StoryObj } from "@storybook/react";
-import { Heading } from "./heading";
+import { Heading } from ".";
 
 const meta: Meta<typeof Heading> = {
   title: "Typography/Heading",
@@ -310,6 +307,14 @@ export const CustomElement: Story = {
     children: "Heading as a div element",
   },
 };
+</file>
+
+<file path="src/components/typography/heading/index.ts">
+export * from './heading';
+</file>
+
+<file path="src/components/typography/text/index.ts">
+export * from './text';
 </file>
 
 <file path="src/components/typography/text/text.stories.tsx">
@@ -562,6 +567,426 @@ export const TypographyShowcase: React.FC = () => {
 };
 
 export default TypographyShowcase;
+</file>
+
+<file path="src/components/ui/button/index.ts">
+export * from './button';
+</file>
+
+<file path="src/components/ui/card/card.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Whether the card has a border
+   * @default false
+   */
+  bordered?: boolean;
+
+  /**
+   * Whether the card has a shadow
+   * @default true
+   */
+  shadowed?: boolean;
+
+  /**
+   * The padding size of the card
+   * @default 'md'
+   */
+  padding?: "none" | "sm" | "md" | "lg";
+}
+
+export const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, bordered = false, shadowed = true, padding = "md", children, ...props }, ref) => {
+    const paddingClasses = {
+      none: "p-0",
+      sm: "p-3",
+      md: "p-4",
+      lg: "p-6",
+    };
+
+    const borderClass = bordered ? "border border-border" : "";
+    const shadowClass = shadowed ? "shadow-sm" : "";
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "rounded-lg bg-card text-card-foreground",
+          paddingClasses[padding],
+          borderClass,
+          shadowClass,
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+Card.displayName = "Card";
+
+export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("flex flex-col space-y-1.5", className)}
+      {...props}
+    />
+  )
+);
+
+CardHeader.displayName = "CardHeader";
+
+export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+
+export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
+  ({ className, ...props }, ref) => (
+    <h3
+      ref={ref}
+      className={cn("text-display-xs font-semibold leading-none tracking-tight", className)}
+      {...props}
+    />
+  )
+);
+
+CardTitle.displayName = "CardTitle";
+
+export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+
+export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
+  ({ className, ...props }, ref) => (
+    <p
+      ref={ref}
+      className={cn("text-sm text-muted-foreground", className)}
+      {...props}
+    />
+  )
+);
+
+CardDescription.displayName = "CardDescription";
+
+export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn("pt-0", className)} {...props} />
+  )
+);
+
+CardContent.displayName = "CardContent";
+
+export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("flex items-center mt-4 pt-4 border-t", className)}
+      {...props}
+    />
+  )
+);
+
+CardFooter.displayName = "CardFooter";
+</file>
+
+<file path="src/components/ui/card/index.ts">
+export * from './card';
+</file>
+
+<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
+// src/components/ui/dropdown-menu/dropdown-menu.tsx
+import * as React from "react";
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import { IconCheck, IconChevronRight } from "@tabler/icons-react";
+import { cn } from "@/lib/utils";
+import { ThemeColor } from "@/lib/theme-utils";
+
+// Root component
+const DropdownMenuRoot = DropdownMenuPrimitive.Root;
+
+// Trigger component
+const DropdownMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <DropdownMenuPrimitive.Trigger
+    ref={ref}
+    className={cn("outline-none", className)}
+    {...props}
+  >
+    {children}
+  </DropdownMenuPrimitive.Trigger>
+));
+
+DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
+
+// Content component
+const DropdownMenuContent = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
+    color?: ThemeColor;
+  }
+>(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
+  const colorClasses = {
+    brand: "border-brand-200 bg-white dark:bg-gray-800",
+    error: "border-error-200 bg-white dark:bg-gray-800",
+    warning: "border-warning-200 bg-white dark:bg-gray-800",
+    success: "border-success-200 bg-white dark:bg-gray-800",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Portal>
+      <DropdownMenuPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
+          colorClasses[color],
+          className
+        )}
+        {...props}
+      />
+    </DropdownMenuPrimitive.Portal>
+  );
+});
+
+DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
+
+// Item component
+const DropdownMenuItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    color?: ThemeColor;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+  }
+>(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
+  const colorClasses = {
+    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
+    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
+    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
+    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
+  };
+
+  return (
+    <DropdownMenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+        colorClasses[color],
+        className
+      )}
+      {...props}
+    >
+      {leftIcon && <span className="mr-2">{leftIcon}</span>}
+      {children}
+      {rightIcon && <span className="ml-2">{rightIcon}</span>}
+    </DropdownMenuPrimitive.Item>
+  );
+});
+
+DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
+
+// Other dropdown menu components
+const DropdownMenuSeparator = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <DropdownMenuPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
+    {...props}
+  />
+));
+
+DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
+
+// Export the component with all its parts
+export const DropdownMenu = {
+  Root: DropdownMenuRoot,
+  Trigger: DropdownMenuTrigger,
+  Content: DropdownMenuContent,
+  Item: DropdownMenuItem,
+  Separator: DropdownMenuSeparator,
+  Group: DropdownMenuPrimitive.Group,
+  Label: DropdownMenuPrimitive.Label,
+};
+</file>
+
+<file path="src/components/ui/dropdown-menu/index.ts">
+export * from './dropdown-menu';
+</file>
+
+<file path="src/components/ui/theme-toggle/index.ts">
+export * from './theme-toggle';
+</file>
+
+<file path="src/components/ui/button.tsx">
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+</file>
+
+<file path="src/components/ui/card.tsx">
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      className
+    )}
+    {...props}
+  />
+))
+Card.displayName = "Card"
+
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex flex-col space-y-1.5 p-6", className)}
+    {...props}
+  />
+))
+CardHeader.displayName = "CardHeader"
+
+const CardTitle = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "text-2xl font-semibold leading-none tracking-tight",
+      className
+    )}
+    {...props}
+  />
+))
+CardTitle.displayName = "CardTitle"
+
+const CardDescription = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-sm text-muted-foreground", className)}
+    {...props}
+  />
+))
+CardDescription.displayName = "CardDescription"
+
+const CardContent = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+))
+CardContent.displayName = "CardContent"
+
+const CardFooter = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("flex items-center p-6 pt-0", className)}
+    {...props}
+  />
+))
+CardFooter.displayName = "CardFooter"
+
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+</file>
+
+<file path="src/components/ui/index.ts">
+// src/components/ui/index.ts
+// Re-export components that actually exist in your project
+
+// Button component (we've implemented this)
+export * from './button/button';
+
+// Dropdown menu (simple implementation for now)
+export * from './dropdown-menu/dropdown-menu';
+
+// Typography components - adjust these paths based on your actual folder structure
+export * from '../typography/heading'; 
+export * from '../typography/text';
+
+// Comment out components that don't exist yet
+// export * from './input/input'; // Uncomment when implemented
+// export * from './card/card'; // Uncomment when implemented
+// export * from './dialog/dialog'; // Uncomment when implemented
 </file>
 
 <file path="src/lib/types.ts">
@@ -1685,691 +2110,6 @@ export const RealWorldExample: StoryObj = {
 };
 </file>
 
-<file path=".npmrc">
-shamefully-hoist=true
-node-linker=hoisted
-
-public-hoist-pattern[]=*storybook*
-
-legacy-peer-deps=true
-</file>
-
-<file path="src/components/typography/heading/heading.tsx">
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-// Define the possible element types
-type ElementType = React.ElementType;
-
-export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  /**
-   * The level of the heading (1-6)
-   * @default 1
-   */
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-
-  /**
-   * The size variant of the heading
-   * If not provided, defaults based on the heading level
-   */
-  size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
-
-  /**
-   * The font weight of the heading
-   * @default 'bold'
-   */
-  weight?: "regular" | "medium" | "semibold" | "bold";
-
-  /**
-   * Whether the heading should be italic
-   * @default false
-   */
-  italic?: boolean;
-
-  /**
-   * Whether the heading should be underlined
-   * @default false
-   */
-  underline?: boolean;
-
-  /**
-   * The color of the heading
-   * @default 'default'
-   */
-  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
-
-  /**
-   * The HTML element to render
-   * If not provided, uses h{level} based on the level prop
-   */
-  as?: ElementType;
-}
-
-/**
- * Heading component that follows the design system guidelines.
- * 
- * This component renders headings following the design system's typography
- * scale, with support for different levels, sizes, weights, styles, and colors.
- */
-export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
-  ({ 
-    level = 1,
-    size,
-    weight = "bold",
-    italic = false,
-    underline = false,
-    color = "default",
-    className = "",
-    as,
-    children,
-    ...props
-  }, ref) => {
-    // Default heading tag based on level
-    const defaultTag = `h${level}` as ElementType;
-    
-    // Use provided "as" prop or default based on level
-    const Component = as || defaultTag;
-    
-    // Default sizes based on heading level if not explicitly provided
-    const defaultSizes: Record<number, string> = {
-      1: "md",
-      2: "sm",
-      3: "xs",
-      4: "text-xl",
-      5: "text-lg",
-      6: "text-md",
-    };
-
-    // Determine the final size
-    const finalSize = size || defaultSizes[level];
-
-    const sizeClasses: Record<string, string> = {
-      "2xl": "text-display-2xl",
-      "xl": "text-display-xl",
-      "lg": "text-display-lg",
-      "md": "text-display-md",
-      "sm": "text-display-sm",
-      "xs": "text-display-xs",
-      "text-xl": "text-text-xl",
-      "text-lg": "text-text-lg",
-      "text-md": "text-text-md",
-    };
-
-    const weightClasses = {
-      regular: "font-regular",
-      medium: "font-medium",
-      semibold: "font-semibold",
-      bold: "font-bold",
-    };
-
-    const colorClasses = {
-      default: "text-foreground",
-      muted: "text-muted-foreground",
-      brand: "text-brand-700 dark:text-brand-400",
-      error: "text-error-700 dark:text-error-400",
-      warning: "text-warning-700 dark:text-warning-400",
-      success: "text-success-700 dark:text-success-400",
-    };
-
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          sizeClasses[finalSize],
-          weightClasses[weight],
-          colorClasses[color],
-          italic && "italic",
-          underline && "underline",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </Component>
-    );
-  }
-);
-
-Heading.displayName = "Heading";
-</file>
-
-<file path="src/components/typography/heading/index.ts">
-export * from './heading';
-</file>
-
-<file path="src/components/typography/text/index.ts">
-export * from './text';
-</file>
-
-<file path="src/components/typography/text/text.tsx">
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-// Define the possible element types
-type ElementType = React.ElementType;
-
-export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  /**
-   * The size variant of the text
-   * @default 'md'
-   */
-  size?: "xl" | "lg" | "md" | "sm" | "xs";
-
-  /**
-   * The font weight of the text
-   * @default 'regular'
-   */
-  weight?: "regular" | "medium" | "semibold" | "bold";
-
-  /**
-   * Whether the text should be italic
-   * @default false
-   */
-  italic?: boolean;
-
-  /**
-   * Whether the text should be underlined
-   * @default false
-   */
-  underline?: boolean;
-
-  /**
-   * The color of the text
-   * @default 'default'
-   */
-  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
-
-  /**
-   * The HTML element to render
-   * @default 'p'
-   */
-  as?: ElementType;
-}
-
-/**
- * Text component that follows the design system guidelines.
- * 
- * This component renders text following the design system's typography
- * scale, with support for different sizes, weights, styles, and colors.
- */
-export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
-  ({
-    size = "md",
-    weight = "regular",
-    italic = false,
-    underline = false,
-    color = "default",
-    className = "",
-    as: Component = "p",
-    children,
-    ...props
-  }, ref) => {
-    const sizeClasses = {
-      xl: "text-text-xl",
-      lg: "text-text-lg",
-      md: "text-text-md",
-      sm: "text-text-sm",
-      xs: "text-text-xs",
-    };
-
-    const weightClasses = {
-      regular: "font-regular",
-      medium: "font-medium",
-      semibold: "font-semibold",
-      bold: "font-bold",
-    };
-
-    const colorClasses = {
-      default: "text-foreground",
-      muted: "text-muted-foreground",
-      brand: "text-brand-700 dark:text-brand-400",
-      error: "text-error-700 dark:text-error-400",
-      warning: "text-warning-700 dark:text-warning-400",
-      success: "text-success-700 dark:text-success-400",
-    };
-
-    return (
-      <Component
-        ref={ref}
-        className={cn(
-          sizeClasses[size],
-          weightClasses[weight],
-          colorClasses[color],
-          italic && "italic",
-          underline && "underline",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </Component>
-    );
-  }
-);
-
-Text.displayName = "Text";
-</file>
-
-<file path="src/components/ui/button/index.ts">
-export * from './button';
-</file>
-
-<file path="src/components/ui/card/card.tsx">
-import * as React from "react";
-import { cn } from "@/lib/utils";
-
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Whether the card has a border
-   * @default false
-   */
-  bordered?: boolean;
-
-  /**
-   * Whether the card has a shadow
-   * @default true
-   */
-  shadowed?: boolean;
-
-  /**
-   * The padding size of the card
-   * @default 'md'
-   */
-  padding?: "none" | "sm" | "md" | "lg";
-}
-
-export const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, bordered = false, shadowed = true, padding = "md", children, ...props }, ref) => {
-    const paddingClasses = {
-      none: "p-0",
-      sm: "p-3",
-      md: "p-4",
-      lg: "p-6",
-    };
-
-    const borderClass = bordered ? "border border-border" : "";
-    const shadowClass = shadowed ? "shadow-sm" : "";
-
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "rounded-lg bg-card text-card-foreground",
-          paddingClasses[padding],
-          borderClass,
-          shadowClass,
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  }
-);
-
-Card.displayName = "Card";
-
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("flex flex-col space-y-1.5", className)}
-      {...props}
-    />
-  )
-);
-
-CardHeader.displayName = "CardHeader";
-
-export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
-
-export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ className, ...props }, ref) => (
-    <h3
-      ref={ref}
-      className={cn("text-display-xs font-semibold leading-none tracking-tight", className)}
-      {...props}
-    />
-  )
-);
-
-CardTitle.displayName = "CardTitle";
-
-export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
-
-export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  ({ className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
-  )
-);
-
-CardDescription.displayName = "CardDescription";
-
-export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("pt-0", className)} {...props} />
-  )
-);
-
-CardContent.displayName = "CardContent";
-
-export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("flex items-center mt-4 pt-4 border-t", className)}
-      {...props}
-    />
-  )
-);
-
-CardFooter.displayName = "CardFooter";
-</file>
-
-<file path="src/components/ui/card/index.ts">
-export * from './card';
-</file>
-
-<file path="src/components/ui/dropdown-menu/dropdown-menu.tsx">
-// src/components/ui/dropdown-menu/dropdown-menu.tsx
-import * as React from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { IconCheck, IconChevronRight } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { ThemeColor } from "@/lib/theme-utils";
-
-// Root component
-const DropdownMenuRoot = DropdownMenuPrimitive.Root;
-
-// Trigger component
-const DropdownMenuTrigger = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <DropdownMenuPrimitive.Trigger
-    ref={ref}
-    className={cn("outline-none", className)}
-    {...props}
-  >
-    {children}
-  </DropdownMenuPrimitive.Trigger>
-));
-
-DropdownMenuTrigger.displayName = DropdownMenuPrimitive.Trigger.displayName;
-
-// Content component
-const DropdownMenuContent = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> & {
-    color?: ThemeColor;
-  }
->(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
-  const colorClasses = {
-    brand: "border-brand-200 bg-white dark:bg-gray-800",
-    error: "border-error-200 bg-white dark:bg-gray-800",
-    warning: "border-warning-200 bg-white dark:bg-gray-800",
-    success: "border-success-200 bg-white dark:bg-gray-800",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Portal>
-      <DropdownMenuPrimitive.Content
-        ref={ref}
-        sideOffset={sideOffset}
-        className={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
-          colorClasses[color],
-          className
-        )}
-        {...props}
-      />
-    </DropdownMenuPrimitive.Portal>
-  );
-});
-
-DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
-
-// Item component
-const DropdownMenuItem = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
-    color?: ThemeColor;
-    leftIcon?: React.ReactNode;
-    rightIcon?: React.ReactNode;
-  }
->(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
-  const colorClasses = {
-    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
-    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
-    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
-    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
-  };
-
-  return (
-    <DropdownMenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
-        colorClasses[color],
-        className
-      )}
-      {...props}
-    >
-      {leftIcon && <span className="mr-2">{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="ml-2">{rightIcon}</span>}
-    </DropdownMenuPrimitive.Item>
-  );
-});
-
-DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
-
-// Other dropdown menu components
-const DropdownMenuSeparator = React.forwardRef<
-  React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <DropdownMenuPrimitive.Separator
-    ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-gray-200 dark:bg-gray-700", className)}
-    {...props}
-  />
-));
-
-DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
-
-// Export the component with all its parts
-export const DropdownMenu = {
-  Root: DropdownMenuRoot,
-  Trigger: DropdownMenuTrigger,
-  Content: DropdownMenuContent,
-  Item: DropdownMenuItem,
-  Separator: DropdownMenuSeparator,
-  Group: DropdownMenuPrimitive.Group,
-  Label: DropdownMenuPrimitive.Label,
-};
-</file>
-
-<file path="src/components/ui/dropdown-menu/index.ts">
-export * from './dropdown-menu';
-</file>
-
-<file path="src/components/ui/theme-toggle/index.ts">
-export * from './theme-toggle';
-</file>
-
-<file path="src/components/ui/button.tsx">
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
-
-import { cn } from "@/lib/utils"
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-)
-
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
-
-export { Button, buttonVariants }
-</file>
-
-<file path="src/components/ui/card.tsx">
-import * as React from "react"
-
-import { cn } from "@/lib/utils"
-
-const Card = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-))
-Card.displayName = "Card"
-
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  />
-))
-CardHeader.displayName = "CardHeader"
-
-const CardTitle = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
-      className
-    )}
-    {...props}
-  />
-))
-CardTitle.displayName = "CardTitle"
-
-const CardDescription = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
-    {...props}
-  />
-))
-CardDescription.displayName = "CardDescription"
-
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
-
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
-    {...props}
-  />
-))
-CardFooter.displayName = "CardFooter"
-
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
-</file>
-
-<file path="src/components/ui/index.ts">
-// src/components/ui/index.ts
-// Re-export components that actually exist in your project
-
-// Button component (we've implemented this)
-export * from './button/button';
-
-// Dropdown menu (simple implementation for now)
-export * from './dropdown-menu/dropdown-menu';
-
-// Typography components - adjust these paths based on your actual folder structure
-export * from '../typography/heading'; 
-export * from '../typography/text';
-
-// Comment out components that don't exist yet
-// export * from './input/input'; // Uncomment when implemented
-// export * from './card/card'; // Uncomment when implemented
-// export * from './dialog/dialog'; // Uncomment when implemented
-</file>
-
 <file path="src/themes/catalog.tsx">
 // src/app/components/catalog.tsx
 import { 
@@ -2854,6 +2594,15 @@ export const typography = {
 export type Typography = typeof typography;
 </file>
 
+<file path=".npmrc">
+shamefully-hoist=true
+node-linker=hoisted
+
+public-hoist-pattern[]=*storybook*
+
+legacy-peer-deps=true
+</file>
+
 <file path=".repomixrc">
 {
   "include": ["**/*.{js,jsx,ts,tsx,py,md,json}"],
@@ -2883,14 +2632,6 @@ export type Typography = typeof typography;
       "utils": "@/lib/utils"
     }
   }
-</file>
-
-<file path="next-env.d.ts">
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.
 </file>
 
 <file path="next.config.js">
@@ -2946,6 +2687,46 @@ module.exports = {
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
+</file>
+
+<file path=".storybook/main.js">
+const path = require('path');
+
+const config = {
+  framework: '@storybook/nextjs',
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
+  ],
+  docs: {
+    autodocs: 'tag',
+  },
+  staticDirs: ['../public'],
+  webpackFinal: async (config) => {
+    // Use the same PostCSS config as your project
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              config: path.resolve(__dirname, '../postcss.config.js'),
+            },
+          },
+        },
+      ],
+      include: path.resolve(__dirname, '../'),
+    });
+    
+    return config;
+  },
+};
+
+export default config;
 </file>
 
 <file path="src/app/components/page.tsx">
@@ -3490,10 +3271,12 @@ export const isDarkTheme = (theme: string | undefined, systemTheme: string | und
 };
 </file>
 
-<file path=".gitignore">
-node_modules/
-.next/
-*storybook.log
+<file path="next-env.d.ts">
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
 </file>
 
 <file path="src/app/page.tsx">
@@ -3576,6 +3359,260 @@ export default function Home() {
     </main>
   )
 }
+</file>
+
+<file path="src/components/typography/heading/heading.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+// Define the possible element types
+type ElementType = React.ElementType;
+
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  /**
+   * The level of the heading (1-6)
+   * @default 1
+   */
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+
+  /**
+   * The size variant of the heading
+   * If not provided, defaults based on the heading level
+   */
+  size?: "2xl" | "xl" | "lg" | "md" | "sm" | "xs";
+
+  /**
+   * The font weight of the heading
+   * @default 'bold'
+   */
+  weight?: "regular" | "medium" | "semibold" | "bold";
+
+  /**
+   * Whether the heading should be italic
+   * @default false
+   */
+  italic?: boolean;
+
+  /**
+   * Whether the heading should be underlined
+   * @default false
+   */
+  underline?: boolean;
+
+  /**
+   * The color of the heading
+   * @default 'default'
+   */
+  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
+
+  /**
+   * The HTML element to render
+   * If not provided, uses h{level} based on the level prop
+   */
+  as?: ElementType;
+}
+
+/**
+ * Heading component that follows the design system guidelines.
+ * 
+ * This component renders headings following the design system's typography
+ * scale, with support for different levels, sizes, weights, styles, and colors.
+ */
+export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+  ({ 
+    level = 1,
+    size,
+    weight = "bold",
+    italic = false,
+    underline = false,
+    color = "default",
+    className = "",
+    as,
+    children,
+    ...props
+  }, ref) => {
+    // Default heading tag based on level
+    const defaultTag = `h${level}` as ElementType;
+    
+    // Use provided "as" prop or default based on level
+    const Component = as || defaultTag;
+    
+    // Default sizes based on heading level if not explicitly provided
+    const defaultSizes: Record<number, string> = {
+      1: "md",
+      2: "sm",
+      3: "xs",
+      4: "text-xl",
+      5: "text-lg",
+      6: "text-md",
+    };
+
+    // Determine the final size
+    const finalSize = size || defaultSizes[level];
+
+    // Map to standard Tailwind classes with appropriate sizing
+    const sizeClasses: Record<string, string> = {
+      "2xl": "text-5xl leading-tight tracking-tight",
+      "xl": "text-4xl leading-tight tracking-tight",
+      "lg": "text-3xl leading-tight tracking-tight",
+      "md": "text-2xl leading-tight tracking-tight",
+      "sm": "text-xl leading-tight tracking-tight",
+      "xs": "text-lg leading-tight tracking-tight",
+      "text-xl": "text-xl leading-tight",
+      "text-lg": "text-lg leading-tight",
+      "text-md": "text-base leading-tight",
+    };
+
+    // Map to standard Tailwind weight classes
+    const weightClasses = {
+      regular: "font-normal",
+      medium: "font-medium",
+      semibold: "font-semibold",
+      bold: "font-bold",
+    };
+
+    // Keep the existing color classes since they're semantic
+    const colorClasses = {
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      brand: "text-brand-700 dark:text-brand-400",
+      error: "text-error-700 dark:text-error-400",
+      warning: "text-warning-700 dark:text-warning-400",
+      success: "text-success-700 dark:text-success-400",
+    };
+
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          sizeClasses[finalSize],
+          weightClasses[weight],
+          colorClasses[color],
+          italic && "italic",
+          underline && "underline",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+Heading.displayName = "Heading";
+</file>
+
+<file path="src/components/typography/text/text.tsx">
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+// Define the possible element types
+type ElementType = React.ElementType;
+
+export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  /**
+   * The size variant of the text
+   * @default 'md'
+   */
+  size?: "xl" | "lg" | "md" | "sm" | "xs";
+
+  /**
+   * The font weight of the text
+   * @default 'regular'
+   */
+  weight?: "regular" | "medium" | "semibold" | "bold";
+
+  /**
+   * Whether the text should be italic
+   * @default false
+   */
+  italic?: boolean;
+
+  /**
+   * Whether the text should be underlined
+   * @default false
+   */
+  underline?: boolean;
+
+  /**
+   * The color of the text
+   * @default 'default'
+   */
+  color?: "default" | "muted" | "brand" | "error" | "warning" | "success";
+
+  /**
+   * The HTML element to render
+   * @default 'p'
+   */
+  as?: ElementType;
+}
+
+/**
+ * Text component that follows the design system guidelines.
+ * 
+ * This component renders text following the design system's typography
+ * scale, with support for different sizes, weights, styles, and colors.
+ */
+export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
+  ({
+    size = "md",
+    weight = "regular",
+    italic = false,
+    underline = false,
+    color = "default",
+    className = "",
+    as: Component = "p",
+    children,
+    ...props
+  }, ref) => {
+    // Map to standard Tailwind size classes
+    const sizeClasses = {
+      xl: "text-xl leading-relaxed",
+      lg: "text-lg leading-relaxed",
+      md: "text-base leading-relaxed",
+      sm: "text-sm leading-relaxed",
+      xs: "text-xs leading-relaxed",
+    };
+
+    // Map to standard Tailwind weight classes
+    const weightClasses = {
+      regular: "font-normal",
+      medium: "font-medium",
+      semibold: "font-semibold",
+      bold: "font-bold",
+    };
+
+    // Keep the existing color classes since they're semantic
+    const colorClasses = {
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      brand: "text-brand-700 dark:text-brand-400",
+      error: "text-error-700 dark:text-error-400",
+      warning: "text-warning-700 dark:text-warning-400",
+      success: "text-success-700 dark:text-success-400",
+    };
+
+    return (
+      <Component
+        ref={ref}
+        className={cn(
+          sizeClasses[size],
+          weightClasses[weight],
+          colorClasses[color],
+          italic && "italic",
+          underline && "underline",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+Text.displayName = "Text";
 </file>
 
 <file path="src/lib/utils.ts">
@@ -3664,61 +3701,10 @@ export function ThemeProvider({
 }
 </file>
 
-<file path="package.json">
-{
-  "name": "float-prototype-library",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "ui:add": "pnpm dlx shadcn-ui@latest add",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@radix-ui/react-dropdown-menu": "^2.0.6",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@tabler/icons-react": "^2.29.0",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "next": "^14.0.0",
-    "next-themes": "^0.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.0.0"
-  },
-  "devDependencies": {
-    "@chromatic-com/storybook": "^3",
-    "@shadcn/ui": "^0.0.4",
-    "@storybook/addon-a11y": "^7.6.6",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "^8.6.12",
-    "@storybook/addon-links": "^7.6.6",
-    "@storybook/addon-onboarding": "^8.6.12",
-    "@storybook/addon-themes": "^7.6.6",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/experimental-addon-test": "^8.6.12",
-    "@storybook/nextjs": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/test": "^8.6.12",
-    "@types/node": "^20.11.5",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.31",
-    "storybook": "^8.6.12",
-    "tailwindcss": "^3.4.1",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.3.3"
-  }
-}
+<file path=".gitignore">
+node_modules/
+.next/
+*storybook.log
 </file>
 
 <file path="src/app/globals.css">
@@ -4119,6 +4105,63 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "float-prototype-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ui:add": "pnpm dlx shadcn-ui@latest add",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@tabler/icons-react": "^2.29.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "next": "^15.3.1",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3",
+    "@shadcn/ui": "^0.0.4",
+    "@storybook/addon-a11y": "^7.6.6",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-links": "^7.6.6",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/addon-themes": "^7.6.6",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/nextjs": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/test": "^8.6.12",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.31",
+    "storybook": "^8.6.12",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3"
+  }
 }
 </file>
 
