@@ -32,10 +32,10 @@ const DropdownMenuContent = React.forwardRef<
   }
 >(({ className, color = "brand", sideOffset = 4, ...props }, ref) => {
   const colorClasses = {
-    brand: "border-brand-200 bg-white dark:bg-gray-800",
-    error: "border-error-200 bg-white dark:bg-gray-800",
-    warning: "border-warning-200 bg-white dark:bg-gray-800",
-    success: "border-success-200 bg-white dark:bg-gray-800",
+    brand: "border-brand-200 dark:border-gray-700",
+    error: "border-error-200 dark:border-gray-700",
+    warning: "border-warning-200 dark:border-gray-700",
+    success: "border-success-200 dark:border-gray-700",
   };
 
   return (
@@ -44,7 +44,7 @@ const DropdownMenuContent = React.forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80",
+          "z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-80",
           colorClasses[color],
           className
         )}
@@ -66,10 +66,10 @@ const DropdownMenuItem = React.forwardRef<
   }
 >(({ className, color = "brand", leftIcon, rightIcon, children, ...props }, ref) => {
   const colorClasses = {
-    brand: "focus:bg-brand-50 focus:text-brand-700 dark:focus:bg-gray-700",
-    error: "focus:bg-error-50 focus:text-error-700 dark:focus:bg-gray-700",
-    warning: "focus:bg-warning-50 focus:text-warning-700 dark:focus:bg-gray-700",
-    success: "focus:bg-success-50 focus:text-success-700 dark:focus:bg-gray-700",
+    brand: "hover:bg-brand-50 hover:text-brand-700 focus:bg-brand-50 focus:text-brand-700 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white",
+    error: "hover:bg-error-50 hover:text-error-700 focus:bg-error-50 focus:text-error-700 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white",
+    warning: "hover:bg-warning-50 hover:text-warning-700 focus:bg-warning-50 focus:text-warning-700 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white",
+    success: "hover:bg-success-50 hover:text-success-700 focus:bg-success-50 focus:text-success-700 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white",
   };
 
   return (

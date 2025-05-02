@@ -3,7 +3,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTheme } from "@/themes/theme-context";
-import { ThemeToggle } from "@/components/ui/theme-toggle/theme-toggle";
 
 export default function DesignSystemPage() {
   const { isDark, setTheme } = useTheme();
@@ -100,9 +99,8 @@ export default function DesignSystemPage() {
 
   return (
     <div className="p-8 max-w-6xl mx-auto min-h-screen bg-ds-bg-primary text-ds-text-primary">
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-8">
         <h1 className="text-2xl font-bold">Design System</h1>
-        <ThemeToggle variant="icon" size="md" />
       </div>
       
       {/* Theme Information */}
@@ -110,7 +108,6 @@ export default function DesignSystemPage() {
         <h2 className="text-xl font-semibold mb-2">Current Theme: {isDark ? 'dark' : 'light'}</h2>
         <p className="mb-4">
           This design system uses your custom Tailwind ds- prefixed classes.
-          Use the button in the top-right to toggle between light and dark mode.
         </p>
         
         {/* Test box with direct classes */}
@@ -121,25 +118,6 @@ export default function DesignSystemPage() {
         {/* Test box with Tailwind dark mode */}
         <div className="p-2 mt-2 bg-white dark:bg-gray-800 text-black dark:text-white border rounded">
           This box uses Tailwind dark: variant
-        </div>
-        
-        {/* Theme toggle component examples */}
-        <div className="mt-4 p-4 bg-ds-bg-tertiary rounded-md">
-          <h3 className="text-lg font-medium mb-2">Theme Toggle Variants</h3>
-          <div className="flex items-center gap-4 mt-2">
-            <div className="flex flex-col items-center gap-2">
-              <ThemeToggle variant="icon" size="md" />
-              <span className="text-xs">Icon</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <ThemeToggle variant="button" size="md" />
-              <span className="text-xs">Button</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <ThemeToggle variant="switch" size="md" />
-              <span className="text-xs">Switch</span>
-            </div>
-          </div>
         </div>
       </section>
       

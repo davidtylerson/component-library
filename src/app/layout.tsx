@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/themes/theme-provider"
 import { ThemeContextProvider } from "@/themes/theme-context"
+import { Header } from "@/components/ui/header"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,7 +12,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Fintech UI Library",
+  title: "Float UI Library",
   description: "A component library for fintech applications",
 }
 
@@ -22,10 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans`}>
+      <body className={`${inter.variable} font-sans bg-ds-bg-primary`}>
         <ThemeProvider>
           <ThemeContextProvider>
-            {children}
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1">{children}</main>
+            </div>
           </ThemeContextProvider>
         </ThemeProvider>
       </body>

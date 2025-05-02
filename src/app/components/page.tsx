@@ -1,12 +1,116 @@
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Heading } from "@/components/typography/heading";
 import { Text } from "@/components/typography/text";
+import { useTheme } from "@/themes/theme-context";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue
+} from "@/components/ui/select";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Slider } from "@/components/ui/slider";
+import { Popover, PopoverContent, PopoverTrigger, PopoverAnchor } from "@/components/ui/popover";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { 
+  Sheet,
+  SheetPortal,
+  SheetOverlay,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
+import { 
+  Command,
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandShortcut,
+  CommandSeparator,
+} from "@/components/ui/command";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuGroup,
+  ContextMenuPortal,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuRadioGroup,
+} from "@/components/ui/context-menu";
+
+// Import icons for demonstration
+import { 
+  IconArrowRight,
+  IconPlus,
+  IconCheck,
+  IconSettings,
+  IconDownload,
+  IconTrash,
+  IconUser,
+  IconDots,
+  IconAlertCircle,
+  IconInfoCircle,
+  IconCalendar,
+  IconCreditCard,
+  IconChevronDown,
+  IconRefresh,
+  IconCopy
+} from "@tabler/icons-react";
 
 export default function ComponentsPage() {
+  const { isDark } = useTheme();
+
   return (
-    <div className="container mx-auto py-12 bg-gray-100">
-      <Heading level={1} size="lg" className="mb-8">Component Library</Heading>
+    <div className="container mx-auto py-12 bg-ds-bg-primary text-ds-text-primary">
+      <div className="mb-8">
+        <Heading level={1} size="lg">Component Library</Heading>
+      </div>
       
       <section className="mb-12">
         <Heading level={2} size="sm" className="mb-4">Typography</Heading>
@@ -40,34 +144,403 @@ export default function ComponentsPage() {
       </section>
       
       <section className="mb-12">
-        <Heading level={2} size="sm" className="mb-4">Buttons</Heading>
-        <div className="space-y-6">
-          <div className="flex flex-wrap gap-4">
-            <Button variant="default">Default Button</Button>
-            <Button variant="destructive">Destructive Button</Button>
-            <Button variant="outline">Outline Button</Button>
-            <Button variant="secondary">Secondary Button</Button>
-            <Button variant="ghost">Ghost Button</Button>
-            <Button variant="link">Link Button</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button size="sm">Small Button</Button>
-            <Button>Default Size Button</Button>
-            <Button size="lg">Large Button</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button disabled>Disabled Button</Button>
-            <Button variant="outline" disabled>Disabled Outline</Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-4">
-            <Button asChild>
-              <a href="#">Button as Link</a>
-            </Button>
-          </div>
-        </div>
+        <Heading level={2} size="sm" className="mb-6">Buttons</Heading>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>shadcn Button Variants</CardTitle>
+            <CardDescription>The original shadcn Button variants</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-4">
+              <Button variant="default">Default</Button>
+              <Button variant="destructive">Destructive</Button>
+              <Button variant="outline">Outline</Button>
+              <Button variant="secondary">Secondary</Button>
+              <Button variant="ghost">Ghost</Button>
+              <Button variant="link">Link</Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Design System Variants</CardTitle>
+            <CardDescription>Buttons using our semantic design system variants</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Brand Color</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" color="brand">Primary</Button>
+                <Button dsVariant="secondary" color="brand">Secondary</Button>
+                <Button dsVariant="tertiary" color="brand">Tertiary</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Error Color</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" color="error">Primary</Button>
+                <Button dsVariant="secondary" color="error">Secondary</Button>
+                <Button dsVariant="tertiary" color="error">Tertiary</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Warning Color</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" color="warning">Primary</Button>
+                <Button dsVariant="secondary" color="warning">Secondary</Button>
+                <Button dsVariant="tertiary" color="warning">Tertiary</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Success Color</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" color="success">Primary</Button>
+                <Button dsVariant="secondary" color="success">Secondary</Button>
+                <Button dsVariant="tertiary" color="success">Tertiary</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Button Sizes</CardTitle>
+            <CardDescription>Size variations for buttons</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap items-center gap-4">
+              <Button size="sm" dsVariant="primary">Small</Button>
+              <Button dsVariant="primary">Default</Button>
+              <Button size="lg" dsVariant="primary">Large</Button>
+              <Button size="icon" dsVariant="primary" aria-label="Settings"><IconSettings size={20} stroke={1.5} /></Button>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Buttons with Icons</CardTitle>
+            <CardDescription>Examples of buttons with left and right icons</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Left Icons</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" leftIcon={<IconPlus size={20} stroke={1.5} />}>Add Item</Button>
+                <Button dsVariant="secondary" leftIcon={<IconDownload size={20} stroke={1.5} />}>Download</Button>
+                <Button dsVariant="tertiary" leftIcon={<IconSettings size={20} stroke={1.5} />}>Settings</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Right Icons</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" rightIcon={<IconArrowRight size={20} stroke={1.5} />}>Continue</Button>
+                <Button dsVariant="secondary" rightIcon={<IconCheck size={20} stroke={1.5} />}>Confirm</Button>
+                <Button dsVariant="tertiary" rightIcon={<IconTrash size={20} stroke={1.5} />}>Delete</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Both Sides</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button 
+                  dsVariant="primary" 
+                  leftIcon={<IconDownload size={20} stroke={1.5} />}
+                  rightIcon={<IconArrowRight size={20} stroke={1.5} />}
+                >
+                  Download and Proceed
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Button States</CardTitle>
+            <CardDescription>Buttons in various states</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Loading State</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" isLoading>Loading</Button>
+                <Button dsVariant="secondary" isLoading>Loading</Button>
+                <Button dsVariant="tertiary" isLoading>Loading</Button>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Disabled State</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button dsVariant="primary" disabled>Disabled</Button>
+                <Button dsVariant="secondary" disabled>Disabled</Button>
+                <Button dsVariant="tertiary" disabled>Disabled</Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Other Features</CardTitle>
+            <CardDescription>Additional button functionality</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <Heading level={3} size="xs" className="mb-3">asChild Prop</Heading>
+                <div className="flex flex-wrap gap-4">
+                  <Button asChild dsVariant="primary">
+                    <a href="#">
+                      Button as Link
+                      <IconArrowRight className="ml-2" size={18} stroke={1.5} />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+      
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Inputs</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Input Variations</CardTitle>
+            <CardDescription>Standard text input fields</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Text className="mb-2">Default Input</Text>
+              <Input placeholder="Enter your name" />
+            </div>
+            
+            <div>
+              <Text className="mb-2">Disabled Input</Text>
+              <Input placeholder="This input is disabled" disabled />
+            </div>
+            
+            <div>
+              <Text className="mb-2">With Label</Text>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <label htmlFor="email" className="text-sm font-medium">Email</label>
+                <Input type="email" id="email" placeholder="Email address" />
+              </div>
+            </div>
+            
+            <div>
+              <Text className="mb-2">With Icon</Text>
+              <div className="relative">
+                <IconUser className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" stroke={1.5} />
+                <Input placeholder="Username" className="pl-8" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Avatars</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Avatar Variations</CardTitle>
+            <CardDescription>User avatars with images and fallbacks</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-4">
+              <div>
+                <Text className="mb-2 text-center">With Image</Text>
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </div>
+              
+              <div>
+                <Text className="mb-2 text-center">Fallback</Text>
+                <Avatar>
+                  <AvatarFallback>JD</AvatarFallback>
+                </Avatar>
+              </div>
+              
+              <div>
+                <Text className="mb-2 text-center">Custom Color</Text>
+                <Avatar className="bg-brand-500 text-white">
+                  <AvatarFallback>TD</AvatarFallback>
+                </Avatar>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Badges</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Badge Variations</CardTitle>
+            <CardDescription>Small status indicators</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              <Badge>Default</Badge>
+              <Badge variant="secondary">Secondary</Badge>
+              <Badge variant="destructive">Destructive</Badge>
+              <Badge variant="outline">Outline</Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Checkboxes</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Checkbox States</CardTitle>
+            <CardDescription>Selection controls</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox id="terms" />
+                <label
+                  htmlFor="terms"
+                  className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Accept terms and conditions
+                </label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox id="disabled" disabled />
+                <label
+                  htmlFor="disabled"
+                  className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Disabled checkbox
+                </label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <Checkbox id="checked" defaultChecked />
+                <label
+                  htmlFor="checked"
+                  className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Checked by default
+                </label>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Radio Groups</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Radio Selection</CardTitle>
+            <CardDescription>Single selection controls</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RadioGroup defaultValue="option-one">
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-one" id="option-one" />
+                <label htmlFor="option-one" className="text-sm">Option One</label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-two" id="option-two" />
+                <label htmlFor="option-two" className="text-sm">Option Two</label>
+              </div>
+              
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="option-three" id="option-three" disabled />
+                <label htmlFor="option-three" className="text-sm text-muted-foreground">
+                  Option Three (disabled)
+                </label>
+              </div>
+            </RadioGroup>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Select</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Select Dropdowns</CardTitle>
+            <CardDescription>Selection from a dropdown list</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Text className="mb-2">Basic Select</Text>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a fruit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="orange">Orange</SelectItem>
+                  <SelectItem value="grape">Grape</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Text className="mb-2">Disabled Select</Text>
+              <Select disabled>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Disabled" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="option">Option</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Dropdown Menu</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Dropdown Menus</CardTitle>
+            <CardDescription>Context menus and dropdowns</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild>
+                <Button variant="outline" size="icon">
+                  <IconDots size={18} stroke={1.5} />
+                </Button>
+              </DropdownMenu.Trigger>
+              <DropdownMenu.Content>
+                <DropdownMenu.Item leftIcon={<IconUser size={16} stroke={1.5} />}>
+                  Profile
+                </DropdownMenu.Item>
+                <DropdownMenu.Item leftIcon={<IconSettings size={16} stroke={1.5} />}>
+                  Settings
+                </DropdownMenu.Item>
+                <DropdownMenu.Separator />
+                <DropdownMenu.Item leftIcon={<IconTrash size={16} stroke={1.5} />} color="error">
+                  Delete
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Root>
+          </CardContent>
+        </Card>
       </section>
       
       <section className="mb-12">
@@ -92,8 +565,8 @@ export default function ComponentsPage() {
               <Text>This card demonstrates the use of a footer for actions.</Text>
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button variant="outline">Cancel</Button>
-              <Button>Submit</Button>
+              <Button dsVariant="secondary">Cancel</Button>
+              <Button dsVariant="primary">Submit</Button>
             </CardFooter>
           </Card>
           
@@ -145,6 +618,587 @@ export default function ComponentsPage() {
             </CardFooter>
           </Card>
         </div>
+      </section>
+
+      {/* Accordion Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Accordion</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Accordion</CardTitle>
+            <CardDescription>A vertically stacked set of interactive headings that each reveal a section of content.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It adheres to the WAI-ARIA design pattern.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It comes with default styles that match the other components' aesthetic.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-3">
+                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionContent>
+                  Yes. It's animated by default, but you can disable it if you prefer.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Alert Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Alert</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Alert</CardTitle>
+            <CardDescription>Displays a callout for user attention.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Alert>
+              <IconInfoCircle className="h-4 w-4" stroke={1.5} />
+              <AlertTitle>Information</AlertTitle>
+              <AlertDescription>
+                This is an informational alert message.
+              </AlertDescription>
+            </Alert>
+            <Alert variant="destructive">
+              <IconAlertCircle className="h-4 w-4" stroke={1.5} />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                This action cannot be undone.
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Dialog Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Dialog</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Dialog</CardTitle>
+            <CardDescription>A modal dialog that interrupts the user with important content.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Open Dialog</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Edit Profile</DialogTitle>
+                  <DialogDescription>
+                    Make changes to your profile here. Click save when you're done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Text className="text-right">Name</Text>
+                    <Input id="name" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Text className="text-right">Username</Text>
+                    <Input id="username" className="col-span-3" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Switch Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Switch</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Switch</CardTitle>
+            <CardDescription>A control that allows the user to toggle between checked and not checked.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-x-2">
+              <Switch id="airplane-mode" />
+              <label
+                htmlFor="airplane-mode"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Airplane Mode
+              </label>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Tabs Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Tabs</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Tabs</CardTitle>
+            <CardDescription>A set of layered sections of content that display one panel at a time.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="account" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="account">Account</TabsTrigger>
+                <TabsTrigger value="password">Password</TabsTrigger>
+                <TabsTrigger value="settings">Settings</TabsTrigger>
+              </TabsList>
+              <TabsContent value="account" className="p-4 border rounded-md mt-2">
+                <Text>Account settings panel</Text>
+              </TabsContent>
+              <TabsContent value="password" className="p-4 border rounded-md mt-2">
+                <Text>Password settings panel</Text>
+              </TabsContent>
+              <TabsContent value="settings" className="p-4 border rounded-md mt-2">
+                <Text>Other settings panel</Text>
+              </TabsContent>
+            </Tabs>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Tooltip Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Tooltip</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Tooltip</CardTitle>
+            <CardDescription>A popup that displays information related to an element when it receives focus or is hovered over.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline">Hover Me</Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>This is a tooltip</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Toggle Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Toggle</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Toggle</CardTitle>
+            <CardDescription>A two-state button that can be either on or off.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex flex-wrap gap-4">
+              <Toggle variant="default" aria-label="Toggle default">
+                Default
+              </Toggle>
+              <Toggle variant="outline" aria-label="Toggle outline">
+                Outline
+              </Toggle>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <Toggle variant="default" size="sm" aria-label="Toggle small">
+                Small
+              </Toggle>
+              <Toggle variant="default" size="default" aria-label="Toggle default size">
+                Default
+              </Toggle>
+              <Toggle variant="default" size="lg" aria-label="Toggle large">
+                Large
+              </Toggle>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <Toggle variant="default" aria-pressed="true" aria-label="Toggle on">
+                On
+              </Toggle>
+              <Toggle variant="default" aria-pressed="false" aria-label="Toggle off">
+                Off
+              </Toggle>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Toggle Group Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Toggle Group</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Toggle Group</CardTitle>
+            <CardDescription>A set of two-state buttons that can be toggled on or off.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Default Toggle Group</Heading>
+              <ToggleGroup type="single" defaultValue="center">
+                <ToggleGroupItem value="left" aria-label="Left aligned">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM2 7.5C2 7.22386 2.22386 7 2.5 7H7.5C7.77614 7 8 7.22386 8 7.5C8 7.77614 7.77614 8 7.5 8H2.5C2.22386 8 2 7.77614 2 7.5ZM2 10.5C2 10.2239 2.22386 10 2.5 10H10.5C10.7761 10 11 10.2239 11 10.5C11 10.7761 10.7761 11 10.5 11H2.5C2.22386 11 2 10.7761 2 10.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="center" aria-label="Center aligned">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM3.5 7C3.22386 7 3 7.22386 3 7.5C3 7.77614 3.22386 8 3.5 8H11.5C11.7761 8 12 7.77614 12 7.5C12 7.22386 11.7761 7 11.5 7H3.5ZM3 10.5C3 10.2239 3.22386 10 3.5 10H11.5C11.7761 10 12 10.2239 12 10.5C12 10.7761 11.7761 11 11.5 11H3.5C3.22386 11 3 10.7761 3 10.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="right" aria-label="Right aligned">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM7 7.5C7 7.22386 7.22386 7 7.5 7H12.5C12.7761 7 13 7.22386 13 7.5C13 7.77614 12.7761 8 12.5 8H7.5C7.22386 8 7 7.77614 7 7.5ZM4 10.5C4 10.2239 4.22386 10 4.5 10H12.5C12.7761 10 13 10.2239 13 10.5C13 10.7761 12.7761 11 12.5 11H4.5C4.22386 11 4 10.7761 4 10.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Outline Toggle Group</Heading>
+              <ToggleGroup type="multiple" variant="outline">
+                <ToggleGroupItem value="bold" aria-label="Bold">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.10505 12C4.70805 12 4.4236 11.912 4.25171 11.736C4.0839 11.5559 4 11.2715 4 10.8827V4.11733C4 3.72033 4.08595 3.43588 4.25784 3.26398C4.43383 3.08799 4.71623 3 5.10505 3H8.11841C9.05172 3 9.77883 3.21789 10.2997 3.65367C10.8247 4.08536 11.0872 4.67337 11.0872 5.4177C11.0872 5.8839 10.9602 6.29259 10.7064 6.64379C10.4526 6.99089 10.1139 7.23456 9.69018 7.37479C10.209 7.49464 10.6475 7.75359 11.0057 8.15163C11.3639 8.54968 11.5429 9.05472 11.5429 9.66676C11.5429 10.4969 11.2598 11.1493 10.6935 11.624C10.1273 12.0946 9.33648 12.3299 8.32106 12.3299H5.10505V12ZM7.76272 7.25089C8.21588 7.25089 8.56091 7.13513 8.79784 6.90361C9.03476 6.668 9.15322 6.33812 9.15322 5.91396C9.15322 5.50603 9.03476 5.19237 8.79784 4.98303C8.56091 4.7696 8.22201 4.66288 7.78112 4.66288H5.98336V7.25089H7.76272ZM8.06444 10.6671C8.56703 10.6671 8.94147 10.5411 9.18779 10.289C9.4341 10.037 9.55726 9.68999 9.55726 9.24837C9.55726 8.81894 9.42183 8.48497 9.15099 8.24648C8.88425 8.0039 8.498 7.88261 7.99224 7.88261H5.98336V10.6671H8.06444Z" fill="currentColor"></path></svg>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="italic" aria-label="Italic">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.67494 3.50017C5.67494 3.25164 5.87641 3.05017 6.12494 3.05017H10.6249C10.8735 3.05017 11.0749 3.25164 11.0749 3.50017C11.0749 3.7487 10.8735 3.95017 10.6249 3.95017H9.00587L7.2309 11.05H8.87493C9.12345 11.05 9.32493 11.2515 9.32493 11.5C9.32493 11.7486 9.12345 11.95 8.87493 11.95H4.37493C4.1264 11.95 3.92493 11.7486 3.92493 11.5C3.92493 11.2515 4.1264 11.05 4.37493 11.05H5.99397L7.76894 3.95017H6.12494C5.87641 3.95017 5.67494 3.7487 5.67494 3.50017Z" fill="currentColor"></path></svg>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="underline" aria-label="Underline">
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.00001 2.75C5.00001 2.47386 4.77615 2.25 4.50001 2.25C4.22387 2.25 4.00001 2.47386 4.00001 2.75V8.05C4.00001 10.1167 5.7333 11.75 7.80001 11.75C9.8667 11.75 11.6 10.1167 11.6 8.05V2.75C11.6 2.47386 11.3762 2.25 11.1 2.25C10.8239 2.25 10.6 2.47386 10.6 2.75V8.05C10.6 9.5667 9.31671 10.75 7.80001 10.75C6.2833 10.75 5.00001 9.5667 5.00001 8.05V2.75ZM3.49998 13.1C3.27906 13.1 3.09998 13.2791 3.09998 13.5C3.09998 13.7209 3.27906 13.9 3.49998 13.9H12.1C12.3209 13.9 12.5 13.7209 12.5 13.5C12.5 13.2791 12.3209 13.1 12.1 13.1H3.49998Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Sizes</Heading>
+              <div className="space-y-2">
+                <ToggleGroup type="single" size="sm">
+                  <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
+                  <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
+                  <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
+                </ToggleGroup>
+                <ToggleGroup type="single" size="default">
+                  <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
+                  <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
+                  <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
+                </ToggleGroup>
+                <ToggleGroup type="single" size="lg">
+                  <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
+                  <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
+                  <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
+                </ToggleGroup>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Slider Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Slider</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Slider</CardTitle>
+            <CardDescription>A control that allows users to select a value from a range.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8">
+            <div>
+              <Text className="mb-3">Default</Text>
+              <Slider defaultValue={[50]} max={100} step={1} className="w-full" />
+            </div>
+            <div>
+              <Text className="mb-3">Range Slider</Text>
+              <Slider defaultValue={[25, 75]} max={100} step={1} className="w-full" />
+            </div>
+            <div>
+              <Text className="mb-3">Disabled</Text>
+              <Slider defaultValue={[50]} max={100} step={1} disabled className="w-full" />
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Popover Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Popover</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Popover</CardTitle>
+            <CardDescription>Displays rich content in a portal triggered by a button.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline">Open Popover</Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Dimensions</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Set the dimensions for the layer.
+                    </p>
+                  </div>
+                  <div className="grid gap-2">
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Text className="text-right">Width</Text>
+                      <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+                    </div>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Text className="text-right">Height</Text>
+                      <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Hover Card Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Hover Card</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Hover Card</CardTitle>
+            <CardDescription>For sighted users to preview content available behind a link.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <HoverCard>
+              <HoverCardTrigger asChild>
+                <Button variant="link">@shadcn</Button>
+              </HoverCardTrigger>
+              <HoverCardContent className="w-80">
+                <div className="flex justify-between space-x-4">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>SC</AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-1">
+                    <h4 className="text-sm font-semibold">@shadcn</h4>
+                    <p className="text-sm">
+                      Creator of the shadcn/ui component library. Software engineer and designer.
+                    </p>
+                    <div className="flex items-center pt-2">
+                      <IconUser className="mr-2 h-4 w-4 opacity-70" size={16} stroke={1.5} />
+                      <span className="text-xs text-muted-foreground">
+                        Joined December 2021
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Sheet Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Sheet</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sheet</CardTitle>
+            <CardDescription>A modal dialog that slides in from the edge of the screen.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-4 justify-center">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline">Open Right Sheet</Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Edit Profile</SheetTitle>
+                  <SheetDescription>
+                    Make changes to your profile here. Click save when you're done.
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Text className="text-right">Name</Text>
+                    <Input id="name" defaultValue="Pedro Duarte" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Text className="text-right">Username</Text>
+                    <Input id="username" defaultValue="@peduarte" className="col-span-3" />
+                  </div>
+                </div>
+                <SheetFooter>
+                  <Button type="submit">Save changes</Button>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline">Open Top Sheet</Button>
+              </SheetTrigger>
+              <SheetContent side="top">
+                <SheetHeader>
+                  <SheetTitle>Top Sheet</SheetTitle>
+                  <SheetDescription>
+                    This sheet slides in from the top of the screen.
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline">Open Left Sheet</Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <SheetHeader>
+                  <SheetTitle>Left Sheet</SheetTitle>
+                  <SheetDescription>
+                    This sheet slides in from the left side of the screen.
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline">Open Bottom Sheet</Button>
+              </SheetTrigger>
+              <SheetContent side="bottom">
+                <SheetHeader>
+                  <SheetTitle>Bottom Sheet</SheetTitle>
+                  <SheetDescription>
+                    This sheet slides in from the bottom of the screen.
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Command Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Command</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Command</CardTitle>
+            <CardDescription>A command palette for quick keyboard-based navigation.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <CommandDialog>
+              <CommandInput placeholder="Type a command or search..." />
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup heading="Suggestions">
+                  <CommandItem>
+                    <IconCalendar className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Calendar</span>
+                  </CommandItem>
+                  <CommandItem>
+                    <IconCreditCard className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Billing</span>
+                    <CommandShortcut>⌘B</CommandShortcut>
+                  </CommandItem>
+                  <CommandItem>
+                    <IconSettings className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Settings</span>
+                    <CommandShortcut>⌘S</CommandShortcut>
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </CommandDialog>
+            <Button
+              onClick={() => document.querySelector<HTMLElement>('[cmdk-input]')?.focus()}
+            >
+              Open Command Menu
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Collapsible Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Collapsible</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Collapsible</CardTitle>
+            <CardDescription>An interactive component that expands/collapses content.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Collapsible className="w-full space-y-2">
+              <div className="flex items-center justify-between space-x-4 px-4">
+                <h4 className="text-sm font-semibold">
+                  @peduarte starred 3 repositories
+                </h4>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="sm">
+                    <IconChevronDown className="h-4 w-4" size={16} stroke={1.5} />
+                    <span className="sr-only">Toggle</span>
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+              <div className="rounded-md border px-4 py-2 font-mono text-sm">
+                @radix-ui/primitives
+              </div>
+              <CollapsibleContent className="space-y-2">
+                <div className="rounded-md border px-4 py-2 font-mono text-sm">
+                  @shadcn/ui
+                </div>
+                <div className="rounded-md border px-4 py-2 font-mono text-sm">
+                  @radix-ui/colors
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Context Menu Component */}
+      <section className="mb-12">
+        <Heading level={2} size="sm" className="mb-4">Context Menu</Heading>
+        <Card>
+          <CardHeader>
+            <CardTitle>Context Menu</CardTitle>
+            <CardDescription>A context menu that appears on right-click.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <ContextMenu>
+              <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+                Right click here
+              </ContextMenuTrigger>
+              <ContextMenuContent className="w-64">
+                <ContextMenuItem>
+                  <IconRefresh className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                  <span>Refresh</span>
+                  <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuItem>
+                  <IconCopy className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                  <span>Copy</span>
+                  <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+                </ContextMenuItem>
+                <ContextMenuSeparator />
+                <ContextMenuCheckboxItem checked>
+                  <span>Show Bookmarks</span>
+                  <ContextMenuShortcut>⌘B</ContextMenuShortcut>
+                </ContextMenuCheckboxItem>
+                <ContextMenuCheckboxItem>
+                  <span>Show Full URLs</span>
+                </ContextMenuCheckboxItem>
+                <ContextMenuSeparator />
+                <ContextMenuRadioGroup value="pedro">
+                  <ContextMenuLabel inset>People</ContextMenuLabel>
+                  <ContextMenuSeparator />
+                  <ContextMenuRadioItem value="pedro">
+                    Pedro Duarte
+                  </ContextMenuRadioItem>
+                  <ContextMenuRadioItem value="colm">
+                    Colm Tuite
+                  </ContextMenuRadioItem>
+                </ContextMenuRadioGroup>
+              </ContextMenuContent>
+            </ContextMenu>
+          </CardContent>
+        </Card>
       </section>
     </div>
   );
