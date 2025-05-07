@@ -39,8 +39,8 @@ export default function ButtonsShowcasePage() {
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex flex-col gap-2">
-                <Text weight="semibold">Default</Text>
-                <Button variant="default">Default Button</Button>
+                <Text weight="semibold">Primary</Text>
+                <Button dsVariant="primary" color="brand">Primary Button</Button>
               </div>
               <div className="flex flex-col gap-2">
                 <Text weight="semibold">Destructive</Text>
