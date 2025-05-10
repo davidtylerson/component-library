@@ -881,6 +881,27 @@ export default function ComponentsPage() {
                 This action cannot be undone.
               </AlertDescription>
             </Alert>
+            <Alert variant="warning">
+              <IconAlertCircle className="h-4 w-4" stroke={1.5} />
+              <AlertTitle>Warning</AlertTitle>
+              <AlertDescription>
+                This action may have consequences.
+              </AlertDescription>
+            </Alert>
+            <Alert variant="success">
+              <IconCheck className="h-4 w-4" stroke={1.5} />
+              <AlertTitle>Success</AlertTitle>
+              <AlertDescription>
+                Your action was completed successfully.
+              </AlertDescription>
+            </Alert>
+            <Alert variant="brand">
+              <IconInfoCircle className="h-4 w-4" stroke={1.5} />
+              <AlertTitle>Brand</AlertTitle>
+              <AlertDescription>
+                This is a brand-themed alert message.
+              </AlertDescription>
+            </Alert>
           </CardContent>
         </Card>
       </section>

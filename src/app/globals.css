@@ -543,14 +543,18 @@
   }
   
   .alert-error {
-    @apply bg-[var(--bg-error-primary)] border-[var(--border-error)] text-[var(--text-error-primary)];
+    @apply bg-[var(--bg-error-secondary)] border-[var(--border-error)] text-[var(--text-error-primary)];
   }
   
   .alert-warning {
-    @apply bg-[var(--bg-warning-primary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
+    @apply bg-[var(--bg-warning-secondary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
   }
   
   .alert-success {
-    @apply bg-[var(--bg-success-primary)] border-[var(--border-success)] text-[var(--text-success-primary)];
+    @apply bg-[var(--bg-success-secondary)] border-[var(--border-success)] text-[var(--text-success-primary)];
+  }
+
+  .alert-brand {
+    @apply bg-[var(--bg-brand-secondary)] border-[var(--border-brand)] text-[var(--text-brand-primary)];
   }
 }
