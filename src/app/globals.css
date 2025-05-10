@@ -11,15 +11,35 @@
  * This structure allows changes at any level without breaking the entire system.
  */
 
+/* REMOVE BODY TEST STYLES */
+/*
+body {
+  border: 20px solid lime !important;
+  background-color: orange !important;
+}
+*/
+
 @import '../styles/components/button.css';
 @import '../styles/components/input.css';
 @import '../styles/components/input-dropdown.css';
 @import '../styles/components/card.css';
+@import '../styles/components/sidebar.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* FORCEFUL SIDEBAR ROOT STYLES - OUTSIDE ANY LAYER */
+.float-sidebar-root {
+  width: var(--float-sidebar-width, 240px) !important;
+  flex-shrink: 0 !important;
+  position: relative !important; /* CRITICAL FOR FLOW */
+  z-index: 10 !important;
+  height: 100vh !important;
+  /* Add your sidebar background and border here if necessary, or ensure they are in sidebar.css and not conflicting */
+  /* e.g., background-color: var(--bg-primary); border-right: 1px solid var(--border-secondary); */
+}
+
 @layer base {
   :root {
     /* -------------------------------- */
@@ -228,6 +248,10 @@
     
     /* Component Shape */
     --radius: 0.5rem;                 /* Border radius for components */
+
+    /* Ensure --float-sidebar-width and --float-sidebar-collapsed-width are defined here or in sidebar.css */
+    --float-sidebar-width: 240px; /* Default if not defined elsewhere */
+    --float-sidebar-collapsed-width: 64px; /* Default if not defined elsewhere */
   }
 
   /* Dark theme variables */
@@ -557,4 +581,64 @@
   .alert-brand {
     @apply bg-[var(--bg-brand-secondary)] border-[var(--border-brand)] text-[var(--text-brand-primary)];
   }
+
+  /* Styling for the SidebarMenu (ul) component from sidebar.tsx */
+  /* The component itself applies cn("space-y-1", className) */
+  /* We target it by assuming it might get a specific class or by being a descendant */
+  .float-sidebar-menu {
+    /* @apply space-y-1; /* This is already on the component */
+    @apply px-2; /* This is 8px padding on x-axis for the UL */
+    /* For spacing between ULs, this class would need to be on each UL */
+    /* Alternatively, manage spacing via elements between ULs */
+  }
+
+  /* Sidebar Menu Button */
+  .float-sidebar-menu-button {
+    /* Padding is now p-2 (0.5rem) from SidebarMenuButton component in sidebar.tsx */
+    /* Base styles are mostly from the component, this class is for potential overrides or specific child targeting */
+    @apply flex items-center w-full text-[14px] rounded-md h-9; /* h-9 might need adjustment based on p-2 */
+    @apply bg-[var(--float-sidebar-item-bg)] border border-transparent;
+    @apply transition-all duration-200;
+  }
+
+  /* Icon within the button */
+  .float-sidebar-menu-button-icon {
+    @apply h-4 w-4 text-[var(--float-sidebar-item-icon-fg)];
+    /* margin-right: 8px !important; /* REMOVED - Rely on gap-2 from parent button */
+    @apply transition-colors duration-200;
+  }
+
+  .float-sidebar-menu-button:hover .float-sidebar-menu-button-icon {
+    color: var(--float-sidebar-item-icon-fg-hover) !important;
+  }
+
+  /* Text within the button */
+  .float-sidebar-menu-button-text {
+    @apply truncate font-normal text-[var(--text-secondary)];
+    font-size: 14px;
+    @apply transition-colors duration-200;
+  }
+
+  .float-sidebar-menu-button:hover .float-sidebar-menu-button-text {
+    color: var(--text-primary);
+  }
+
+  /* Section Label - for spacing between menu groups */
+  .float-sidebar-section-label {
+    @apply px-[var(--float-sidebar-padding)] pt-8 pb-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)]; 
+    /* pt-8 (32px) to create space above it (below previous UL), pb-2 for space below label before next UL */
+  }
+
+  /* Collapsed state */
+  .float-sidebar-root[data-state="collapsed"] {
+    width: var(--float-sidebar-collapsed-width, 64px) !important;
+  }
+  .float-sidebar-root[data-state="collapsed"] .float-sidebar-menu-button-icon {
+    margin-right: 0 !important;
+  }
+  .float-sidebar-root[data-state="collapsed"] .float-sidebar-menu-button-text {
+    @apply hidden;
+  }
 }
+
+/* Remove any duplicated .float-sidebar-root or .float-sidebar-menu-button:hover from the bottom of this file if they exist */
