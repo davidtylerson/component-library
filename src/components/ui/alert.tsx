@@ -7,11 +7,11 @@ const alertVariants = cva(
   {
     variants: {
       variant: {
-        default: "text-[var(--text-primary)] border-[var(--border-tertiary)] [&>svg]:text-[var(--fg-primary)]",
-        destructive: "border-[var(--border-error)] [&>svg]:text-[var(--fg-error-primary)]",
-        warning: "border-[var(--border-warning)] [&>svg]:text-[var(--fg-warning-primary)]",
-        success: "border-[var(--border-success)] [&>svg]:text-[var(--fg-success-primary)]",
-        brand: "border-[var(--border-brand)] [&>svg]:text-[var(--fg-brand-primary)]",
+        default: "bg-[var(--bg-primary)] border-[var(--border-tertiary)] text-[var(--text-primary)] [&>svg]:text-[var(--fg-primary)]",
+        destructive: "bg-[var(--color-error-800)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        warning: "bg-[var(--color-warning-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        success: "bg-[var(--color-success-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        brand: "bg-[var(--color-brand-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
       },
     },
     defaultVariants: {
@@ -39,7 +39,7 @@ const AlertTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h5
     ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight text-[var(--text-primary)]", className)}
+    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
     {...props}
   />
 ))

@@ -1029,29 +1029,29 @@ export default function ComponentsPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex flex-wrap gap-4">
-              <Toggle variant="default" aria-label="Toggle default">
+              <Toggle aria-label="Toggle default">
                 Default
               </Toggle>
-              <Toggle variant="outline" aria-label="Toggle outline">
+              <Toggle aria-label="Toggle outline">
                 Outline
               </Toggle>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Toggle variant="default" size="sm" aria-label="Toggle small">
+              <Toggle aria-label="Toggle small">
                 Small
               </Toggle>
-              <Toggle variant="default" size="default" aria-label="Toggle default size">
+              <Toggle aria-label="Toggle default size">
                 Default
               </Toggle>
-              <Toggle variant="default" size="lg" aria-label="Toggle large">
+              <Toggle aria-label="Toggle large">
                 Large
               </Toggle>
             </div>
             <div className="flex flex-wrap gap-4">
-              <Toggle variant="default" aria-pressed="true" aria-label="Toggle on">
+              <Toggle aria-pressed="true" aria-label="Toggle on">
                 On
               </Toggle>
-              <Toggle variant="default" aria-pressed="false" aria-label="Toggle off">
+              <Toggle aria-pressed="false" aria-label="Toggle off">
                 Off
               </Toggle>
             </div>
@@ -1070,7 +1070,7 @@ export default function ComponentsPage() {
           <CardContent className="space-y-6">
             <div>
               <Heading level={3} size="xs" className="mb-3">Default Toggle Group</Heading>
-              <ToggleGroup type="single" defaultValue="center">
+              <ToggleGroup type="single">
                 <ToggleGroupItem value="left" aria-label="Left aligned">
                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4.5C2 4.22386 2.22386 4 2.5 4H12.5C12.7761 4 13 4.22386 13 4.5C13 4.77614 12.7761 5 12.5 5H2.5C2.22386 5 2 4.77614 2 4.5ZM2 7.5C2 7.22386 2.22386 7 2.5 7H7.5C7.77614 7 8 7.22386 8 7.5C8 7.77614 7.77614 8 7.5 8H2.5C2.22386 8 2 7.77614 2 7.5ZM2 10.5C2 10.2239 2.22386 10 2.5 10H10.5C10.7761 10 11 10.2239 11 10.5C11 10.7761 10.7761 11 10.5 11H2.5C2.22386 11 2 10.7761 2 10.5Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
                 </ToggleGroupItem>
@@ -1085,7 +1085,7 @@ export default function ComponentsPage() {
             
             <div>
               <Heading level={3} size="xs" className="mb-3">Outline Toggle Group</Heading>
-              <ToggleGroup type="multiple" variant="outline">
+              <ToggleGroup type="multiple">
                 <ToggleGroupItem value="bold" aria-label="Bold">
                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.10505 12C4.70805 12 4.4236 11.912 4.25171 11.736C4.0839 11.5559 4 11.2715 4 10.8827V4.11733C4 3.72033 4.08595 3.43588 4.25784 3.26398C4.43383 3.08799 4.71623 3 5.10505 3H8.11841C9.05172 3 9.77883 3.21789 10.2997 3.65367C10.8247 4.08536 11.0872 4.67337 11.0872 5.4177C11.0872 5.8839 10.9602 6.29259 10.7064 6.64379C10.4526 6.99089 10.1139 7.23456 9.69018 7.37479C10.209 7.49464 10.6475 7.75359 11.0057 8.15163C11.3639 8.54968 11.5429 9.05472 11.5429 9.66676C11.5429 10.4969 11.2598 11.1493 10.6935 11.624C10.1273 12.0946 9.33648 12.3299 8.32106 12.3299H5.10505V12ZM7.76272 7.25089C8.21588 7.25089 8.56091 7.13513 8.79784 6.90361C9.03476 6.668 9.15322 6.33812 9.15322 5.91396C9.15322 5.50603 9.03476 5.19237 8.79784 4.98303C8.56091 4.7696 8.22201 4.66288 7.78112 4.66288H5.98336V7.25089H7.76272ZM8.06444 10.6671C8.56703 10.6671 8.94147 10.5411 9.18779 10.289C9.4341 10.037 9.55726 9.68999 9.55726 9.24837C9.55726 8.81894 9.42183 8.48497 9.15099 8.24648C8.88425 8.0039 8.498 7.88261 7.99224 7.88261H5.98336V10.6671H8.06444Z" fill="currentColor"></path></svg>
                 </ToggleGroupItem>
@@ -1101,19 +1101,13 @@ export default function ComponentsPage() {
             <div>
               <Heading level={3} size="xs" className="mb-3">Sizes</Heading>
               <div className="space-y-2">
-                <ToggleGroup type="single" size="sm">
+                <ToggleGroup type="single">
                   <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
-                  <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
-                  <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
                 </ToggleGroup>
-                <ToggleGroup type="single" size="default">
-                  <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
+                <ToggleGroup type="single">
                   <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
-                  <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
                 </ToggleGroup>
-                <ToggleGroup type="single" size="lg">
-                  <ToggleGroupItem value="1" aria-label="Option 1">Option 1</ToggleGroupItem>
-                  <ToggleGroupItem value="2" aria-label="Option 2">Option 2</ToggleGroupItem>
+                <ToggleGroup type="single">
                   <ToggleGroupItem value="3" aria-label="Option 3">Option 3</ToggleGroupItem>
                 </ToggleGroup>
               </div>

@@ -105,10 +105,10 @@
     /* ------------------------------- */
 
     /* Text Colors - Used for typography elements */
-    --text-primary: var(--color-gray-900);     /* Main text color for body content */
-    --text-secondary: var(--color-gray-700);   /* Secondary text, used for descriptions, labels */
-    --text-tertiary: var(--color-gray-600);    /* Tertiary text, used for less important information */
-    --text-disabled: var(--color-gray-500);    /* Text for disabled elements */
+    --text-primary: rgb(0 0 0 / 0.87);     /* Main text color for body content */
+    --text-secondary: rgb(0 0 0 / 0.73);   /* Secondary text, used for descriptions, labels */
+    --text-tertiary: rgb(0 0 0 / 0.60);    /* Tertiary text, used for less important information */
+    --text-disabled: rgb(0 0 0 / 0.38);    /* Text for disabled elements */
     
     --text-brand-primary: var(--color-gray-50);    /* Primary text on brand color backgrounds */
     --text-brand-secondary: var(--color-gray-300); /* Secondary text on brand backgrounds */
@@ -244,10 +244,10 @@
     /* ------------------------------- */
     
     /* Text Colors - Adjusted for dark mode */
-    --text-primary: #fcfcfc;                /* Light text on dark background */
-    --text-secondary: #d1d1d6;              /* Secondary text on dark background */
-    --text-tertiary: #a0a0ab;               /* Tertiary text on dark background */
-    --text-disabled: #70707b;               /* Disabled text on dark background */
+    --text-primary: rgb(255 255 255 / 0.87);    /* Light text on dark background */
+    --text-secondary: rgb(255 255 255 / 0.73);  /* Secondary text on dark background */
+    --text-tertiary: rgb(255 255 255 / 0.60);   /* Tertiary text on dark background */
+    --text-disabled: rgb(255 255 255 / 0.38);   /* Disabled text on dark background */
     
     --text-brand-primary: #edf2ff;          /* Brand text in dark mode */
     --text-brand-secondary: #c6cdf4;        /* Secondary brand text */
