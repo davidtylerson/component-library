@@ -15,7 +15,12 @@ import {
   SelectContent, 
   SelectItem, 
   SelectTrigger, 
-  SelectValue
+  SelectValue,
+  SelectLabel,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+  SelectGroup
 } from "@/components/ui/select";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
@@ -100,7 +105,8 @@ import {
   IconCreditCard,
   IconChevronDown,
   IconRefresh,
-  IconCopy
+  IconCopy,
+  IconChevronRight
 } from "@tabler/icons-react";
 
 export default function ComponentsPage() {
@@ -566,36 +572,68 @@ export default function ComponentsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Select Dropdowns</CardTitle>
-            <CardDescription>Selection from a dropdown list</CardDescription>
+            <CardDescription>Selection from a dropdown list, styled with centralized CSS variables.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div>
-              <Text className="mb-2">Basic Select</Text>
+              <label htmlFor="select-fruit" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Basic Select</label>
               <Select>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger id="select-fruit" className="w-[240px]">
                   <SelectValue placeholder="Select a fruit" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="orange">Orange</SelectItem>
-                  <SelectItem value="grape">Grape</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                  <SelectGroup>
+                    <SelectLabel>Fruits</SelectLabel>
+                    <SelectItem value="apple">Apple</SelectItem>
+                    <SelectItem value="banana">Banana</SelectItem>
+                    <SelectItem value="blueberry">Blueberry</SelectItem>
+                    <SelectItem value="grapes">Grapes</SelectItem>
+                    <SelectItem value="pineapple">Pineapple</SelectItem>
+                  </SelectGroup>
+                  <SelectSeparator />
+                  <SelectGroup>
+                    <SelectLabel>Vegetables</SelectLabel>
+                    <SelectItem value="broccoli">Broccoli</SelectItem>
+                    <SelectItem value="carrot">Carrot</SelectItem>
+                    <SelectItem value="spinach" disabled>Spinach (Out of stock)</SelectItem> 
+                  </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
             
             <div>
-              <Text className="mb-2">Disabled Select</Text>
+              <label htmlFor="select-disabled" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Disabled Select</label>
               <Select disabled>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Disabled" />
+                <SelectTrigger id="select-disabled" className="w-[240px]">
+                  <SelectValue placeholder="Cannot select" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="option">Option</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
+            <div>
+              <label htmlFor="select-country" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Select with more items (scroll)</label>
+              <Select>
+                <SelectTrigger id="select-country" className="w-[240px]">
+                  <SelectValue placeholder="Select a country" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="usa">United States</SelectItem>
+                  <SelectItem value="canada">Canada</SelectItem>
+                  <SelectItem value="mexico">Mexico</SelectItem>
+                  <SelectItem value="brazil">Brazil</SelectItem>
+                  <SelectItem value="uk">United Kingdom</SelectItem>
+                  <SelectItem value="germany">Germany</SelectItem>
+                  <SelectItem value="france">France</SelectItem>
+                  <SelectItem value="japan">Japan</SelectItem>
+                  <SelectItem value="australia">Australia</SelectItem>
+                  <SelectItem value="india">India</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
           </CardContent>
         </Card>
       </section>
@@ -605,28 +643,107 @@ export default function ComponentsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Dropdown Menus</CardTitle>
-            <CardDescription>Context menus and dropdowns</CardDescription>
+            <CardDescription>Context menus and dropdowns using centralized CSS variables.</CardDescription>
           </CardHeader>
-          <CardContent className="flex justify-center">
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild>
-                <Button variant="outline" size="md" iconOnly>
-                  <IconDots stroke={1.5} />
-                </Button>
-              </DropdownMenu.Trigger>
-              <DropdownMenu.Content>
-                <DropdownMenu.Item leftIcon={<IconUser size={16} stroke={1.5} />}>
-                  Profile
-                </DropdownMenu.Item>
-                <DropdownMenu.Item leftIcon={<IconSettings size={16} stroke={1.5} />}>
-                  Settings
-                </DropdownMenu.Item>
-                <DropdownMenu.Separator />
-                <DropdownMenu.Item leftIcon={<IconTrash size={16} stroke={1.5} />} color="error">
-                  Delete
-                </DropdownMenu.Item>
-              </DropdownMenu.Content>
-            </DropdownMenu.Root>
+          <CardContent className="flex flex-wrap gap-6 justify-center items-start">
+            
+            {/* Standard Dropdown Example */}
+            <div>
+              <Text size="sm" weight="medium" className="mb-2 text-center block">Standard & Themed</Text>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <Button variant="outline">Open Menu</Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content className="w-60">
+                  <DropdownMenu.Label>My Account</DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Group>
+                    <DropdownMenu.Item leftIcon={<IconUser size={16} />}>
+                      Profile
+                      <DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item leftIcon={<IconCreditCard size={16} />}>
+                      Billing
+                      <DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item leftIcon={<IconSettings size={16} />}>
+                      Settings
+                      <DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item color="brand" leftIcon={<IconInfoCircle size={16}/>}>
+                      Brand Themed Item
+                      <DropdownMenu.Shortcut>⌘I</DropdownMenu.Shortcut>
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Group>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item leftIcon={<IconPlus size={16} />}>
+                    New Item
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger>
+                      <span>More Actions</span>
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.Portal>
+                      <DropdownMenu.SubContent>
+                        <DropdownMenu.Item>Sub Action 1</DropdownMenu.Item>
+                        <DropdownMenu.Item disabled>Sub Action 2 (Disabled)</DropdownMenu.Item>
+                        <DropdownMenu.Sub>
+                            <DropdownMenu.SubTrigger>Even More...</DropdownMenu.SubTrigger>
+                            <DropdownMenu.Portal>
+                                <DropdownMenu.SubContent>
+                                    <DropdownMenu.Item>Deep Sub Action</DropdownMenu.Item>
+                                </DropdownMenu.SubContent>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Sub>
+                      </DropdownMenu.SubContent>
+                    </DropdownMenu.Portal>
+                  </DropdownMenu.Sub>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Item color="error" leftIcon={<IconTrash size={16} />}>
+                    Delete Account
+                    <DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item color="warning" leftIcon={<IconAlertCircle size={16} />}>
+                    Warning Item
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item color="success" leftIcon={<IconCheck size={16} />}>
+                    Success Item
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+
+            {/* Checkbox and Radio Items Example */}
+            <div>
+              <Text size="sm" weight="medium" className="mb-2 text-center block">Selection Items</Text>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <Button variant="secondary">View Options</Button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content className="w-56">
+                  <DropdownMenu.Label>Panel Settings</DropdownMenu.Label>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.CheckboxItem checked>
+                    Show Panel
+                    <DropdownMenu.Shortcut>⌘P</DropdownMenu.Shortcut>
+                  </DropdownMenu.CheckboxItem>
+                  <DropdownMenu.CheckboxItem>
+                    Full Width
+                  </DropdownMenu.CheckboxItem>
+                  <DropdownMenu.CheckboxItem disabled>
+                    Auto-Refresh (Disabled)
+                  </DropdownMenu.CheckboxItem>
+                  <DropdownMenu.Separator />
+                  <DropdownMenu.Label>Sort By</DropdownMenu.Label>
+                  <DropdownMenu.RadioGroup value="name">
+                    <DropdownMenu.RadioItem value="name">Name</DropdownMenu.RadioItem>
+                    <DropdownMenu.RadioItem value="date">Date Modified</DropdownMenu.RadioItem>
+                    <DropdownMenu.RadioItem value="size" disabled>Size (Soon)</DropdownMenu.RadioItem>
+                  </DropdownMenu.RadioGroup>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            </div>
+            
           </CardContent>
         </Card>
       </section>

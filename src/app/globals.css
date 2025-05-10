@@ -13,6 +13,8 @@
 
 @import '../styles/components/button.css';
 @import '../styles/components/input.css';
+@import '../styles/components/input-dropdown.css';
+@import '../styles/components/card.css';
 
 @tailwind base;
 @tailwind components;
