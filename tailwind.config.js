@@ -173,8 +173,8 @@ module.exports = {
       colors: {
         // // shadcn default colors - maintained for compatibility
         // border: "hsl(var(--border))",
-        // input: "hsl(var(--input))",
-        // ring: "hsl(var(--ring))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         // background: "hsl(var(--background))",
         // foreground: "hsl(var(--foreground))",
         // primary: {

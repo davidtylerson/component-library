@@ -12,6 +12,7 @@
  */
 
 @import '../styles/components/button.css';
+@import '../styles/components/input.css';
 
 @tailwind base;
 @tailwind components;
@@ -220,8 +221,8 @@
     
     /* UI Element Border and Focus */
     --border: 240 5% 84%;             /* Border color (gray-300) */
-    --input: 240 5% 84%;              /* Input field border (gray-300) */
-    --ring: 242 83% 71%;              /* Focus ring color (brand-400) */
+    --input: var(--float-input-border-hsl);              /* Input field border (gray-300) */
+    --ring: var(--float-input-ring-hsl);              /* Focus ring color (brand-400) */
     
     /* Component Shape */
     --radius: 0.5rem;                 /* Border radius for components */
@@ -357,9 +358,169 @@
     
     /* UI Element Border and Focus */
     --border: 240 4% 16%;                /* Border color */
-    --input: 240 4% 16%;                 /* Input field border */
-    --ring: 242 83% 45%;                 /* Focus ring color */
+    --input: var(--float-input-border-hsl);                 /* Input field border */
+    --ring: var(--float-input-ring-hsl);                 /* Focus ring color */
   }
+}
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Badge      */
+/* ---------------------------------------- */
+:root {
+  /* Primary Badge (mimics Button Primary) */
+  --float-badge-primary-bg: var(--float-button-primary-bg);
+  --float-badge-primary-fg: var(--float-button-primary-fg);
+  --float-badge-primary-border: var(--float-button-primary-border);
+  --float-badge-primary-bg-hover: var(--float-button-primary-bg-hover);
+  --float-badge-primary-fg-hover: var(--float-button-primary-fg-hover);
+  --float-badge-primary-border-hover: var(--float-button-primary-border-hover);
+
+  /* Gray Badge (mimics Button Secondary) */
+  --float-badge-gray-bg: var(--float-button-secondary-bg);
+  --float-badge-gray-fg: var(--float-button-secondary-fg);
+  --float-badge-gray-border: var(--float-button-secondary-border);
+  --float-badge-gray-bg-hover: var(--float-button-secondary-bg-hover);
+  --float-badge-gray-fg-hover: var(--float-button-secondary-fg-hover);
+  --float-badge-gray-border-hover: var(--float-button-secondary-border-hover);
+
+  /* Destructive Badge (mimics Button Destructive) */
+  --float-badge-destructive-bg: var(--float-button-destructive-bg);
+  --float-badge-destructive-fg: var(--float-button-destructive-fg);
+  --float-badge-destructive-border: var(--float-button-destructive-border);
+  --float-badge-destructive-bg-hover: var(--float-button-destructive-bg-hover);
+  --float-badge-destructive-fg-hover: var(--float-button-destructive-fg-hover);
+  --float-badge-destructive-border-hover: var(--float-button-destructive-border-hover);
+
+  /* Ghost Badge (mimics Button Ghost) */
+  --float-badge-ghost-fg: var(--float-button-ghost-fg);
+  --float-badge-ghost-bg-hover: var(--float-button-ghost-bg-hover);
+  --float-badge-ghost-fg-hover: var(--float-button-ghost-fg-hover);
+  /* Ghost badges typically don't have a border in their resting state */
+  --float-badge-ghost-border: transparent; 
+  --float-badge-ghost-border-hover: transparent;
+
+
+  /* Outline Badge (mimics Button Outline) */
+  --float-badge-outline-bg: transparent; /* Outline badges are typically transparent */
+  --float-badge-outline-fg: var(--float-button-outline-fg);
+  --float-badge-outline-border: var(--float-button-outline-border);
+  --float-badge-outline-bg-hover: var(--float-button-outline-bg-hover);
+  --float-badge-outline-fg-hover: var(--float-button-outline-fg-hover);
+  --float-badge-outline-border-hover: var(--float-button-outline-border-hover);
+}
+
+/* No specific dark theme overrides needed here if button variables correctly handle dark theme */
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Checkbox   */
+/* ---------------------------------------- */
+:root {
+  /* Unchecked State */
+  --float-checkbox-border: var(--border-primary);
+  --float-checkbox-bg: transparent; /* Typically transparent when unchecked */
+  
+  /* Checked State */
+  --float-checkbox-checked-bg: var(--bg-brand-solid);
+  --float-checkbox-checked-border: var(--bg-brand-solid); /* Border often matches background when checked */
+  --float-checkbox-checked-indicator: var(--text-brand-primary); /* Checkmark color */
+  
+  /* Hover State (Unchecked) - Can be subtle or rely on focus ring */
+  --float-checkbox-hover-border: var(--border-brand); 
+
+  /* Hover State (Checked) */
+  --float-checkbox-checked-hover-bg: var(--bg-brand-solid); /* Might be same as checked or slightly darker/lighter */
+  --float-checkbox-checked-hover-border: var(--bg-brand-solid);
+
+  /* Focus State - Uses existing --ring for the ring color */
+  
+  /* Disabled State (Unchecked) */
+  --float-checkbox-disabled-border: var(--border-disabled);
+  --float-checkbox-disabled-bg: var(--bg-disabled);
+
+  /* Disabled State (Checked) */
+  --float-checkbox-disabled-checked-bg: var(--border-disabled); /* Using border-disabled to appear grayed out */
+  --float-checkbox-disabled-checked-border: var(--border-disabled);
+  --float-checkbox-disabled-checked-indicator: var(--text-disabled);
+}
+
+.dark {
+  /* Unchecked State */
+  --float-checkbox-border: var(--border-primary); /* Uses dark theme variable */
+  --float-checkbox-bg: transparent;
+  
+  /* Checked State */
+  --float-checkbox-checked-bg: var(--bg-brand-solid); /* Uses dark theme variable */
+  --float-checkbox-checked-border: var(--bg-brand-solid); /* Uses dark theme variable */
+  --float-checkbox-checked-indicator: var(--text-brand-primary); /* Uses dark theme variable */
+
+  /* Hover State (Unchecked) */
+  --float-checkbox-hover-border: var(--border-brand); /* Uses dark theme variable */
+
+  /* Hover State (Checked) */
+  --float-checkbox-checked-hover-bg: var(--bg-brand-solid); /* Uses dark theme variable */
+  --float-checkbox-checked-hover-border: var(--bg-brand-solid); /* Uses dark theme variable */
+  
+  /* Disabled State (Unchecked) */
+  --float-checkbox-disabled-border: var(--border-disabled); /* Uses dark theme variable */
+  --float-checkbox-disabled-bg: var(--bg-disabled); /* Uses dark theme variable */
+  
+  /* Disabled State (Checked) */
+  --float-checkbox-disabled-checked-bg: var(--border-disabled); /* Uses dark theme variable */
+  --float-checkbox-disabled-checked-border: var(--border-disabled); /* Uses dark theme variable */
+  --float-checkbox-disabled-checked-indicator: var(--text-disabled); /* Uses dark theme variable */
+}
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Radio      */
+/* ---------------------------------------- */
+:root {
+  /* Unchecked State */
+  --float-radio-border: var(--border-primary);
+  --float-radio-bg: transparent;
+  
+  /* Checked State */
+  --float-radio-checked-border: var(--border-brand); /* Often a brand color for the border when checked */
+  --float-radio-checked-indicator: var(--fg-brand-primary); /* The inner dot color */
+  
+  /* Hover State (Unchecked) */
+  --float-radio-hover-border: var(--border-brand); 
+
+  /* Hover State (Checked) - Indicator usually doesn't change on hover, border might */
+  --float-radio-checked-hover-border: var(--border-brand); /* Or a slightly different shade */
+
+  /* Focus State - Uses existing --ring */
+  
+  /* Disabled State (Unchecked) */
+  --float-radio-disabled-border: var(--border-disabled);
+  --float-radio-disabled-bg: var(--bg-disabled);
+
+  /* Disabled State (Checked) */
+  --float-radio-disabled-checked-border: var(--border-disabled);
+  --float-radio-disabled-checked-indicator: var(--text-disabled);
+}
+
+.dark {
+  /* Unchecked State */
+  --float-radio-border: var(--border-primary);
+  --float-radio-bg: transparent;
+  
+  /* Checked State */
+  --float-radio-checked-border: var(--border-brand);
+  --float-radio-checked-indicator: var(--fg-brand-primary);
+  
+  /* Hover State (Unchecked) */
+  --float-radio-hover-border: var(--border-brand); 
+
+  /* Hover State (Checked) */
+  --float-radio-checked-hover-border: var(--border-brand);
+  
+  /* Disabled State (Unchecked) */
+  --float-radio-disabled-border: var(--border-disabled);
+  --float-radio-disabled-bg: var(--bg-disabled);
+  
+  /* Disabled State (Checked) */
+  --float-radio-disabled-checked-border: var(--border-disabled);
+  --float-radio-disabled-checked-indicator: var(--text-disabled);
 }
 
 @layer components {

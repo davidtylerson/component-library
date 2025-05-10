@@ -438,14 +438,51 @@ export default function ComponentsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Badge Variations</CardTitle>
-            <CardDescription>Small status indicators</CardDescription>
+            <CardDescription>Status indicators with new variants, sizes, and icon support.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              <Badge>Default</Badge>
-              <Badge variant="secondary">Secondary</Badge>
-              <Badge variant="destructive">Destructive</Badge>
-              <Badge variant="outline">Outline</Badge>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Basic Variants</Heading>
+              <div className="flex flex-wrap gap-3 items-center">
+                <Badge variant="primary">Primary</Badge>
+                <Badge variant="gray">Gray</Badge>
+                <Badge variant="destructive">Destructive</Badge>
+                <Badge variant="outline">Outline</Badge>
+                <Badge variant="ghost">Ghost</Badge>
+              </div>
+            </div>
+
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Sizes</Heading>
+              <div className="flex flex-wrap gap-3 items-center">
+                <Badge variant="primary" size="sm">Small</Badge>
+                <Badge variant="primary" size="md">Medium</Badge>
+                <Badge variant="primary" size="lg">Large</Badge>
+              </div>
+            </div>
+
+            <div>
+              <Heading level={3} size="xs" className="mb-3">With Icons</Heading>
+              <div className="flex flex-wrap gap-3 items-center">
+                <Badge variant="primary" leftIcon={<IconPlus size={14}/>} size="sm">Left Icon</Badge>
+                <Badge variant="gray" rightIcon={<IconCheck size={14}/>} size="md">Right Icon</Badge>
+                <Badge variant="destructive" leftIcon={<IconTrash size={16}/>} rightIcon={<IconAlertCircle size={16}/>} size="lg">
+                  Error State
+                </Badge>
+                 <Badge variant="outline" leftIcon={<IconSettings size={14}/>} size="md">Outline Left</Badge>
+                 <Badge variant="ghost" rightIcon={<IconInfoCircle size={14}/>} size="md">Ghost Right</Badge>
+              </div>
+            </div>
+            
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Icon Only</Heading>
+              <div className="flex flex-wrap gap-3 items-center">
+                <Badge variant="primary" iconOnly leftIcon={<IconUser size={14}/>} size="sm" aria-label="User profile" />
+                <Badge variant="gray" iconOnly leftIcon={<IconSettings size={16}/>} size="md" aria-label="Settings" />
+                <Badge variant="destructive" iconOnly leftIcon={<IconTrash size={18}/>} size="lg" aria-label="Delete item" />
+                <Badge variant="outline" iconOnly leftIcon={<IconPlus size={16}/>} size="md" aria-label="Add new item" />
+                <Badge variant="ghost" iconOnly leftIcon={<IconDots size={16}/>} size="md" aria-label="More options" />
+              </div>
             </div>
           </CardContent>
         </Card>

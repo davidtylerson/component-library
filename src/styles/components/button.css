@@ -8,8 +8,8 @@
   --float-button-primary-border-hover: var(--color-brand-800);
 
   /* Secondary Button */
-  --float-button-secondary-bg: white;
-  --float-button-secondary-bg-hover: var(--color-gray-100);
+  --float-button-secondary-bg: var(--color-gray-100);
+  --float-button-secondary-bg-hover: var(--color-gray-200);
   --float-button-secondary-fg: var(--color-gray-700);
   --float-button-secondary-fg-hover: var(--color-gray-800);
   --float-button-secondary-border: var(--color-gray-300);
