@@ -93,7 +93,7 @@
 
 .float-sidebar-menu-button {
   @apply flex items-center w-full px-3 text-[14px] rounded-md h-9;
-  @apply text-[var(--float-sidebar-item-fg)] bg-[var(--float-sidebar-item-bg)] border border-transparent;
+  @apply text-[var(--text-primary)] bg-[var(--float-sidebar-item-bg)] border border-transparent;
   @apply hover:text-[var(--float-sidebar-item-fg-hover)] hover:bg-[var(--float-sidebar-item-bg-hover)] hover:border-[var(--float-sidebar-item-border-hover)];
   @apply transition-all duration-200;
 }
@@ -103,7 +103,7 @@
 }
 
 .float-sidebar-menu-button-icon {
-  @apply h-4 w-4 text-[var(--float-sidebar-item-icon-fg)];
+  @apply h-5 w-5 text-[var(--float-sidebar-item-icon-fg)];
   @apply transition-colors duration-200;
 }
 

@@ -141,14 +141,6 @@ import LogoGS from "@/assets/logos/Logo_GS.svg";
 
 export default function ComponentsPage() {
   const { isDark } = useTheme();
-  const [currentOrg, setCurrentOrg] = React.useState("Alta Capital");
-  const orgIcons: Record<string, React.ElementType> = {
-    "Alta Capital": IconBuildingSkyscraper,
-    "State Street": IconBuildingSkyscraper,
-    "Float": IconBuildingSkyscraper,
-  };
-  const CurrentOrgIcon = orgIcons[currentOrg] || IconBuildingSkyscraper;
-
   const organizations = [
     {
       id: "alta-capital",
@@ -165,47 +157,31 @@ export default function ComponentsPage() {
       avatarFallback: "SS"
     },
     {
-      id: "float",
-      name: "Float",
+      id: "gs",
+      name: "Goldman Sachs",
       logo: LogoGS,
       avatarUrl: "https://github.com/shadcn.png",
-      avatarFallback: "FL"
+      avatarFallback: "GS"
     }
   ];
+  const [currentOrg, setCurrentOrg] = React.useState(organizations[0].id);
+  const orgIcons: Record<string, React.ElementType> = {
+    "Alta Capital": IconBuildingSkyscraper,
+    "State Street": IconBuildingSkyscraper,
+    "Float": IconBuildingSkyscraper,
+  };
+  const CurrentOrgIcon = orgIcons[currentOrg] || IconBuildingSkyscraper;
 
   return (
     <div className="flex flex-row min-h-screen bg-ds-bg-primary">
       <SidebarProvider>
         <Sidebar variant="inset">
           <SidebarHeader>
-            <FloatDropdownMenu.Root>
-              <FloatDropdownMenu.Trigger asChild>
-                <button className="float-sidebar-org-switcher">
-                  <CurrentOrgIcon className="float-sidebar-org-switcher-icon" />
-                  <div className="float-sidebar-org-switcher-text-content">
-                    <span className="float-sidebar-org-switcher-name">{currentOrg}</span>
-                  </div>
-                  <IconSelector className="float-sidebar-org-switcher-chevron" />
-                </button>
-              </FloatDropdownMenu.Trigger>
-              <FloatDropdownMenu.Content 
-                className="w-[var(--radix-dropdown-menu-trigger-width)]" 
-                align="start" 
-                sideOffset={4}
-              >
-                <FloatDropdownMenu.Label>Organizations</FloatDropdownMenu.Label>
-                <FloatDropdownMenu.Separator />
-                {["Alta Capital", "State Street", "Float"].map((org) => {
-                  const OrgIcon = orgIcons[org] || IconBuildingSkyscraper;
-                  return (
-                    <FloatDropdownMenu.Item key={org} onSelect={() => setCurrentOrg(org)}>
-                      <OrgIcon className="mr-2 h-4 w-4" />
-                      <span>{org}</span>
-                    </FloatDropdownMenu.Item>
-                  );
-                })}
-              </FloatDropdownMenu.Content>
-            </FloatDropdownMenu.Root>
+            <OrgSwitcher
+              organizations={organizations}
+              value={currentOrg}
+              onValueChange={setCurrentOrg}
+            />
           </SidebarHeader>
 
           <SidebarMenu className="float-sidebar-menu">

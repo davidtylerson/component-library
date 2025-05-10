@@ -29,7 +29,7 @@ export const OrgSwitcher = React.forwardRef<
 
   return (
     <Select value={selectedValue} onValueChange={onValueChange} {...props}>
-      <SelectTrigger className={cn("w-[240px] px-2.5", triggerClassName)}>
+      <SelectTrigger className={cn("w-[240px] px-2", triggerClassName)}>
         {selectedOrg ? (
           <div className="flex items-center gap-2">
             <div className="h-5 w-5 overflow-hidden rounded-[4px] flex items-center justify-center">

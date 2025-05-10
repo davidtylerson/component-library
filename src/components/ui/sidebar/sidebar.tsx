@@ -232,7 +232,7 @@ const SidebarHeader = React.forwardRef<
     <header
       ref={ref}
       className={cn(
-        "flex h-[var(--float-sidebar-header-height)] shrink-0 items-center border-b border-[var(--float-sidebar-border)] px-4",
+        "flex h-[var(--float-sidebar-header-height)] shrink-0 items-center px-2",
         className
       )}
       {...props}
@@ -401,7 +401,7 @@ const SidebarMenu = React.forwardRef<
   return (
     <ul
       ref={ref}
-      className={cn("space-y-1", className)}
+      className={cn("px-2", className)}
       {...props}
     >
       {children}
@@ -441,9 +441,9 @@ const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonP
         ref={ref}
         data-active={isActive}
         className={cn(
-          "group/menu-button peer/menu-button flex w-full items-center gap-2 rounded-md p-2 text-sm font-medium transition-colors",
-          "hover:bg-[var(--float-sidebar-item-bg-hover)] hover:text-[var(--float-sidebar-item-fg-hover)]",
-          isActive && "bg-[var(--float-sidebar-accent)] text-[var(--float-sidebar-accent-foreground)]",
+          "group/menu-button peer/menu-button flex w-full items-center gap-2 rounded-md py-2 px-2.5 text-sm font-medium transition-colors",
+          "hover:bg-[var(--float-sidebar-item-bg-hover)] hover:text-[var(--text-primary)]",
+          isActive && "bg-[var(--float-sidebar-accent)] text-[var(--text-primary)]",
           state === "collapsed" && "justify-center",
           className
         )}
