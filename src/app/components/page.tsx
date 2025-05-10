@@ -148,17 +148,55 @@ export default function ComponentsPage() {
         
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>shadcn Button Variants</CardTitle>
-            <CardDescription>The original shadcn Button variants</CardDescription>
+            <CardTitle>Updated Button Variants</CardTitle>
+            <CardDescription>Buttons using our semantic color system</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-4">
-              <Button variant="default">Default</Button>
-              <Button variant="destructive">Destructive</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="link">Link</Button>
+          <CardContent className="space-y-6">
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Basic Variants</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="link">Link</Button>
+                <Button variant="destructive">Destructive</Button>
+              </div>
+            </div>
+
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Icon Only Buttons</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button iconOnly size="sm" variant="primary" leftIcon={<IconSettings />} />
+                <Button iconOnly size="md" variant="primary" leftIcon={<IconSettings />} />
+                <Button iconOnly size="lg" variant="primary" leftIcon={<IconSettings />} />
+                
+                <Button iconOnly size="md" variant="destructive" leftIcon={<IconTrash />} />
+                <Button iconOnly size="md" variant="outline" leftIcon={<IconPlus />} />
+                <Button iconOnly size="md" variant="secondary" leftIcon={<IconDownload />} />
+                <Button iconOnly size="md" variant="ghost" leftIcon={<IconUser />} />
+                <Button iconOnly size="md" variant="link" leftIcon={<IconInfoCircle />} />
+              </div>
+            </div>
+
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Buttons with Icons</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button leftIcon={<IconPlus />} variant="default">Add Item</Button>
+                <Button rightIcon={<IconArrowRight />} variant="primary">Continue</Button>
+                <Button leftIcon={<IconDownload />} rightIcon={<IconCheck />} variant="secondary">Download</Button>
+                <Button leftIcon={<IconTrash />} variant="destructive">Delete</Button>
+              </div>
+            </div>
+
+            <div>
+              <Heading level={3} size="xs" className="mb-3">Loading States</Heading>
+              <div className="flex flex-wrap gap-4">
+                <Button isLoading variant="default">Loading</Button>
+                <Button isLoading variant="primary">Loading</Button>
+                <Button isLoading variant="destructive">Loading</Button>
+                <Button isLoading iconOnly leftIcon={<IconSettings />} variant="secondary" />
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -213,11 +251,24 @@ export default function ComponentsPage() {
             <CardDescription>Size variations for buttons</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap items-center gap-4">
-              <Button size="sm" dsVariant="primary">Small</Button>
-              <Button dsVariant="primary">Default</Button>
-              <Button size="lg" dsVariant="primary">Large</Button>
-              <Button size="icon" dsVariant="primary" aria-label="Settings"><IconSettings size={20} stroke={1.5} /></Button>
+            <div className="flex flex-col gap-6">
+              <div>
+                <Heading level={3} size="xs" className="mb-3">Text Buttons</Heading>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button size="sm" dsVariant="primary">Small</Button>
+                  <Button size="md" dsVariant="primary">Medium</Button>
+                  <Button size="lg" dsVariant="primary">Large</Button>
+                </div>
+              </div>
+              
+              <div>
+                <Heading level={3} size="xs" className="mb-3">Icon-only Buttons</Heading>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Button iconOnly size="sm" dsVariant="primary" aria-label="Small Icon"><IconSettings /></Button>
+                  <Button iconOnly size="md" dsVariant="primary" aria-label="Medium Icon"><IconSettings /></Button>
+                  <Button iconOnly size="lg" dsVariant="primary" aria-label="Large Icon"><IconSettings /></Button>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -231,18 +282,18 @@ export default function ComponentsPage() {
             <div>
               <Heading level={3} size="xs" className="mb-3">Left Icons</Heading>
               <div className="flex flex-wrap gap-4">
-                <Button dsVariant="primary" leftIcon={<IconPlus size={20} stroke={1.5} />}>Add Item</Button>
-                <Button dsVariant="secondary" leftIcon={<IconDownload size={20} stroke={1.5} />}>Download</Button>
-                <Button dsVariant="tertiary" leftIcon={<IconSettings size={20} stroke={1.5} />}>Settings</Button>
+                <Button dsVariant="primary" leftIcon={<IconPlus />}>Add Item</Button>
+                <Button dsVariant="secondary" leftIcon={<IconDownload />}>Download</Button>
+                <Button dsVariant="tertiary" leftIcon={<IconSettings />}>Settings</Button>
               </div>
             </div>
             
             <div>
               <Heading level={3} size="xs" className="mb-3">Right Icons</Heading>
               <div className="flex flex-wrap gap-4">
-                <Button dsVariant="primary" rightIcon={<IconArrowRight size={20} stroke={1.5} />}>Continue</Button>
-                <Button dsVariant="secondary" rightIcon={<IconCheck size={20} stroke={1.5} />}>Confirm</Button>
-                <Button dsVariant="tertiary" rightIcon={<IconTrash size={20} stroke={1.5} />}>Delete</Button>
+                <Button dsVariant="primary" rightIcon={<IconArrowRight />}>Continue</Button>
+                <Button dsVariant="secondary" rightIcon={<IconCheck />}>Confirm</Button>
+                <Button dsVariant="tertiary" rightIcon={<IconTrash />}>Delete</Button>
               </div>
             </div>
             
@@ -251,8 +302,8 @@ export default function ComponentsPage() {
               <div className="flex flex-wrap gap-4">
                 <Button 
                   dsVariant="primary" 
-                  leftIcon={<IconDownload size={20} stroke={1.5} />}
-                  rightIcon={<IconArrowRight size={20} stroke={1.5} />}
+                  leftIcon={<IconDownload />}
+                  rightIcon={<IconArrowRight />}
                 >
                   Download and Proceed
                 </Button>
@@ -300,7 +351,7 @@ export default function ComponentsPage() {
                   <Button asChild dsVariant="primary">
                     <a href="#">
                       Button as Link
-                      <IconArrowRight className="ml-2" size={18} stroke={1.5} />
+                      <IconArrowRight className="ml-2" />
                     </a>
                   </Button>
                 </div>
@@ -522,8 +573,8 @@ export default function ComponentsPage() {
           <CardContent className="flex justify-center">
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
-                <Button variant="outline" size="icon">
-                  <IconDots size={18} stroke={1.5} />
+                <Button variant="outline" size="md" iconOnly>
+                  <IconDots stroke={1.5} />
                 </Button>
               </DropdownMenu.Trigger>
               <DropdownMenu.Content>

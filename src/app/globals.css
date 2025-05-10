@@ -6,9 +6,12 @@
  * 1. Foundational Colors: Raw color values from design system
  * 2. Semantic Variables: Meaningful variables that map to foundational colors
  * 3. shadcn Variables: Variables required by shadcn components
+ * 4. Component-specific Variables: Imported from component CSS files
  *
  * This structure allows changes at any level without breaking the entire system.
  */
+
+@import '../styles/components/button.css';
 
 @tailwind base;
 @tailwind components;
