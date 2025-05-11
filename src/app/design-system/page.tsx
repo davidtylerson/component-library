@@ -3,6 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTheme } from "@/themes/theme-context";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function DesignSystemPage() {
   const { isDark, setTheme } = useTheme();
@@ -677,6 +679,31 @@ export default function DesignSystemPage() {
             borderWidth: '1px'
           }}>
             Success Alert: Using design system variables (ds- prefix)
+          </div>
+        </div>
+      </section>
+
+      {/* Form Components */}
+      <section className="mb-12">
+        <h2 className="text-xl font-semibold mb-4">Form Components</h2>
+
+        <h3 className="text-lg font-medium mb-3">Inputs</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border border-ds-border-primary rounded-md">
+          <div className="space-y-2">
+            <label htmlFor="input-default" className="text-sm font-medium text-ds-text-secondary">Default Input</label>
+            <Input type="text" id="input-default" />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="input-placeholder" className="text-sm font-medium text-ds-text-secondary">Input with Placeholder</label>
+            <Input type="text" id="input-placeholder" placeholder="Enter text here..." />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="input-disabled" className="text-sm font-medium text-ds-text-secondary">Disabled Input</label>
+            <Input type="text" id="input-disabled" placeholder="Cannot type here" disabled />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="input-filled" className="text-sm font-medium text-ds-text-secondary">Input with Value</label>
+            <Input type="text" id="input-filled" defaultValue="This is some text" />
           </div>
         </div>
       </section>

@@ -1,0 +1,122 @@
+:root {
+  /* Primary Button */
+  --float-button-primary-bg: var(--color-brand-700);
+  --float-button-primary-bg-hover: var(--color-brand-800);
+  --float-button-primary-fg: white;
+  --float-button-primary-fg-hover: white;
+  --float-button-primary-border: var(--color-brand-700);
+  --float-button-primary-border-hover: var(--color-brand-800);
+
+  /* Secondary Button */
+  --float-button-secondary-bg: var(--color-gray-100);
+  --float-button-secondary-bg-hover: var(--color-gray-200);
+  --float-button-secondary-fg: var(--color-gray-700);
+  --float-button-secondary-fg-hover: var(--color-gray-800);
+  --float-button-secondary-border: var(--color-gray-300);
+  --float-button-secondary-border-hover: var(--color-gray-300);
+
+  /* Ghost Button */
+  --float-button-ghost-bg-hover: var(--color-gray-100);
+  --float-button-ghost-fg: var(--color-gray-600);
+  --float-button-ghost-fg-hover: var(--color-gray-700);
+
+  /* Outline Button */
+  --float-button-outline-bg: white;
+  --float-button-outline-bg-hover: var(--color-gray-100);
+  --float-button-outline-fg: var(--color-gray-700);
+  --float-button-outline-fg-hover: var(--color-gray-800);
+  --float-button-outline-border: var(--color-gray-300);
+  --float-button-outline-border-hover: var(--color-gray-300);
+
+  /* Link Button */
+  --float-button-link-fg: var(--color-brand-700);
+  --float-button-link-fg-hover: var(--color-brand-800);
+
+  /* Destructive Button */
+  --float-button-destructive-bg: var(--color-error-600);
+  --float-button-destructive-bg-hover: var(--color-error-700);
+  --float-button-destructive-fg: white;
+  --float-button-destructive-fg-hover: white;
+  --float-button-destructive-border: var(--color-error-600);
+  --float-button-destructive-border-hover: var(--color-error-700);
+  
+  /* Button Icon Sizes */
+  --float-button-icon-size-sm: 12px;
+  --float-button-icon-size-md: 16px;
+  --float-button-icon-size-lg: 20px;
+}
+
+.dark {
+  /* Primary Button */
+  --float-button-primary-bg: var(--color-brand-700);
+  --float-button-primary-bg-hover: var(--color-brand-800);
+  --float-button-primary-fg: white;
+  --float-button-primary-fg-hover: white;
+  --float-button-primary-border: var(--color-brand-700);
+  --float-button-primary-border-hover: var(--color-brand-800);
+
+  /* Secondary Button */
+  --float-button-secondary-bg: var(--color-gray-900);
+  --float-button-secondary-bg-hover: var(--color-gray-800);
+  --float-button-secondary-fg: var(--color-gray-300);
+  --float-button-secondary-fg-hover: var(--color-gray-100);
+  --float-button-secondary-border: var(--color-gray-700);
+  --float-button-secondary-border-hover: var(--color-gray-700);
+
+  /* Ghost Button */
+  --float-button-ghost-bg-hover: var(--color-gray-800);
+  --float-button-ghost-fg: var(--color-gray-300);
+  --float-button-ghost-fg-hover: var(--color-gray-100);
+
+  /* Outline Button */
+  --float-button-outline-bg: var(--color-gray-900);
+  --float-button-outline-bg-hover: var(--color-gray-800);
+  --float-button-outline-fg: var(--color-gray-300);
+  --float-button-outline-fg-hover: var(--color-gray-100);
+  --float-button-outline-border: var(--color-gray-700);
+  --float-button-outline-border-hover: var(--color-gray-700);
+
+  /* Link Button */
+  --float-button-link-fg: var(--color-brand-300);
+  --float-button-link-fg-hover: var(--color-brand-100);
+
+  /* Destructive Button */
+  --float-button-destructive-bg: var(--color-error-600);
+  --float-button-destructive-bg-hover: var(--color-error-700);
+  --float-button-destructive-fg: white;
+  --float-button-destructive-fg-hover: white;
+  --float-button-destructive-border: var(--color-error-600);
+  --float-button-destructive-border-hover: var(--color-error-700);
+}
+
+/* Button icon size classes */
+.float-button-sm svg {
+  width: var(--float-button-icon-size-sm);
+  height: var(--float-button-icon-size-sm);
+}
+
+.float-button-md svg {
+  width: var(--float-button-icon-size-md);
+  height: var(--float-button-icon-size-md);
+}
+
+.float-button-lg svg {
+  width: var(--float-button-icon-size-lg);
+  height: var(--float-button-icon-size-lg);
+}
+
+/* Icon-only button classes */
+.float-button-icon-sm svg {
+  width: var(--float-button-icon-size-sm);
+  height: var(--float-button-icon-size-sm);
+}
+
+.float-button-icon-md svg {
+  width: var(--float-button-icon-size-md);
+  height: var(--float-button-icon-size-md);
+}
+
+.float-button-icon-lg svg {
+  width: var(--float-button-icon-size-lg);
+  height: var(--float-button-icon-size-lg);
+} 

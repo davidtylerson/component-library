@@ -1,16 +1,17 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+        default: "bg-[var(--bg-primary)] border-[var(--border-tertiary)] text-[var(--text-primary)] [&>svg]:text-[var(--fg-primary)]",
+        destructive: "bg-[var(--color-error-800)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        warning: "bg-[var(--color-warning-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        success: "bg-[var(--color-success-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
+        brand: "bg-[var(--color-brand-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]",
       },
     },
     defaultVariants: {
@@ -50,7 +51,7 @@ const AlertDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    className={cn("text-sm text-[var(--text-tertiary)] [&_p]:leading-relaxed", className)}
     {...props}
   />
 ))

@@ -1,0 +1,110 @@
+:root {
+  /* Input Base Styles (Shared with Dropdown where applicable) */
+  --float-input-bg: var(--bg-secondary); /* Slightly off-primary for inputs */
+  --float-input-fg: var(--text-primary);
+  --float-input-border: var(--border-secondary);
+  --float-input-border-hover: var(--border-primary);
+  --float-input-border-focus: var(--border-brand); /* Focus usually gets brand color */
+  /* Using shadcn --ring (var(--float-input-ring-hsl)) for focus ring, no separate var needed here */
+  --float-input-placeholder-fg: var(--text-tertiary);
+  
+  --float-input-disabled-bg: var(--bg-disabled);
+  --float-input-disabled-fg: var(--text-disabled);
+  --float-input-disabled-border: var(--border-disabled);
+  --float-input-disabled-opacity: 0.6; /* Opacity for the whole disabled element */
+
+  /* Dropdown Content Styles */
+  --float-dropdown-content-bg: var(--bg-primary); /* Popovers/Dropdowns often on primary bg */
+  --float-dropdown-content-fg: var(--text-primary);
+  --float-dropdown-content-border: var(--border-secondary);
+  --float-dropdown-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.08), 0px 2px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+
+  /* Dropdown Item Styles */
+  --float-dropdown-item-fg: var(--text-primary);
+  --float-dropdown-item-bg-hover: var(--bg-secondary);
+  --float-dropdown-item-fg-hover: var(--text-primary); 
+  --float-dropdown-item-bg-focus: var(--float-dropdown-item-bg-hover);
+  --float-dropdown-item-fg-focus: var(--float-dropdown-item-fg-hover);
+  
+  /* Colored Dropdown Item Variants (for hover/focus states) */
+  /* Brand */
+  --float-dropdown-item-brand-bg-hover: var(--bg-brand-primary);
+  --float-dropdown-item-brand-fg-hover: var(--fg-brand-primary); /* Using fg-brand for potentially better icon/text harmony */
+  --float-dropdown-item-brand-bg-focus: var(--float-dropdown-item-brand-bg-hover);
+  --float-dropdown-item-brand-fg-focus: var(--float-dropdown-item-brand-fg-hover);
+
+  /* Error */
+  --float-dropdown-item-error-bg-hover: var(--bg-error-primary);
+  --float-dropdown-item-error-fg-hover: var(--text-error-primary);
+  --float-dropdown-item-error-bg-focus: var(--float-dropdown-item-error-bg-hover);
+  --float-dropdown-item-error-fg-focus: var(--float-dropdown-item-error-fg-hover);
+  
+  /* Warning */
+  --float-dropdown-item-warning-bg-hover: var(--bg-warning-primary);
+  --float-dropdown-item-warning-fg-hover: var(--text-warning-primary);
+  --float-dropdown-item-warning-bg-focus: var(--float-dropdown-item-warning-bg-hover);
+  --float-dropdown-item-warning-fg-focus: var(--float-dropdown-item-warning-fg-hover);
+
+  /* Success */
+  --float-dropdown-item-success-bg-hover: var(--bg-success-primary);
+  --float-dropdown-item-success-fg-hover: var(--text-success-primary);
+  --float-dropdown-item-success-bg-focus: var(--float-dropdown-item-success-bg-hover);
+  --float-dropdown-item-success-fg-focus: var(--float-dropdown-item-success-fg-hover);
+
+  /* Dropdown Separator */
+  --float-dropdown-separator-bg: var(--border-tertiary); /* Using tertiary for a more subtle separator */
+}
+
+.dark {
+  /* Input Base Styles */
+  --float-input-bg: var(--bg-secondary);
+  --float-input-fg: var(--text-primary);
+  --float-input-border: var(--border-secondary);
+  --float-input-border-hover: var(--border-primary);
+  --float-input-border-focus: var(--border-brand);
+  --float-input-placeholder-fg: var(--text-tertiary);
+  
+  --float-input-disabled-bg: var(--bg-disabled);
+  --float-input-disabled-fg: var(--text-disabled);
+  --float-input-disabled-border: var(--border-disabled);
+
+  /* Dropdown Content Styles */
+  --float-dropdown-content-bg: var(--bg-primary); 
+  --float-dropdown-content-fg: var(--text-primary);
+  --float-dropdown-content-border: var(--border-secondary);
+
+  /* Dropdown Item Styles */
+  --float-dropdown-item-fg: var(--text-primary);
+  --float-dropdown-item-bg-hover: var(--bg-secondary);
+  --float-dropdown-item-fg-hover: var(--text-primary);
+  --float-dropdown-item-bg-focus: var(--float-dropdown-item-bg-hover);
+  --float-dropdown-item-fg-focus: var(--float-dropdown-item-fg-hover);
+
+  /* Colored Dropdown Item Variants (for hover/focus states) - Assuming semantic vars handle dark mode */
+  /* Brand */
+  --float-dropdown-item-brand-bg-hover: var(--bg-brand-primary);
+  --float-dropdown-item-brand-fg-hover: var(--fg-brand-primary);
+  --float-dropdown-item-brand-bg-focus: var(--float-dropdown-item-brand-bg-hover);
+  --float-dropdown-item-brand-fg-focus: var(--float-dropdown-item-brand-fg-hover);
+
+  /* Error */
+  --float-dropdown-item-error-bg-hover: var(--bg-error-primary);
+  --float-dropdown-item-error-fg-hover: var(--text-error-primary);
+  --float-dropdown-item-error-bg-focus: var(--float-dropdown-item-error-bg-hover);
+  --float-dropdown-item-error-fg-focus: var(--float-dropdown-item-error-fg-hover);
+
+  /* Warning */
+  --float-dropdown-item-warning-bg-hover: var(--bg-warning-primary);
+  --float-dropdown-item-warning-fg-hover: var(--text-warning-primary);
+  --float-dropdown-item-warning-bg-focus: var(--float-dropdown-item-warning-bg-hover);
+  --float-dropdown-item-warning-fg-focus: var(--float-dropdown-item-warning-fg-hover);
+
+  /* Success */
+  --float-dropdown-item-success-bg-hover: var(--bg-success-primary);
+  --float-dropdown-item-success-fg-hover: var(--text-success-primary);
+  --float-dropdown-item-success-bg-focus: var(--float-dropdown-item-success-bg-hover);
+  --float-dropdown-item-success-fg-focus: var(--float-dropdown-item-success-fg-hover);
+  
+  /* Dropdown Separator */
+  --float-dropdown-separator-bg: var(--border-tertiary);
+} 
