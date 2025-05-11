@@ -128,6 +128,14 @@ export default function HomePage() {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
+                      <Link href="/design-system/sidebar">
+                        <IconComponents size={18} />
+                        <span>Sidebar Example</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
                       <Link href="/components">
                         <IconComponents size={18} />
                         <span>Components</span>

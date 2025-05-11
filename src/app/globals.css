@@ -19,15 +19,15 @@ body {
 }
 */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import '../styles/components/button.css';
 @import '../styles/components/input.css';
 @import '../styles/components/input-dropdown.css';
 @import '../styles/components/card.css';
 @import '../styles/components/sidebar.css';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* FORCEFUL SIDEBAR ROOT STYLES - OUTSIDE ANY LAYER */
 .float-sidebar-root {
@@ -41,6 +41,20 @@ body {
 }
 
 @layer base {
+  /* Basic styles without problematic classes */
+  * {
+    box-sizing: border-box;
+    border-color: var(--border-secondary);
+  }
+  
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
   :root {
     /* -------------------------------- */
     /* Foundational Colors: Light Theme */
@@ -126,7 +140,7 @@ body {
 
     /* Text Colors - Used for typography elements */
     --text-primary: rgb(0 0 0 / 0.87);     /* Main text color for body content */
-    --text-secondary: rgb(0 0 0 / 0.73);   /* Secondary text, used for descriptions, labels */
+    --text-secondary: rgb(0 0 0 / 0.75);   /* Secondary text, used for descriptions, labels */
     --text-tertiary: rgb(0 0 0 / 0.60);    /* Tertiary text, used for less important information */
     --text-disabled: rgb(0 0 0 / 0.38);    /* Text for disabled elements */
     
@@ -248,6 +262,23 @@ body {
     
     /* Component Shape */
     --radius: 0.5rem;                 /* Border radius for components */
+
+    /* Sidebar Component Variables */
+    --sidebar-background: 0 0% 100%;          /* Maps to --bg-primary in light mode */
+    --sidebar-foreground: 240 10% 3.9%;       /* Maps to --text-primary */
+    --sidebar-primary: 242 48% 56%;           /* Maps to brand-600 */
+    --sidebar-primary-foreground: 0 0% 100%;  /* Maps to white */
+    --sidebar-accent: 240 5% 96%;             /* Maps to --bg-tertiary */
+    --sidebar-accent-foreground: 240 5.9% 10%; /* Maps to --text-primary */
+    --sidebar-border: 240 5% 84%;             /* Maps to --border-secondary */
+    --sidebar-ring: 242 83% 60%;              /* Maps to brand/ring color for focus */
+
+    /* Map float-sidebar variables to shadcn values for better compatibility */
+    --float-sidebar-bg: hsl(var(--sidebar-background));
+    --float-sidebar-border: hsl(var(--sidebar-border));
+    --float-sidebar-item-bg-hover: hsl(var(--sidebar-accent));
+    --float-sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.1);
+    --float-sidebar-item-fg-active: hsl(var(--sidebar-primary));
 
     /* Ensure --float-sidebar-width and --float-sidebar-collapsed-width are defined here or in sidebar.css */
     --float-sidebar-width: 240px; /* Default if not defined elsewhere */
@@ -386,6 +417,23 @@ body {
     --border: 240 4% 16%;                /* Border color */
     --input: var(--float-input-border-hsl);                 /* Input field border */
     --ring: var(--float-input-ring-hsl);                 /* Focus ring color */
+    
+    /* Sidebar Component Variables - Dark Mode */
+    --sidebar-background: 240 5.9% 10%;          /* Maps to --bg-primary in dark mode */
+    --sidebar-foreground: 240 4.8% 95.9%;        /* Maps to --text-primary in dark mode */
+    --sidebar-primary: 224.3 76.3% 48%;          /* Maps to brand color in dark mode */
+    --sidebar-primary-foreground: 0 0% 100%;     /* Maps to white */
+    --sidebar-accent: 240 3.7% 15.9%;            /* Maps to --bg-tertiary in dark mode */
+    --sidebar-accent-foreground: 240 4.8% 95.9%; /* Maps to --text-primary in dark mode */
+    --sidebar-border: 240 3.7% 15.9%;            /* Maps to --border-secondary in dark mode */
+    --sidebar-ring: 217.2 91.2% 59.8%;           /* Maps to brand/ring color for focus */
+
+    /* Map float-sidebar variables to shadcn values for better compatibility in dark mode */
+    --float-sidebar-bg: hsl(var(--sidebar-background));
+    --float-sidebar-border: hsl(var(--sidebar-border));
+    --float-sidebar-item-bg-hover: hsl(var(--sidebar-accent));
+    --float-sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.2);
+    --float-sidebar-item-fg-active: hsl(var(--sidebar-primary));
   }
 }
 
@@ -603,7 +651,7 @@ body {
 
   /* Icon within the button */
   .float-sidebar-menu-button-icon {
-    @apply h-4 w-4 text-[var(--float-sidebar-item-icon-fg)];
+    @apply h-5 w-5 text-[var(--float-sidebar-item-icon-fg)];
     /* margin-right: 8px !important; /* REMOVED - Rely on gap-2 from parent button */
     @apply transition-colors duration-200;
   }
@@ -625,7 +673,7 @@ body {
 
   /* Section Label - for spacing between menu groups */
   .float-sidebar-section-label {
-    @apply px-[var(--float-sidebar-padding)] pt-8 pb-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)]; 
+    @apply px-[18px] pt-8 pb-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)]; 
     /* pt-8 (32px) to create space above it (below previous UL), pb-2 for space below label before next UL */
   }
 
@@ -642,3 +690,5 @@ body {
 }
 
 /* Remove any duplicated .float-sidebar-root or .float-sidebar-menu-button:hover from the bottom of this file if they exist */
+
+/* End of file */

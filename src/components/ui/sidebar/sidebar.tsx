@@ -250,7 +250,7 @@ const SidebarContent = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("flex-1 overflow-auto p-4", className)}
+      className={cn("flex-1 overflow-auto", className)}
       {...props}
     >
       {children}

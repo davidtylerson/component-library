@@ -5,6 +5,15 @@ import { OrgSwitcher } from '@/components/ui/org-switcher';
 import LogoStateStreet from '@/assets/logos/Logo_State_Street.svg';
 import LogoAlta from '@/assets/logos/Logo_Alta.svg';
 import LogoGS from '@/assets/logos/Logo_GS.svg';
+import {
+  IconHome,
+  IconSearch,
+  IconFileText,
+  IconArrowLeftRight,
+  IconChartBar,
+  IconDatabase,
+  IconTable
+} from "@tabler/icons-react";
 
 interface SidebarProps {
   className?: string;
@@ -58,11 +67,17 @@ export function Sidebar({ className, children }: SidebarProps) {
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>
       </div>
-      
-      <nav className="float-sidebar-content">
-        {children}
+      <nav className="float-sidebar-content space-y-1">
+        <SidebarItem icon={IconHome}>Home</SidebarItem>
+        <SidebarItem icon={IconSearch}>Search</SidebarItem>
+        <SidebarItem icon={IconFileText}>Documents</SidebarItem>
+        <SidebarItem icon={IconArrowLeftRight}>Trades</SidebarItem>
+        <div className="float-sidebar-section-label">Analytics</div>
+        <SidebarItem icon={IconChartBar}>Insights</SidebarItem>
+        <div className="float-sidebar-section-label">Data</div>
+        <SidebarItem icon={IconDatabase}>Feeds</SidebarItem>
+        <SidebarItem icon={IconTable}>Data Browser</SidebarItem>
       </nav>
-      
       <div className="float-sidebar-footer">
         {/* Footer content */}
       </div>
@@ -101,8 +116,8 @@ export function SidebarItem({
       data-active={isActive}
       {...props}
     >
-      {Icon && <Icon className="float-sidebar-menu-button-icon" size={20} />}
-      <span className="truncate">{children}</span>
+      {Icon && <Icon className="float-sidebar-menu-button-icon" size={32} color="red" />}
+      <span className="float-sidebar-menu-button-text truncate">{children}</span>
     </button>
   );
 }

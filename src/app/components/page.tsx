@@ -8,7 +8,11 @@ import {
   SidebarHeader,
   SidebarMenu, 
   SidebarMenuItem, 
-  SidebarMenuButton 
+  SidebarMenuButton,
+  SidebarContent,
+  SidebarFooter,
+  SidebarSeparator,
+  SidebarTrigger
 } from "@/components/ui/sidebar/sidebar";
 // import { 
 //   DropdownMenu, 
@@ -30,7 +34,11 @@ import {
   IconCopy,
   IconCalendar,
   IconCreditCard,
-  IconChevronDown
+  IconChevronDown,
+  IconSun,
+  IconMoon,
+  IconChevronLeft,
+  IconChevronRight
 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -141,6 +149,18 @@ import LogoGS from "@/assets/logos/Logo_GS.svg";
 
 export default function ComponentsPage() {
   const { isDark } = useTheme();
+  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  
+  // Get access to the sidebar state to update styling
+  const updateSidebarState = (open: boolean) => {
+    setSidebarOpen(open);
+    // Directly apply/remove collapsed class to the root element
+    const rootElement = document.querySelector('.float-sidebar-root');
+    if (rootElement) {
+      rootElement.setAttribute('data-state', open ? 'expanded' : 'collapsed');
+    }
+  };
+  
   const organizations = [
     {
       id: "alta-capital",
@@ -174,82 +194,277 @@ export default function ComponentsPage() {
 
   return (
     <div className="flex flex-row min-h-screen bg-ds-bg-primary">
-      <SidebarProvider>
-        <Sidebar variant="inset">
+      <SidebarProvider defaultOpen={sidebarOpen} open={sidebarOpen} onOpenChange={updateSidebarState}>
+        <Sidebar 
+          variant="inset" 
+          className="float-sidebar-root cursor-pointer"
+          onClick={(e) => {
+            // Only expand the sidebar if it's collapsed and the click was directly on the sidebar
+            // or on elements that aren't interactive (buttons, links, etc.)
+            if (!sidebarOpen && 
+                (e.target === e.currentTarget || 
+                 !(e.target as HTMLElement).closest('button') && 
+                 !(e.target as HTMLElement).closest('a') && 
+                 !(e.target as HTMLElement).closest('[role="button"]'))) {
+              updateSidebarState(true);
+            }
+          }}
+        >
           <SidebarHeader>
-            <OrgSwitcher
-              organizations={organizations}
-              value={currentOrg}
-              onValueChange={setCurrentOrg}
-            />
+            <div className="relative flex items-center" onClick={(e) => e.stopPropagation()}>
+              {sidebarOpen ? (
+                // When expanded, show the full OrgSwitcher
+                <OrgSwitcher
+                  organizations={organizations}
+                  value={currentOrg}
+                  onValueChange={setCurrentOrg}
+                />
+              ) : (
+                // When collapsed, only show the logo
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Show the dropdown in collapsed mode
+                    const selectedOrg = organizations.find(org => org.id === currentOrg);
+                    const LogoComponent = selectedOrg?.logo;
+                    // You could implement a dropdown here if needed
+                  }}
+                  className="h-8 w-8 flex items-center justify-center rounded overflow-hidden"
+                >
+                  {/* Display just the organization logo when collapsed */}
+                  {(() => {
+                    const selectedOrg = organizations.find(org => org.id === currentOrg);
+                    const LogoComponent = selectedOrg?.logo;
+                    return LogoComponent ? (
+                      <LogoComponent className="h-5 w-5 object-contain" />
+                    ) : (
+                      <Avatar className="h-5 w-5">
+                        {selectedOrg?.avatarUrl && <AvatarImage src={selectedOrg.avatarUrl} alt={selectedOrg.name} />}
+                        <AvatarFallback>{selectedOrg?.avatarFallback || selectedOrg?.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
+                      </Avatar>
+                    );
+                  })()}
+                </button>
+              )}
+            </div>
+            
+            {/* Only show collapse button when expanded */}
+            {sidebarOpen && (
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="float-sidebar-collapse-button ml-auto"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent sidebar click handler from being triggered
+                  updateSidebarState(false);
+                }}
+              >
+                <IconChevronLeft className="h-4 w-4" />
+              </Button>
+            )}
           </SidebarHeader>
 
-          <SidebarMenu className="float-sidebar-menu">
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconHome className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Home</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconSearch className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Search</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive>
-                <a href="#" className="flex items-center">
-                  <IconFileText className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Documents</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconArrowLeftRight className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Trades</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarContent>
+            <SidebarMenu className="float-sidebar-menu">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconHome className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Home</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconSearch className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Search</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconFileText className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Documents</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconArrowLeftRight className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Trades</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
 
-          <div className="float-sidebar-section-label">Analytics</div>
-          <SidebarMenu className="float-sidebar-menu">
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconChartBar className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Insights</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+            <div className={`float-sidebar-section-label ${!sidebarOpen ? 'hidden' : ''}`}>Analytics</div>
+            <SidebarMenu className="float-sidebar-menu">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconChartBar className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Insights</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
 
-          <div className="float-sidebar-section-label">Data</div>
-          <SidebarMenu className="float-sidebar-menu">
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconDatabase className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Feeds</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="#" className="flex items-center">
-                  <IconTable className="float-sidebar-menu-button-icon" />
-                  <span className="float-sidebar-menu-button-text">Data Browser</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+            <div className={`float-sidebar-section-label ${!sidebarOpen ? 'hidden' : ''}`}>Data</div>
+            <SidebarMenu className="float-sidebar-menu">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconDatabase className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Feeds</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a 
+                    href="#" 
+                    className={`flex items-center gap-2 ${!sidebarOpen ? 'justify-center' : ''}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconTable className="float-sidebar-menu-button-icon" />
+                    <span className={`float-sidebar-menu-button-text ${!sidebarOpen ? 'hidden' : ''}`}>Data Browser</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarContent>
+
+          <SidebarFooter className="flex items-center justify-between px-4 py-2 border-t-0">
+            {/* Avatar on the left with dropdown */}
+            <FloatDropdownMenu.Root>
+              <FloatDropdownMenu.Trigger asChild>
+                <Avatar 
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+                  <AvatarFallback>JS</AvatarFallback>
+                </Avatar>
+              </FloatDropdownMenu.Trigger>
+              <FloatDropdownMenu.Content align="start" className="w-56">
+                <FloatDropdownMenu.Label className="px-2 pt-1 pb-2">Menu</FloatDropdownMenu.Label>
+                
+                {/* Theme Switcher Button */}
+                <FloatDropdownMenu.Item className="py-2 cursor-pointer" onClick={() => {
+                  if (typeof window !== "undefined") {
+                    document.documentElement.classList.toggle("dark", !isDark);
+                  }
+                }}>
+                  <div className="flex items-center">
+                    {isDark ? (
+                      <IconSun className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    ) : (
+                      <IconMoon className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    )}
+                    <span>{isDark ? "Light theme" : "Dark theme"}</span>
+                  </div>
+                </FloatDropdownMenu.Item>
+                
+                <FloatDropdownMenu.Separator />
+                
+                {/* User Email */}
+                <FloatDropdownMenu.Item className="py-2 cursor-default">
+                  <div className="flex items-center">
+                    <Avatar className="h-5 w-5 mr-2">
+                      <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+                      <AvatarFallback>JS</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm">janice.silverstyle@altacap.com</span>
+                  </div>
+                </FloatDropdownMenu.Item>
+                
+                <FloatDropdownMenu.Separator />
+                
+                {/* Log Out */}
+                <FloatDropdownMenu.Item className="py-2">
+                  <div className="flex items-center">
+                    <IconArrowRight className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Log out</span>
+                  </div>
+                </FloatDropdownMenu.Item>
+              </FloatDropdownMenu.Content>
+            </FloatDropdownMenu.Root>
+            
+            {/* Icons on the right */}
+            <div className={`flex items-center gap-1 ${!sidebarOpen ? 'justify-center w-full' : ''}`}>
+              {/* Help/Question Icon */}
+              <FloatDropdownMenu.Root>
+                <FloatDropdownMenu.Trigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <IconInfoCircle className="h-5 w-5 text-[var(--fg-tertiary)]" stroke={1.5} />
+                  </Button>
+                </FloatDropdownMenu.Trigger>
+                <FloatDropdownMenu.Content align="end" className="w-56">
+                  <FloatDropdownMenu.Label>Documentation</FloatDropdownMenu.Label>
+                  <FloatDropdownMenu.Separator />
+                  <FloatDropdownMenu.Item>
+                    <IconFileText className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Guides</span>
+                  </FloatDropdownMenu.Item>
+                  <FloatDropdownMenu.Item>
+                    <IconDatabase className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>API Documentation</span>
+                  </FloatDropdownMenu.Item>
+                  <FloatDropdownMenu.Item>
+                    <IconRefresh className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>Changelog</span>
+                  </FloatDropdownMenu.Item>
+                  <FloatDropdownMenu.Separator />
+                  <FloatDropdownMenu.Item>
+                    <IconInfoCircle className="mr-2 h-4 w-4" size={16} stroke={1.5} />
+                    <span>About</span>
+                  </FloatDropdownMenu.Item>
+                </FloatDropdownMenu.Content>
+              </FloatDropdownMenu.Root>
+              
+              {/* Settings Icon (no dropdown) */}
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="h-8 w-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <IconSettings className="h-5 w-5 text-[var(--fg-tertiary)]" stroke={1.5} />
+              </Button>
+            </div>
+          </SidebarFooter>
         </Sidebar>
 
         <main className="flex-1 overflow-y-auto p-8">

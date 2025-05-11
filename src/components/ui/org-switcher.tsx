@@ -1,76 +1,103 @@
-import * as React from "react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+"use client"
+
+import * as React from "react"
+import { ChevronsUpDown, Plus } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+import { DropdownMenu } from "@/components/ui/dropdown-menu"
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar"
 
 export interface Org {
-  id: string;
-  name: string;
-  avatarUrl?: string;
-  avatarFallback?: string;
-  logo?: React.ComponentType<{ className?: string }>;
+  id: string
+  name: string
+  logo: React.ElementType
+  plan?: string
 }
 
-interface OrgSwitcherProps extends Omit<React.ComponentPropsWithoutRef<typeof Select>, 'value' | 'onValueChange'> {
-  organizations: Org[];
-  value?: string;
-  onValueChange?: (value: string) => void;
-  triggerClassName?: string;
-  contentClassName?: string;
+interface OrgSwitcherProps {
+  organizations: Org[]
 }
 
-export const OrgSwitcher = React.forwardRef<
-  React.ElementRef<typeof Select>,
-  OrgSwitcherProps
->(({ organizations, value, onValueChange, triggerClassName, contentClassName, ...props }, ref) => {
-  // Default to first org if value is not set
-  const selectedValue = value || (organizations.length > 0 ? organizations[0].id : undefined);
-  const selectedOrg = organizations.find(org => org.id === selectedValue);
+export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
+  const { isMobile } = useSidebar()
+  const [activeOrg, setActiveOrg] = React.useState(organizations[0])
+
+  if (!activeOrg) {
+    return null
+  }
 
   return (
-    <Select value={selectedValue} onValueChange={onValueChange} {...props}>
-      <SelectTrigger className={cn("w-[240px] px-2", triggerClassName)}>
-        {selectedOrg ? (
-          <div className="flex items-center gap-2">
-            <div className="h-5 w-5 overflow-hidden rounded-[4px] flex items-center justify-center">
-              {selectedOrg.logo ? (
-                <selectedOrg.logo className="h-5 w-5 object-contain" />
-              ) : (
-                <Avatar className="h-5 w-5 object-contain">
-                  {selectedOrg.avatarUrl && <AvatarImage src={selectedOrg.avatarUrl} alt={selectedOrg.name} className="h-5 w-5 object-contain" />}
-                  <AvatarFallback className="h-5 w-5 object-contain">{selectedOrg.avatarFallback || selectedOrg.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                </Avatar>
-              )}
-            </div>
-            <span>{selectedOrg.name}</span>
-          </div>
-        ) : (
-          <SelectValue placeholder="Select organization" />
-        )}
-      </SelectTrigger>
-      <SelectContent className={cn("px-0", contentClassName)}>
-        <SelectGroup>
-          {organizations.map((org) => (
-            <SelectItem key={org.id} value={org.id}>
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-5 overflow-hidden rounded-[4px] flex items-center justify-center">
-                  {org.logo ? (
-                    <org.logo className="h-5 w-5 object-contain" />
-                  ) : (
-                    <Avatar className="h-5 w-5 object-contain">
-                      {org.avatarUrl && <AvatarImage src={org.avatarUrl} alt={org.name} className="h-5 w-5 object-contain" />}
-                      <AvatarFallback className="h-5 w-5 object-contain">{org.avatarFallback || org.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-                    </Avatar>
-                  )}
-                </div>
-                <span>{org.name}</span>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className={
+                cn(
+                  // Border and rounded in expanded, no border in collapsed
+                  "border border-sidebar-border rounded-md",
+                  "group-data-[state=collapsed]/sidebar:border-0",
+                  "group-data-[state=collapsed]/sidebar:w-10 group-data-[state=collapsed]/sidebar:h-10",
+                  "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                )
+              }
+            >
+              <div className="flex items-center justify-center w-6 h-6 flex-shrink-0 flex-grow-0 rounded-[4px] bg-secondary text-sidebar-primary-foreground">
+                <activeOrg.logo className="w-full h-full rounded-[2px] object-contain" />
               </div>
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-});
-
-OrgSwitcher.displayName = "OrgSwitcher"; 
+              <div
+                className="transition-all duration-200 max-w-[120px] opacity-100 ml-2 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0 group-data-[state=collapsed]/sidebar:ml-0 overflow-hidden whitespace-nowrap grid flex-1 text-left text-sm leading-tight"
+              >
+                <span className="truncate font-semibold">
+                  {activeOrg.name}
+                </span>
+                {activeOrg.plan && (
+                  <span className="truncate text-xs">{activeOrg.plan}</span>
+                )}
+              </div>
+              <ChevronsUpDown
+                className="ml-auto transition-all duration-200 opacity-100 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0 group-data-[state=collapsed]/sidebar:ml-0 overflow-hidden"
+              />
+            </SidebarMenuButton>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            align="start"
+            side={isMobile ? "bottom" : "right"}
+            sideOffset={4}
+          >
+            <DropdownMenu.Label className="text-xs text-muted-foreground">
+              Organizations
+            </DropdownMenu.Label>
+            {organizations.map((org, index) => (
+              <DropdownMenu.Item
+                key={org.id}
+                onClick={() => setActiveOrg(org)}
+                className="gap-2 p-2"
+              >
+                <div className="flex size-6 items-center justify-center rounded-sm border">
+                  <org.logo className="size-4 shrink-0" />
+                </div>
+                {org.name}
+                <DropdownMenu.Shortcut>⌘{index + 1}</DropdownMenu.Shortcut>
+              </DropdownMenu.Item>
+            ))}
+            <DropdownMenu.Separator />
+            <DropdownMenu.Item className="gap-2 p-2">
+              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                <Plus className="size-4" />
+              </div>
+              <div className="font-medium text-muted-foreground">Add organization</div>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  )
+} 

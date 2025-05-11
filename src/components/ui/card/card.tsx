@@ -30,7 +30,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       lg: "p-6",
     };
 
-    const borderClass = bordered ? "border border-border" : "";
+    const borderClass = bordered ? "border border-gray-200" : "";
     const shadowClass = shadowed ? "shadow-sm" : "";
 
     return (
