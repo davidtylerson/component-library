@@ -29,7 +29,7 @@ const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "56px"
+const SIDEBAR_WIDTH_ICON = "57px"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {
@@ -171,32 +171,32 @@ const Sidebar = React.forwardRef<
   const { state, openMobile } = useSidebar()
   const isMobile = useMediaQuery("(max-width: 768px)")
 
-  return (
-    <div
-      ref={ref}
+    return (
+      <div
+        ref={ref}
       data-collapsible={collapsible}
-      data-state={state}
-      className={cn(
+        data-state={state}
+          className={cn(
         "group/sidebar relative flex h-full flex-col border-r border-[var(--float-sidebar-border)] bg-[var(--float-sidebar-bg)] text-[var(--float-sidebar-fg)] transition-[width] duration-300 ease-in-out",
         state === "expanded" && "w-[var(--sidebar-width)]",
         state === "collapsed" && collapsible === "icon" && "w-[var(--sidebar-width-icon)]",
         state === "collapsed" && collapsible === "rail" && "w-[var(--float-sidebar-rail-width)]",
         state === "collapsed" && collapsible === "none" && "w-0",
         isMobile && !openMobile && "hidden",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  )
+            className
+          )}
+          {...props}
+          >
+            {children}
+      </div>
+    )
 })
 Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
->(({ className, onClick, ...props }, ref) => {
+>(({ className, onClick, children, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -212,7 +212,7 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      {children ?? <PanelLeft />}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

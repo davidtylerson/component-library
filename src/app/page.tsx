@@ -37,6 +37,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { IconArrowRight, IconHome, IconComponents, IconPalette, IconSettings } from "@tabler/icons-react";
 import { Heading } from "@/components/typography/heading";
 import { Text } from "@/components/typography/text";
+import { useSidebar } from "@/components/ui/sidebar";
 
 export default function HomePage() {
   const [currentOrg, setCurrentOrg] = useState("float");
@@ -45,11 +46,23 @@ export default function HomePage() {
     { id: "alta", name: "Alta", icon: Building },
     { id: "state-street", name: "State Street", icon: Building },
   ];
-  const SelectedOrgIcon = organizations.find(org => org.id === currentOrg)?.icon || Building;
-
   return (
     <SidebarProvider>
-      <div className="flex h-screen">
+      <HomePageContent organizations={organizations} currentOrg={currentOrg} setCurrentOrg={setCurrentOrg} />
+    </SidebarProvider>
+  );
+}
+
+function HomePageContent({ organizations, currentOrg, setCurrentOrg }: {
+  organizations: Array<{ id: string; name: string; icon: React.ElementType }>;
+  currentOrg: string;
+  setCurrentOrg: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const { state } = useSidebar();
+  const SelectedOrgIcon = organizations.find(org => org.id === currentOrg)?.icon || Building;
+  return (
+    <div className="flex h-screen w-full">
+      <div className="h-full">
           <SidebarHeader>
             <div className="px-2 py-2">
               <DropdownMenu.Root>
@@ -153,7 +166,7 @@ export default function HomePage() {
               </SidebarGroupContent>
             </SidebarGroup>
           </SidebarContent>
-          <SidebarFooter>
+        <SidebarFooter className="relative">
             <div className="flex items-center gap-2 px-2">
               <Avatar>
                 <AvatarFallback>TD</AvatarFallback>
@@ -164,7 +177,7 @@ export default function HomePage() {
               </div>
             </div>
           </SidebarFooter>
-
+      </div>
         <SidebarInset>
           <div className="p-4">
             <div className="flex items-center mb-4">
@@ -219,6 +232,5 @@ export default function HomePage() {
           </div>
         </SidebarInset>
       </div>
-    </SidebarProvider>
   );
 }
