@@ -130,7 +130,7 @@ export default function SidebarPage() {
           <SidebarContent className="py-4">
             {/* Navigation Section */}
             <SidebarGroup>
-              {/* Navigation Section Label Removed */}
+              {/* <SidebarGroupLabel>Navigation</SidebarGroupLabel> */}
               <SidebarGroupContent>
                 <SidebarMenu>
                   {homeItems.map((item) => (
@@ -174,30 +174,6 @@ export default function SidebarPage() {
               </SidebarGroupContent>
             </SidebarGroup>
 
-            <SidebarSeparator />
-
-            {/* Settings Section */}
-            <SidebarGroup>
-              <SidebarGroupLabel>Settings</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {settingsItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild tooltip={item.title}>
-                        <a href={item.url}>
-                          {item.icon && <item.icon className="h-4 w-4" />}
-                          <span
-                            className="transition-all duration-200 max-w-[120px] opacity-100 ml-2 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0 group-data-[state=collapsed]/sidebar:ml-0 overflow-hidden whitespace-nowrap"
-                          >
-                            {item.title}
-                          </span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
           </SidebarContent>
           <SidebarFooter className="flex items-center justify-between gap-2">
             <Avatar className="h-8 w-8">

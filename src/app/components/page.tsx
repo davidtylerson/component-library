@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarSeparator,
   SidebarTrigger
-} from "@/components/ui/sidebar/sidebar";
+} from "@/components/ui/sidebar";
 // import { 
 //   DropdownMenu, 
 //   DropdownMenuContent, 
@@ -196,7 +196,6 @@ export default function ComponentsPage() {
     <div className="flex flex-row min-h-screen bg-ds-bg-primary">
       <SidebarProvider defaultOpen={sidebarOpen} open={sidebarOpen} onOpenChange={updateSidebarState}>
         <Sidebar 
-          variant="inset" 
           className="float-sidebar-root cursor-pointer"
           onClick={(e) => {
             // Only expand the sidebar if it's collapsed and the click was directly on the sidebar
@@ -216,8 +215,6 @@ export default function ComponentsPage() {
                 // When expanded, show the full OrgSwitcher
                 <OrgSwitcher
                   organizations={organizations}
-                  value={currentOrg}
-                  onValueChange={setCurrentOrg}
                 />
               ) : (
                 // When collapsed, only show the logo
@@ -840,8 +837,6 @@ export default function ComponentsPage() {
                     <label htmlFor="org-switcher" className="block text-sm font-medium text-[var(--text-secondary)] mb-1.5">Basic Org Switcher</label>
                     <OrgSwitcher
                       organizations={organizations}
-                      value={currentOrg}
-                      onValueChange={setCurrentOrg}
                     />
                   </div>
                 </CardContent>

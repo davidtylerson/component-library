@@ -31,7 +31,7 @@ import {
   SidebarTrigger,
   SidebarInset,
   SidebarProvider
-} from "@/components/ui/sidebar/sidebar";
+} from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { IconArrowRight, IconHome, IconComponents, IconPalette, IconSettings } from "@tabler/icons-react";
@@ -50,7 +50,6 @@ export default function HomePage() {
   return (
     <SidebarProvider>
       <div className="flex h-screen">
-        <Sidebar variant="inset">
           <SidebarHeader>
             <div className="px-2 py-2">
               <DropdownMenu.Root>
@@ -165,7 +164,6 @@ export default function HomePage() {
               </div>
             </div>
           </SidebarFooter>
-        </Sidebar>
 
         <SidebarInset>
           <div className="p-4">
