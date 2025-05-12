@@ -303,7 +303,32 @@ module.exports = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+  			'ds-bg': {
+  				primary: 'var(--bg-primary)',
+  				secondary: 'var(--bg-secondary)',
+  				tertiary: 'var(--bg-tertiary)',
+  				quaternary: 'var(--bg-quaternary)',
+  				disabled: 'var(--bg-disabled)',
+  				overlay: 'var(--bg-overlay)',
+  			},
+  			'ds-text': {
+  				primary: 'var(--text-primary)',
+  				secondary: 'var(--text-secondary)',
+  				tertiary: 'var(--text-tertiary)',
+  				disabled: 'var(--text-disabled)',
+  			},
+  			'ds-border': {
+  				primary: 'var(--border-primary)',
+  				secondary: 'var(--border-secondary)',
+  				tertiary: 'var(--border-tertiary)',
+  				disabled: 'var(--border-disabled)',
+  			},
+  			'ds-fg': {
+  				primary: 'var(--fg-primary)',
+  				secondary: 'var(--fg-secondary)',
+  				tertiary: 'var(--fg-tertiary)',
+  			},
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

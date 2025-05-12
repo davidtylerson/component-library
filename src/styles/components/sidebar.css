@@ -8,7 +8,7 @@
   --float-sidebar-item-spacing: 2px;
 
   /* Base Colors */
-  --float-sidebar-bg: var(--bg-primary);
+  --float-sidebar-bg: var(--bg-app-base);
   --float-sidebar-border: var(--border-secondary);
   --float-sidebar-fg: var(--text-primary);
   --float-sidebar-fg-secondary: var(--text-secondary);
@@ -123,7 +123,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 
 /* Base Sidebar Styles */
 .float-sidebar-root {
-  @apply flex flex-col bg-[var(--float-sidebar-bg)] border-r border-[var(--float-sidebar-border)] transition-[width] duration-300 ease-in-out;
+  @apply flex flex-col bg-[var(--float-sidebar-bg)] transition-[width] duration-300 ease-in-out;
   width: var(--float-sidebar-width);
   height: 100vh;
   flex-shrink: 0;

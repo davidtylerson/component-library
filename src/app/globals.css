@@ -283,6 +283,8 @@ body {
     /* Ensure --float-sidebar-width and --float-sidebar-collapsed-width are defined here or in sidebar.css */
     --float-sidebar-width: 240px; /* Default if not defined elsewhere */
     --float-sidebar-collapsed-width: 64px; /* Default if not defined elsewhere */
+
+    --bg-app-base: #F9FAFB; /* App foundation background (gray-50) */
   }
 
   /* Dark theme variables */
@@ -434,6 +436,8 @@ body {
     --float-sidebar-item-bg-hover: hsl(var(--sidebar-accent));
     --float-sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.2);
     --float-sidebar-item-fg-active: hsl(var(--sidebar-primary));
+
+    --bg-app-base: #0C0C0C; /* App foundation background (dark) */
   }
 }
 

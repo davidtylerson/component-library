@@ -177,7 +177,7 @@ const Sidebar = React.forwardRef<
       data-collapsible={collapsible}
         data-state={state}
           className={cn(
-        "group/sidebar relative flex h-full flex-col border-r border-[var(--float-sidebar-border)] bg-[var(--float-sidebar-bg)] text-[var(--float-sidebar-fg)] transition-[width] duration-300 ease-in-out",
+        "group/sidebar relative flex h-full flex-col bg-[var(--bg-app-base)] text-[var(--float-sidebar-fg)] transition-[width] duration-300 ease-in-out",
         state === "expanded" && "w-[var(--sidebar-width)]",
         state === "collapsed" && collapsible === "icon" && "w-[var(--sidebar-width-icon)]",
         state === "collapsed" && collapsible === "rail" && "w-[var(--float-sidebar-rail-width)]",

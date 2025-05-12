@@ -32,7 +32,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
   }
 
   return (
-    <SidebarMenu>
+    <SidebarMenu className="org-switcher-root" onClick={e => e.stopPropagation()}>
       <SidebarMenuItem>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
@@ -40,8 +40,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
               size="lg"
               className={
                 cn(
-                  // Border and rounded in expanded, no border in collapsed
-                  "border border-sidebar-border rounded-md",
+                  "border border-sidebar-border rounded-md focus-visible:ring-2 focus-visible:ring-sidebar-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--float-sidebar-bg)]",
                   "group-data-[state=collapsed]/sidebar:border-0",
                   "group-data-[state=collapsed]/sidebar:w-10 group-data-[state=collapsed]/sidebar:h-10",
                   "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
