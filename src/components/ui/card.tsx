@@ -9,16 +9,16 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variantClasses = {
-      default: "bg-[var(--float-card-default-bg)] border-[var(--float-card-default-border)]",
-      subtle: "bg-[var(--float-card-subtle-bg)] border-[var(--float-card-subtle-border)]",
-      'border-only': "bg-[var(--float-card-border-only-bg)] border-[var(--float-card-border-only-border)]"
+      default: "bg-[var(--card-bg-default)] border-[var(--card-border-default)]",
+      subtle: "bg-[var(--card-bg-subtle)] border-[var(--card-border-subtle)]",
+      'border-only': "bg-[var(--card-bg-border-only)] border-[var(--card-border-border-only)]"
     }
 
     return (
       <div
         ref={ref}
         className={cn(
-          "rounded-lg border shadow-[var(--float-card-shadow)]",
+          "rounded-lg border shadow-[var(--card-shadow)]",
           variantClasses[variant],
           className
         )}
@@ -36,7 +36,7 @@ const CardHeader = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex flex-col space-y-[var(--float-card-content-gap)] p-[var(--float-card-content-padding)]",
+      "flex flex-col space-y-[var(--card-content-gap)] p-[var(--card-content-padding)]",
       className
     )}
     {...props}
@@ -51,7 +51,7 @@ const CardTitle = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "text-[var(--float-card-title-size)] font-[var(--float-card-title-weight)] leading-none tracking-tight text-[var(--float-card-title-fg)]",
+      "text-[var(--card-title-size)] font-[var(--card-title-weight)] leading-none tracking-tight text-[var(--card-title-text)]",
       className
     )}
     {...props}
@@ -66,7 +66,7 @@ const CardDescription = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "text-[var(--float-card-description-size)] text-[var(--float-card-description-fg)]",
+      "text-[var(--card-description-size)] text-[var(--card-description-text)]",
       className
     )}
     {...props}
@@ -81,7 +81,7 @@ const CardContent = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "p-[var(--float-card-content-padding)] pt-0",
+      "p-[var(--card-content-padding)] pt-0",
       className
     )}
     {...props}
@@ -96,7 +96,7 @@ const CardFooter = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex items-center p-[var(--float-card-content-padding)] pt-0",
+      "flex items-center p-[var(--card-content-padding)] pt-0",
       className
     )}
     {...props}

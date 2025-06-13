@@ -17,11 +17,11 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-[var(--float-input-placeholder-fg)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed [&>span]:line-clamp-1",
-      "bg-[var(--float-input-bg)] text-[var(--float-input-fg)] border-[var(--float-input-border)]",
-      "hover:border-[var(--float-input-border-hover)]",
-      "focus:border-[var(--float-input-border-focus)]",
-      "disabled:border-[var(--float-input-disabled-border)] disabled:bg-[var(--float-input-disabled-bg)] disabled:text-[var(--float-input-disabled-fg)] disabled:opacity-[var(--float-input-disabled-opacity)]",
+      "flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm ring-offset-background placeholder:text-[var(--input-text-placeholder)] focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed [&>span]:line-clamp-1",
+      "bg-[var(--input-bg)] text-[var(--input-text)] border-[var(--input-border)]",
+      "hover:border-[var(--input-border-hover)]",
+      "focus:border-[var(--input-border-focus)]",
+      "disabled:border-[var(--input-border-disabled)] disabled:bg-[var(--input-bg-disabled)] disabled:text-[var(--input-text-disabled)] disabled:opacity-[var(--input-opacity-disabled)]",
       className
     )}
     {...props}
@@ -41,7 +41,7 @@ const SelectScrollUpButton = React.forwardRef<
   <SelectPrimitive.ScrollUpButton
     ref={ref}
     className={cn(
-      "flex cursor-default items-center justify-center py-1 text-[var(--float-dropdown-item-fg)]",
+      "flex cursor-default items-center justify-center py-1 text-[var(--dropdown-item-text)]",
       className
     )}
     {...props}
@@ -58,7 +58,7 @@ const SelectScrollDownButton = React.forwardRef<
   <SelectPrimitive.ScrollDownButton
     ref={ref}
     className={cn(
-      "flex cursor-default items-center justify-center py-1 text-[var(--float-dropdown-item-fg)]",
+      "flex cursor-default items-center justify-center py-1 text-[var(--dropdown-item-text)]",
       className
     )}
     {...props}
@@ -78,7 +78,7 @@ const SelectContent = React.forwardRef<
       ref={ref}
       className={cn(
         "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border text-sm shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "bg-[var(--float-dropdown-content-bg)] text-[var(--float-dropdown-content-fg)] border-[var(--float-dropdown-content-border)] shadow-[var(--float-dropdown-shadow)]",
+        "bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] border-[var(--dropdown-border)] shadow-[var(--dropdown-shadow)]",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className
@@ -125,9 +125,9 @@ const SelectItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex w-full cursor-default select-none items-center rounded-sm py-2.5 pl-2 pr-8 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--float-dropdown-item-fg)]",
-      "focus:bg-[var(--float-dropdown-item-bg-focus)] focus:text-[var(--float-dropdown-item-fg-focus)]",
-      "data-[highlighted]:bg-[var(--float-dropdown-item-bg-hover)] data-[highlighted]:text-[var(--float-dropdown-item-fg-hover)]",
+      "text-[var(--dropdown-item-text)]",
+      "focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]",
+      "data-[highlighted]:bg-[var(--dropdown-item-bg-hover)] data-[highlighted]:text-[var(--dropdown-item-text-hover)]",
       className
     )}
     {...props}
@@ -148,7 +148,7 @@ const SelectSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SelectPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-[var(--float-dropdown-separator-bg)]", className)}
+    className={cn("-mx-1 my-1 h-px bg-[var(--dropdown-separator-bg)]", className)}
     {...props}
   />
 ))

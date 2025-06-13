@@ -11,12 +11,12 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "peer h-4 w-4 shrink-0 rounded-sm border bg-[var(--float-checkbox-bg)] border-[var(--float-checkbox-border)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      "hover:border-[var(--float-checkbox-hover-border)]",
-      "data-[state=checked]:bg-[var(--float-checkbox-checked-bg)] data-[state=checked]:border-[var(--float-checkbox-checked-border)] data-[state=checked]:text-[var(--float-checkbox-checked-indicator)]",
-      "data-[state=checked]:hover:bg-[var(--float-checkbox-checked-hover-bg)] data-[state=checked]:hover:border-[var(--float-checkbox-checked-hover-border)]",
-      "disabled:cursor-not-allowed disabled:opacity-50 disabled:border-[var(--float-checkbox-disabled-border)] disabled:bg-[var(--float-checkbox-disabled-bg)]",
-      "data-[state=checked]:disabled:bg-[var(--float-checkbox-disabled-checked-bg)] data-[state=checked]:disabled:border-[var(--float-checkbox-disabled-checked-border)] data-[state=checked]:disabled:text-[var(--float-checkbox-disabled-checked-indicator)]",
+      "peer h-4 w-4 shrink-0 rounded-sm border bg-[var(--checkbox-bg)] border-[var(--checkbox-border)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "hover:border-[var(--checkbox-border-hover)]",
+      "data-[state=checked]:bg-[var(--checkbox-bg-checked)] data-[state=checked]:border-[var(--checkbox-border-checked)] data-[state=checked]:text-[var(--checkbox-indicator-checked)]",
+      "data-[state=checked]:hover:bg-[var(--checkbox-bg-checked-hover)] data-[state=checked]:hover:border-[var(--checkbox-border-checked-hover)]",
+      "disabled:cursor-not-allowed disabled:opacity-50 disabled:border-[var(--checkbox-border-disabled)] disabled:bg-[var(--checkbox-bg-disabled)]",
+      "data-[state=checked]:disabled:bg-[var(--checkbox-bg-disabled-checked)] data-[state=checked]:disabled:border-[var(--checkbox-border-disabled-checked)] data-[state=checked]:disabled:text-[var(--checkbox-indicator-disabled-checked)]",
       className
     )}
     {...props}
