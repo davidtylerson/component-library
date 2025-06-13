@@ -10,21 +10,21 @@ const organizations = [
     id: "alta-capital",
     name: "Alta Capital",
     logo: LogoAlta,
-    avatarUrl: "/assets/avatars/tydavidson.png",
+    avatarUrl: "/avatars/tydavidson.png",
     avatarFallback: "AC"
   },
   {
     id: "state-street",
     name: "State Street",
     logo: LogoStateStreet,
-    avatarUrl: "/assets/avatars/tydavidson.png",
+    avatarUrl: "/avatars/tydavidson.png",
     avatarFallback: "SS"
   },
   {
     id: "gs",
     name: "Goldman Sachs",
     logo: LogoGS,
-    avatarUrl: "/assets/avatars/tydavidson.png",
+    avatarUrl: "/avatars/tydavidson.png",
     avatarFallback: "GS"
   }
 ];

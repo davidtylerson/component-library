@@ -102,7 +102,7 @@ export default function DesignSystemPage() {
   return (
     <div className="p-8 max-w-6xl mx-auto min-h-screen bg-bg-primary text-text-primary">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold">Design System</h1>
+        <h1 className="text-2xl font-bold">Float Colors</h1>
       </div>
       
       {/* Theme Information */}

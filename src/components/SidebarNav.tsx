@@ -26,7 +26,7 @@ const navItems = [
     url: "/",
   },
   {
-    title: "Design System",
+    title: "Color",
     icon: Palette,
     url: "/design-system",
   },
@@ -39,11 +39,6 @@ const navItems = [
     title: "Test Page",
     icon: Info,
     url: "/test",
-  },
-  {
-    title: "Sidebar Example",
-    icon: SidebarIcon,
-    url: "/design-system/sidebar",
   },
 ];
 
@@ -110,7 +105,7 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
           }
         >
           <Avatar className="h-8 w-8">
-            <AvatarImage src="/assets/avatars/tydavidson.png" alt="User" />
+            <AvatarImage src="/avatars/tydavidson.png" alt="User" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex items-center gap-2">
@@ -188,7 +183,7 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
             </SidebarMenu>
           </SidebarGroup>
           <Avatar className="h-8 w-8 mt-3">
-            <AvatarImage src="/assets/avatars/tydavidson.png" alt="User" />
+            <AvatarImage src="/avatars/tydavidson.png" alt="User" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
         </div>

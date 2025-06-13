@@ -301,7 +301,7 @@ body {
     /* ------------------------------- */
     
     /* Text Colors - Adjusted for dark mode */
-    --text-primary: rgb(255 255 255 / 0.87);    /* Light text on dark background */
+    --text-primary: rgb(255 255 255 / 1);    /* Light text on dark background */
     --text-secondary: rgb(255 255 255 / 0.73);  /* Secondary text on dark background */
     --text-tertiary: rgb(255 255 255 / 0.60);   /* Tertiary text on dark background */
     --text-disabled: rgb(255 255 255 / 0.38);   /* Disabled text on dark background */

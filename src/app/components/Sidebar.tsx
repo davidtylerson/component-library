@@ -55,8 +55,6 @@ export function Sidebar({ className, children }: SidebarProps) {
       <div className="float-sidebar-header flex flex-col gap-2">
         <OrgSwitcher
           organizations={organizations}
-          value={currentOrg}
-          onValueChange={setCurrentOrg}
         />
         {!isCollapsed && <h2 className="text-lg font-semibold">Design System</h2>}
         <button
