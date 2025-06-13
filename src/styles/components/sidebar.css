@@ -1,51 +1,51 @@
 .float-sidebar {
   /* Dimensions */
-  --float-sidebar-width: 240px;
-  --float-sidebar-collapsed-width: 64px;
-  --float-sidebar-header-height: 56px;
-  --float-sidebar-footer-height: 56px;
-  --float-sidebar-padding: 16px;
-  --float-sidebar-item-spacing: 2px;
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --sidebar-header-height: 56px;
+  --sidebar-footer-height: 56px;
+  --sidebar-padding: 16px;
+  --sidebar-item-spacing: 2px;
 
   /* Base Colors */
-  --float-sidebar-bg: var(--bg-app-base);
-  --float-sidebar-border: var(--border-secondary);
-  --float-sidebar-fg: var(--text-primary);
-  --float-sidebar-fg-secondary: var(--text-secondary);
-  --float-sidebar-fg-tertiary: var(--text-tertiary);
+  --sidebar-bg: var(--bg-app-base);
+  --sidebar-border: var(--border-secondary);
+  --sidebar-text: var(--text-primary);
+  --sidebar-text-secondary: var(--text-secondary);
+  --sidebar-text-tertiary: var(--text-tertiary);
 
   /* Item Colors */
-  --float-sidebar-item-bg: transparent;
-  --float-sidebar-item-fg: var(--text-primary);
-  --float-sidebar-item-icon-fg: var(--fg-tertiary);
-  --float-sidebar-item-border: transparent;
+  --sidebar-item-bg: transparent;
+  --sidebar-item-text: var(--text-primary);
+  --sidebar-item-icon: var(--fg-tertiary);
+  --sidebar-item-border: transparent;
   
-  --float-sidebar-item-bg-hover: var(--bg-tertiary);
-  --float-sidebar-item-fg-hover: var(--text-primary);
-  --float-sidebar-item-icon-fg-hover: var(--fg-primary);
-  --float-sidebar-item-border-hover: var(--border-primary);
+  --sidebar-item-bg-hover: var(--bg-tertiary);
+  --sidebar-item-text-hover: var(--text-primary);
+  --sidebar-item-icon-hover: var(--fg-primary);
+  --sidebar-item-border-hover: var(--border-primary);
   
-  --float-sidebar-item-bg-active: var(--bg-brand-primary);
-  --float-sidebar-item-fg-active: var(--fg-brand-primary);
-  --float-sidebar-item-icon-fg-active: var(--fg-brand-primary);
-  --float-sidebar-item-border-active: var(--border-brand);
+  --sidebar-item-bg-active: var(--bg-brand-primary);
+  --sidebar-item-text-active: var(--fg-brand-primary);
+  --sidebar-item-icon-active: var(--fg-brand-primary);
+  --sidebar-item-border-active: var(--border-brand);
 
   /* Group Colors */
-  --float-sidebar-group-label-fg: var(--text-tertiary);
-  --float-sidebar-group-border: var(--border-tertiary);
+  --sidebar-group-text: var(--text-tertiary);
+  --sidebar-group-border: var(--border-tertiary);
   
   /* Separator Colors */
-  --float-sidebar-separator-bg: var(--border-secondary);
+  --sidebar-separator-bg: var(--border-secondary);
 }
 
 /* Custom overrides for shadcn sidebar */
 .float-sidebar {
-  @apply text-[var(--float-sidebar-fg)];
+  @apply text-[var(--sidebar-text)];
 }
 
 /* Header styling */
 .float-sidebar-header, header[class*="sidebar-header"] {
-  @apply h-[var(--float-sidebar-header-height)] px-[var(--float-sidebar-padding)] border-b border-[var(--float-sidebar-border)];
+  @apply h-[var(--sidebar-header-height)] px-[var(--sidebar-padding)] border-b border-[var(--sidebar-border)];
 }
 
 /* Content styling */
@@ -55,7 +55,7 @@ div[class*="sidebar-content"] {
 
 /* Footer styling */
 footer[class*="sidebar-footer"] {
-  @apply h-[var(--float-sidebar-footer-height)] px-[var(--float-sidebar-padding)] border-t border-[var(--float-sidebar-border)];
+  @apply h-[var(--sidebar-footer-height)] px-[var(--sidebar-padding)] border-t border-[var(--sidebar-border)];
 }
 
 /* Group styling */
@@ -64,46 +64,46 @@ div[class*="sidebar-group"] {
 }
 
 h3[class*="sidebar-group-label"] {
-  @apply text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)] px-2 py-1;
+  @apply text-[13px] font-medium text-[var(--sidebar-group-text)] px-2 py-1;
 }
 
 /* Menu styling */
 ul[class*="sidebar-menu"] {
-  @apply space-y-[var(--float-sidebar-item-spacing)] px-2;
+  @apply space-y-[var(--sidebar-item-spacing)] px-2;
 }
 
 /* Menu button styling */
 button[class*="sidebar-menu-button"], 
 a[class*="sidebar-menu-button"] {
   @apply flex items-center w-full px-3 rounded-md h-9;
-  @apply bg-[var(--float-sidebar-item-bg)] text-[var(--float-sidebar-item-fg)];
-  @apply hover:bg-[var(--float-sidebar-item-bg-hover)] hover:text-[var(--float-sidebar-item-fg-hover)];
+  @apply bg-[var(--sidebar-item-bg)] text-[var(--sidebar-item-text)];
+  @apply hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
   @apply transition-all duration-200;
 }
 
 button[class*="sidebar-menu-button"] svg, 
 a[class*="sidebar-menu-button"] svg {
-  @apply text-[var(--float-sidebar-item-icon-fg)] transition-colors duration-200;
+  @apply text-[var(--sidebar-item-icon)] transition-colors duration-200;
 }
 
 button[class*="sidebar-menu-button"]:hover svg, 
 a[class*="sidebar-menu-button"]:hover svg {
-  @apply text-[var(--float-sidebar-item-icon-fg-hover)];
+  @apply text-[var(--sidebar-item-icon-hover)];
 }
 
 button[class*="sidebar-menu-button"][data-active="true"], 
 a[class*="sidebar-menu-button"][data-active="true"] {
-  @apply bg-[var(--float-sidebar-item-bg-active)] text-[var(--float-sidebar-item-fg-active)];
+  @apply bg-[var(--sidebar-item-bg-active)] text-[var(--sidebar-item-text-active)];
 }
 
 button[class*="sidebar-menu-button"][data-active="true"] svg, 
 a[class*="sidebar-menu-button"][data-active="true"] svg {
-  @apply text-[var(--float-sidebar-item-icon-fg-active)];
+  @apply text-[var(--sidebar-item-icon-active)];
 }
 
 /* Separator styling */
 div[class*="sidebar-separator"] {
-  @apply my-2 h-px bg-[var(--float-sidebar-separator-bg)];
+  @apply my-2 h-px bg-[var(--sidebar-separator-bg)];
 }
 
 /* Collapsed state styling */
@@ -123,14 +123,14 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 
 /* Base Sidebar Styles */
 .float-sidebar-root {
-  @apply flex flex-col bg-[var(--float-sidebar-bg)] transition-[width] duration-300 ease-in-out;
-  width: var(--float-sidebar-width);
+  @apply flex flex-col bg-[var(--sidebar-bg)] transition-[width] duration-300 ease-in-out;
+  width: var(--sidebar-width);
   height: 100vh;
   flex-shrink: 0;
 }
 
 .float-sidebar-root[data-state="collapsed"] {
-  width: var(--float-sidebar-collapsed-width);
+  width: var(--sidebar-width-collapsed);
 }
 
 /* Group Styles */
@@ -139,26 +139,26 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-group-label {
-  @apply flex items-center justify-between px-[var(--float-sidebar-padding)] mb-1;
+  @apply flex items-center justify-between px-[var(--sidebar-padding)] mb-1;
 }
 
 .float-sidebar-group-label-text {
-  @apply text-[13px] font-normal text-[var(--float-sidebar-group-label-fg)];
+  @apply text-[13px] font-normal text-[var(--sidebar-group-text)];
 }
 
 .float-sidebar-group-action {
-  @apply p-1 rounded-md hover:bg-[var(--float-sidebar-item-bg-hover)] text-[var(--float-sidebar-group-label-fg)];
+  @apply p-1 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-group-text)];
 }
 
 /* Section Label */
 .float-sidebar-section-label {
-  @apply px-[var(--float-sidebar-padding)] py-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)];
+  @apply px-[var(--sidebar-padding)] py-2 text-[13px] font-medium text-[var(--sidebar-group-text)];
 }
 
 /* Organization Switcher Styles */
 .float-sidebar-org-switcher {
   @apply flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors;
-  @apply text-[var(--float-sidebar-item-fg)] hover:text-[var(--float-sidebar-item-fg-hover)] hover:bg-[var(--float-sidebar-item-bg-hover)];
+  @apply text-[var(--sidebar-item-text)] hover:text-[var(--sidebar-item-text-hover)] hover:bg-[var(--sidebar-item-bg-hover)];
 }
 
 .float-sidebar-org-switcher-content {
@@ -170,7 +170,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-org-switcher-description {
-  @apply text-xs text-[var(--float-sidebar-fg-tertiary)] truncate;
+  @apply text-xs text-[var(--sidebar-text-tertiary)] truncate;
 }
 
 /* Mobile Styles - Commenting out for now to fix overlap */
@@ -178,7 +178,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 @media (max-width: 768px) {
   .float-sidebar-root {
     @apply fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform;
-    width: var(--float-sidebar-width);
+    width: var(--sidebar-width);
   }
 
   .float-sidebar-root[data-state="open"] {
@@ -194,12 +194,12 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-collapse-button {
-  @apply p-1.5 rounded-md hover:bg-[var(--float-sidebar-item-bg-hover)] text-[var(--float-sidebar-item-icon-fg)];
+  @apply p-1.5 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-item-icon)];
   @apply transition-colors duration-200;
 }
 
 .float-sidebar-collapse-button:hover {
-  @apply text-[var(--float-sidebar-item-icon-fg-hover)];
+  @apply text-[var(--sidebar-item-icon-hover)];
 }
 
 .float-sidebar-menu-button-text {
@@ -209,7 +209,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 /* Organization Switcher Styles */
 .float-sidebar-org-switcher {
   @apply flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors;
-  @apply text-[var(--float-sidebar-item-fg)] hover:text-[var(--float-sidebar-item-fg-hover)] hover:bg-[var(--float-sidebar-item-bg-hover)];
+  @apply text-[var(--sidebar-item-text)] hover:text-[var(--sidebar-item-text-hover)] hover:bg-[var(--sidebar-item-bg-hover)];
 }
 
 .float-sidebar-org-switcher-content {
@@ -221,22 +221,22 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-org-switcher-description {
-  @apply text-xs text-[var(--float-sidebar-fg-tertiary)] truncate;
+  @apply text-xs text-[var(--sidebar-text-tertiary)] truncate;
 }
 
 /* Collapse button styling */
 .float-sidebar-collapse-button {
-  @apply p-1.5 rounded-md hover:bg-[var(--float-sidebar-item-bg-hover)] text-[var(--float-sidebar-item-icon-fg)];
+  @apply p-1.5 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-item-icon)];
   @apply transition-colors duration-200;
 }
 
 .float-sidebar-collapse-button:hover {
-  @apply text-[var(--float-sidebar-item-icon-fg-hover)];
+  @apply text-[var(--sidebar-item-icon-hover)];
 }
 
 /* Section label styling - usable with shadcn sidebar */
 .float-sidebar-section-label {
-  @apply px-[var(--float-sidebar-padding)] py-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)];
+  @apply px-[var(--sidebar-padding)] py-2 text-[13px] font-medium text-[var(--sidebar-group-text)];
 }
 
 aside[data-state="collapsed"] .float-sidebar-section-label {

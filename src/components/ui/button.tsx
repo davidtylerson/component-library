@@ -11,16 +11,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-[var(--float-button-primary-bg)] text-[var(--float-button-primary-fg)] hover:bg-[var(--float-button-primary-bg-hover)] hover:text-[var(--float-button-primary-fg-hover)] border-[var(--float-button-primary-border)] hover:border-[var(--float-button-primary-border-hover)]",
-        secondary: "bg-[var(--float-button-secondary-bg)] text-[var(--float-button-secondary-fg)] hover:bg-[var(--float-button-secondary-bg-hover)] hover:text-[var(--float-button-secondary-fg-hover)] border-[var(--float-button-secondary-border)] hover:border-[var(--float-button-secondary-border-hover)]",
-        ghost: "text-[var(--float-button-ghost-fg)] hover:bg-[var(--float-button-ghost-bg-hover)] hover:text-[var(--float-button-ghost-fg-hover)]",
-        outline: "border  text-[var(--float-button-outline-fg)] hover:bg-[var(--float-button-outline-bg-hover)] hover:text-[var(--float-button-outline-fg-hover)] border-[var(--float-button-outline-border)] hover:border-[var(--float-button-outline-border-hover)]",
-        link: "text-[var(--float-button-link-fg)] hover:text-[var(--float-button-link-fg-hover)] bg-transparent border-transparent",
-        destructive: "bg-[var(--float-button-destructive-bg)] text-[var(--float-button-destructive-fg)] hover:bg-[var(--float-button-destructive-bg-hover)] hover:text-[var(--float-button-destructive-fg-hover)] border-[var(--float-button-destructive-border)] hover:border-[var(--float-button-destructive-border-hover)]",
+        primary: "bg-[var(--button-bg-primary)] text-[var(--button-text-primary)] hover:bg-[var(--button-bg-primary-hover)] hover:text-[var(--button-text-primary-hover)] border-[var(--button-border-primary)] hover:border-[var(--button-border-primary-hover)]",
+        secondary: "bg-[var(--button-bg-secondary)] text-[var(--button-text-secondary)] hover:bg-[var(--button-bg-secondary-hover)] hover:text-[var(--button-text-secondary-hover)] border-[var(--button-border-secondary)] hover:border-[var(--button-border-secondary-hover)]",
+        ghost: "text-[var(--button-text-ghost)] hover:bg-[var(--button-bg-ghost-hover)] hover:text-[var(--button-text-ghost-hover)]",
+        outline: "border  text-[var(--button-text-outline)] hover:bg-[var(--button-bg-outline-hover)] hover:text-[var(--button-text-outline-hover)] border-[var(--button-border-outline)] hover:border-[var(--button-border-outline-hover)]",
+        link: "text-[var(--button-text-link)] hover:text-[var(--button-text-link-hover)] bg-transparent border-transparent",
+        destructive: "bg-[var(--button-bg-destructive)] text-[var(--button-text-destructive)] hover:bg-[var(--button-bg-destructive-hover)] hover:text-[var(--button-text-destructive-hover)] border-[var(--button-border-destructive)] hover:border-[var(--button-border-destructive-hover)]",
         // Backward compatibility
-        default: "bg-[var(--float-button-primary-bg)] text-[var(--float-button-primary-fg)] hover:bg-[var(--float-button-primary-bg-hover)] hover:text-[var(--float-button-primary-fg-hover)] border-[var(--float-button-primary-border)] hover:border-[var(--float-button-primary-border-hover)]",
-        tertiary: "text-[var(--float-button-ghost-fg)] hover:bg-[var(--float-button-ghost-bg-hover)] hover:text-[var(--float-button-ghost-fg-hover)]",
-        primaryError: "bg-[var(--float-button-destructive-bg)] text-[var(--float-button-destructive-fg)] hover:bg-[var(--float-button-destructive-bg-hover)] hover:text-[var(--float-button-destructive-fg-hover)] border-[var(--float-button-destructive-border)] hover:border-[var(--float-button-destructive-border-hover)]",
+        default: "bg-[var(--button-bg-primary)] text-[var(--button-text-primary)] hover:bg-[var(--button-bg-primary-hover)] hover:text-[var(--button-text-primary-hover)] border-[var(--button-border-primary)] hover:border-[var(--button-border-primary-hover)]",
+        tertiary: "text-[var(--button-text-ghost)] hover:bg-[var(--button-bg-ghost-hover)] hover:text-[var(--button-text-ghost-hover)]",
+        primaryError: "bg-[var(--button-bg-destructive)] text-[var(--button-text-destructive)] hover:bg-[var(--button-bg-destructive-hover)] hover:text-[var(--button-text-destructive-hover)] border-[var(--button-border-destructive)] hover:border-[var(--button-border-destructive-hover)]",
       },
       size: {
         sm: "h-6 px-2 text-xs float-button-sm",

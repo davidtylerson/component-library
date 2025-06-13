@@ -19,8 +19,8 @@ const ContextMenuSubTrigger = React.forwardRef<
   <ContextMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none data-[state=open]:bg-[var(--float-dropdown-item-bg-hover)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--float-dropdown-item-fg)] focus:bg-[var(--float-dropdown-item-bg-focus)] focus:text-[var(--float-dropdown-item-fg-focus)] hover:bg-[var(--float-dropdown-item-bg-hover)] hover:text-[var(--float-dropdown-item-fg-hover)]",
+      "flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none data-[state=open]:bg-[var(--dropdown-item-bg-hover)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
       inset && "pl-8",
       className
     )}
@@ -40,7 +40,7 @@ const ContextMenuSubContent = React.forwardRef<
     ref={ref}
     className={cn(
       "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-lg animate-in data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 py-1 px-2",
-      "bg-[var(--float-dropdown-content-bg)] text-[var(--float-dropdown-content-fg)] border-[var(--float-dropdown-content-border)] shadow-[var(--float-dropdown-shadow)]",
+      "bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] border-[var(--dropdown-border)] shadow-[var(--dropdown-shadow)]",
       className
     )}
     {...props}
@@ -57,8 +57,8 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       className={cn(
         "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-md animate-in fade-in-80 px-1",
-        "bg-[var(--float-dropdown-content-bg)] text-[var(--float-dropdown-content-fg)] border-[var(--float-dropdown-content-border)]",
-        "shadow-[var(--float-dropdown-shadow)]",
+        "bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] border-[var(--dropdown-border)]",
+        "shadow-[var(--dropdown-shadow)]",
         className
       )}
       {...props}
@@ -78,17 +78,17 @@ const ContextMenuItem = React.forwardRef<
 >(({ className, inset, color, leftIcon, rightIcon, children, ...props }, ref) => {
   const baseClasses = cn(
     "relative flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-    "text-[var(--float-dropdown-item-fg)]",
-    "focus:bg-[var(--float-dropdown-item-bg-focus)] focus:text-[var(--float-dropdown-item-fg-focus)]",
-    "hover:bg-[var(--float-dropdown-item-bg-hover)] hover:text-[var(--float-dropdown-item-fg-hover)]",
+    "text-[var(--dropdown-item-text)]",
+    "focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]",
+    "hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
     inset && "pl-8"
   );
 
   const colorVariantClasses = {
-    brand: "focus:bg-[var(--float-dropdown-item-brand-bg-focus)] focus:text-[var(--float-dropdown-item-brand-fg-focus)] hover:bg-[var(--float-dropdown-item-brand-bg-hover)] hover:text-[var(--float-dropdown-item-brand-fg-hover)]",
-    error: "focus:bg-[var(--float-dropdown-item-error-bg-focus)] focus:text-[var(--float-dropdown-item-error-fg-focus)] hover:bg-[var(--float-dropdown-item-error-bg-hover)] hover:text-[var(--float-dropdown-item-error-fg-hover)]",
-    warning: "focus:bg-[var(--float-dropdown-item-warning-bg-focus)] focus:text-[var(--float-dropdown-item-warning-fg-focus)] hover:bg-[var(--float-dropdown-item-warning-bg-hover)] hover:text-[var(--float-dropdown-item-warning-fg-hover)]",
-    success: "focus:bg-[var(--float-dropdown-item-success-bg-focus)] focus:text-[var(--float-dropdown-item-success-fg-focus)] hover:bg-[var(--float-dropdown-item-success-bg-hover)] hover:text-[var(--float-dropdown-item-success-fg-hover)]",
+    brand: "focus:bg-[var(--dropdown-item-bg-brand-focus)] focus:text-[var(--dropdown-item-text-brand-focus)] hover:bg-[var(--dropdown-item-bg-brand-hover)] hover:text-[var(--dropdown-item-text-brand-hover)]",
+    error: "focus:bg-[var(--dropdown-item-bg-error-focus)] focus:text-[var(--dropdown-item-text-error-focus)] hover:bg-[var(--dropdown-item-bg-error-hover)] hover:text-[var(--dropdown-item-text-error-hover)]",
+    warning: "focus:bg-[var(--dropdown-item-bg-warning-focus)] focus:text-[var(--dropdown-item-text-warning-focus)] hover:bg-[var(--dropdown-item-bg-warning-hover)] hover:text-[var(--dropdown-item-text-warning-hover)]",
+    success: "focus:bg-[var(--dropdown-item-bg-success-focus)] focus:text-[var(--dropdown-item-text-success-focus)] hover:bg-[var(--dropdown-item-bg-success-hover)] hover:text-[var(--dropdown-item-text-success-hover)]",
   };
 
   return (
@@ -117,7 +117,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--float-dropdown-item-fg)] focus:bg-[var(--float-dropdown-item-bg-focus)] focus:text-[var(--float-dropdown-item-fg-focus)] hover:bg-[var(--float-dropdown-item-bg-hover)] hover:text-[var(--float-dropdown-item-fg-hover)]",
+      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
       className
     )}
     checked={checked}
@@ -141,7 +141,7 @@ const ContextMenuRadioItem = React.forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--float-dropdown-item-fg)] focus:bg-[var(--float-dropdown-item-bg-focus)] focus:text-[var(--float-dropdown-item-fg-focus)] hover:bg-[var(--float-dropdown-item-bg-hover)] hover:text-[var(--float-dropdown-item-fg-hover)]",
+      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
       className
     )}
     {...props}
@@ -180,7 +180,7 @@ const ContextMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ContextMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-[var(--float-dropdown-separator-bg)]", className)}
+    className={cn("-mx-1 my-1 h-px bg-[var(--dropdown-separator-bg)]", className)}
     {...props}
   />
 ))

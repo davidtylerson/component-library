@@ -1,58 +1,58 @@
 export const BUTTON_COLORS = {
   primary: {
-    bg: 'var(--float-button-primary-bg)',
-    bgHover: 'var(--float-button-primary-bg-hover)',
-    border: 'var(--float-button-primary-border)',
-    borderHover: 'var(--float-button-primary-border-hover)',
-    fg: 'var(--float-button-primary-fg)',
-    fgHover: 'var(--float-button-primary-fg-hover)',
+    bg: 'var(--button-bg-primary)',
+    bgHover: 'var(--button-bg-primary-hover)',
+    border: 'var(--button-border-primary)',
+    borderHover: 'var(--button-border-primary-hover)',
+    fg: 'var(--button-text-primary)',
+    fgHover: 'var(--button-text-primary-hover)',
   },
   primaryError: {
-    bg: 'var(--float-button-primary-error-bg)',
-    bgHover: 'var(--float-button-primary-error-bg-hover)',
-    border: 'var(--float-button-primary-error-border)',
-    borderHover: 'var(--float-button-primary-error-border-hover)',
-    fg: 'var(--float-button-primary-error-fg)',
-    fgHover: 'var(--float-button-primary-error-fg-hover)',
+    bg: 'var(--button-bg)',-primary-error
+    bgHover: 'var(--button-bg-primary-error-hover)',
+    border: 'var(--button-border)',-primary-error
+    borderHover: 'var(--button-border-primary-error-hover)',
+    fg: 'var(--button-fg)',-primary-error
+    fgHover: 'var(--button-fg-primary-error-hover)',
   },
   secondary: {
-    bg: 'var(--float-button-secondary-bg)',
-    bgHover: 'var(--float-button-secondary-bg-hover)',
-    border: 'var(--float-button-secondary-border)',
-    borderHover: 'var(--float-button-secondary-border-hover)',
-    fg: 'var(--float-button-secondary-fg)',
-    fgHover: 'var(--float-button-secondary-fg-hover)',
+    bg: 'var(--button-bg-secondary)',
+    bgHover: 'var(--button-bg-secondary-hover)',
+    border: 'var(--button-border-secondary)',
+    borderHover: 'var(--button-border-secondary-hover)',
+    fg: 'var(--button-text-secondary)',
+    fgHover: 'var(--button-text-secondary-hover)',
   },
   secondaryColor: {
-    bg: 'var(--float-button-secondary-color-bg)',
-    bgHover: 'var(--float-button-secondary-color-bg-hover)',
-    border: 'var(--float-button-secondary-color-border)',
-    borderHover: 'var(--float-button-secondary-color-border-hover)',
-    fg: 'var(--float-button-secondary-color-fg)',
-    fgHover: 'var(--float-button-secondary-color-fg-hover)',
+    bg: 'var(--button-bg)',-secondary-color
+    bgHover: 'var(--button-bg-secondary-color-hover)',
+    border: 'var(--button-border)',-secondary-color
+    borderHover: 'var(--button-border-secondary-color-hover)',
+    fg: 'var(--button-fg)',-secondary-color
+    fgHover: 'var(--button-fg-secondary-color-hover)',
   },
   secondaryError: {
-    bg: 'var(--float-button-secondary-error-bg)',
-    bgHover: 'var(--float-button-secondary-error-bg-hover)',
-    border: 'var(--float-button-secondary-error-border)',
-    borderHover: 'var(--float-button-secondary-error-border-hover)',
-    fg: 'var(--float-button-secondary-error-fg)',
-    fgHover: 'var(--float-button-secondary-error-fg-hover)',
+    bg: 'var(--button-bg)',-secondary-error
+    bgHover: 'var(--button-bg-secondary-error-hover)',
+    border: 'var(--button-border)',-secondary-error
+    borderHover: 'var(--button-border-secondary-error-hover)',
+    fg: 'var(--button-fg)',-secondary-error
+    fgHover: 'var(--button-fg-secondary-error-hover)',
   },
   tertiary: {
-    bgHover: 'var(--float-button-tertiary-bg-hover)',
-    fg: 'var(--float-button-tertiary-fg)',
-    fgHover: 'var(--float-button-tertiary-fg-hover)',
+    bgHover: 'var(--button-bg-tertiary-hover)',
+    fg: 'var(--button-text-tertiary)',
+    fgHover: 'var(--button-text-tertiary-hover)',
   },
   tertiaryColor: {
-    bgHover: 'var(--float-button-tertiary-color-bg-hover)',
-    fg: 'var(--float-button-tertiary-color-fg)',
-    fgHover: 'var(--float-button-tertiary-color-fg-hover)',
+    bgHover: 'var(--button-bg-tertiary-color-hover)',
+    fg: 'var(--button-fg)',-tertiary-color
+    fgHover: 'var(--button-fg-tertiary-color-hover)',
   },
   tertiaryError: {
-    bgHover: 'var(--float-button-tertiary-error-bg-hover)',
-    fg: 'var(--float-button-tertiary-error-fg)',
-    fgHover: 'var(--float-button-tertiary-error-fg-hover)',
+    bgHover: 'var(--button-bg-tertiary-error-hover)',
+    fg: 'var(--button-fg)',-tertiary-error
+    fgHover: 'var(--button-fg-tertiary-error-hover)',
   },
 } as const;
 

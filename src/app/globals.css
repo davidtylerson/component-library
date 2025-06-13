@@ -31,7 +31,7 @@ body {
 
 /* FORCEFUL SIDEBAR ROOT STYLES - OUTSIDE ANY LAYER */
 .float-sidebar-root {
-  width: var(--float-sidebar-width, 240px) !important;
+  width: var(--sidebar-width, 240px) !important;
   flex-shrink: 0 !important;
   position: relative !important; /* CRITICAL FOR FLOW */
   z-index: 10 !important;
@@ -257,8 +257,8 @@ body {
     
     /* UI Element Border and Focus */
     --border: 240 5% 84%;             /* Border color (gray-300) */
-    --input: var(--float-input-border-hsl);              /* Input field border (gray-300) */
-    --ring: var(--float-input-ring-hsl);              /* Focus ring color (brand-400) */
+    --input: var(--input-border-hsl);              /* Input field border (gray-300) */
+    --ring: var(--input-ring-hsl);              /* Focus ring color (brand-400) */
     
     /* Component Shape */
     --radius: 0.5rem;                 /* Border radius for components */
@@ -273,16 +273,16 @@ body {
     --sidebar-border: 240 5% 84%;             /* Maps to --border-secondary */
     --sidebar-ring: 242 83% 60%;              /* Maps to brand/ring color for focus */
 
-    /* Map float-sidebar variables to shadcn values for better compatibility */
-    --float-sidebar-bg: hsl(var(--sidebar-background));
-    --float-sidebar-border: hsl(var(--sidebar-border));
-    --float-sidebar-item-bg-hover: hsl(var(--sidebar-accent));
-    --float-sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.1);
-    --float-sidebar-item-fg-active: hsl(var(--sidebar-primary));
+    /* Map sidebar variables to shadcn values for better compatibility */
+    --sidebar-bg: hsl(var(--sidebar-background));
+    --sidebar-border: hsl(var(--sidebar-border));
+    --sidebar-item-bg-hover: hsl(var(--sidebar-accent));
+    --sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.1);
+    --sidebar-item-text-active: hsl(var(--sidebar-primary));
 
-    /* Ensure --float-sidebar-width and --float-sidebar-collapsed-width are defined here or in sidebar.css */
-    --float-sidebar-width: 240px; /* Default if not defined elsewhere */
-    --float-sidebar-collapsed-width: 64px; /* Default if not defined elsewhere */
+    /* Ensure --sidebar-width and --sidebar-width-collapsed are defined here or in sidebar.css */
+    --sidebar-width: 240px; /* Default if not defined elsewhere */
+    --sidebar-width-collapsed: 64px; /* Default if not defined elsewhere */
 
     --bg-app-base: #F9FAFB; /* App foundation background (gray-50) */
   }
@@ -417,8 +417,8 @@ body {
     
     /* UI Element Border and Focus */
     --border: 240 4% 16%;                /* Border color */
-    --input: var(--float-input-border-hsl);                 /* Input field border */
-    --ring: var(--float-input-ring-hsl);                 /* Focus ring color */
+    --input: var(--input-border-hsl);                 /* Input field border */
+    --ring: var(--input-ring-hsl);                 /* Focus ring color */
     
     /* Sidebar Component Variables - Dark Mode */
     --sidebar-background: 240 5.9% 10%;          /* Maps to --bg-primary in dark mode */
@@ -430,12 +430,12 @@ body {
     --sidebar-border: 240 3.7% 15.9%;            /* Maps to --border-secondary in dark mode */
     --sidebar-ring: 217.2 91.2% 59.8%;           /* Maps to brand/ring color for focus */
 
-    /* Map float-sidebar variables to shadcn values for better compatibility in dark mode */
-    --float-sidebar-bg: hsl(var(--sidebar-background));
-    --float-sidebar-border: hsl(var(--sidebar-border));
-    --float-sidebar-item-bg-hover: hsl(var(--sidebar-accent));
-    --float-sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.2);
-    --float-sidebar-item-fg-active: hsl(var(--sidebar-primary));
+    /* Map sidebar variables to shadcn values for better compatibility in dark mode */
+    --sidebar-bg: hsl(var(--sidebar-background));
+    --sidebar-border: hsl(var(--sidebar-border));
+    --sidebar-item-bg-hover: hsl(var(--sidebar-accent));
+    --sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.2);
+    --sidebar-item-text-active: hsl(var(--sidebar-primary));
 
     --bg-app-base: #0C0C0C; /* App foundation background (dark) */
   }
@@ -446,45 +446,45 @@ body {
 /* ---------------------------------------- */
 :root {
   /* Primary Badge (mimics Button Primary) */
-  --float-badge-primary-bg: var(--float-button-primary-bg);
-  --float-badge-primary-fg: var(--float-button-primary-fg);
-  --float-badge-primary-border: var(--float-button-primary-border);
-  --float-badge-primary-bg-hover: var(--float-button-primary-bg-hover);
-  --float-badge-primary-fg-hover: var(--float-button-primary-fg-hover);
-  --float-badge-primary-border-hover: var(--float-button-primary-border-hover);
+  --badge-bg-primary: var(--button-bg-primary);
+  --badge-text-primary: var(--button-text-primary);
+  --badge-border-primary: var(--button-border-primary);
+  --badge-bg-primary-hover: var(--button-bg-primary-hover);
+  --badge-text-primary-hover: var(--button-text-primary-hover);
+  --badge-border-primary-hover: var(--button-border-primary-hover);
 
   /* Gray Badge (mimics Button Secondary) */
-  --float-badge-gray-bg: var(--float-button-secondary-bg);
-  --float-badge-gray-fg: var(--float-button-secondary-fg);
-  --float-badge-gray-border: var(--float-button-secondary-border);
-  --float-badge-gray-bg-hover: var(--float-button-secondary-bg-hover);
-  --float-badge-gray-fg-hover: var(--float-button-secondary-fg-hover);
-  --float-badge-gray-border-hover: var(--float-button-secondary-border-hover);
+  --badge-bg-gray: var(--button-bg-secondary);
+  --badge-text-gray: var(--button-text-secondary);
+  --badge-border-gray: var(--button-border-secondary);
+  --badge-bg-gray-hover: var(--button-bg-secondary-hover);
+  --badge-text-gray-hover: var(--button-text-secondary-hover);
+  --badge-border-gray-hover: var(--button-border-secondary-hover);
 
   /* Destructive Badge (mimics Button Destructive) */
-  --float-badge-destructive-bg: var(--float-button-destructive-bg);
-  --float-badge-destructive-fg: var(--float-button-destructive-fg);
-  --float-badge-destructive-border: var(--float-button-destructive-border);
-  --float-badge-destructive-bg-hover: var(--float-button-destructive-bg-hover);
-  --float-badge-destructive-fg-hover: var(--float-button-destructive-fg-hover);
-  --float-badge-destructive-border-hover: var(--float-button-destructive-border-hover);
+  --badge-bg-destructive: var(--button-bg-destructive);
+  --badge-text-destructive: var(--button-text-destructive);
+  --badge-border-destructive: var(--button-border-destructive);
+  --badge-bg-destructive-hover: var(--button-bg-destructive-hover);
+  --badge-text-destructive-hover: var(--button-text-destructive-hover);
+  --badge-border-destructive-hover: var(--button-border-destructive-hover);
 
   /* Ghost Badge (mimics Button Ghost) */
-  --float-badge-ghost-fg: var(--float-button-ghost-fg);
-  --float-badge-ghost-bg-hover: var(--float-button-ghost-bg-hover);
-  --float-badge-ghost-fg-hover: var(--float-button-ghost-fg-hover);
+  --badge-text-ghost: var(--button-text-ghost);
+  --badge-bg-ghost-hover: var(--button-bg-ghost-hover);
+  --badge-text-ghost-hover: var(--button-text-ghost-hover);
   /* Ghost badges typically don't have a border in their resting state */
-  --float-badge-ghost-border: transparent; 
-  --float-badge-ghost-border-hover: transparent;
+  --badge-border-ghost: transparent; 
+  --badge-border-ghost-hover: transparent;
 
 
   /* Outline Badge (mimics Button Outline) */
-  --float-badge-outline-bg: transparent; /* Outline badges are typically transparent */
-  --float-badge-outline-fg: var(--float-button-outline-fg);
-  --float-badge-outline-border: var(--float-button-outline-border);
-  --float-badge-outline-bg-hover: var(--float-button-outline-bg-hover);
-  --float-badge-outline-fg-hover: var(--float-button-outline-fg-hover);
-  --float-badge-outline-border-hover: var(--float-button-outline-border-hover);
+  --badge-bg-outline: transparent; /* Outline badges are typically transparent */
+  --badge-text-outline: var(--button-text-outline);
+  --badge-border-outline: var(--button-border-outline);
+  --badge-bg-outline-hover: var(--button-bg-outline-hover);
+  --badge-text-outline-hover: var(--button-text-outline-hover);
+  --badge-border-outline-hover: var(--button-border-outline-hover);
 }
 
 /* No specific dark theme overrides needed here if button variables correctly handle dark theme */
@@ -494,58 +494,58 @@ body {
 /* ---------------------------------------- */
 :root {
   /* Unchecked State */
-  --float-checkbox-border: var(--border-primary);
-  --float-checkbox-bg: transparent; /* Typically transparent when unchecked */
+  --checkbox-border: var(--border-primary);
+  --checkbox-bg: transparent; /* Typically transparent when unchecked */
   
   /* Checked State */
-  --float-checkbox-checked-bg: var(--bg-brand-solid);
-  --float-checkbox-checked-border: var(--bg-brand-solid); /* Border often matches background when checked */
-  --float-checkbox-checked-indicator: var(--text-brand-primary); /* Checkmark color */
+  --checkbox-bg-checked: var(--bg-brand-solid);
+  --checkbox-border-checked: var(--bg-brand-solid); /* Border often matches background when checked */
+  --checkbox-indicator-checked: var(--text-brand-primary); /* Checkmark color */
   
   /* Hover State (Unchecked) - Can be subtle or rely on focus ring */
-  --float-checkbox-hover-border: var(--border-brand); 
+  --checkbox-border-hover: var(--border-brand); 
 
   /* Hover State (Checked) */
-  --float-checkbox-checked-hover-bg: var(--bg-brand-solid); /* Might be same as checked or slightly darker/lighter */
-  --float-checkbox-checked-hover-border: var(--bg-brand-solid);
+  --checkbox-bg-checked-hover: var(--bg-brand-solid); /* Might be same as checked or slightly darker/lighter */
+  --checkbox-border-checked-hover: var(--bg-brand-solid);
 
   /* Focus State - Uses existing --ring for the ring color */
   
   /* Disabled State (Unchecked) */
-  --float-checkbox-disabled-border: var(--border-disabled);
-  --float-checkbox-disabled-bg: var(--bg-disabled);
+  --checkbox-border-disabled: var(--border-disabled);
+  --checkbox-bg-disabled: var(--bg-disabled);
 
   /* Disabled State (Checked) */
-  --float-checkbox-disabled-checked-bg: var(--border-disabled); /* Using border-disabled to appear grayed out */
-  --float-checkbox-disabled-checked-border: var(--border-disabled);
-  --float-checkbox-disabled-checked-indicator: var(--text-disabled);
+  --checkbox-bg-disabled-checked: var(--border-disabled); /* Using border-disabled to appear grayed out */
+  --checkbox-border-disabled-checked: var(--border-disabled);
+  --checkbox-indicator-disabled-checked: var(--text-disabled);
 }
 
 .dark {
   /* Unchecked State */
-  --float-checkbox-border: var(--border-primary); /* Uses dark theme variable */
-  --float-checkbox-bg: transparent;
+  --checkbox-border: var(--border-primary); /* Uses dark theme variable */
+  --checkbox-bg: transparent;
   
   /* Checked State */
-  --float-checkbox-checked-bg: var(--bg-brand-solid); /* Uses dark theme variable */
-  --float-checkbox-checked-border: var(--bg-brand-solid); /* Uses dark theme variable */
-  --float-checkbox-checked-indicator: var(--text-brand-primary); /* Uses dark theme variable */
+  --checkbox-bg-checked: var(--bg-brand-solid); /* Uses dark theme variable */
+  --checkbox-border-checked: var(--bg-brand-solid); /* Uses dark theme variable */
+  --checkbox-indicator-checked: var(--text-brand-primary); /* Uses dark theme variable */
 
   /* Hover State (Unchecked) */
-  --float-checkbox-hover-border: var(--border-brand); /* Uses dark theme variable */
+  --checkbox-border-hover: var(--border-brand); /* Uses dark theme variable */
 
   /* Hover State (Checked) */
-  --float-checkbox-checked-hover-bg: var(--bg-brand-solid); /* Uses dark theme variable */
-  --float-checkbox-checked-hover-border: var(--bg-brand-solid); /* Uses dark theme variable */
+  --checkbox-bg-checked-hover: var(--bg-brand-solid); /* Uses dark theme variable */
+  --checkbox-border-checked-hover: var(--bg-brand-solid); /* Uses dark theme variable */
   
   /* Disabled State (Unchecked) */
-  --float-checkbox-disabled-border: var(--border-disabled); /* Uses dark theme variable */
-  --float-checkbox-disabled-bg: var(--bg-disabled); /* Uses dark theme variable */
+  --checkbox-border-disabled: var(--border-disabled); /* Uses dark theme variable */
+  --checkbox-bg-disabled: var(--bg-disabled); /* Uses dark theme variable */
   
   /* Disabled State (Checked) */
-  --float-checkbox-disabled-checked-bg: var(--border-disabled); /* Uses dark theme variable */
-  --float-checkbox-disabled-checked-border: var(--border-disabled); /* Uses dark theme variable */
-  --float-checkbox-disabled-checked-indicator: var(--text-disabled); /* Uses dark theme variable */
+  --checkbox-bg-disabled-checked: var(--border-disabled); /* Uses dark theme variable */
+  --checkbox-border-disabled-checked: var(--border-disabled); /* Uses dark theme variable */
+  --checkbox-indicator-disabled-checked: var(--text-disabled); /* Uses dark theme variable */
 }
 
 /* ---------------------------------------- */
@@ -553,52 +553,52 @@ body {
 /* ---------------------------------------- */
 :root {
   /* Unchecked State */
-  --float-radio-border: var(--border-primary);
-  --float-radio-bg: transparent;
+  --radio-border: var(--border-primary);
+  --radio-bg: transparent;
   
   /* Checked State */
-  --float-radio-checked-border: var(--border-brand); /* Often a brand color for the border when checked */
-  --float-radio-checked-indicator: var(--fg-brand-primary); /* The inner dot color */
+  --radio-border-checked: var(--border-brand); /* Often a brand color for the border when checked */
+  --radio-indicator-checked: var(--fg-brand-primary); /* The inner dot color */
   
   /* Hover State (Unchecked) */
-  --float-radio-hover-border: var(--border-brand); 
+  --radio-border-hover: var(--border-brand); 
 
   /* Hover State (Checked) - Indicator usually doesn't change on hover, border might */
-  --float-radio-checked-hover-border: var(--border-brand); /* Or a slightly different shade */
+  --radio-border-checked-hover: var(--border-brand); /* Or a slightly different shade */
 
   /* Focus State - Uses existing --ring */
   
   /* Disabled State (Unchecked) */
-  --float-radio-disabled-border: var(--border-disabled);
-  --float-radio-disabled-bg: var(--bg-disabled);
+  --radio-border-disabled: var(--border-disabled);
+  --radio-bg-disabled: var(--bg-disabled);
 
   /* Disabled State (Checked) */
-  --float-radio-disabled-checked-border: var(--border-disabled);
-  --float-radio-disabled-checked-indicator: var(--text-disabled);
+  --radio-border-disabled-checked: var(--border-disabled);
+  --radio-indicator-disabled-checked: var(--text-disabled);
 }
 
 .dark {
   /* Unchecked State */
-  --float-radio-border: var(--border-primary);
-  --float-radio-bg: transparent;
+  --radio-border: var(--border-primary);
+  --radio-bg: transparent;
   
   /* Checked State */
-  --float-radio-checked-border: var(--border-brand);
-  --float-radio-checked-indicator: var(--fg-brand-primary);
+  --radio-border-checked: var(--border-brand);
+  --radio-indicator-checked: var(--fg-brand-primary);
   
   /* Hover State (Unchecked) */
-  --float-radio-hover-border: var(--border-brand); 
+  --radio-border-hover: var(--border-brand); 
 
   /* Hover State (Checked) */
-  --float-radio-checked-hover-border: var(--border-brand);
+  --radio-border-checked-hover: var(--border-brand);
   
   /* Disabled State (Unchecked) */
-  --float-radio-disabled-border: var(--border-disabled);
-  --float-radio-disabled-bg: var(--bg-disabled);
+  --radio-border-disabled: var(--border-disabled);
+  --radio-bg-disabled: var(--bg-disabled);
   
   /* Disabled State (Checked) */
-  --float-radio-disabled-checked-border: var(--border-disabled);
-  --float-radio-disabled-checked-indicator: var(--text-disabled);
+  --radio-border-disabled-checked: var(--border-disabled);
+  --radio-indicator-disabled-checked: var(--text-disabled);
 }
 
 @layer components {
@@ -649,19 +649,19 @@ body {
     /* Padding is now p-2 (0.5rem) from SidebarMenuButton component in sidebar.tsx */
     /* Base styles are mostly from the component, this class is for potential overrides or specific child targeting */
     @apply flex items-center w-full text-[14px] rounded-md h-9; /* h-9 might need adjustment based on p-2 */
-    @apply bg-[var(--float-sidebar-item-bg)] border border-transparent;
+    @apply bg-[var(--sidebar-item-bg)] border border-transparent;
     @apply transition-all duration-200;
   }
 
   /* Icon within the button */
   .float-sidebar-menu-button-icon {
-    @apply h-5 w-5 text-[var(--float-sidebar-item-icon-fg)];
+    @apply h-5 w-5 text-[var(--sidebar-item-icon)];
     /* margin-right: 8px !important; /* REMOVED - Rely on gap-2 from parent button */
     @apply transition-colors duration-200;
   }
 
   .float-sidebar-menu-button:hover .float-sidebar-menu-button-icon {
-    color: var(--float-sidebar-item-icon-fg-hover) !important;
+    color: var(--sidebar-item-icon-hover) !important;
   }
 
   /* Text within the button */
@@ -677,13 +677,13 @@ body {
 
   /* Section Label - for spacing between menu groups */
   .float-sidebar-section-label {
-    @apply px-[18px] pt-8 pb-2 text-[13px] font-medium text-[var(--float-sidebar-group-label-fg)]; 
+    @apply px-[18px] pt-8 pb-2 text-[13px] font-medium text-[var(--sidebar-group-text)]; 
     /* pt-8 (32px) to create space above it (below previous UL), pb-2 for space below label before next UL */
   }
 
   /* Collapsed state */
   .float-sidebar-root[data-state="collapsed"] {
-    width: var(--float-sidebar-collapsed-width, 64px) !important;
+    width: var(--sidebar-width-collapsed, 64px) !important;
   }
   .float-sidebar-root[data-state="collapsed"] .float-sidebar-menu-button-icon {
     margin-right: 0 !important;

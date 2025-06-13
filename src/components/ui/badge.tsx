@@ -9,11 +9,11 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-[var(--float-badge-primary-bg)] text-[var(--float-badge-primary-fg)] border-[var(--float-badge-primary-border)] hover:bg-[var(--float-badge-primary-bg-hover)] hover:text-[var(--float-badge-primary-fg-hover)] hover:border-[var(--float-badge-primary-border-hover)]",
-        gray: "bg-[var(--float-badge-gray-bg)] text-[var(--float-badge-gray-fg)] border-[var(--float-badge-gray-border)] hover:bg-[var(--float-badge-gray-bg-hover)] hover:text-[var(--float-badge-gray-fg-hover)] hover:border-[var(--float-badge-gray-border-hover)]",
-        destructive: "bg-[var(--float-badge-destructive-bg)] text-[var(--float-badge-destructive-fg)] border-[var(--float-badge-destructive-border)] hover:bg-[var(--float-badge-destructive-bg-hover)] hover:text-[var(--float-badge-destructive-fg-hover)] hover:border-[var(--float-badge-destructive-border-hover)]",
-        outline: "bg-[var(--float-badge-outline-bg)] text-[var(--float-badge-outline-fg)] border-[var(--float-badge-outline-border)] hover:bg-[var(--float-badge-outline-bg-hover)] hover:text-[var(--float-badge-outline-fg-hover)] hover:border-[var(--float-badge-outline-border-hover)]",
-        ghost: "text-[var(--float-badge-ghost-fg)] border-[var(--float-badge-ghost-border)] hover:bg-[var(--float-badge-ghost-bg-hover)] hover:text-[var(--float-badge-ghost-fg-hover)] hover:border-[var(--float-badge-ghost-border-hover)]",
+        primary: "bg-[var(--badge-bg-primary)] text-[var(--badge-text-primary)] border-[var(--badge-border-primary)] hover:bg-[var(--badge-bg-primary-hover)] hover:text-[var(--badge-text-primary-hover)] hover:border-[var(--badge-border-primary-hover)]",
+        gray: "bg-[var(--badge-bg-gray)] text-[var(--badge-text-gray)] border-[var(--badge-border-gray)] hover:bg-[var(--badge-bg-gray-hover)] hover:text-[var(--badge-text-gray-hover)] hover:border-[var(--badge-border-gray-hover)]",
+        destructive: "bg-[var(--badge-bg-destructive)] text-[var(--badge-text-destructive)] border-[var(--badge-border-destructive)] hover:bg-[var(--badge-bg-destructive-hover)] hover:text-[var(--badge-text-destructive-hover)] hover:border-[var(--badge-border-destructive-hover)]",
+        outline: "bg-[var(--badge-bg-outline)] text-[var(--badge-text-outline)] border-[var(--badge-border-outline)] hover:bg-[var(--badge-bg-outline-hover)] hover:text-[var(--badge-text-outline-hover)] hover:border-[var(--badge-border-outline-hover)]",
+        ghost: "text-[var(--badge-text-ghost)] border-[var(--badge-border-ghost)] hover:bg-[var(--badge-bg-ghost-hover)] hover:text-[var(--badge-text-ghost-hover)] hover:border-[var(--badge-border-ghost-hover)]",
       },
       size: {
         sm: "h-5 px-2 text-[10px] float-badge-sm",
