@@ -8,7 +8,6 @@ export * from './tokens';
 // Explicitly export theme components
 export { 
   ThemeProvider, 
-  ThemeProviderNoSSR, 
   ClientThemeProvider, 
   ClientThemeToggle, 
   useThemeServer 
