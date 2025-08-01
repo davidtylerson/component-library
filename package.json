@@ -1,6 +1,6 @@
 {
   "name": "@tydavidson/design-system",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Float Design System with email components and theme system",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -26,8 +26,7 @@
       "import": "./dist/tokens/index.mjs",
       "require": "./dist/tokens/index.js"
     },
-    "./themes/theme.css": "./dist/themes/theme.css",
-    "./docs/*": "./docs/*"
+    "./themes/theme.css": "./dist/themes/theme.css"
   },
   "files": [
     "dist",
