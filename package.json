@@ -21,7 +21,13 @@
       "import": "./dist/themes/index.mjs",
       "require": "./dist/themes/index.js"
     },
-    "./themes/theme.css": "./src/themes/theme.css"
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.mjs",
+      "require": "./dist/tokens/index.js"
+    },
+    "./themes/theme.css": "./dist/themes/theme.css",
+    "./docs/*": "./docs/*"
   },
   "files": [
     "dist",
