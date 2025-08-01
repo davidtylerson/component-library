@@ -1,7 +1,8 @@
+"use client"
 import * as React from "react"
 import * as ContextMenuPrimitive from "@radix-ui/react-context-menu"
 import { IconCheck, IconChevronRight, IconPointFilled } from "@tabler/icons-react"
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 
 const ContextMenu = ContextMenuPrimitive.Root
 const ContextMenuTrigger = ContextMenuPrimitive.Trigger

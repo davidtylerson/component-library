@@ -1,16 +1,16 @@
 "use client"
 
 import * as React from "react"
-import { ChevronsUpDown, Plus } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { IconChevronsDown, IconPlus } from "@tabler/icons-react"
+import { cn } from "../../lib/utils"
 
-import { DropdownMenu } from "@/components/ui/dropdown-menu"
+import { DropdownMenu } from "./dropdown-menu"
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "./sidebar"
 
 export interface Org {
   id: string
@@ -59,7 +59,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
                   <span className="truncate text-xs">{activeOrg.plan}</span>
                 )}
               </div>
-              <ChevronsUpDown
+              <IconChevronsDown
                 className="ml-auto transition-all duration-200 opacity-100 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0 group-data-[state=collapsed]/sidebar:ml-0 overflow-hidden"
               />
             </SidebarMenuButton>
@@ -89,7 +89,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
             <DropdownMenu.Separator />
             <DropdownMenu.Item className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
+                <IconPlus className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">Add organization</div>
             </DropdownMenu.Item>

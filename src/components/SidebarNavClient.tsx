@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { SidebarNav } from "@/components/SidebarNav";
-import LogoStateStreet from "@/assets/logos/Logo_State_Street.svg";
-import LogoAlta from "@/assets/logos/Logo_Alta.svg";
-import LogoGS from "@/assets/logos/Logo_GS.svg";
+import { SidebarNav } from "./SidebarNav";
+import LogoStateStreet from "../assets/logos/Logo_State_Street.svg";
+import LogoAlta from "../assets/logos/Logo_Alta.svg";
+import LogoGS from "../assets/logos/Logo_GS.svg";
 
 const organizations = [
   {

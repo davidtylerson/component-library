@@ -8,11 +8,11 @@ export const BUTTON_COLORS = {
     fgHover: 'var(--button-text-primary-hover)',
   },
   primaryError: {
-    bg: 'var(--button-bg)',-primary-error
+    bg: 'var(--button-bg-primary-error)',
     bgHover: 'var(--button-bg-primary-error-hover)',
-    border: 'var(--button-border)',-primary-error
+    border: 'var(--button-border-primary-error)',
     borderHover: 'var(--button-border-primary-error-hover)',
-    fg: 'var(--button-fg)',-primary-error
+    fg: 'var(--button-fg-primary-error)',
     fgHover: 'var(--button-fg-primary-error-hover)',
   },
   secondary: {
@@ -24,19 +24,19 @@ export const BUTTON_COLORS = {
     fgHover: 'var(--button-text-secondary-hover)',
   },
   secondaryColor: {
-    bg: 'var(--button-bg)',-secondary-color
+    bg: 'var(--button-bg-secondary-color)',
     bgHover: 'var(--button-bg-secondary-color-hover)',
-    border: 'var(--button-border)',-secondary-color
+    border: 'var(--button-border-secondary-color)',
     borderHover: 'var(--button-border-secondary-color-hover)',
-    fg: 'var(--button-fg)',-secondary-color
+    fg: 'var(--button-fg-secondary-color)',
     fgHover: 'var(--button-fg-secondary-color-hover)',
   },
   secondaryError: {
-    bg: 'var(--button-bg)',-secondary-error
+    bg: 'var(--button-bg-secondary-error)',
     bgHover: 'var(--button-bg-secondary-error-hover)',
-    border: 'var(--button-border)',-secondary-error
+    border: 'var(--button-border-secondary-error)',
     borderHover: 'var(--button-border-secondary-error-hover)',
-    fg: 'var(--button-fg)',-secondary-error
+    fg: 'var(--button-fg-secondary-error)',
     fgHover: 'var(--button-fg-secondary-error-hover)',
   },
   tertiary: {
@@ -46,12 +46,12 @@ export const BUTTON_COLORS = {
   },
   tertiaryColor: {
     bgHover: 'var(--button-bg-tertiary-color-hover)',
-    fg: 'var(--button-fg)',-tertiary-color
+    fg: 'var(--button-fg-tertiary-color)',
     fgHover: 'var(--button-fg-tertiary-color-hover)',
   },
   tertiaryError: {
     bgHover: 'var(--button-bg-tertiary-error-hover)',
-    fg: 'var(--button-fg)',-tertiary-error
+    fg: 'var(--button-fg-tertiary-error)',
     fgHover: 'var(--button-fg-tertiary-error-hover)',
   },
 } as const;

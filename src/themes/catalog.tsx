@@ -1,3 +1,5 @@
+"use client"
+
 // src/app/components/catalog.tsx
 import { 
   Button, 
@@ -7,15 +9,15 @@ import {
   CardContent,
   CardFooter,
   Text
-} from "@/components/ui";
+} from "../components/ui";
 
-// Sample icons
+// Sample icons from Tabler
 import { 
-  ChevronDownIcon, 
-  PlusIcon, 
-  CheckIcon,
-  XMarkIcon 
-} from "@heroicons/react/24/outline";
+  IconChevronDown, 
+  IconPlus, 
+  IconCheck,
+  IconX 
+} from "@tabler/icons-react";
 
 export default function ComponentCatalog() {
   // Component examples with different variants
@@ -51,7 +53,7 @@ export default function ComponentCatalog() {
                     <Button 
                       color={color} 
                       variant={variant} 
-                      leftIcon={<PlusIcon className="w-4 h-4" />}
+                      leftIcon={<IconPlus className="w-4 h-4" />}
                     >
                       With Icon
                     </Button>

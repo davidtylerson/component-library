@@ -1,4 +1,62 @@
-# component-library
+# Float Design System
+
+A modern React design system with comprehensive theming, component library, and email components.
+
+## Quick Start
+
+```bash
+npm install @tydavidson/design-system
+```
+
+## Documentation
+
+📚 **Setup Guide**: [docs/setup-guide.md](docs/setup-guide.md) - Complete installation and configuration guide
+
+🔧 **Troubleshooting**: [docs/troubleshooting.md](docs/troubleshooting.md) - Quick fixes for common issues
+
+🎨 **Theme Usage**: [docs/theme-usage.md](docs/theme-usage.md) - Detailed theme system documentation
+
+## Features
+
+- ✅ **Modern React Components** - Built with TypeScript and React 18+
+- ✅ **Theme System** - Light/dark mode with CSS variables
+- ✅ **Next.js Compatible** - Works with App Router and Pages Router
+- ✅ **Email Components** - Responsive email templates
+- ✅ **Tabler Icons** - Consistent icon library
+- ✅ **Tailwind CSS** - Utility-first styling
+- ✅ **TypeScript** - Full type safety
+
+## Basic Usage
+
+```tsx
+import { ThemeProvider, useTheme, ThemeToggle } from '@tydavidson/design-system/themes';
+import { Button, Card, CardContent, CardHeader, CardTitle } from '@tydavidson/design-system';
+import '@tydavidson/design-system/themes/theme.css';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <Card>
+        <CardHeader>
+          <CardTitle>Welcome</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Button>Get Started</Button>
+          <ThemeToggle />
+        </CardContent>
+      </Card>
+    </ThemeProvider>
+  );
+}
+```
+
+## Required Dependencies
+
+```bash
+npm install react react-dom next-themes @tabler/icons-react
+```
+
+---
 
 ## Development Commands
 

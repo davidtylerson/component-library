@@ -3,8 +3,8 @@ import { IconChevronLeft, IconChevronRight, IconChevronDown } from "@tabler/icon
 import { DayPicker } from "react-day-picker"
 import { format } from "date-fns"
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "../../lib/utils"
+import { buttonVariants } from "./button"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 

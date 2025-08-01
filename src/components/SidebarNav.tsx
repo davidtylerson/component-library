@@ -1,6 +1,8 @@
+"use client"
+
 import * as React from "react";
-import { useSidebar } from "@/components/ui/sidebar";
-import { useTheme } from "@/themes/theme-context";
+import { useSidebar } from "./ui/sidebar";
+import { useTheme } from "../themes/theme-context";
 import Link from "next/link";
 import {
   Sidebar,
@@ -13,31 +15,32 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarTrigger
-} from "@/components/ui/sidebar";
-import { OrgSwitcher } from "@/components/ui/org-switcher";
-import { ArrowRightToLine, Sun, Moon, Info, Home, Palette, Layers, Sidebar as SidebarIcon } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+} from "./ui/sidebar";
+import { OrgSwitcher } from "./ui/org-switcher";
+import { IconArrowBigRightLine, IconInfoCircle, IconHome, IconPalette, IconLayersSubtract, IconMenu2 } from "@tabler/icons-react";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { ClientThemeToggle } from "../themes/client-wrapper";
 
 const navItems = [
   {
     title: "Home",
-    icon: Home,
+    icon: IconHome,
     url: "/",
   },
   {
     title: "Color",
-    icon: Palette,
+    icon: IconPalette,
     url: "/design-system",
   },
   {
     title: "Components",
-    icon: Layers,
+    icon: IconLayersSubtract,
     url: "/components",
   },
   {
     title: "Test Page",
-    icon: Info,
+    icon: IconInfoCircle,
     url: "/test",
   },
 ];
@@ -49,7 +52,6 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
   setCurrentOrg: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { state, toggleSidebar } = useSidebar();
-  const { isDark } = useTheme();
 
   return (
     <Sidebar
@@ -110,27 +112,10 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
           </Avatar>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon">
-              <Info className="h-5 w-5" />
+              <IconInfoCircle className="h-5 w-5" />
             </Button>
             {/* Theme toggle button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="Toggle theme"
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  const html = document.documentElement;
-                  const isCurrentlyDark = html.classList.contains("dark");
-                  html.classList.toggle("dark", !isCurrentlyDark);
-                }
-              }}
-            >
-              {isDark ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
+            <ClientThemeToggle variant="icon" size="md" />
           </div>
         </div>
         {/* Collapsed (vertical) layout with expand trigger at the top */}
@@ -147,36 +132,20 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
                     className="h-8 w-8 rounded-full mb-4 bg-bg-tertiary"
                     aria-label="Expand sidebar"
                   >
-                    <ArrowRightToLine className="h-4 w-4" />
+                    <IconArrowBigRightLine className="h-4 w-4" />
                   </SidebarTrigger>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* Theme toggle button in collapsed state */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <button
-                    aria-label="Toggle theme"
-                    className="h-8 w-8 flex items-center justify-center rounded-full"
-                    onClick={() => {
-                      if (typeof window !== "undefined") {
-                        const html = document.documentElement;
-                        const isCurrentlyDark = html.classList.contains("dark");
-                        html.classList.toggle("dark", !isCurrentlyDark);
-                      }
-                    }}
-                  >
-                    {isDark ? (
-                      <Sun className="h-5 w-5" />
-                    ) : (
-                      <Moon className="h-5 w-5" />
-                    )}
-                  </button>
+                  <ClientThemeToggle variant="icon" size="sm" />
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <button aria-label="Info">
-                    <Info className="h-4 w-4" />
+                    <IconInfoCircle className="h-4 w-4" />
                   </button>
                 </SidebarMenuButton>
               </SidebarMenuItem>

@@ -3,8 +3,8 @@
 import * as React from "react";
 import Link from "next/link";
 import { MainNav } from "./nav";
-import { ThemeToggle } from "./theme-toggle/theme-toggle";
-import { cn } from "@/lib/utils";
+import { ClientThemeToggle } from "../../themes/client-wrapper";
+import { cn } from "../../lib/utils";
 
 export function Header({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
@@ -21,7 +21,7 @@ export function Header({ className }: React.HTMLAttributes<HTMLElement>) {
           <MainNav />
         </div>
         <div>
-          <ThemeToggle />
+          <ClientThemeToggle />
         </div>
       </div>
     </header>

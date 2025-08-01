@@ -1,8 +1,9 @@
 // src/components/ui/dropdown-menu/dropdown-menu.tsx
+"use client";
 import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { IconCheck, IconChevronRight, IconPointFilled } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 
 // Root component
 const DropdownMenuRoot = DropdownMenuPrimitive.Root;
