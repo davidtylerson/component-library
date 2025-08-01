@@ -1,6 +1,6 @@
 {
   "name": "@tydavidson/design-system",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Float Design System with email components and theme system",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -26,7 +26,8 @@
       "import": "./dist/tokens/index.mjs",
       "require": "./dist/tokens/index.js"
     },
-    "./themes/theme.css": "./dist/themes/theme.css"
+    "./themes/theme.css": "./dist/themes/theme.css",
+    "./dist/styles/globals.css": "./dist/styles/globals.css"
   },
   "files": [
     "dist",
@@ -57,7 +58,8 @@
     "build-storybook": "storybook build",
     "build:lib": "tsup",
     "build:email": "tsc --project tsconfig.email.json",
-    "build:all": "npm run build:lib && npm run build:email",
+    "build:all": "npm run build:lib && npm run build:email && npm run copy-css",
+    "copy-css": "mkdir -p dist/styles && cp src/app/globals.css dist/styles/globals.css",
     "prepublishOnly": "npm run build:all",
     "clean": "rm -rf dist",
     "dev:lib": "npm run build:all -- --watch"
