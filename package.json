@@ -1,6 +1,6 @@
 {
   "name": "@tydavidson/design-system",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "description": "Float Design System with email components and theme system",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -87,7 +87,6 @@
     "clsx": "^2.0.0",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
-
     "next": "^15.3.1",
     "next-svgr": "^0.0.2",
     "next-themes": "^0.2.1",
