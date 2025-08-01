@@ -1,6 +1,6 @@
 # Theme Usage Guide
 
-This guide explains how to use the theme system in the Float Design System.
+This guide explains how to use the modern, simplified theme system in the Float Design System, compatible with the Next.js App Router.
 
 ## Quick Start
 
@@ -12,34 +12,62 @@ npm install @tydavidson/design-system
 
 ### 2. Import CSS
 
-```tsx
-// In your main CSS file or layout
-import '@tydavidson/design-system/src/themes/theme.css';
+In your main CSS file (e.g., `app/globals.css`), import the theme styles:
+
+```css
+@import '@tydavidson/design-system/src/themes/theme.css';
 ```
 
 ### 3. Set Up Theme Provider
 
-```tsx
-// app/layout.tsx
-import { ClientThemeProvider } from '@tydavidson/design-system/themes';
+The `ThemeProvider` must be used within a Client Component. The recommended approach is to create a dedicated `providers.tsx` file to house all client-side providers.
 
-export default function RootLayout({ children }) {
+**Create `app/components/providers.tsx`:**
+```tsx
+"use client"
+
+import { ThemeProvider } from "@tydavidson/design-system"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </ThemeProvider>
+  )
+}
+```
+
+**Update your root layout `app/layout.tsx`:**
+```tsx
+import { Providers } from "./components/providers"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ClientThemeProvider>
+        <Providers>
           {children}
-        </ClientThemeProvider>
+        </Providers>
       </body>
     </html>
-  );
+  )
 }
 ```
 
 ### 4. Use Theme Toggle
 
+You can now use the `ClientThemeToggle` in any component.
+
 ```tsx
-// In any component
 import { ClientThemeToggle } from '@tydavidson/design-system/themes';
 
 export default function MyPage() {
@@ -54,239 +82,52 @@ export default function MyPage() {
 
 ## Available Components
 
-### Server Component Safe Components
+### `ThemeProvider`
+The main provider for the theme system. It is a Client Component that wraps the `next-themes` provider with sensible defaults for the design system.
 
-These components can be used in Server Components without any issues:
+### `ClientThemeToggle`
+A Server Component-safe theme toggle button. This component can be used anywhere in your application.
 
-- **`ClientThemeProvider`** - Theme provider for Server Components
-- **`ClientThemeToggle`** - Theme toggle for Server Components  
-- **`useThemeServer`** - Server-safe theme hook
-
-### Client Component Only Components
-
-These components can only be used in Client Components:
-
-- **`ThemeProvider`** - Standard theme provider (use `ClientThemeProvider` instead)
-- **`ThemeProviderNoSSR`** - NoSSR theme provider (use `ClientThemeProvider` instead)
-
-## Usage Examples
-
-### Server Components
-
-```tsx
-import { ClientThemeToggle, useThemeServer } from '@tydavidson/design-system/themes';
-
-export default function ServerComponent() {
-  const { theme, isDark } = useThemeServer();
-  
-  return (
-    <div className={isDark ? 'dark' : 'light'}>
-      <h1>Current theme: {theme}</h1>
-      <ClientThemeToggle />
-    </div>
-  );
-}
-```
-
-### Client Components
-
-```tsx
-'use client';
-import { ClientThemeToggle } from '@tydavidson/design-system/themes';
-
-export default function ClientComponent() {
-  return (
-    <div>
-      <h1>My Client Component</h1>
-      <ClientThemeToggle />
-    </div>
-  );
-}
-```
-
-### Layout Setup
-
-```tsx
-// app/layout.tsx
-import { ClientThemeProvider } from '@tydavidson/design-system/themes';
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <ClientThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ClientThemeProvider>
-      </body>
-    </html>
-  );
-}
-```
-
-## Theme Configuration
-
-### CSS Variables
-
-The theme system uses CSS custom properties for colors:
-
-```css
-:root {
-  --bg-primary: #ffffff;
-  --text-primary: #000000;
-  --accent-primary: #3b82f6;
-}
-
-.dark {
-  --bg-primary: #000000;
-  --text-primary: #ffffff;
-  --accent-primary: #60a5fa;
-}
-```
-
-### Tailwind Configuration
-
-Configure Tailwind to use the CSS variables:
-
-```js
-// tailwind.config.js
-module.exports = {
-  darkMode: ["class"],
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@tydavidson/design-system/dist/**/*.{js,mjs}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        background: "var(--bg-primary)",
-        foreground: "var(--text-primary)",
-        primary: {
-          DEFAULT: "var(--accent-primary)",
-          foreground: "var(--text-primary)",
-        },
-      },
-    },
-  },
-};
-```
-
-## Theme Utilities
-
-### Server-Safe Theme Detection
-
-```tsx
-import { useThemeServer } from '@tydavidson/design-system/themes';
-
-export default function ServerComponent() {
-  const { theme, isDark } = useThemeServer();
-  
-  return (
-    <div className={isDark ? 'dark-theme' : 'light-theme'}>
-      Current theme: {theme}
-    </div>
-  );
-}
-```
-
-### Theme Utilities
-
-```tsx
-import { 
-  isDarkTheme, 
-  mapColorToShadcnVariant, 
-  mapVariantToShadcnVariant,
-  getColorVariantClasses 
-} from '@tydavidson/design-system/themes';
-
-// Check if theme is dark
-const isDark = isDarkTheme('dark', 'dark');
-
-// Map design system colors to shadcn variants
-const variant = mapColorToShadcnVariant('brand'); // 'default'
-
-// Map design system variants to shadcn variants  
-const shadcnVariant = mapVariantToShadcnVariant('primary'); // 'default'
-
-// Get Tailwind classes for color/variant combinations
-const classes = getColorVariantClasses('brand', 'primary');
-```
-
-## Migration Guide
-
-### From Previous Versions
-
-If you were using the old theme system:
-
-**Before:**
-```tsx
-import { ThemeToggle, useTheme } from '@tydavidson/design-system/themes';
-
-export default function MyComponent() {
-  const { theme, setTheme } = useTheme();
-  return <ThemeToggle />;
-}
-```
-
-**After:**
-```tsx
-import { ClientThemeToggle, useThemeServer } from '@tydavidson/design-system/themes';
-
-export default function MyComponent() {
-  const { theme } = useThemeServer();
-  return <ClientThemeToggle />;
-}
-```
-
-### Key Changes
-
-1. **`ThemeToggle`** → **`ClientThemeToggle`** (Server Component safe)
-2. **`useTheme`** → **`useThemeServer`** (Server Component safe)
-3. **`ThemeProvider`** → **`ClientThemeProvider`** (Server Component safe)
+### `useThemeServer`
+A Server Component-safe hook that returns the default theme values. This is useful for accessing theme information in Server Components without causing client-side re-renders.
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Theme not switching**: Ensure `ClientThemeProvider` is wrapping your app
-2. **Hydration errors**: Add `suppressHydrationWarning` to your `<html>` element
-3. **CSS not loading**: Import the theme CSS file
-4. **TypeScript errors**: The package includes types, no additional @types needed
-
-### Server Component Compatibility
-
-All exported components are now Server Component safe. If you encounter any issues:
-
-1. Use `ClientThemeToggle` instead of `ThemeToggle`
-2. Use `ClientThemeProvider` instead of `ThemeProvider`
-3. Use `useThemeServer` instead of `useTheme`
+1. **Theme not switching**: Ensure `ThemeProvider` is wrapping your app within a Client Component (like the `providers.tsx` file shown above).
+2. **Hydration errors**: Add `suppressHydrationWarning` to your `<html>` element in the root layout.
+3. **CSS not loading**: Make sure you have imported the `theme.css` file in your global stylesheet.
 
 ## API Reference
 
-### ClientThemeProvider
+### ThemeProvider
 
-Theme provider component for Server Component compatibility.
+A wrapper around the `next-themes` `ThemeProvider`. It accepts all the same props.
 
+**Example Usage:**
 ```tsx
-import { ClientThemeProvider } from '@tydavidson/design-system/themes';
+// app/components/providers.tsx
+"use client"
 
-<ClientThemeProvider
-  attribute="class"
-  defaultTheme="system"
-  enableSystem
-  disableTransitionOnChange
->
-  {children}
-</ClientThemeProvider>
+import { ThemeProvider } from "@tydavidson/design-system"
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem={false}
+    >
+      {children}
+    </ThemeProvider>
+  )
+}
 ```
 
 ### ClientThemeToggle
 
-Theme toggle component for Server Component compatibility.
+A theme toggle button that is safe to use in both Server and Client Components.
 
 ```tsx
 import { ClientThemeToggle } from '@tydavidson/design-system/themes';
@@ -300,18 +141,10 @@ import { ClientThemeToggle } from '@tydavidson/design-system/themes';
 
 ### useThemeServer
 
-Server-safe theme hook that returns default theme values.
+A server-safe hook that provides default theme values.
 
 ```tsx
 import { useThemeServer } from '@tydavidson/design-system/themes';
 
-const { theme, setTheme, resolvedTheme, isDark } = useThemeServer();
-```
-
-## Version Compatibility
-
-| Next.js Version | Design System Version | Notes |
-|----------------|----------------------|-------|
-| 13+ (App Router) | 1.1.17+ | Full Server Component support |
-| 12+ (Pages Router) | 1.1.0+ | Basic compatibility |
-| < 12 | Not supported | Use newer Next.js version | 
+const { theme, isDark } = useThemeServer();
+``` 

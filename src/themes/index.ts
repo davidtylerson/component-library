@@ -1,5 +1,5 @@
 // Theme system exports
-export { ThemeProvider, ThemeProviderNoSSR } from './theme-provider';
+export { ThemeProvider } from './theme-provider';
 
 // Client-only wrappers for Server Component compatibility
 export { ClientThemeProvider, ClientThemeToggle } from './client-wrapper';
