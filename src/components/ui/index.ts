@@ -55,9 +55,7 @@ export {   ContextMenu,
   ContextMenuSubTrigger,
   ContextMenuRadioGroup, } from './context-menu';
 
-// Email components
-export { EmailButton, EmailText, EmailHeading, EmailCaption, EmailMuted, EmailLayout, EmailContainer, EmailHeader, EmailFooter } from '../email';
-export type { EmailButtonProps, EmailTextProps, EmailLayoutProps, EmailContainerProps, EmailHeaderProps, EmailFooterProps } from '../email';
+
 
 // Card components
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';

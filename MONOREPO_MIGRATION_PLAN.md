@@ -10,6 +10,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Establish fast development workflow
 - [ ] Fix all CSS import issues
 - [ ] Enable instant updates between packages
+- [ ] **NEW: Consolidate CSS into single file (shadcn-style)**
 
 ## Phase 1: Preparation and Backup
 
@@ -23,7 +24,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Design optimal monorepo directory structure
 - [ ] Plan workspace relationships and dependencies
 - [ ] Define package naming conventions
-- [ ] Plan CSS organization strategy
+- [ ] **NEW: Plan CSS consolidation strategy (single file approach)**
 
 ## Phase 2: Create New Monorepo Structure
 
@@ -41,7 +42,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Configure TypeScript for design system
 - [ ] Set up build process with tsup
 - [ ] Create proper export structure
-- [ ] Set up CSS build process
+- [ ] **NEW: Set up single CSS file structure (no component CSS files)**
 
 ### 2.3 Create First Application Package
 - [ ] Create `packages/app-1/` directory
@@ -61,13 +62,24 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Copy TypeScript types and interfaces
 - [ ] Migrate documentation and examples
 
-### 3.2 Fix CSS Organization
-- [ ] Consolidate CSS variables into single file
-- [ ] Remove problematic @import statements
-- [ ] Organize component-specific CSS variables
-- [ ] Set up proper CSS build process
-- [ ] Test CSS loading in applications
-- [ ] Verify theme switching works
+### 3.2 **NEW: CSS Consolidation (Critical Step)**
+- [ ] **Consolidate all component CSS variables into single file**
+- [ ] **Extract variables from:**
+  - [ ] `src/styles/components/button.css`
+  - [ ] `src/styles/components/input.css`
+  - [ ] `src/styles/components/input-dropdown.css`
+  - [ ] `src/styles/components/card.css`
+  - [ ] `src/styles/components/sidebar.css`
+- [ ] **Organize CSS into logical sections:**
+  - [ ] Foundational colors
+  - [ ] Semantic variables
+  - [ ] Component variables (button, input, card, sidebar)
+  - [ ] Dark mode overrides
+  - [ ] Component utility classes
+- [ ] **Remove all @import statements from globals.css**
+- [ ] **Test that all components still render correctly**
+- [ ] **Verify theme switching works**
+- [ ] **Ensure no CSS variable conflicts**
 
 ### 3.3 Migrate Components
 - [ ] Migrate UI components (`src/components/ui/`)
@@ -75,13 +87,13 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Migrate theme components
 - [ ] Update component imports and exports
 - [ ] Test component functionality
-- [ ] Verify component styling
+- [ ] Verify component styling with consolidated CSS
 
 ## Phase 4: Establish Development Workflow
 
 ### 4.1 Set Up Build Process
 - [ ] Configure tsup for design system builds
-- [ ] Set up CSS copying/bundling process
+- [ ] **NEW: Simplify CSS build process (single file copy)**
 - [ ] Configure watch mode for development
 - [ ] Set up parallel development scripts
 - [ ] Test build process end-to-end
@@ -112,6 +124,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Test component variants and props
 - [ ] Verify TypeScript types work correctly
 - [ ] Test component exports and imports
+- [ ] **NEW: Test consolidated CSS file loads correctly**
 
 ### 5.2 Test Application Integration
 - [ ] Test design system imports in app-1
@@ -120,6 +133,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Validate theme integration
 - [ ] Test hot reloading during development
 - [ ] Verify build process for production
+- [ ] **NEW: Test single CSS file import works**
 
 ### 5.3 Performance Testing
 - [ ] Test build times for development
@@ -128,6 +142,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Validate memory usage during development
 - [ ] Test production build process
 - [ ] Verify no performance regressions
+- [ ] **NEW: Test CSS file size and loading performance**
 
 ## Phase 6: Documentation and Cleanup
 
@@ -138,6 +153,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Document package structure and relationships
 - [ ] Create troubleshooting guide
 - [ ] Update theme usage documentation
+- [ ] **NEW: Document CSS consolidation and single file approach**
 
 ### 6.2 Clean Up and Optimize
 - [ ] Remove unused dependencies
@@ -146,6 +162,8 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Remove backup files and temporary code
 - [ ] Optimize TypeScript configurations
 - [ ] Finalize git ignore rules
+- [ ] **NEW: Remove old component CSS files**
+- [ ] **NEW: Clean up any remaining @import references**
 
 ### 6.3 Final Validation
 - [ ] Run full test suite (if applicable)
@@ -154,6 +172,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Validate deployment process
 - [ ] Create final backup of working setup
 - [ ] Document any remaining issues or TODOs
+- [ ] **NEW: Verify no CSS import errors anywhere**
 
 ## Phase 7: Future Planning
 
@@ -164,6 +183,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Consider shared testing setup
 - [ ] Plan for deployment strategies
 - [ ] Consider CI/CD pipeline setup
+- [ ] **NEW: Document CSS sharing strategy between apps**
 
 ### 7.2 Production Readiness
 - [ ] Plan for publishing design system to npm
@@ -172,6 +192,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Consider documentation hosting
 - [ ] Plan for component storybook
 - [ ] Consider automated testing
+- [ ] **NEW: Plan for CSS distribution strategy**
 
 ## Success Criteria
 
@@ -183,11 +204,14 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] TypeScript errors caught across all packages
 
 ### CSS and Styling
+- [ ] **NEW: Single CSS file with no @import statements**
+- [ ] **NEW: All component variables consolidated and organized**
 - [ ] No CSS import errors
 - [ ] Theme switching works correctly
 - [ ] All component styles render properly
 - [ ] CSS variables work in both light and dark modes
 - [ ] No styling conflicts between packages
+- [ ] **NEW: CSS file loads efficiently and quickly**
 
 ### Code Quality
 - [ ] All TypeScript errors resolved
@@ -195,6 +219,7 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Clean import/export structure
 - [ ] Consistent code formatting
 - [ ] No duplicate dependencies
+- [ ] **NEW: Clean CSS organization with clear sections**
 
 ## Risk Mitigation
 
@@ -203,17 +228,19 @@ This plan outlines the migration from the current single-project structure to a 
 - [ ] Create intermediate backups at major milestones
 - [ ] Document rollback procedures
 - [ ] Test backup restoration process
+- [ ] **NEW: Backup original CSS files before consolidation**
 
 ### Fallback Plan
 - [ ] If monorepo setup fails, can revert to original structure
 - [ ] Keep original project functional during migration
 - [ ] Document alternative approaches if needed
 - [ ] Maintain ability to publish from original structure
+- [ ] **NEW: If CSS consolidation fails, can revert to component CSS files**
 
 ## Timeline Estimate
 
 - **Phase 1-2**: 1-2 days (setup and structure)
-- **Phase 3**: 2-3 days (migration and CSS fixes)
+- **Phase 3**: 2-3 days (migration and **CSS consolidation**)
 - **Phase 4**: 1-2 days (workflow setup)
 - **Phase 5**: 1 day (testing and validation)
 - **Phase 6**: 1 day (documentation and cleanup)
@@ -224,7 +251,9 @@ This plan outlines the migration from the current single-project structure to a 
 ## Notes
 
 - This plan assumes starting fresh with a new monorepo structure
-- CSS issues will be resolved during the migration process
+- **CSS consolidation is a critical step that will solve all import issues**
 - The goal is to enable rapid development without publishing cycles
 - All current functionality should be preserved or improved
-- The new structure should be production-ready when complete 
+- The new structure should be production-ready when complete
+- **Following shadcn-style approach with single CSS file**
+- **No more component CSS files - everything in one place** 

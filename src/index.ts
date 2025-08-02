@@ -1,6 +1,5 @@
 // Main design system exports
 export * from './components/ui';
-export * from './components/email';
 export * from './components/typography';
 export * from './lib/utils';
 export * from './tokens';
