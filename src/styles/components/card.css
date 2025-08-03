@@ -2,29 +2,29 @@
   /* Card Base Styles */
   --card-border: var(--border-tertiary);
   --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-  
+
   /* Card Variants */
   /* Border Only */
   --card-bg-border-only: transparent;
   --card-border-border-only: var(--border-tertiary);
-  
+
   /* Subtle */
   --card-bg-subtle: var(--bg-primary);
   --card-border-subtle: var(--border-tertiary);
-  
+
   /* Default */
   --card-bg-default: var(--bg-secondary);
   --card-border-default: var(--border-tertiary);
-  
+
   /* Card Content */
   --card-content-padding: 1.5rem;
   --card-content-gap: 0.375rem;
-  
+
   /* Card Title */
   --card-title-text: var(--text-primary);
   --card-title-size: 1.5rem;
   --card-title-weight: 600;
-  
+
   /* Card Description */
   --card-description-text: var(--text-tertiary);
   --card-description-size: 0.875rem;
@@ -34,30 +34,30 @@
   /* Card Base Styles */
   --card-border: var(--border-tertiary);
   --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
-  
+
   /* Card Variants */
   /* Border Only */
   --card-bg-border-only: transparent;
   --card-border-border-only: var(--border-tertiary);
-  
+
   /* Subtle */
   --card-bg-subtle: var(--bg-primary);
   --card-border-subtle: var(--border-tertiary);
-  
+
   /* Default */
   --card-bg-default: var(--bg-secondary);
   --card-border-default: var(--border-tertiary);
-  
+
   /* Card Content */
   --card-content-padding: 1.5rem;
   --card-content-gap: 0.375rem;
-  
+
   /* Card Title */
   --card-title-text: var(--text-primary);
   --card-title-size: 1.5rem;
   --card-title-weight: 600;
-  
+
   /* Card Description */
   --card-description-text: var(--text-tertiary);
   --card-description-size: 0.875rem;
-} 
+}

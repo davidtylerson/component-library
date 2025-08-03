@@ -1,0 +1,281 @@
+/**
+ * Float Design System Theme CSS
+ * 
+ * Import this file in your project to get access to all theme variables.
+ * Usage: import '@tydavidson/design-system/themes/theme.css'
+ */
+
+/* Foundational Colors: Light Theme */
+:root {
+  /* Gray Scale */
+  --color-gray-25: #fcfcfc;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d1d1d6;
+  --color-gray-400: #a0a0ab;
+  --color-gray-500: #70707b;
+  --color-gray-600: #51515c;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #26262b;
+  --color-gray-900: #1a1a1e;
+  --color-gray-950: #131316;
+
+  /* Brand Colors */
+  --color-brand-25: #f8faff;
+  --color-brand-50: #edf2ff;
+  --color-brand-100: #dee4fa;
+  --color-brand-200: #c6cdf4;
+  --color-brand-300: #a6afec;
+  --color-brand-400: #8f97e0;
+  --color-brand-500: #7479d6;
+  --color-brand-600: #6063bd;
+  --color-brand-700: #4a49a6;
+  --color-brand-800: #343688;
+  --color-brand-900: #232469;
+  --color-brand-950: #15154d;
+
+  /* Error Colors */
+  --color-error-25: #fffbfa;
+  --color-error-50: #ffefeb;
+  --color-error-100: #fcdad1;
+  --color-error-200: #f7b8a8;
+  --color-error-300: #ef927a;
+  --color-error-400: #e37559;
+  --color-error-500: #d3593a;
+  --color-error-600: #bd3e1e;
+  --color-error-700: #99371e;
+  --color-error-800: #7a2e1e;
+  --color-error-900: #5c2a1e;
+  --color-error-950: #3d1e1e;
+
+  /* Warning Colors */
+  --color-warning-25: #fffbeb;
+  --color-warning-50: #fef3c7;
+  --color-warning-100: #fde68a;
+  --color-warning-200: #fcd34d;
+  --color-warning-300: #fbbf24;
+  --color-warning-400: #f59e0b;
+  --color-warning-500: #d97706;
+  --color-warning-600: #b45309;
+  --color-warning-700: #92400e;
+  --color-warning-800: #78350f;
+  --color-warning-900: #451a03;
+  --color-warning-950: #2d1b0b;
+
+  /* Success Colors */
+  --color-success-25: #f0fdf4;
+  --color-success-50: #dcfce7;
+  --color-success-100: #bbf7d0;
+  --color-success-200: #86efac;
+  --color-success-300: #4ade80;
+  --color-success-400: #22c55e;
+  --color-success-500: #16a34a;
+  --color-success-600: #15803d;
+  --color-success-700: #166534;
+  --color-success-800: #14532d;
+  --color-success-900: #052e16;
+  --color-success-950: #0a1f0a;
+
+  /* Semantic Variables: Light Theme */
+  --text-primary: #1a1a1e;
+  --text-secondary: #51515c;
+  --text-tertiary: #70707b;
+  --text-disabled: #a0a0ab;
+
+  --text-brand-primary: #4a49a6;
+  --text-brand-secondary: #6063bd;
+  --text-brand-tertiary: #7479d6;
+
+  --text-error-primary: #bd3e1e;
+  --text-warning-primary: #b45309;
+  --text-success-primary: #15803d;
+
+  /* Border Colors */
+  --border-primary: #e4e4e7;
+  --border-secondary: #f4f4f5;
+  --border-tertiary: #fafafa;
+  --border-disabled: #f4f4f5;
+
+  --border-brand: #a6afec;
+  --border-brand-solid: #6063bd;
+
+  --border-error: #f7b8a8;
+  --border-error-solid: #bd3e1e;
+
+  --border-warning: #fcd34d;
+  --border-warning-solid: #b45309;
+
+  --border-success: #86efac;
+  --border-success-solid: #15803d;
+
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f4f4f5;
+  --bg-quaternary: #e4e4e7;
+  --bg-disabled: #f4f4f5;
+  --bg-overlay: #fafafa;
+
+  --bg-brand-primary: #f8faff;
+  --bg-brand-secondary: #edf2ff;
+  --bg-brand-solid: #6063bd;
+
+  --bg-error-primary: #fffbfa;
+  --bg-error-secondary: #ffefeb;
+  --bg-error-solid: #bd3e1e;
+
+  --bg-warning-primary: #fffbeb;
+  --bg-warning-secondary: #fef3c7;
+  --bg-warning-solid: #b45309;
+
+  --bg-success-primary: #f0fdf4;
+  --bg-success-secondary: #dcfce7;
+  --bg-success-solid: #15803d;
+
+  /* Foreground Colors */
+  --fg-primary: #1a1a1e;
+  --fg-secondary: #51515c;
+  --fg-tertiary: #70707b;
+  --fg-quaternary: #a0a0ab;
+  --fg-quinary: #d1d1d6;
+  --fg-disabled: #a0a0ab;
+
+  --fg-brand-primary: #4a49a6;
+  --fg-brand-secondary: #6063bd;
+
+  --fg-error-primary: #bd3e1e;
+  --fg-error-secondary: #d3593a;
+
+  --fg-warning-primary: #b45309;
+  --fg-warning-secondary: #d97706;
+
+  --fg-success-primary: #15803d;
+  --fg-success-secondary: #16a34a;
+
+  --fg-white: #ffffff;
+
+  /* shadcn Required Variables */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+}
+
+/* Dark theme variables */
+.dark {
+  /* Text Colors - Adjusted for dark mode */
+  --text-primary: rgb(255 255 255 / 1);
+  --text-secondary: rgb(255 255 255 / 0.73);
+  --text-tertiary: rgb(255 255 255 / 0.6);
+  --text-disabled: rgb(255 255 255 / 0.38);
+
+  --text-brand-primary: #edf2ff;
+  --text-brand-secondary: #c6cdf4;
+  --text-brand-tertiary: #a6afec;
+
+  --text-error-primary: #ef927a;
+  --text-warning-primary: #fde272;
+  --text-success-primary: #73e2b2;
+
+  /* Border Colors - Adjusted for dark mode */
+  --border-primary: #3f3f46;
+  --border-secondary: #26262b;
+  --border-tertiary: #26262b;
+  --border-disabled: #3f3f46;
+
+  --border-brand: #7479d6;
+  --border-brand-solid: #a6afec;
+
+  --border-error: #e37559;
+  --border-error-solid: #ef927a;
+
+  --border-warning: #fac515;
+  --border-warning-solid: #fde272;
+
+  --border-success: #3ccb8d;
+  --border-success-solid: #73e2b2;
+
+  /* Background Colors - Adjusted for dark mode */
+  --bg-primary: #131316;
+  --bg-secondary: #1a1a1e;
+  --bg-tertiary: #26262b;
+  --bg-quaternary: #3f3f46;
+  --bg-disabled: #26262b;
+  --bg-overlay: #26262b;
+
+  --bg-brand-primary: #1a1a1e;
+  --bg-brand-secondary: #131316;
+  --bg-brand-solid: #4a49a6;
+
+  --bg-error-primary: #d3593a;
+  --bg-error-secondary: #ef927a;
+  --bg-error-solid: #bd3e1e;
+
+  --bg-warning-primary: #eaaa08;
+  --bg-warning-secondary: #fde272;
+  --bg-warning-solid: #ca8504;
+
+  --bg-success-primary: #36b37d;
+  --bg-success-secondary: #73e2b2;
+  --bg-success-solid: #2c9266;
+
+  /* Foreground Colors - Adjusted for dark mode */
+  --fg-primary: #ffffff;
+  --fg-secondary: #d1d1d6;
+  --fg-tertiary: #a0a0ab;
+  --fg-quaternary: #70707b;
+  --fg-quinary: #a0a0ab;
+  --fg-disabled: #70707b;
+
+  --fg-brand-primary: #a6afec;
+  --fg-brand-secondary: #7479d6;
+
+  --fg-error-primary: #ef927a;
+  --fg-error-secondary: #e37559;
+
+  --fg-warning-primary: #fde272;
+  --fg-warning-secondary: #fac515;
+
+  --fg-success-primary: #73e2b2;
+  --fg-success-secondary: #3ccb8d;
+
+  --fg-white: #ffffff;
+
+  /* shadcn Required Variables: Dark Theme */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+}

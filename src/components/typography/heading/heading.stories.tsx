@@ -1,49 +1,49 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { Heading } from ".";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Heading } from '.';
 
 const meta: Meta<typeof Heading> = {
-  title: "Typography/Heading",
+  title: 'Typography/Heading',
   component: Heading,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
   argTypes: {
     level: {
-      control: { type: "range", min: 1, max: 6 },
-      description: "The heading level (h1-h6)",
+      control: { type: 'range', min: 1, max: 6 },
+      description: 'The heading level (h1-h6)',
       defaultValue: 1,
     },
     size: {
-      control: "select",
-      options: ["2xl", "xl", "lg", "md", "sm", "xs"],
-      description: "The size of the heading",
+      control: 'select',
+      options: ['2xl', 'xl', 'lg', 'md', 'sm', 'xs'],
+      description: 'The size of the heading',
     },
     weight: {
-      control: "select",
-      options: ["regular", "medium", "semibold", "bold"],
-      description: "The font weight of the heading",
-      defaultValue: "bold",
+      control: 'select',
+      options: ['regular', 'medium', 'semibold', 'bold'],
+      description: 'The font weight of the heading',
+      defaultValue: 'bold',
     },
     color: {
-      control: "select",
-      options: ["default", "muted", "brand", "error", "warning", "success"],
-      description: "The color of the heading",
-      defaultValue: "default",
+      control: 'select',
+      options: ['default', 'muted', 'brand', 'error', 'warning', 'success'],
+      description: 'The color of the heading',
+      defaultValue: 'default',
     },
     italic: {
-      control: "boolean",
-      description: "Whether the text should be italic",
+      control: 'boolean',
+      description: 'Whether the text should be italic',
       defaultValue: false,
     },
     underline: {
-      control: "boolean",
-      description: "Whether the text should be underlined",
+      control: 'boolean',
+      description: 'Whether the text should be underlined',
       defaultValue: false,
     },
     children: {
-      control: "text",
-      description: "The content of the heading",
-      defaultValue: "Heading Text",
+      control: 'text',
+      description: 'The content of the heading',
+      defaultValue: 'Heading Text',
     },
   },
 };
@@ -54,7 +54,7 @@ type Story = StoryObj<typeof Heading>;
 export const Default: Story = {
   args: {
     level: 1,
-    children: "Default Heading (h1)",
+    children: 'Default Heading (h1)',
   },
 };
 
@@ -110,7 +110,7 @@ export const HeadingColors: Story = {
 
 export const CustomElement: Story = {
   args: {
-    as: "div",
-    children: "Heading as a div element",
+    as: 'div',
+    children: 'Heading as a div element',
   },
 };

@@ -39,7 +39,7 @@
   --button-text-destructive-hover: white;
   --button-border-destructive: var(--color-error-600);
   --button-border-destructive-hover: var(--color-error-700);
-  
+
   /* Button Icon Sizes */
   --button-icon-size-sm: 12px;
   --button-icon-size-md: 16px;
@@ -119,4 +119,4 @@
 .float-button-icon-lg svg {
   width: var(--button-icon-size-lg);
   height: var(--button-icon-size-lg);
-} 
+}

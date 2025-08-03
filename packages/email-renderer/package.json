@@ -1,0 +1,33 @@
+{
+  "name": "@float-vibe-foundry/email-renderer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 3002",
+    "build": "next build",
+    "start": "next start --port 3002",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@react-email/components": "^0.4.0",
+    "@react-email/render": "^1.1.4",
+    "@react-email/tailwind": "^1.2.2",
+    "@tabler/icons-react": "^3.34.1",
+    "@float-vibe-foundry/design-system": "workspace:*",
+    "next": "15.4.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

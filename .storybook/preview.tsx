@@ -13,12 +13,14 @@ const inter = Inter({
 });
 
 const decorators = [
-  (Story) => (
-    <div style={{ 
-      // Apply font variables directly to ensure they're available
-      ['--font-inter' as any]: inter.style.fontFamily 
-    }} 
-    className={`${inter.variable} font-sans antialiased`}>
+  Story => (
+    <div
+      style={{
+        // Apply font variables directly to ensure they're available
+        ['--font-inter' as any]: inter.style.fontFamily,
+      }}
+      className={`${inter.variable} font-sans antialiased`}
+    >
       <ThemeProvider>
         <ThemeContextProvider>
           <div className="p-4">

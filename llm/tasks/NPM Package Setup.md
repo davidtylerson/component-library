@@ -1,9 +1,11 @@
 # Design System NPM Package Setup
 
 ## Overview
+
 Convert the existing design system (`@davidtylerson/component-library`) into a publishable npm package that can be imported into the email template project.
 
 ## Prerequisites
+
 - [x] Node.js v16+ installed
 - [ ] npm account with publish permissions (IN PROGRESS - User creating account)
 - [x] Access to the design system repository
@@ -12,6 +14,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 1: Prepare Design System for Publishing
 
 ### 1.1 Update Package Configuration
+
 - [x] Navigate to design system directory: `cd component-library`
 - [x] Update `package.json` with proper npm package configuration:
   ```json
@@ -39,6 +42,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 1.2 Create TypeScript Build Configuration
+
 - [x] Create `tsconfig.build.json` for production builds:
   ```json
   {
@@ -62,6 +66,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 1.3 Create Email-Specific TypeScript Config
+
 - [x] Create `tsconfig.email.json` for email components:
   ```json
   {
@@ -79,6 +84,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 1.4 Update Build Scripts
+
 - [x] Add build scripts to `package.json`:
   ```json
   {
@@ -96,11 +102,14 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 2: Create Email-Compatible Components
 
 ### 2.1 Create Email Components Directory
+
 - [x] Create directory structure: `mkdir -p src/components/email`
 - [x] Create email component index file: `touch src/components/email/index.ts`
 
 ### 2.2 Create Email Button Component
+
 - [x] Create `src/components/email/button.tsx`:
+
   ```typescript
   import React from 'react';
 
@@ -216,7 +225,9 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 2.3 Create Email Typography Components
+
 - [x] Create `src/components/email/typography.tsx`:
+
   ```typescript
   import React from 'react';
 
@@ -226,10 +237,10 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
     style?: React.CSSProperties;
   }
 
-  export const EmailText: React.FC<EmailTextProps> = ({ 
-    children, 
-    variant = 'body', 
-    style 
+  export const EmailText: React.FC<EmailTextProps> = ({
+    children,
+    variant = 'body',
+    style
   }) => {
     const getVariantStyles = () => {
       switch (variant) {
@@ -293,7 +304,9 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 2.4 Create Email Layout Components
+
 - [x] Create `src/components/email/layout.tsx`:
+
   ```typescript
   import React from 'react';
 
@@ -302,9 +315,9 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
     preheader?: string;
   }
 
-  export const EmailLayout: React.FC<EmailLayoutProps> = ({ 
-    children, 
-    preheader 
+  export const EmailLayout: React.FC<EmailLayoutProps> = ({
+    children,
+    preheader
   }) => (
     <>
       {preheader && (
@@ -376,9 +389,9 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
         textAlign: 'center',
         marginBottom: '24px',
       }}>
-        <a href="https://float.tech" style={{ 
-          color: '#4A49A6', 
-          fontWeight: 'bold', 
+        <a href="https://float.tech" style={{
+          color: '#4A49A6',
+          fontWeight: 'bold',
           textDecoration: 'none'
         }}>
           <img
@@ -445,10 +458,10 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
             textAlign: 'center',
             textDecoration: 'underline',
           }}>
-            <img src="http://cdn.mcauto-images-production.sendgrid.net/a704493bc4576a45/6a3db2b3-d35b-423f-8aac-830de81fb114/32x32.png" 
-                 alt="Float Logo" 
-                 width="32" 
-                 height="32" 
+            <img src="http://cdn.mcauto-images-production.sendgrid.net/a704493bc4576a45/6a3db2b3-d35b-423f-8aac-830de81fb114/32x32.png"
+                 alt="Float Logo"
+                 width="32"
+                 height="32"
                  style={{
                    display: 'inline-block',
                    marginBottom: '16px',
@@ -470,26 +483,45 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   ```
 
 ### 2.5 Create Email Component Index
+
 - [x] Update `src/components/email/index.ts`:
+
   ```typescript
   // Email-compatible components
   export { EmailButton } from './button';
-  export { EmailText, EmailHeading, EmailCaption, EmailMuted } from './typography';
-  export { EmailLayout, EmailContainer, EmailHeader, EmailFooter } from './layout';
+  export {
+    EmailText,
+    EmailHeading,
+    EmailCaption,
+    EmailMuted,
+  } from './typography';
+  export {
+    EmailLayout,
+    EmailContainer,
+    EmailHeader,
+    EmailFooter,
+  } from './layout';
 
   // Re-export for convenience
   export type { EmailButtonProps } from './button';
   export type { EmailTextProps } from './typography';
-  export type { EmailLayoutProps, EmailContainerProps, EmailHeaderProps, EmailFooterProps } from './layout';
+  export type {
+    EmailLayoutProps,
+    EmailContainerProps,
+    EmailHeaderProps,
+    EmailFooterProps,
+  } from './layout';
   ```
 
 ### 2.6 Update Main Component Index
+
 - [x] Update `src/components/ui/index.ts` to include email exports:
+
   ```typescript
   // Main UI components
   export * from './button';
   export * from './dropdown-menu/dropdown-menu';
-  export * from '../typography/heading'; 
+  export * from '../typography/heading';
   export * from '../typography/text';
   export * from './toggle';
   export * from './toggle-group';
@@ -508,10 +540,12 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 3: Build and Test
 
 ### 3.1 Clean Previous Builds
+
 - [x] Run: `npm run clean`
 - [x] Verify `dist/` directory is removed
 
 ### 3.2 Build Components
+
 - [x] Run: `npm run build:all`
 - [x] Verify `dist/` directory is created with:
   - [x] `dist/index.js` (main components)
@@ -520,6 +554,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
   - [x] `dist/email/index.d.ts` (email types)
 
 ### 3.3 Test Build Output
+
 - [x] Check that all components are properly exported
 - [x] Verify TypeScript declarations are generated
 - [x] Test import statements work correctly
@@ -527,16 +562,19 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 4: Publish to NPM
 
 ### 4.1 Prepare for Publishing
+
 - [x] Login to npm: `npm login` (COMPLETED)
 - [x] Verify package name is available: `npm view @float/design-system`
 - [x] Check package.json for correct configuration
 
 ### 4.2 Publish Package
+
 - [x] Run: `npm publish --access public` (PUBLISHED AS @tydavidson/design-system@1.0.5)
 - [x] Verify package is published: `npm view @tydavidson/design-system`
 - [x] Check package contents: `npm pack --dry-run`
 
 ### 4.3 Verify Installation
+
 - [x] Create test directory: `mkdir test-install && cd test-install`
 - [x] Initialize npm: `npm init -y`
 - [x] Install package: `npm install @tydavidson/design-system`
@@ -549,24 +587,27 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 5: Integration with Email Project
 
 ### 5.1 Install in Email Project
+
 - [ ] Navigate to email project: `cd ../float-resources`
 - [ ] Install design system: `npm install @float/design-system`
 - [ ] Verify installation in `package.json`
 
 ### 5.2 Update Email Templates
+
 - [ ] Update `emails/Welcome.tsx` to use design system:
   ```typescript
-  import { 
-    EmailLayout, 
-    EmailText, 
-    EmailButton, 
+  import {
+    EmailLayout,
+    EmailText,
+    EmailButton,
     EmailContainer,
     EmailHeader,
-    EmailFooter
+    EmailFooter,
   } from '@float/design-system/email';
   ```
 
 ### 5.3 Test Integration
+
 - [ ] Run: `npm run dev`
 - [ ] Verify templates render correctly
 - [ ] Run: `npm run build:react-email`
@@ -576,17 +617,20 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Phase 6: Documentation and Maintenance
 
 ### 6.1 Update README
+
 - [ ] Add installation instructions
 - [ ] Add usage examples for both web and email components
 - [ ] Document available components and props
 - [ ] Add troubleshooting section
 
 ### 6.2 Create CHANGELOG
+
 - [ ] Create `CHANGELOG.md`
 - [ ] Document initial release
 - [ ] Add versioning guidelines
 
 ### 6.3 Set Up CI/CD (Optional)
+
 - [ ] Configure GitHub Actions for automated publishing
 - [ ] Set up automated testing
 - [ ] Configure semantic versioning
@@ -594,6 +638,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Update Workflow
 
 ### Making Changes to Design System
+
 - [ ] Make changes to components
 - [ ] Run: `npm run build:all`
 - [ ] Test locally: `npm link`
@@ -602,6 +647,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 - [ ] Update email project: `npm update @float/design-system`
 
 ### Version Management
+
 - [ ] Use semantic versioning (patch/minor/major)
 - [ ] Update CHANGELOG.md for each release
 - [ ] Tag releases in Git
@@ -610,12 +656,14 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 ## Troubleshooting
 
 ### Common Issues
+
 - [ ] **Build fails**: Check TypeScript configuration
 - [ ] **Import errors**: Verify exports in index files
 - [ ] **Publish fails**: Check npm login and package name
 - [ ] **Installation fails**: Verify package.json configuration
 
 ### Verification Checklist
+
 - [ ] All components build successfully
 - [ ] TypeScript declarations are generated
 - [ ] Package publishes to npm
@@ -625,6 +673,7 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 - [ ] Exported HTML has correct styling
 
 ## Success Criteria
+
 - [ ] Design system is published as `@float/design-system`
 - [ ] Email components are available via `@float/design-system/email`
 - [ ] Email templates successfully use design system components
@@ -633,8 +682,9 @@ Convert the existing design system (`@davidtylerson/component-library`) into a p
 - [ ] Team can install and use the package
 
 ## Next Steps After Setup
+
 1. Create additional email components (Card, DataTable, etc.)
 2. Add Storybook stories for email components
 3. Set up automated testing
 4. Create design tokens for consistent styling
-5. Build email rendering application with JSON data binding 
+5. Build email rendering application with JSON data binding

@@ -1,9 +1,13 @@
 // src/components/ui/dropdown-menu/dropdown-menu.tsx
-"use client";
-import * as React from "react";
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import { IconCheck, IconChevronRight, IconPointFilled } from "@tabler/icons-react";
-import { cn } from "../../../lib/utils";
+'use client';
+import * as React from 'react';
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import {
+  IconCheck,
+  IconChevronRight,
+  IconPointFilled,
+} from '@tabler/icons-react';
+import { cn } from '../../../lib/utils';
 
 // Root component
 const DropdownMenuRoot = DropdownMenuPrimitive.Root;
@@ -15,7 +19,7 @@ const DropdownMenuTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <DropdownMenuPrimitive.Trigger
     ref={ref}
-    className={cn("outline-none select-none", className)}
+    className={cn('select-none outline-none', className)}
     {...props}
   >
     {children}
@@ -35,9 +39,9 @@ const DropdownMenuContent = React.forwardRef<
         ref={ref}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-[8rem] overflow-hidden rounded-md border text-sm shadow-md animate-in fade-in-80 px-1",
-          "bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] border-[var(--dropdown-border)]",
-          "shadow-[var(--dropdown-shadow)]",
+          'z-50 min-w-[8rem] overflow-hidden rounded-md border px-1 text-sm shadow-md animate-in fade-in-80',
+          'border-[var(--dropdown-border)] bg-[var(--dropdown-bg)] text-[var(--dropdown-text)]',
+          'shadow-[var(--dropdown-shadow)]',
           className
         )}
         {...props}
@@ -57,51 +61,75 @@ const DropdownMenuItem = React.forwardRef<
     rightIcon?: React.ReactNode;
     inset?: boolean;
   }
->(({ className, color, leftIcon, rightIcon, children, inset, ...props }, ref) => {
-  const baseClasses = cn(
-    "relative flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-    "text-[var(--dropdown-item-text)]",
-    "focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]",
-    "hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
-    inset && "pl-8"
-  );
+>(
+  (
+    { className, color, leftIcon, rightIcon, children, inset, ...props },
+    ref
+  ) => {
+    const baseClasses = cn(
+      'relative flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'text-[var(--dropdown-item-text)]',
+      'focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]',
+      'hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]',
+      inset && 'pl-8'
+    );
 
-  const colorVariantClasses = {
-    brand: "focus:bg-[var(--dropdown-item-bg-brand-focus)] focus:text-[var(--dropdown-item-text-brand-focus)] hover:bg-[var(--dropdown-item-bg-brand-hover)] hover:text-[var(--dropdown-item-text-brand-hover)]",
-    error: "focus:bg-[var(--dropdown-item-bg-error-focus)] focus:text-[var(--dropdown-item-text-error-focus)] hover:bg-[var(--dropdown-item-bg-error-hover)] hover:text-[var(--dropdown-item-text-error-hover)]",
-    warning: "focus:bg-[var(--dropdown-item-bg-warning-focus)] focus:text-[var(--dropdown-item-text-warning-focus)] hover:bg-[var(--dropdown-item-bg-warning-hover)] hover:text-[var(--dropdown-item-text-warning-hover)]",
-    success: "focus:bg-[var(--dropdown-item-bg-success-focus)] focus:text-[var(--dropdown-item-text-success-focus)] hover:bg-[var(--dropdown-item-bg-success-hover)] hover:text-[var(--dropdown-item-text-success-hover)]",
-  };
+    const colorVariantClasses = {
+      brand:
+        'focus:bg-[var(--dropdown-item-bg-brand-focus)] focus:text-[var(--dropdown-item-text-brand-focus)] hover:bg-[var(--dropdown-item-bg-brand-hover)] hover:text-[var(--dropdown-item-text-brand-hover)]',
+      error:
+        'focus:bg-[var(--dropdown-item-bg-error-focus)] focus:text-[var(--dropdown-item-text-error-focus)] hover:bg-[var(--dropdown-item-bg-error-hover)] hover:text-[var(--dropdown-item-text-error-hover)]',
+      warning:
+        'focus:bg-[var(--dropdown-item-bg-warning-focus)] focus:text-[var(--dropdown-item-text-warning-focus)] hover:bg-[var(--dropdown-item-bg-warning-hover)] hover:text-[var(--dropdown-item-text-warning-hover)]',
+      success:
+        'focus:bg-[var(--dropdown-item-bg-success-focus)] focus:text-[var(--dropdown-item-text-success-focus)] hover:bg-[var(--dropdown-item-bg-success-hover)] hover:text-[var(--dropdown-item-text-success-hover)]',
+    };
 
-  return (
-    <DropdownMenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        baseClasses,
-        color && colorVariantClasses[color],
-        className
-      )}
-      {...props}
-    >
-      {leftIcon && <span className={cn("mr-2 h-4 w-4 flex items-center justify-center text-[var(--text-tertiary)]", {"ml-auto": !children && rightIcon})}>{leftIcon}</span>}
-      {children}
-      {rightIcon && <span className="ml-auto pl-2 text-[var(--text-tertiary)] group-hover:text-current">{rightIcon}</span>}
-    </DropdownMenuPrimitive.Item>
-  );
-});
+    return (
+      <DropdownMenuPrimitive.Item
+        ref={ref}
+        className={cn(
+          baseClasses,
+          color && colorVariantClasses[color],
+          className
+        )}
+        {...props}
+      >
+        {leftIcon && (
+          <span
+            className={cn(
+              'mr-2 flex h-4 w-4 items-center justify-center text-[var(--text-tertiary)]',
+              { 'ml-auto': !children && rightIcon }
+            )}
+          >
+            {leftIcon}
+          </span>
+        )}
+        {children}
+        {rightIcon && (
+          <span className="ml-auto pl-2 text-[var(--text-tertiary)] group-hover:text-current">
+            {rightIcon}
+          </span>
+        )}
+      </DropdownMenuPrimitive.Item>
+    );
+  }
+);
 
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
 // Label component (New Wrapper)
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & { inset?: boolean }
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> & {
+    inset?: boolean;
+  }
 >(({ className, inset, ...props }, ref) => (
   <DropdownMenuPrimitive.Label
     ref={ref}
     className={cn(
-      "py-1.5 pr-2 text-sm font-normal text-[var(--text-tertiary)] mb-1",
-      inset ? "pl-8" : "pl-2",
+      'mb-1 py-1.5 pr-2 text-sm font-normal text-[var(--text-tertiary)]',
+      inset ? 'pl-8' : 'pl-2',
       className
     )}
     {...props}
@@ -118,8 +146,8 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   <DropdownMenuPrimitive.CheckboxItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
+      'relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'text-[var(--dropdown-item-text)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]',
       className
     )}
     checked={checked}
@@ -127,14 +155,18 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <IconCheck className="h-4 w-4 text-[var(--text-tertiary)]" strokeWidth={2}/>
+        <IconCheck
+          className="h-4 w-4 text-[var(--text-tertiary)]"
+          strokeWidth={2}
+        />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
 ));
 
-DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
+DropdownMenuCheckboxItem.displayName =
+  DropdownMenuPrimitive.CheckboxItem.displayName;
 
 // RadioGroup component
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
@@ -147,8 +179,8 @@ const DropdownMenuRadioItem = React.forwardRef<
   <DropdownMenuPrimitive.RadioItem
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
+      'relative flex cursor-default select-none items-center rounded-sm py-2.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      'text-[var(--dropdown-item-text)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]',
       className
     )}
     {...props}
@@ -171,7 +203,10 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-[var(--dropdown-separator-bg)]", className)}
+    className={cn(
+      '-mx-1 my-1 h-px bg-[var(--dropdown-separator-bg)]',
+      className
+    )}
     {...props}
   />
 ));
@@ -185,26 +220,31 @@ const DropdownMenuShortcut = ({
 }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
     <span
-      className={cn("ml-auto text-xs tracking-widest opacity-60 text-[var(--text-tertiary)]", className)}
+      className={cn(
+        'ml-auto text-xs tracking-widest text-[var(--text-tertiary)] opacity-60',
+        className
+      )}
       {...props}
     />
-  )
+  );
 };
 
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
+DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
 
 // Sub components
 const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & { inset?: boolean }
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
+    inset?: boolean;
+  }
 >(({ className, inset, children, ...props }, ref) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
-      "flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none data-[state=open]:bg-[var(--dropdown-item-bg-hover)] data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      "text-[var(--dropdown-item-text)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)]",
-      inset && "pl-8",
+      'flex cursor-default select-none items-center rounded-sm px-2 py-2.5 text-sm outline-none data-[disabled]:pointer-events-none data-[state=open]:bg-[var(--dropdown-item-bg-hover)] data-[disabled]:opacity-50',
+      'text-[var(--dropdown-item-text)] hover:bg-[var(--dropdown-item-bg-hover)] hover:text-[var(--dropdown-item-text-hover)] focus:bg-[var(--dropdown-item-bg-focus)] focus:text-[var(--dropdown-item-text-focus)]',
+      inset && 'pl-8',
       className
     )}
     {...props}
@@ -214,7 +254,8 @@ const DropdownMenuSubTrigger = React.forwardRef<
   </DropdownMenuPrimitive.SubTrigger>
 ));
 
-DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubTrigger.displayName;
+DropdownMenuSubTrigger.displayName =
+  DropdownMenuPrimitive.SubTrigger.displayName;
 
 const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
@@ -223,15 +264,16 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-lg animate-in data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 py-1 px-2",
-      "bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] border-[var(--dropdown-border)] shadow-[var(--dropdown-shadow)]",
+      'z-50 min-w-[8rem] overflow-hidden rounded-md border px-2 py-1 shadow-lg animate-in data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1',
+      'border-[var(--dropdown-border)] bg-[var(--dropdown-bg)] text-[var(--dropdown-text)] shadow-[var(--dropdown-shadow)]',
       className
     )}
     {...props}
   />
 ));
 
-DropdownMenuSubContent.displayName = DropdownMenuPrimitive.SubContent.displayName;
+DropdownMenuSubContent.displayName =
+  DropdownMenuPrimitive.SubContent.displayName;
 
 // Export the component with all its parts
 export const DropdownMenu = {

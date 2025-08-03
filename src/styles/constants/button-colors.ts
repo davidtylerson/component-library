@@ -56,4 +56,4 @@ export const BUTTON_COLORS = {
   },
 } as const;
 
-export type ButtonVariant = keyof typeof BUTTON_COLORS; 
+export type ButtonVariant = keyof typeof BUTTON_COLORS;

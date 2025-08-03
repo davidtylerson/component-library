@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import * as React from "react";
-import { useSidebar } from "./ui/sidebar";
-import { useTheme } from "../themes/theme-context";
-import Link from "next/link";
+import * as React from 'react';
+import { useSidebar } from './ui/sidebar';
+import { useTheme } from '../themes/theme-context';
+import Link from 'next/link';
 import {
   Sidebar,
   SidebarHeader,
@@ -14,40 +14,57 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger
-} from "./ui/sidebar";
-import { OrgSwitcher } from "./ui/org-switcher";
-import { IconArrowBigRightLine, IconInfoCircle, IconHome, IconPalette, IconLayersSubtract, IconMenu2 } from "@tabler/icons-react";
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
-import { Button } from "./ui/button";
-import { ClientThemeToggle } from "../themes/client-wrapper";
+  SidebarTrigger,
+} from './ui/sidebar';
+import { OrgSwitcher } from './ui/org-switcher';
+import {
+  IconArrowBigRightLine,
+  IconInfoCircle,
+  IconHome,
+  IconPalette,
+  IconLayersSubtract,
+  IconMenu2,
+} from '@tabler/icons-react';
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
+import { Button } from './ui/button';
+import { ClientThemeToggle } from '../themes/client-wrapper';
 
 const navItems = [
   {
-    title: "Home",
+    title: 'Home',
     icon: IconHome,
-    url: "/",
+    url: '/',
   },
   {
-    title: "Color",
+    title: 'Color',
     icon: IconPalette,
-    url: "/design-system",
+    url: '/design-system',
   },
   {
-    title: "Components",
+    title: 'Components',
     icon: IconLayersSubtract,
-    url: "/components",
+    url: '/components',
   },
   {
-    title: "Test Page",
+    title: 'Test Page',
     icon: IconInfoCircle,
-    url: "/test",
+    url: '/test',
   },
 ];
 
 // SidebarNav component: contains all sidebar logic/content
-export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
-  organizations: Array<{ id: string; name: string; logo: React.ElementType; avatarUrl: string; avatarFallback: string }>;
+export function SidebarNav({
+  organizations,
+  currentOrg,
+  setCurrentOrg,
+}: {
+  organizations: Array<{
+    id: string;
+    name: string;
+    logo: React.ElementType;
+    avatarUrl: string;
+    avatarFallback: string;
+  }>;
   currentOrg: string;
   setCurrentOrg: React.Dispatch<React.SetStateAction<string>>;
 }) {
@@ -58,7 +75,14 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
       collapsible="icon"
       className="float-sidebar h-screen"
       onClick={e => {
-        const interactiveTags = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA', 'LABEL'];
+        const interactiveTags = [
+          'BUTTON',
+          'A',
+          'INPUT',
+          'SELECT',
+          'TEXTAREA',
+          'LABEL',
+        ];
         const target = e.target as HTMLElement;
         if (
           interactiveTags.includes(target.tagName) ||
@@ -73,7 +97,7 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
         toggleSidebar();
       }}
     >
-      <SidebarHeader className="flex justify-between items-center">
+      <SidebarHeader className="flex items-center justify-between">
         <OrgSwitcher organizations={organizations} />
       </SidebarHeader>
       <SidebarContent className="py-4">
@@ -81,14 +105,12 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
+              {navItems.map(item => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
                     <Link href={item.url}>
                       {item.icon && <item.icon className="h-4 w-4" />}
-                      <span
-                        className="transition-all duration-200 max-w-[120px] opacity-100 ml-2 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0 group-data-[state=collapsed]/sidebar:ml-0 overflow-hidden whitespace-nowrap"
-                      >
+                      <span className="ml-2 max-w-[120px] overflow-hidden whitespace-nowrap opacity-100 transition-all duration-200 group-data-[state=collapsed]/sidebar:ml-0 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0">
                         {item.title}
                       </span>
                     </Link>
@@ -102,9 +124,7 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
       <SidebarFooter className="relative min-h-[60px]">
         {/* Expanded (horizontal) layout */}
         <div
-          className={
-            `absolute inset-0 flex items-center justify-between gap-2 px-4 py-2 transition-opacity duration-200 ${state === "collapsed" ? "opacity-0 pointer-events-none" : "opacity-100"}`
-          }
+          className={`absolute inset-0 flex items-center justify-between gap-2 px-4 py-2 transition-opacity duration-200 ${state === 'collapsed' ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
         >
           <Avatar className="h-8 w-8">
             <AvatarImage src="/avatars/tydavidson.png" alt="User" />
@@ -120,16 +140,14 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
         </div>
         {/* Collapsed (vertical) layout with expand trigger at the top */}
         <div
-          className={
-            `absolute inset-0 flex flex-col items-center justify-end pb-4 transition-opacity duration-200 ${state === "collapsed" ? "opacity-100" : "opacity-0 pointer-events-none"}`
-          }
+          className={`absolute inset-0 flex flex-col items-center justify-end pb-4 transition-opacity duration-200 ${state === 'collapsed' ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
         >
-          <SidebarGroup className="w-full flex flex-col items-center">
-            <SidebarMenu className="flex flex-col items-center gap-1 w-full">
+          <SidebarGroup className="flex w-full flex-col items-center">
+            <SidebarMenu className="flex w-full flex-col items-center gap-1">
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <SidebarTrigger
-                    className="h-8 w-8 rounded-full mb-4 bg-bg-tertiary"
+                    className="mb-4 h-8 w-8 rounded-full bg-bg-tertiary"
                     aria-label="Expand sidebar"
                   >
                     <IconArrowBigRightLine className="h-4 w-4" />
@@ -151,7 +169,7 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
-          <Avatar className="h-8 w-8 mt-3">
+          <Avatar className="mt-3 h-8 w-8">
             <AvatarImage src="/avatars/tydavidson.png" alt="User" />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
@@ -159,4 +177,4 @@ export function SidebarNav({ organizations, currentOrg, setCurrentOrg }: {
       </SidebarFooter>
     </Sidebar>
   );
-} 
+}

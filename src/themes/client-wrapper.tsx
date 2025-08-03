@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { ThemeProvider } from "./theme-provider"
-import type { ThemeProviderProps } from "next-themes/dist/types"
+import * as React from 'react';
+import { ThemeProvider } from './theme-provider';
+import type { ThemeProviderProps } from 'next-themes/dist/types';
 
 /**
  * Client-only theme provider wrapper
  * This component ensures theme functionality only runs on the client side
  * without using next/dynamic which causes Server Component issues
  */
-export function ClientThemeProvider({ 
-  children, 
-  ...props 
+export function ClientThemeProvider({
+  children,
+  ...props
 }: ThemeProviderProps) {
   const [mounted, setMounted] = React.useState(false);
 
@@ -25,11 +25,7 @@ export function ClientThemeProvider({
   }
 
   // Once mounted, render with theme provider
-  return (
-    <ThemeProvider {...props}>
-      {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider {...props}>{children}</ThemeProvider>;
 }
 
 /**
@@ -46,7 +42,9 @@ export function ClientThemeToggle(props: any) {
     // Check current theme
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
-      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const systemPrefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
       const currentTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
       setIsDark(currentTheme === 'dark');
     }
@@ -66,7 +64,7 @@ export function ClientThemeToggle(props: any) {
     return (
       <button
         type="button"
-        className="inline-flex items-center justify-center rounded-md border border-input bg-background h-10 w-10"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background"
         aria-label="Toggle theme"
         {...props}
       >
@@ -98,7 +96,7 @@ export function ClientThemeToggle(props: any) {
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground"
       aria-label="Toggle theme"
       {...props}
     >
@@ -139,4 +137,4 @@ export function ClientThemeToggle(props: any) {
       )}
     </button>
   );
-} 
+}

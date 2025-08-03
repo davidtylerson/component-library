@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 
 /**
  * Server-safe theme hook that can be used in Server Components
@@ -8,9 +8,9 @@ import * as React from "react"
  */
 export function useThemeServer() {
   return {
-    theme: "system",
+    theme: 'system',
     setTheme: (theme: string) => {},
-    resolvedTheme: "light",
+    resolvedTheme: 'light',
     isDark: false,
   };
 }
@@ -19,10 +19,10 @@ export function useThemeServer() {
  * @deprecated Use ThemeProvider from './theme-provider' instead
  * This component is kept for backward compatibility but is no longer needed
  */
-export function ThemeContextProvider({ 
-  children 
-}: { 
-  children: React.ReactNode 
+export function ThemeContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
 }) {
   // This is now a no-op wrapper for backward compatibility
   return <>{children}</>;
@@ -35,9 +35,9 @@ export function ThemeContextProvider({
 export function useTheme() {
   // Import next-themes dynamically to avoid SSR issues
   const [themeData, setThemeData] = React.useState({
-    theme: "system",
+    theme: 'system',
     setTheme: (theme: string) => {},
-    resolvedTheme: "light",
+    resolvedTheme: 'light',
     isDark: false,
   });
   const [mounted, setMounted] = React.useState(false);
@@ -47,7 +47,7 @@ export function useTheme() {
     if (typeof window === 'undefined') return;
 
     // Import next-themes and use it properly
-    import('next-themes').then((nextThemes) => {
+    import('next-themes').then(nextThemes => {
       // Create a simple theme manager that doesn't violate hook rules
       const themeManager = {
         getTheme: () => {
@@ -55,7 +55,7 @@ export function useTheme() {
           if (typeof window !== 'undefined') {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) return savedTheme;
-            
+
             // Check system preference
             if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
               return 'dark';
@@ -72,15 +72,15 @@ export function useTheme() {
               ...prev,
               theme,
               resolvedTheme: theme,
-              isDark: theme === 'dark'
+              isDark: theme === 'dark',
             }));
           }
-        }
+        },
       };
 
       const currentTheme = themeManager.getTheme();
       const isDark = currentTheme === 'dark';
-      
+
       setThemeData({
         theme: currentTheme,
         setTheme: themeManager.setTheme,

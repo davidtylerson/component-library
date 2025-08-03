@@ -9,4 +9,4 @@ export const SIDEBAR_COLORS = {
   ring: 'var(--sidebar-ring)',
 } as const;
 
-export type SidebarVariant = keyof typeof SIDEBAR_COLORS; 
+export type SidebarVariant = keyof typeof SIDEBAR_COLORS;

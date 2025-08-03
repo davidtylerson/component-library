@@ -1,7 +1,7 @@
-"use client";
-import * as React from "react"
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
-import { cn } from "../../lib/utils"
+'use client';
+import * as React from 'react';
+import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group';
+import { cn } from '../../lib/utils';
 
 const ToggleGroup = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Root>,
@@ -9,14 +9,14 @@ const ToggleGroup = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <ToggleGroupPrimitive.Root
     ref={ref}
-    className={cn("flex items-center gap-1", className)}
+    className={cn('flex items-center gap-1', className)}
     {...props}
   >
     {children}
   </ToggleGroupPrimitive.Root>
-))
+));
 
-ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName
+ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName;
 
 const ToggleGroupItem = React.forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
@@ -25,13 +25,13 @@ const ToggleGroupItem = React.forwardRef<
   <ToggleGroupPrimitive.Item
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors px-3 h-10 border border-[var(--border-tertiary)] bg-[var(--bg-secondary)] text-[var(--text-tertiary)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-brand)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-[var(--bg-brand-solid)] data-[state=on]:text-[var(--text-brand-primary)]",
+      'inline-flex h-10 items-center justify-center rounded-md border border-[var(--border-tertiary)] bg-[var(--bg-secondary)] px-3 text-sm font-medium text-[var(--text-tertiary)] transition-colors hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-brand)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-[var(--bg-brand-solid)] data-[state=on]:text-[var(--text-brand-primary)]',
       className
     )}
     {...props}
   />
-))
+));
 
-ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName
+ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
 
-export { ToggleGroup, ToggleGroupItem } 
+export { ToggleGroup, ToggleGroupItem };

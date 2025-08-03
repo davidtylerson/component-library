@@ -25,11 +25,13 @@ src/
 ### **Current Pattern: Component-First Naming**
 
 Component-specific variables follow this pattern:
+
 ```
 --{component}-{property}-{variant}-{state}
 ```
 
 **Examples:**
+
 - `--button-bg-primary` (Button component, background property, primary variant)
 - `--button-bg-primary-hover` (Button component, background property, primary variant, hover state)
 - `--input-border-focus` (Input component, border property, focus state)
@@ -44,16 +46,17 @@ Component-specific variables follow this pattern:
 
 ### **Pattern Breakdown**
 
-| Part | Purpose | Examples |
-|------|---------|----------|
-| `{component}` | Component name | `button`, `input`, `dropdown`, `sidebar`, `card` |
-| `{property}` | CSS property type | `bg`, `text`, `border`, `shadow`, `width` |
-| `{variant}` | Semantic or style variant | `primary`, `secondary`, `brand`, `error`, `outline` |
-| `{state}` | Interactive state | `hover`, `focus`, `active`, `disabled`, `checked` |
+| Part          | Purpose                   | Examples                                            |
+| ------------- | ------------------------- | --------------------------------------------------- |
+| `{component}` | Component name            | `button`, `input`, `dropdown`, `sidebar`, `card`    |
+| `{property}`  | CSS property type         | `bg`, `text`, `border`, `shadow`, `width`           |
+| `{variant}`   | Semantic or style variant | `primary`, `secondary`, `brand`, `error`, `outline` |
+| `{state}`     | Interactive state         | `hover`, `focus`, `active`, `disabled`, `checked`   |
 
 ### **Complete Examples by Component**
 
 **Button Variables:**
+
 ```css
 --button-bg-primary
 --button-bg-primary-hover
@@ -68,6 +71,7 @@ Component-specific variables follow this pattern:
 ```
 
 **Input Variables:**
+
 ```css
 --input-bg
 --input-bg-disabled
@@ -80,6 +84,7 @@ Component-specific variables follow this pattern:
 ```
 
 **Dropdown Variables:**
+
 ```css
 --dropdown-bg
 --dropdown-text
@@ -153,7 +158,7 @@ export type ButtonVariant = keyof typeof BUTTON_COLORS;
 Components use these variables through Tailwind's arbitrary value syntax:
 
 ```tsx
-<button 
+<button
   className={cn(
     'bg-[var(--button-bg-primary)]',
     'text-[var(--button-text-primary)]',
@@ -250,4 +255,4 @@ Common issues and solutions:
 2. **Type errors**: Check that TypeScript constants are properly exported and imported
 3. **Missing variables**: Verify that all needed variables are defined following the naming pattern
 4. **Inconsistent colors**: Ensure variables reference the correct global design tokens
-5. **Autocomplete not working**: Verify variable names follow the exact pattern `--{component}-{property}-{variant}` 
+5. **Autocomplete not working**: Verify variable names follow the exact pattern `--{component}-{property}-{variant}`

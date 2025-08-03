@@ -14,13 +14,25 @@ export const typography = {
   },
   fontSize: {
     // Display sizes
-    'display-2xl': ['4.5rem', { lineHeight: '5.625rem', letterSpacing: '-0.02em' }],
-    'display-xl': ['3.75rem', { lineHeight: '4.5rem', letterSpacing: '-0.02em' }],
+    'display-2xl': [
+      '4.5rem',
+      { lineHeight: '5.625rem', letterSpacing: '-0.02em' },
+    ],
+    'display-xl': [
+      '3.75rem',
+      { lineHeight: '4.5rem', letterSpacing: '-0.02em' },
+    ],
     'display-lg': ['3rem', { lineHeight: '3.75rem', letterSpacing: '-0.02em' }],
-    'display-md': ['2.25rem', { lineHeight: '2.75rem', letterSpacing: '-0.02em' }],
-    'display-sm': ['1.875rem', { lineHeight: '2.375rem', letterSpacing: '-0.02em' }],
+    'display-md': [
+      '2.25rem',
+      { lineHeight: '2.75rem', letterSpacing: '-0.02em' },
+    ],
+    'display-sm': [
+      '1.875rem',
+      { lineHeight: '2.375rem', letterSpacing: '-0.02em' },
+    ],
     'display-xs': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-    
+
     // Text sizes
     'text-xl': ['1.25rem', { lineHeight: '1.875rem' }],
     'text-lg': ['1.125rem', { lineHeight: '1.75rem' }],
@@ -36,12 +48,12 @@ export const typography = {
     h4: 'text-text-xl font-semibold',
     h5: 'text-text-lg font-semibold',
     h6: 'text-text-md font-semibold',
-    
+
     // Body text
     body: 'text-text-md font-regular',
     'body-large': 'text-text-lg font-regular',
     'body-small': 'text-text-sm font-regular',
-    
+
     // Special styles
     caption: 'text-text-xs font-medium',
     overline: 'text-text-xs font-medium uppercase tracking-wider',

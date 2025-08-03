@@ -1,32 +1,32 @@
-"use client";
-import React from "react";
-import { SidebarNav } from "./SidebarNav";
-import LogoStateStreet from "../assets/logos/Logo_State_Street.svg";
-import LogoAlta from "../assets/logos/Logo_Alta.svg";
-import LogoGS from "../assets/logos/Logo_GS.svg";
+'use client';
+import React from 'react';
+import { SidebarNav } from './SidebarNav';
+import LogoStateStreet from '../assets/logos/Logo_State_Street.svg';
+import LogoAlta from '../assets/logos/Logo_Alta.svg';
+import LogoGS from '../assets/logos/Logo_GS.svg';
 
 const organizations = [
   {
-    id: "alta-capital",
-    name: "Alta Capital",
+    id: 'alta-capital',
+    name: 'Alta Capital',
     logo: LogoAlta,
-    avatarUrl: "/avatars/tydavidson.png",
-    avatarFallback: "AC"
+    avatarUrl: '/avatars/tydavidson.png',
+    avatarFallback: 'AC',
   },
   {
-    id: "state-street",
-    name: "State Street",
+    id: 'state-street',
+    name: 'State Street',
     logo: LogoStateStreet,
-    avatarUrl: "/avatars/tydavidson.png",
-    avatarFallback: "SS"
+    avatarUrl: '/avatars/tydavidson.png',
+    avatarFallback: 'SS',
   },
   {
-    id: "gs",
-    name: "Goldman Sachs",
+    id: 'gs',
+    name: 'Goldman Sachs',
     logo: LogoGS,
-    avatarUrl: "/avatars/tydavidson.png",
-    avatarFallback: "GS"
-  }
+    avatarUrl: '/avatars/tydavidson.png',
+    avatarFallback: 'GS',
+  },
 ];
 
 export default function SidebarNavClient() {
@@ -38,4 +38,4 @@ export default function SidebarNavClient() {
       setCurrentOrg={setCurrentOrg}
     />
   );
-} 
+}

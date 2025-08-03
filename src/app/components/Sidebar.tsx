@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { OrgSwitcher } from '@/components/ui/org-switcher';
-import LogoStateStreet from '@/assets/logos/Logo_State_Street.svg';
-import LogoAlta from '@/assets/logos/Logo_Alta.svg';
-import LogoGS from '@/assets/logos/Logo_GS.svg';
+import React, { useState } from 'react';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { cn } from '../../lib/utils';
+import { OrgSwitcher } from '../../components/ui/org-switcher';
+import LogoStateStreet from '../../assets/logos/Logo_State_Street.svg';
+import LogoAlta from '../../assets/logos/Logo_Alta.svg';
+import LogoGS from '../../assets/logos/Logo_GS.svg';
 import {
   IconHome,
   IconSearch,
@@ -12,8 +12,8 @@ import {
   IconArrowLeftRight,
   IconChartBar,
   IconDatabase,
-  IconTable
-} from "@tabler/icons-react";
+  IconTable,
+} from '@tabler/icons-react';
 
 interface SidebarProps {
   className?: string;
@@ -23,46 +23,50 @@ interface SidebarProps {
 export function Sidebar({ className, children }: SidebarProps) {
   const organizations = [
     {
-      id: "alta-capital",
-      name: "Alta Capital",
+      id: 'alta-capital',
+      name: 'Alta Capital',
       logo: LogoAlta,
-      avatarUrl: "https://github.com/shadcn.png",
-      avatarFallback: "AC"
+      avatarUrl: 'https://github.com/shadcn.png',
+      avatarFallback: 'AC',
     },
     {
-      id: "state-street",
-      name: "State Street",
+      id: 'state-street',
+      name: 'State Street',
       logo: LogoStateStreet,
-      avatarUrl: "https://github.com/shadcn.png",
-      avatarFallback: "SS"
+      avatarUrl: 'https://github.com/shadcn.png',
+      avatarFallback: 'SS',
     },
     {
-      id: "gs",
-      name: "Goldman Sachs",
+      id: 'gs',
+      name: 'Goldman Sachs',
       logo: LogoGS,
-      avatarUrl: "https://github.com/shadcn.png",
-      avatarFallback: "GS"
-    }
+      avatarUrl: 'https://github.com/shadcn.png',
+      avatarFallback: 'GS',
+    },
   ];
   const [currentOrg, setCurrentOrg] = useState(organizations[0].id);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <aside 
-      className={cn("float-sidebar-root", className)}
-      data-state={isCollapsed ? "collapsed" : "expanded"}
+    <aside
+      className={cn('float-sidebar-root', className)}
+      data-state={isCollapsed ? 'collapsed' : 'expanded'}
     >
       <div className="float-sidebar-header flex flex-col gap-2">
-        <OrgSwitcher
-          organizations={organizations}
-        />
-        {!isCollapsed && <h2 className="text-lg font-semibold">Design System</h2>}
+        <OrgSwitcher organizations={organizations} />
+        {!isCollapsed && (
+          <h2 className="text-lg font-semibold">Design System</h2>
+        )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="float-sidebar-collapse-button"
-          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          {isCollapsed ? (
+            <IconChevronRight className="h-4 w-4" />
+          ) : (
+            <IconChevronLeft className="h-4 w-4" />
+          )}
         </button>
       </div>
       <nav className="float-sidebar-content space-y-1">
@@ -76,17 +80,15 @@ export function Sidebar({ className, children }: SidebarProps) {
         <SidebarItem icon={IconDatabase}>Feeds</SidebarItem>
         <SidebarItem icon={IconTable}>Data Browser</SidebarItem>
       </nav>
-      <div className="float-sidebar-footer">
-        {/* Footer content */}
-      </div>
+      <div className="float-sidebar-footer">{/* Footer content */}</div>
     </aside>
   );
 }
 
-export function SidebarGroup({ 
-  label, 
-  children 
-}: { 
+export function SidebarGroup({
+  label,
+  children,
+}: {
   label: string;
   children: React.ReactNode;
 }) {
@@ -98,28 +100,36 @@ export function SidebarGroup({
   );
 }
 
-export function SidebarItem({ 
-  icon: Icon, 
+export function SidebarItem({
+  icon: Icon,
   children,
   isActive,
   ...props
-}: { 
+}: {
   icon?: React.ElementType;
   children: React.ReactNode;
   isActive?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <button 
-      className="float-sidebar-menu-button" 
+    <button
+      className="float-sidebar-menu-button"
       data-active={isActive}
       {...props}
     >
-      {Icon && <Icon className="float-sidebar-menu-button-icon" size={32} color="red" />}
-      <span className="float-sidebar-menu-button-text truncate">{children}</span>
+      {Icon && (
+        <Icon
+          className="float-sidebar-menu-button-icon"
+          size={32}
+          color="red"
+        />
+      )}
+      <span className="float-sidebar-menu-button-text truncate">
+        {children}
+      </span>
     </button>
   );
 }
 
 export function SidebarSeparator() {
   return <div className="float-sidebar-separator" />;
-} 
+}

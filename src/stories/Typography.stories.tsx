@@ -16,7 +16,9 @@ export const HeadingShowcase: StoryObj = {
   render: () => (
     <div className="space-y-8">
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Heading Sizes</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Heading Sizes
+        </Text>
         <div className="space-y-4">
           <Heading size="2xl">Display 2XL</Heading>
           <Heading size="xl">Display XL</Heading>
@@ -28,7 +30,9 @@ export const HeadingShowcase: StoryObj = {
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Heading Levels</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Heading Levels
+        </Text>
         <div className="space-y-4">
           <Heading level={1}>Heading 1</Heading>
           <Heading level={2}>Heading 2</Heading>
@@ -40,7 +44,9 @@ export const HeadingShowcase: StoryObj = {
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Heading Colors</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Heading Colors
+        </Text>
         <div className="space-y-4">
           <Heading color="default">Default Color</Heading>
           <Heading color="muted">Muted Color</Heading>
@@ -58,7 +64,9 @@ export const TextShowcase: StoryObj = {
   render: () => (
     <div className="space-y-8">
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Text Sizes</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Text Sizes
+        </Text>
         <div className="space-y-4">
           <Text size="xl">Text XL</Text>
           <Text size="lg">Text LG</Text>
@@ -69,7 +77,9 @@ export const TextShowcase: StoryObj = {
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Text Weights</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Text Weights
+        </Text>
         <div className="space-y-4">
           <Text weight="regular">Regular Weight (Default)</Text>
           <Text weight="medium">Medium Weight</Text>
@@ -79,17 +89,23 @@ export const TextShowcase: StoryObj = {
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Text Styles</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Text Styles
+        </Text>
         <div className="space-y-4">
           <Text>Normal Text</Text>
           <Text italic>Italic Text</Text>
           <Text underline>Underlined Text</Text>
-          <Text italic underline>Italic and Underlined Text</Text>
+          <Text italic underline>
+            Italic and Underlined Text
+          </Text>
         </div>
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Text Colors</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Text Colors
+        </Text>
         <div className="space-y-4">
           <Text color="default">Default Color</Text>
           <Text color="muted">Muted Color</Text>
@@ -101,11 +117,19 @@ export const TextShowcase: StoryObj = {
       </div>
 
       <div>
-        <Text size="lg" weight="semibold" className="mb-4">Polymorphic Components</Text>
+        <Text size="lg" weight="semibold" className="mb-4">
+          Polymorphic Components
+        </Text>
         <div className="space-y-4">
-          <Text as="span" className="mr-2">This is a span</Text>
-          <Text as="label" className="mr-2">This is a label</Text>
-          <Heading as="legend" size="xs">This is a legend</Heading>
+          <Text as="span" className="mr-2">
+            This is a span
+          </Text>
+          <Text as="label" className="mr-2">
+            This is a label
+          </Text>
+          <Heading as="legend" size="xs">
+            This is a legend
+          </Heading>
         </div>
       </div>
     </div>
@@ -114,40 +138,63 @@ export const TextShowcase: StoryObj = {
 
 export const RealWorldExample: StoryObj = {
   render: () => (
-    <div className="max-w-2xl p-6 border rounded-lg shadow-sm">
-      <Heading size="md" color="brand" className="mb-4">Account Overview</Heading>
-      
+    <div className="max-w-2xl rounded-lg border p-6 shadow-sm">
+      <Heading size="md" color="brand" className="mb-4">
+        Account Overview
+      </Heading>
+
       <div className="mb-8">
-        <Text size="sm" color="muted" className="mb-2">Last updated: April 28, 2025</Text>
-        <div className="bg-gray-50 p-4 rounded-md">
+        <Text size="sm" color="muted" className="mb-2">
+          Last updated: April 28, 2025
+        </Text>
+        <div className="rounded-md bg-gray-50 p-4">
           <Text weight="medium">Current Balance</Text>
-          <Heading size="lg" color="success" className="mt-1">$24,567.89</Heading>
+          <Heading size="lg" color="success" className="mt-1">
+            $24,567.89
+          </Heading>
         </div>
       </div>
-      
+
       <div className="mb-6">
-        <Heading level={3} size="xs" className="mb-3">Recent Transactions</Heading>
+        <Heading level={3} size="xs" className="mb-3">
+          Recent Transactions
+        </Heading>
         <div className="space-y-3">
-          <div className="p-3 border rounded flex justify-between items-center">
+          <div className="flex items-center justify-between rounded border p-3">
             <div>
               <Text weight="medium">Payment Received</Text>
-              <Text size="sm" color="muted">From: Acme Corp</Text>
+              <Text size="sm" color="muted">
+                From: Acme Corp
+              </Text>
             </div>
-            <Text weight="bold" color="success">+$2,500.00</Text>
+            <Text weight="bold" color="success">
+              +$2,500.00
+            </Text>
           </div>
-          <div className="p-3 border rounded flex justify-between items-center">
+          <div className="flex items-center justify-between rounded border p-3">
             <div>
               <Text weight="medium">Transfer Sent</Text>
-              <Text size="sm" color="muted">To: Business Account</Text>
+              <Text size="sm" color="muted">
+                To: Business Account
+              </Text>
             </div>
-            <Text weight="bold" color="error">-$1,200.00</Text>
+            <Text weight="bold" color="error">
+              -$1,200.00
+            </Text>
           </div>
         </div>
       </div>
-      
+
       <div>
         {/* @ts-ignore - TypeScript doesn't recognize href on polymorphic component */}
-        <Text size="sm" color="brand" underline as="a" href="#" className="mr-3">
+        <Text
+          size="sm"
+          color="brand"
+          underline
+          as="a"
+          href="#"
+          className="mr-3"
+        >
           View All Transactions
         </Text>
         {/* @ts-ignore - TypeScript doesn't recognize href on polymorphic component */}

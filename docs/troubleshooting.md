@@ -4,11 +4,11 @@ This guide helps you resolve common issues when using the Float Design System.
 
 ## Quick Reference
 
-| Issue | Solution | Version |
-|-------|----------|---------|
-| React Context errors in Next.js App Router | Use `ClientThemeProvider` and `ClientThemeToggle` | 1.1.9+ |
-| Invalid hook call errors | Use `ClientThemeToggle` instead of `ThemeToggle` | 1.1.15+ |
-| Server Component compatibility issues | Use Server Component safe components | 1.1.15+ |
+| Issue                                      | Solution                                          | Version |
+| ------------------------------------------ | ------------------------------------------------- | ------- |
+| React Context errors in Next.js App Router | Use `ClientThemeProvider` and `ClientThemeToggle` | 1.1.9+  |
+| Invalid hook call errors                   | Use `ClientThemeToggle` instead of `ThemeToggle`  | 1.1.15+ |
+| Server Component compatibility issues      | Use Server Component safe components              | 1.1.15+ |
 
 ## Common Issues and Solutions
 
@@ -16,20 +16,21 @@ This guide helps you resolve common issues when using the Float Design System.
 
 **Problem**: Server-side rendering doesn't match client-side rendering.
 
-**Solution**: 
+**Solution**:
+
 - Add `suppressHydrationWarning` to your `<html>` element
 - Use the `mounted` pattern for client-only components:
 
 ```tsx
 function ClientOnlyComponent() {
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
-  
+
   if (!mounted) return null;
-  
+
   return <ThemeToggle />;
 }
 ```
@@ -40,7 +41,8 @@ function ClientOnlyComponent() {
 
 **Root Cause**: The design system was trying to use React hooks in invalid contexts.
 
-**Solution**: 
+**Solution**:
+
 - Use `ClientThemeToggle` instead of `ThemeToggle` in Server Components
 - Use `ClientThemeProvider` instead of `ThemeProvider` in Server Components
 - All components that use hooks are now properly protected
@@ -65,17 +67,20 @@ export default function ServerComponent() {
 
 **Problem**: Components using React hooks in Server Component context.
 
-**Solution**: 
+**Solution**:
+
 - Use Server Component safe components
 - All exported components are now properly protected
 - Components return safe placeholders during SSR
 
 **Server Component Safe Components:**
+
 - `ClientThemeProvider` - Safe theme provider for Server Components
 - `ClientThemeToggle` - Safe theme toggle for Server Components
 - `useThemeServer` - Server-safe theme hook
 
 **Client Component Only Components:**
+
 - `ThemeToggle` - Only use in Client Components
 - `ThemeProvider` - Only use in Client Components
 - `useTheme` - Only use in Client Components
@@ -84,7 +89,8 @@ export default function ServerComponent() {
 
 **Problem**: Theme colors aren't applying correctly.
 
-**Solution**: 
+**Solution**:
+
 - Ensure CSS variables are properly imported
 - Check that the theme provider is wrapping your app
 - Verify Tailwind CSS is configured correctly
@@ -99,6 +105,7 @@ import '@tydavidson/design-system/src/themes/theme.css';
 **Problem**: Server and client rendering don't match.
 
 **Solution**:
+
 - Use `suppressHydrationWarning` on the `<html>` element
 - Use client-only components for theme-dependent UI
 - Ensure consistent initial state between server and client
@@ -107,9 +114,7 @@ import '@tydavidson/design-system/src/themes/theme.css';
 // In your root layout
 <html suppressHydrationWarning>
   <body>
-    <ThemeProvider>
-      {children}
-    </ThemeProvider>
+    <ThemeProvider>{children}</ThemeProvider>
   </body>
 </html>
 ```
@@ -119,6 +124,7 @@ import '@tydavidson/design-system/src/themes/theme.css';
 **Problem**: Can't import components or themes.
 
 **Solution**:
+
 - Check that you're using the correct import paths
 - Ensure the package is properly installed
 - Verify TypeScript configuration
@@ -134,12 +140,16 @@ import { ClientThemeToggle } from '@tydavidson/design-system/themes';
 ### Using Theme System in Server Components
 
 **For Server Components:**
+
 ```tsx
-import { useThemeServer, ClientThemeToggle } from '@tydavidson/design-system/themes';
+import {
+  useThemeServer,
+  ClientThemeToggle,
+} from '@tydavidson/design-system/themes';
 
 export default function ServerComponent() {
   const { theme, isDark } = useThemeServer();
-  
+
   return (
     <div className={isDark ? 'dark' : 'light'}>
       <h1>Current theme: {theme}</h1>
@@ -150,18 +160,17 @@ export default function ServerComponent() {
 ```
 
 **For Client Components:**
+
 ```tsx
 'use client';
 import { useTheme, ThemeToggle } from '@tydavidson/design-system/themes';
 
 export default function ClientComponent() {
   const { theme, setTheme, isDark } = useTheme();
-  
+
   return (
     <div>
-      <button onClick={() => setTheme('dark')}>
-        Switch to Dark Mode
-      </button>
+      <button onClick={() => setTheme('dark')}>Switch to Dark Mode</button>
       <ThemeToggle />
     </div>
   );
@@ -178,11 +187,11 @@ export default function ClientComponent() {
 
 ## Version Compatibility
 
-| Next.js Version | Design System Version | Notes |
-|----------------|----------------------|-------|
-| 13+ (App Router) | 1.1.15+ | Full Server Component support |
-| 12+ (Pages Router) | 1.1.0+ | Basic compatibility |
-| < 12 | Not supported | Use newer Next.js version |
+| Next.js Version    | Design System Version | Notes                         |
+| ------------------ | --------------------- | ----------------------------- |
+| 13+ (App Router)   | 1.1.15+               | Full Server Component support |
+| 12+ (Pages Router) | 1.1.0+                | Basic compatibility           |
+| < 12               | Not supported         | Use newer Next.js version     |
 
 ## Getting Help
 
@@ -193,4 +202,4 @@ If you're still experiencing issues:
 3. Ensure you're using the latest version of the design system
 4. Check that all dependencies are compatible
 
-For additional support, please check the project documentation or create an issue in the repository. 
+For additional support, please check the project documentation or create an issue in the repository.

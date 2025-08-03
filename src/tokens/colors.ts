@@ -74,7 +74,7 @@ export const colors = {
     900: 'hsl(var(--gray-900))',
     950: 'hsl(var(--gray-950))',
   },
-  
+
   // Semantic tokens
   text: {
     primary: 'hsl(var(--foreground))',
@@ -113,7 +113,7 @@ export const colors = {
     warning: 'hsl(var(--warning-500))',
     success: 'hsl(var(--success-500))',
   },
-  
+
   // Component-specific
   button: {
     primary: {
