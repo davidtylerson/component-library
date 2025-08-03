@@ -11,9 +11,7 @@ import {
   ToggleGroupItem,
   ClientThemeToggle,
   Heading,
-  Text,
   Card,
-  CardHeader,
   CardContent,
 } from '@float-vibe-foundry/design-system';
 
@@ -32,8 +30,8 @@ export default function Home() {
     setTemplateData(TemplateLoader.getSampleData(templateName));
   };
 
-  const handleDataChange = (data: any) => {
-    setTemplateData(data);
+  const handleDataChange = (_data: any) => {
+    setTemplateData(_data);
   };
 
   return (

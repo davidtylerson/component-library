@@ -20,7 +20,7 @@ interface SidebarProps {
   children?: React.ReactNode;
 }
 
-export function Sidebar({ className, children }: SidebarProps) {
+export function Sidebar({ className }: SidebarProps) {
   const organizations = [
     {
       id: 'alta-capital',
@@ -44,7 +44,7 @@ export function Sidebar({ className, children }: SidebarProps) {
       avatarFallback: 'GS',
     },
   ];
-  const [currentOrg, setCurrentOrg] = useState(organizations[0].id);
+
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 import * as React from 'react';
 import { DialogProps } from '@radix-ui/react-dialog';
-import { IconCommand, IconSearch } from '@tabler/icons-react';
+import { IconSearch } from '@tabler/icons-react';
 import { Command as CommandPrimitive } from 'cmdk';
 
 import { cn } from '../../lib/utils';

@@ -3,11 +3,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils';
-import { ThemeColor, ComponentVariant } from '../../lib/theme-utils';
-import {
-  BUTTON_COLORS,
-  type ButtonVariant,
-} from '../../../styles/constants/button-colors';
+
 
 const buttonVariants = cva(
   'float-button inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[4px] text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
@@ -67,10 +63,7 @@ export interface ButtonProps
    * Whether the button is in a loading state
    */
   isLoading?: boolean;
-  /**
-   * Theme color to apply to the button (uses design system colors)
-   */
-  color?: ThemeColor;
+
   /**
    * Semantic design system variant - use this instead of variant for design system consistency
    */
@@ -113,7 +106,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       isLoading = false,
-      color = 'brand',
+
       dsVariant,
       iconOnly = false,
       children,

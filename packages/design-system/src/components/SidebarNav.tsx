@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useSidebar } from './ui/sidebar';
-import { useTheme } from '../themes/theme-context';
+
 import Link from 'next/link';
 import {
   Sidebar,
@@ -23,7 +23,7 @@ import {
   IconHome,
   IconPalette,
   IconLayersSubtract,
-  IconMenu2,
+
 } from '@tabler/icons-react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Button } from './ui/button';
@@ -55,8 +55,6 @@ const navItems = [
 // SidebarNav component: contains all sidebar logic/content
 export function SidebarNav({
   organizations,
-  currentOrg,
-  setCurrentOrg,
 }: {
   organizations: Array<{
     id: string;
@@ -65,8 +63,6 @@ export function SidebarNav({
     avatarUrl: string;
     avatarFallback: string;
   }>;
-  currentOrg: string;
-  setCurrentOrg: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const { state, toggleSidebar } = useSidebar();
 

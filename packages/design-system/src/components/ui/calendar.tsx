@@ -5,7 +5,7 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react';
 import { DayPicker } from 'react-day-picker';
-import { format } from 'date-fns';
+
 
 import { cn } from '../../lib/utils';
 import { buttonVariants } from './button';
@@ -57,7 +57,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Chevron: ({ className, orientation, ...chevronProps }) => {
+        Chevron: ({ orientation, ...chevronProps }) => {
           if (orientation === 'left') {
             return (
               <IconChevronLeft

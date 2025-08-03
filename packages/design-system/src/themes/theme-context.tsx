@@ -10,7 +10,7 @@ import { useTheme as useNextTheme } from 'next-themes';
 export function useThemeServer() {
   return {
     theme: 'system',
-    setTheme: (theme: string) => {},
+    setTheme: () => {},
     resolvedTheme: 'light',
     isDark: false,
   };

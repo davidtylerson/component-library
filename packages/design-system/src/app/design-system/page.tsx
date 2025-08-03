@@ -3,11 +3,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@/themes/theme-context';
-import { Button, buttonVariants } from '@/components/ui/button';
+
 import { Input } from '@/components/ui/input';
 
 export default function DesignSystemPage() {
-  const { isDark, setTheme } = useTheme();
+  const { isDark } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   // Initialize on mount - client-side only
@@ -15,10 +15,7 @@ export default function DesignSystemPage() {
     setMounted(true);
   }, []);
 
-  // Function to toggle dark mode
-  const toggleDarkMode = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
+
 
   // shadcn colors for swatches with descriptions
   const shadcnColors = [

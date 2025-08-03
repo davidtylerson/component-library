@@ -20,7 +20,7 @@ import {
   Divider,
   MD,
   LG,
-  XL,
+
 } from '../react-email-src/components';
 
 interface EmailComponentsProps {

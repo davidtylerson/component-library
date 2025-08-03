@@ -7,16 +7,11 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-  CardFooter,
-  Text,
 } from '../components/ui';
 
 // Sample icons from Tabler
 import {
-  IconChevronDown,
   IconPlus,
-  IconCheck,
-  IconX,
 } from '@tabler/icons-react';
 
 export default function ComponentCatalog() {

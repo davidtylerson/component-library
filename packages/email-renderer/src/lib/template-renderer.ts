@@ -44,7 +44,7 @@ export class TemplateRenderer {
       return {
         html,
         text,
-        subject: this.extractSubject(templateName, data),
+        subject: this.extractSubject(templateName),
       };
     } catch (error) {
       console.error('Error rendering template:', error);
@@ -59,8 +59,7 @@ export class TemplateRenderer {
   }
 
   private static extractSubject(
-    templateName: string,
-    data: TemplateData
+    templateName: string
   ): string {
     const subjects: Record<string, string> = {
       Welcome: 'Welcome to Float',

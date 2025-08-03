@@ -5,7 +5,6 @@ import Editor from '@monaco-editor/react';
 import {
   Button,
   Heading,
-  Text,
   Card,
   CardContent,
 } from '@float-vibe-foundry/design-system';

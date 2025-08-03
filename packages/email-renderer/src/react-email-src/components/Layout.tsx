@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Section as EmailSection } from '@react-email/components';
+
 
 interface CardProps {
   children: React.ReactNode;
