@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import design system CSS variables */
+@import '@float-vibe-foundry/design-system/src/app/globals-consolidated.css';
+
+/* shadcn Sidebar Variables - Light Theme */
+:root {
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-ring: var(--border-primary);
+  --sidebar-foreground: var(--text-primary);
+}
+
+/* shadcn Sidebar Variables - Dark Theme */
+.dark {
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-ring: var(--border-primary);
+  --sidebar-foreground: var(--text-primary);
+}
+
+/* Override hover state to be darker than active state */
+.dark [data-sidebar="menu-item"] button:hover {
+  background-color: var(--bg-secondary) !important;
+} 

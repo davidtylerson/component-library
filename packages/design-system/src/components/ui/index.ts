@@ -15,6 +15,9 @@ export { Text } from '../typography/text';
 export { Toggle } from './toggle';
 export { ToggleGroup, ToggleGroupItem } from './toggle-group';
 
+// Tabs components
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs';
+
 // New components
 export { Slider } from './slider';
 export {
@@ -96,6 +99,55 @@ export {
 
 // Input component
 export { Input } from './input';
+
+// Select component
+export {
+  Select,
+  SelectGroup,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectLabel,
+  SelectItem,
+  SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
+} from './select';
+
+// Badge component
+export { Badge } from './badge';
+
+// Separator component
+export { Separator } from './separator';
+
+// Sidebar components
+export {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  SidebarTriggerExternal,
+  useSidebar,
+} from './sidebar';
 
 // Comment out components that don't exist yet
 // export * from './input/input'; // Uncomment when implemented

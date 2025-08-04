@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { cn } from '../../lib/utils';
 import { OrgSwitcher } from '../../components/ui/org-switcher';
-import LogoStateStreet from '../../assets/logos/Logo_State_Street.svg';
-import LogoAlta from '../../assets/logos/Logo_Alta.svg';
-import LogoGS from '../../assets/logos/Logo_GS.svg';
 import {
   IconHome,
   IconSearch,
@@ -25,21 +22,21 @@ export function Sidebar({ className }: SidebarProps) {
     {
       id: 'alta-capital',
       name: 'Alta Capital',
-      logo: LogoAlta,
+      logo: () => <span className="text-xs font-bold">AC</span>,
       avatarUrl: 'https://github.com/shadcn.png',
       avatarFallback: 'AC',
     },
     {
       id: 'state-street',
       name: 'State Street',
-      logo: LogoStateStreet,
+      logo: () => <span className="text-xs font-bold">SS</span>,
       avatarUrl: 'https://github.com/shadcn.png',
       avatarFallback: 'SS',
     },
     {
       id: 'gs',
       name: 'Goldman Sachs',
-      logo: LogoGS,
+      logo: () => <span className="text-xs font-bold">GS</span>,
       avatarUrl: 'https://github.com/shadcn.png',
       avatarFallback: 'GS',
     },

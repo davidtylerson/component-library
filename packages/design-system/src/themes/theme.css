@@ -20,6 +20,7 @@
   --color-gray-800: #26262b;
   --color-gray-900: #1a1a1e;
   --color-gray-950: #131316;
+  --color-gray-975: #0c0c0c;
 
   /* Brand Colors */
   --color-brand-25: #f8faff;
@@ -216,6 +217,7 @@
   --bg-primary: #131316;
   --bg-secondary: #1a1a1e;
   --bg-tertiary: #26262b;
+  --bg-quinary: #0c0c0c;
   --bg-quaternary: #3f3f46;
   --bg-disabled: #26262b;
   --bg-overlay: #26262b;

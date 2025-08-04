@@ -48,7 +48,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
               )}
             >
               <div className="flex h-6 w-6 flex-shrink-0 flex-grow-0 items-center justify-center rounded-[4px] bg-secondary text-sidebar-primary-foreground">
-                <activeOrg.logo className="h-full w-full rounded-[2px] object-contain" />
+                <activeOrg.logo />
               </div>
               <div className="ml-2 grid max-w-[120px] flex-1 overflow-hidden whitespace-nowrap text-left text-sm leading-tight opacity-100 transition-all duration-200 group-data-[state=collapsed]/sidebar:ml-0 group-data-[state=collapsed]/sidebar:max-w-0 group-data-[state=collapsed]/sidebar:opacity-0">
                 <span className="truncate font-semibold">{activeOrg.name}</span>
@@ -75,7 +75,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm border">
-                  <org.logo className="size-4 shrink-0" />
+                  <org.logo />
                 </div>
                 {org.name}
                 <DropdownMenu.Shortcut>⌘{index + 1}</DropdownMenu.Shortcut>
