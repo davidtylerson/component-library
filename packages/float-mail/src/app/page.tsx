@@ -12,23 +12,21 @@ import {
   SidebarGroupContent,
   SidebarProvider
 } from '@float-vibe-foundry/design-system';
-import { 
-  IconMail, 
-  IconFolder, 
-  IconSettings, 
-  IconCode, 
-  IconComponents, 
-  IconEye, 
-  IconFileText 
+import {
+  IconFolder,
+  IconSettings,
+  IconCode,
+  IconComponents,
+  IconEye,
+  IconFileText
 } from '@tabler/icons-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@float-vibe-foundry/design-system';
+import { Tabs, TabsList, TabsTrigger } from '@float-vibe-foundry/design-system';
 import MonacoEditor from '../components/MonacoEditor';
 import { EmailTemplate, EmailPreviewData } from '../types/template';
 
 export default function FloatMailPage() {
   const [template, setTemplate] = useState<EmailTemplate | null>(null);
   const [previewData, setPreviewData] = useState<EmailPreviewData>({});
-  const [templateJson, setTemplateJson] = useState('');
   const [toast, setToast] = useState<{ type: 'success' | 'error' | 'info'; message: string } | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState('Template 2');
   const [editMode, setEditMode] = useState<'react' | 'html'>('react');
@@ -40,23 +38,13 @@ export default function FloatMailPage() {
     if (savedTemplate) {
       try {
         setTemplate(JSON.parse(savedTemplate));
-      } catch (error) {
-        console.error('Failed to load saved template:', error);
+      } catch {
+        // Failed to load saved template
       }
     }
   }, []);
 
-  const handleSave = () => {
-    if (template) {
-      localStorage.setItem('floatMailTemplate', JSON.stringify(template));
-      setToast({ type: 'success', message: 'Template saved successfully!' });
-    }
-  };
 
-  const handleExport = () => {
-    // TODO: Implement export functionality
-    setToast({ type: 'info', message: 'Export functionality coming soon!' });
-  };
 
   return (
     <SidebarProvider>
