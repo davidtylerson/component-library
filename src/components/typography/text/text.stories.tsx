@@ -1,45 +1,45 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { Text } from "./text";
+import type { Meta, StoryObj } from '@storybook/react';
+import { Text } from './text';
 
 const meta: Meta<typeof Text> = {
-  title: "Typography/Text",
+  title: 'Typography/Text',
   component: Text,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
   argTypes: {
     size: {
-      control: "select",
-      options: ["xl", "lg", "md", "sm", "xs"],
-      description: "The size of the text",
-      defaultValue: "md",
+      control: 'select',
+      options: ['xl', 'lg', 'md', 'sm', 'xs'],
+      description: 'The size of the text',
+      defaultValue: 'md',
     },
     weight: {
-      control: "select",
-      options: ["regular", "medium", "semibold", "bold"],
-      description: "The font weight of the text",
-      defaultValue: "regular",
+      control: 'select',
+      options: ['regular', 'medium', 'semibold', 'bold'],
+      description: 'The font weight of the text',
+      defaultValue: 'regular',
     },
     color: {
-      control: "select",
-      options: ["default", "muted", "brand", "error", "warning", "success"],
-      description: "The color of the text",
-      defaultValue: "default",
+      control: 'select',
+      options: ['default', 'muted', 'brand', 'error', 'warning', 'success'],
+      description: 'The color of the text',
+      defaultValue: 'default',
     },
     italic: {
-      control: "boolean",
-      description: "Whether the text should be italic",
+      control: 'boolean',
+      description: 'Whether the text should be italic',
       defaultValue: false,
     },
     underline: {
-      control: "boolean",
-      description: "Whether the text should be underlined",
+      control: 'boolean',
+      description: 'Whether the text should be underlined',
       defaultValue: false,
     },
     children: {
-      control: "text",
-      description: "The content of the text",
-      defaultValue: "Sample text",
+      control: 'text',
+      description: 'The content of the text',
+      defaultValue: 'Sample text',
     },
   },
 };
@@ -49,7 +49,7 @@ type Story = StoryObj<typeof Text>;
 
 export const Default: Story = {
   args: {
-    children: "Default Text",
+    children: 'Default Text',
   },
 };
 
@@ -95,15 +95,17 @@ export const TextStyles: Story = {
       <Text>Normal Text</Text>
       <Text italic>Italic Text</Text>
       <Text underline>Underlined Text</Text>
-      <Text italic underline>Italic and Underlined Text</Text>
+      <Text italic underline>
+        Italic and Underlined Text
+      </Text>
     </div>
   ),
 };
 
 export const CustomElement: Story = {
   args: {
-    as: "span",
-    children: "Text as a span element",
+    as: 'span',
+    children: 'Text as a span element',
   },
 };
 

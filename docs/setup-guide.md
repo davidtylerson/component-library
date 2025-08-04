@@ -41,10 +41,10 @@ Add the design system's color tokens to your `tailwind.config.js`:
 ```js
 // tailwind.config.js
 module.exports = {
-  darkMode: ["class"],
+  darkMode: ['class'],
   content: [
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@tydavidson/design-system/dist/**/*.{js,mjs}",
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@tydavidson/design-system/dist/**/*.{js,mjs}',
   ],
   theme: {
     extend: {
@@ -83,12 +83,12 @@ module.exports = {
           error: 'var(--border-error)',
           warning: 'var(--border-warning)',
           success: 'var(--border-success)',
-        }
-      }
-    }
+        },
+      },
+    },
   },
   plugins: [],
-}
+};
 ```
 
 ## Theme Provider Setup
@@ -96,6 +96,7 @@ module.exports = {
 ### Next.js App Router
 
 **Option 1: Client Theme Provider (Recommended)**
+
 ```tsx
 // app/layout.tsx
 import { ClientThemeProvider } from '@tydavidson/design-system/themes';
@@ -108,9 +109,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ClientThemeProvider>
-          {children}
-        </ClientThemeProvider>
+        <ClientThemeProvider>{children}</ClientThemeProvider>
       </body>
     </html>
   );
@@ -118,6 +117,7 @@ export default function RootLayout({
 ```
 
 **Option 2: Regular Theme Provider (Client Components Only)**
+
 ```tsx
 // app/layout.tsx
 import { ThemeProvider } from '@tydavidson/design-system/themes';
@@ -130,9 +130,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
@@ -140,6 +138,7 @@ export default function RootLayout({
 ```
 
 **Option 3: NoSSR Theme Provider**
+
 ```tsx
 // app/layout.tsx
 import { ThemeProviderNoSSR } from '@tydavidson/design-system/themes';
@@ -152,9 +151,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProviderNoSSR>
-          {children}
-        </ThemeProviderNoSSR>
+        <ThemeProviderNoSSR>{children}</ThemeProviderNoSSR>
       </body>
     </html>
   );
@@ -183,11 +180,7 @@ export default function App({ Component, pageProps }) {
 import { ThemeProvider } from '@tydavidson/design-system/themes';
 
 function App() {
-  return (
-    <ThemeProvider>
-      {/* Your app content */}
-    </ThemeProvider>
-  );
+  return <ThemeProvider>{/* Your app content */}</ThemeProvider>;
 }
 ```
 
@@ -200,7 +193,7 @@ import { useTheme, ThemeToggle } from '@tydavidson/design-system/themes';
 
 function MyComponent() {
   const { theme, setTheme, isDark } = useTheme();
-  
+
   return (
     <div>
       <p>Current theme: {theme}</p>
@@ -214,7 +207,13 @@ function MyComponent() {
 ### Using UI Components
 
 ```tsx
-import { Button, Card, CardContent, CardHeader, CardTitle } from '@tydavidson/design-system';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@tydavidson/design-system';
 
 function MyPage() {
   return (
@@ -237,38 +236,35 @@ function MyPage() {
 The design system provides several options for using theme functionality in Next.js App Router Server Components:
 
 **For Server Components:**
+
 ```tsx
 // Use the server-safe hook
 import { useThemeServer } from '@tydavidson/design-system/themes';
 
 export default function ServerComponent() {
   const { theme, isDark } = useThemeServer();
-  
+
   return (
-    <div className={isDark ? 'dark' : 'light'}>
-      Current theme: {theme}
-    </div>
+    <div className={isDark ? 'dark' : 'light'}>Current theme: {theme}</div>
   );
 }
 ```
 
 **For Client Components:**
+
 ```tsx
 'use client';
 import { useTheme } from '@tydavidson/design-system/themes';
 
 export default function ClientComponent() {
   const { theme, setTheme, isDark } = useTheme();
-  
-  return (
-    <button onClick={() => setTheme('dark')}>
-      Switch to Dark Mode
-    </button>
-  );
+
+  return <button onClick={() => setTheme('dark')}>Switch to Dark Mode</button>;
 }
 ```
 
 **Client Theme Toggle in Server Components:**
+
 ```tsx
 import { ClientThemeToggle } from '@tydavidson/design-system/themes';
 
@@ -288,20 +284,21 @@ export default function ServerComponent() {
 
 **Problem**: Server-side rendering doesn't match client-side rendering.
 
-**Solution**: 
+**Solution**:
+
 - Add `suppressHydrationWarning` to your `<html>` element
 - Use the `mounted` pattern for client-only components:
 
 ```tsx
 function ClientOnlyComponent() {
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
-  
+
   if (!mounted) return null;
-  
+
   return <ThemeToggle />;
 }
 ```
@@ -311,6 +308,7 @@ function ClientOnlyComponent() {
 **Problem**: Theme colors aren't applying correctly.
 
 **Solution**:
+
 - Ensure you've imported the theme CSS file
 - Check that your Tailwind config includes the color tokens
 - Verify the CSS variables are being set on the `:root` element
@@ -320,6 +318,7 @@ function ClientOnlyComponent() {
 **Problem**: Icons appear as empty boxes or don't render.
 
 **Solution**:
+
 - Install required icon library: `npm install @tabler/icons-react`
 - Ensure the icon library is available in your bundle
 
@@ -328,6 +327,7 @@ function ClientOnlyComponent() {
 **Problem**: TypeScript can't find types for the design system.
 
 **Solution**:
+
 - The package includes TypeScript declarations
 - Make sure your `tsconfig.json` includes `node_modules` in the module resolution
 - If using path aliases, ensure they're configured correctly
@@ -337,17 +337,23 @@ function ClientOnlyComponent() {
 **Problem**: The design system is making your bundle too large.
 
 **Solution**:
+
 - The package uses tree-shaking, so unused components won't be included
 - Icon libraries are external dependencies, so they won't be bundled
 - Consider using dynamic imports for large components:
 
 ```tsx
-const DynamicComponent = dynamic(() => import('@tydavidson/design-system').then(mod => ({ default: mod.SomeLargeComponent })));
+const DynamicComponent = dynamic(() =>
+  import('@tydavidson/design-system').then(mod => ({
+    default: mod.SomeLargeComponent,
+  }))
+);
 ```
 
 ## Browser Compatibility
 
 The design system supports:
+
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - React 18+
 - Next.js 13+ (App Router and Pages Router)
@@ -370,4 +376,4 @@ If you encounter issues:
 4. Check that the ThemeProvider is wrapping your app
 5. Verify Tailwind configuration includes the design system's content paths
 
-For additional help, refer to the [theme usage documentation](./theme-usage.md). 
+For additional help, refer to the [theme usage documentation](./theme-usage.md).

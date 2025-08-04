@@ -13,7 +13,7 @@ const config = {
     autodocs: 'tag',
   },
   staticDirs: ['../public'],
-  webpackFinal: async (config) => {
+  webpackFinal: async config => {
     // Use the same PostCSS config as your project
     config.module.rules.push({
       test: /\.css$/,
@@ -29,7 +29,7 @@ const config = {
       ],
       include: path.resolve(__dirname, '../'),
     });
-    
+
     return config;
   },
 };

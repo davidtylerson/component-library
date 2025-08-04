@@ -19,12 +19,12 @@
   --sidebar-item-text: var(--text-primary);
   --sidebar-item-icon: var(--fg-tertiary);
   --sidebar-item-border: transparent;
-  
+
   --sidebar-item-bg-hover: var(--bg-tertiary);
   --sidebar-item-text-hover: var(--text-primary);
   --sidebar-item-icon-hover: var(--fg-primary);
   --sidebar-item-border-hover: var(--border-primary);
-  
+
   --sidebar-item-bg-active: var(--bg-brand-primary);
   --sidebar-item-text-active: var(--fg-brand-primary);
   --sidebar-item-icon-active: var(--fg-brand-primary);
@@ -33,7 +33,7 @@
   /* Group Colors */
   --sidebar-group-text: var(--text-tertiary);
   --sidebar-group-border: var(--border-tertiary);
-  
+
   /* Separator Colors */
   --sidebar-separator-bg: var(--border-secondary);
 }
@@ -44,80 +44,81 @@
 }
 
 /* Header styling */
-.float-sidebar-header, header[class*="sidebar-header"] {
-  @apply h-[var(--sidebar-header-height)] px-[var(--sidebar-padding)] border-b border-[var(--sidebar-border)];
+.float-sidebar-header,
+header[class*='sidebar-header'] {
+  @apply h-[var(--sidebar-header-height)] border-b border-[var(--sidebar-border)] px-[var(--sidebar-padding)];
 }
 
 /* Content styling */
-div[class*="sidebar-content"] {
+div[class*='sidebar-content'] {
   @apply overflow-y-auto py-2;
 }
 
 /* Footer styling */
-footer[class*="sidebar-footer"] {
-  @apply h-[var(--sidebar-footer-height)] px-[var(--sidebar-padding)] border-t border-[var(--sidebar-border)];
+footer[class*='sidebar-footer'] {
+  @apply h-[var(--sidebar-footer-height)] border-t border-[var(--sidebar-border)] px-[var(--sidebar-padding)];
 }
 
 /* Group styling */
-div[class*="sidebar-group"] {
+div[class*='sidebar-group'] {
   @apply py-1;
 }
 
-h3[class*="sidebar-group-label"] {
-  @apply text-[13px] font-medium text-[var(--sidebar-group-text)] px-2 py-1;
+h3[class*='sidebar-group-label'] {
+  @apply px-2 py-1 text-[13px] font-medium text-[var(--sidebar-group-text)];
 }
 
 /* Menu styling */
-ul[class*="sidebar-menu"] {
+ul[class*='sidebar-menu'] {
   @apply space-y-[var(--sidebar-item-spacing)] px-2;
 }
 
 /* Menu button styling */
-button[class*="sidebar-menu-button"], 
-a[class*="sidebar-menu-button"] {
-  @apply flex items-center w-full px-3 rounded-md h-9;
+button[class*='sidebar-menu-button'],
+a[class*='sidebar-menu-button'] {
+  @apply flex h-9 w-full items-center rounded-md px-3;
   @apply bg-[var(--sidebar-item-bg)] text-[var(--sidebar-item-text)];
   @apply hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
   @apply transition-all duration-200;
 }
 
-button[class*="sidebar-menu-button"] svg, 
-a[class*="sidebar-menu-button"] svg {
+button[class*='sidebar-menu-button'] svg,
+a[class*='sidebar-menu-button'] svg {
   @apply text-[var(--sidebar-item-icon)] transition-colors duration-200;
 }
 
-button[class*="sidebar-menu-button"]:hover svg, 
-a[class*="sidebar-menu-button"]:hover svg {
+button[class*='sidebar-menu-button']:hover svg,
+a[class*='sidebar-menu-button']:hover svg {
   @apply text-[var(--sidebar-item-icon-hover)];
 }
 
-button[class*="sidebar-menu-button"][data-active="true"], 
-a[class*="sidebar-menu-button"][data-active="true"] {
+button[class*='sidebar-menu-button'][data-active='true'],
+a[class*='sidebar-menu-button'][data-active='true'] {
   @apply bg-[var(--sidebar-item-bg-active)] text-[var(--sidebar-item-text-active)];
 }
 
-button[class*="sidebar-menu-button"][data-active="true"] svg, 
-a[class*="sidebar-menu-button"][data-active="true"] svg {
+button[class*='sidebar-menu-button'][data-active='true'] svg,
+a[class*='sidebar-menu-button'][data-active='true'] svg {
   @apply text-[var(--sidebar-item-icon-active)];
 }
 
 /* Separator styling */
-div[class*="sidebar-separator"] {
+div[class*='sidebar-separator'] {
   @apply my-2 h-px bg-[var(--sidebar-separator-bg)];
 }
 
 /* Collapsed state styling */
-aside[data-state="collapsed"] button[class*="sidebar-menu-button"] span,
-aside[data-state="collapsed"] a[class*="sidebar-menu-button"] span {
+aside[data-state='collapsed'] button[class*='sidebar-menu-button'] span,
+aside[data-state='collapsed'] a[class*='sidebar-menu-button'] span {
   @apply hidden;
 }
 
-aside[data-state="collapsed"] button[class*="sidebar-menu-button"],
-aside[data-state="collapsed"] a[class*="sidebar-menu-button"] {
+aside[data-state='collapsed'] button[class*='sidebar-menu-button'],
+aside[data-state='collapsed'] a[class*='sidebar-menu-button'] {
   @apply justify-center px-0;
 }
 
-aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
+aside[data-state='collapsed'] h3[class*='sidebar-group-label'] {
   @apply opacity-0;
 }
 
@@ -129,7 +130,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
   flex-shrink: 0;
 }
 
-.float-sidebar-root[data-state="collapsed"] {
+.float-sidebar-root[data-state='collapsed'] {
   width: var(--sidebar-width-collapsed);
 }
 
@@ -139,7 +140,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-group-label {
-  @apply flex items-center justify-between px-[var(--sidebar-padding)] mb-1;
+  @apply mb-1 flex items-center justify-between px-[var(--sidebar-padding)];
 }
 
 .float-sidebar-group-label-text {
@@ -147,7 +148,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-group-action {
-  @apply p-1 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-group-text)];
+  @apply rounded-md p-1 text-[var(--sidebar-group-text)] hover:bg-[var(--sidebar-item-bg-hover)];
 }
 
 /* Section Label */
@@ -157,8 +158,8 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 
 /* Organization Switcher Styles */
 .float-sidebar-org-switcher {
-  @apply flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors;
-  @apply text-[var(--sidebar-item-text)] hover:text-[var(--sidebar-item-text-hover)] hover:bg-[var(--sidebar-item-bg-hover)];
+  @apply flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors;
+  @apply text-[var(--sidebar-item-text)] hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
 }
 
 .float-sidebar-org-switcher-content {
@@ -166,11 +167,11 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-org-switcher-name {
-  @apply text-sm font-medium truncate;
+  @apply truncate text-sm font-medium;
 }
 
 .float-sidebar-org-switcher-description {
-  @apply text-xs text-[var(--sidebar-text-tertiary)] truncate;
+  @apply truncate text-xs text-[var(--sidebar-text-tertiary)];
 }
 
 /* Mobile Styles - Commenting out for now to fix overlap */
@@ -194,7 +195,7 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-collapse-button {
-  @apply p-1.5 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-item-icon)];
+  @apply rounded-md p-1.5 text-[var(--sidebar-item-icon)] hover:bg-[var(--sidebar-item-bg-hover)];
   @apply transition-colors duration-200;
 }
 
@@ -208,8 +209,8 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 
 /* Organization Switcher Styles */
 .float-sidebar-org-switcher {
-  @apply flex items-center gap-2 px-2 py-1.5 rounded-md transition-colors;
-  @apply text-[var(--sidebar-item-text)] hover:text-[var(--sidebar-item-text-hover)] hover:bg-[var(--sidebar-item-bg-hover)];
+  @apply flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors;
+  @apply text-[var(--sidebar-item-text)] hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
 }
 
 .float-sidebar-org-switcher-content {
@@ -217,16 +218,16 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
 }
 
 .float-sidebar-org-switcher-name {
-  @apply text-sm font-medium truncate;
+  @apply truncate text-sm font-medium;
 }
 
 .float-sidebar-org-switcher-description {
-  @apply text-xs text-[var(--sidebar-text-tertiary)] truncate;
+  @apply truncate text-xs text-[var(--sidebar-text-tertiary)];
 }
 
 /* Collapse button styling */
 .float-sidebar-collapse-button {
-  @apply p-1.5 rounded-md hover:bg-[var(--sidebar-item-bg-hover)] text-[var(--sidebar-item-icon)];
+  @apply rounded-md p-1.5 text-[var(--sidebar-item-icon)] hover:bg-[var(--sidebar-item-bg-hover)];
   @apply transition-colors duration-200;
 }
 
@@ -239,6 +240,6 @@ aside[data-state="collapsed"] h3[class*="sidebar-group-label"] {
   @apply px-[var(--sidebar-padding)] py-2 text-[13px] font-medium text-[var(--sidebar-group-text)];
 }
 
-aside[data-state="collapsed"] .float-sidebar-section-label {
+aside[data-state='collapsed'] .float-sidebar-section-label {
   @apply hidden;
 }

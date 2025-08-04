@@ -1,8 +1,8 @@
-import * as React from "react"
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
-import { IconCircleFilled } from "@tabler/icons-react"
+import * as React from 'react';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import { IconCircleFilled } from '@tabler/icons-react';
 
-import { cn } from "../../lib/utils"
+import { cn } from '../../lib/utils';
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -10,13 +10,13 @@ const RadioGroup = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <RadioGroupPrimitive.Root
-      className={cn("grid gap-2", className)}
+      className={cn('grid gap-2', className)}
       {...props}
       ref={ref}
     />
-  )
-})
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
+  );
+});
+RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
@@ -26,12 +26,12 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "aspect-square h-4 w-4 rounded-full border bg-[var(--radio-bg)] border-[var(--radio-border)] text-[var(--radio-indicator-checked)] ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        "hover:border-[var(--radio-border-hover)]",
-        "data-[state=checked]:border-[var(--radio-border-checked)]",
-        "data-[state=checked]:hover:border-[var(--radio-border-checked-hover)]",
-        "disabled:cursor-not-allowed disabled:opacity-50 disabled:border-[var(--radio-border-disabled)] disabled:bg-[var(--radio-bg-disabled)]",
-        "data-[state=checked]:disabled:border-[var(--radio-border-disabled-checked)] data-[state=checked]:disabled:text-[var(--radio-indicator-disabled-checked)]",
+        'aspect-square h-4 w-4 rounded-full border border-[var(--radio-border)] bg-[var(--radio-bg)] text-[var(--radio-indicator-checked)] ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'hover:border-[var(--radio-border-hover)]',
+        'data-[state=checked]:border-[var(--radio-border-checked)]',
+        'data-[state=checked]:hover:border-[var(--radio-border-checked-hover)]',
+        'disabled:cursor-not-allowed disabled:border-[var(--radio-border-disabled)] disabled:bg-[var(--radio-bg-disabled)] disabled:opacity-50',
+        'data-[state=checked]:disabled:border-[var(--radio-border-disabled-checked)] data-[state=checked]:disabled:text-[var(--radio-indicator-disabled-checked)]',
         className
       )}
       {...props}
@@ -40,8 +40,8 @@ const RadioGroupItem = React.forwardRef<
         <IconCircleFilled className="h-2.5 w-2.5 fill-current text-current" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
-  )
-})
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
+  );
+});
+RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
-export { RadioGroup, RadioGroupItem } 
+export { RadioGroup, RadioGroupItem };

@@ -8,7 +8,7 @@ export { Button, buttonVariants } from './button';
 export { DropdownMenu } from './dropdown-menu/dropdown-menu';
 
 // Typography components - adjust these paths based on your actual folder structure
-export { Heading } from '../typography/heading'; 
+export { Heading } from '../typography/heading';
 export { Text } from '../typography/text';
 
 // Toggle and ToggleGroup components
@@ -17,9 +17,15 @@ export { ToggleGroup, ToggleGroupItem } from './toggle-group';
 
 // New components
 export { Slider } from './slider';
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor } from './popover';
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+} from './popover';
 export { HoverCard, HoverCardTrigger, HoverCardContent } from './hover-card';
-export {   Sheet,
+export {
+  Sheet,
   SheetPortal,
   SheetOverlay,
   SheetTrigger,
@@ -28,8 +34,10 @@ export {   Sheet,
   SheetHeader,
   SheetFooter,
   SheetTitle,
-  SheetDescription, } from './sheet';
-export {   Command,
+  SheetDescription,
+} from './sheet';
+export {
+  Command,
   CommandDialog,
   CommandInput,
   CommandList,
@@ -37,9 +45,15 @@ export {   Command,
   CommandGroup,
   CommandItem,
   CommandShortcut,
-  CommandSeparator, } from './command';
-export { Collapsible, CollapsibleTrigger, CollapsibleContent } from './collapsible';
-export {   ContextMenu,
+  CommandSeparator,
+} from './command';
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from './collapsible';
+export {
+  ContextMenu,
   ContextMenuTrigger,
   ContextMenuContent,
   ContextMenuItem,
@@ -53,15 +67,22 @@ export {   ContextMenu,
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
-  ContextMenuRadioGroup, } from './context-menu';
-
-
+  ContextMenuRadioGroup,
+} from './context-menu';
 
 // Card components
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card';
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from './card';
 
 // Dialog component
-export {   Dialog,
+export {
+  Dialog,
   DialogPortal,
   DialogOverlay,
   DialogClose,
@@ -70,7 +91,8 @@ export {   Dialog,
   DialogHeader,
   DialogFooter,
   DialogTitle,
-  DialogDescription, } from './dialog';
+  DialogDescription,
+} from './dialog';
 
 // Input component
 export { Input } from './input';

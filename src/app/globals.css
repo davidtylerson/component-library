@@ -6,693 +6,309 @@
  * 1. Foundational Colors: Raw color values from design system
  * 2. Semantic Variables: Meaningful variables that map to foundational colors
  * 3. shadcn Variables: Variables required by shadcn components
- * 4. Component-specific Variables: Imported from component CSS files
+ * 4. Component-specific Variables: Consolidated from component CSS files
  *
  * This structure allows changes at any level without breaking the entire system.
  */
-
-/* REMOVE BODY TEST STYLES */
-/*
-body {
-  border: 20px solid lime !important;
-  background-color: orange !important;
-}
-*/
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import '../styles/components/button.css';
-@import '../styles/components/input.css';
-@import '../styles/components/input-dropdown.css';
-@import '../styles/components/card.css';
-@import '../styles/components/sidebar.css';
+/* ===== COMPONENT CSS VARIABLES (CONSOLIDATED) ===== */
 
-/* FORCEFUL SIDEBAR ROOT STYLES - OUTSIDE ANY LAYER */
-.float-sidebar-root {
-  width: var(--sidebar-width, 240px) !important;
-  flex-shrink: 0 !important;
-  position: relative !important; /* CRITICAL FOR FLOW */
-  z-index: 10 !important;
-  height: 100vh !important;
-  /* Add your sidebar background and border here if necessary, or ensure they are in sidebar.css and not conflicting */
-  /* e.g., background-color: var(--bg-primary); border-right: 1px solid var(--border-secondary); */
-}
-
-@layer base {
-  /* Basic styles without problematic classes */
-  * {
-    box-sizing: border-box;
-    border-color: var(--border-secondary);
-  }
-  
-  body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  :root {
-    /* -------------------------------- */
-    /* Foundational Colors: Light Theme */
-    /* -------------------------------- */
-
-    /* Gray Scale */
-    --color-gray-25: #fcfcfc;
-    --color-gray-50: #fafafa;
-    --color-gray-100: #f4f4f5;
-    --color-gray-200: #e4e4e7;
-    --color-gray-300: #d1d1d6;
-    --color-gray-400: #a0a0ab;
-    --color-gray-500: #70707b;
-    --color-gray-600: #51515c;
-    --color-gray-700: #3f3f46;
-    --color-gray-800: #26262b;
-    --color-gray-900: #1a1a1e;
-    --color-gray-950: #131316;
-
-    /* Brand Colors */
-    --color-brand-25: #f8faff;
-    --color-brand-50: #edf2ff;
-    --color-brand-100: #dee4fa;
-    --color-brand-200: #c6cdf4;
-    --color-brand-300: #a6afec;
-    --color-brand-400: #8f97e0;
-    --color-brand-500: #7479d6;
-    --color-brand-600: #6063bd;
-    --color-brand-700: #4a49a6;
-    --color-brand-800: #343688;
-    --color-brand-900: #232469;
-    --color-brand-950: #15154d;
-
-    /* Error Colors */
-    --color-error-25: #fffbfa;
-    --color-error-50: #ffefeb;
-    --color-error-100: #fcdad1;
-    --color-error-200: #f7b8a8;
-    --color-error-300: #ef927a;
-    --color-error-400: #e37559;
-    --color-error-500: #d3593a;
-    --color-error-600: #bd3e1e;
-    --color-error-700: #99371e;
-    --color-error-800: #732c1a;
-    --color-error-900: #4d2014;
-    --color-error-950: #29120c;
-
-    /* Warning Colors */
-    --color-warning-25: #fefdf0;
-    --color-warning-50: #fffce8;
-    --color-warning-100: #fef7c3;
-    --color-warning-200: #feee95;
-    --color-warning-300: #fde272;
-    --color-warning-400: #fac515;
-    --color-warning-500: #eaaa08;
-    --color-warning-600: #ca8504;
-    --color-warning-700: #a15c07;
-    --color-warning-800: #854a0e;
-    --color-warning-900: #713b12;
-    --color-warning-950: #542c0d;
-
-    /* Success Colors */
-    --color-success-25: #f6fefb;
-    --color-success-50: #e6f5ee;
-    --color-success-100: #ccf0e0;
-    --color-success-200: #a6ebcd;
-    --color-success-300: #73e2b2;
-    --color-success-400: #3ccb8d;
-    --color-success-500: #36b37d;
-    --color-success-600: #2c9266;
-    --color-success-700: #1f744e;
-    --color-success-800: #185c3e;
-    --color-success-900: #084c2e;
-    --color-success-950: #0a2e1e;
-
-    /* Base Colors */
-    --color-white: #ffffff;
-    --color-black: #000000;
-    
-    /* ------------------------------- */
-    /* Semantic Variables: Light Theme */
-    /* ------------------------------- */
-
-    /* Text Colors - Used for typography elements */
-    --text-primary: rgb(0 0 0 / 0.87);     /* Main text color for body content */
-    --text-secondary: rgb(0 0 0 / 0.75);   /* Secondary text, used for descriptions, labels */
-    --text-tertiary: rgb(0 0 0 / 0.60);    /* Tertiary text, used for less important information */
-    --text-disabled: rgb(0 0 0 / 0.38);    /* Text for disabled elements */
-    
-    --text-brand-primary: var(--color-gray-50);    /* Primary text on brand color backgrounds */
-    --text-brand-secondary: var(--color-gray-300); /* Secondary text on brand backgrounds */
-    --text-brand-tertiary: var(--color-gray-400);  /* Tertiary text on brand backgrounds */
-    
-    --text-error-primary: var(--color-error-600);  /* Error message text */
-    --text-warning-primary: var(--color-warning-600); /* Warning message text */
-    --text-success-primary: var(--color-success-600); /* Success message text */
-
-    /* Border Colors - Used for element boundaries */
-    --border-primary: var(--color-gray-300);      /* Primary border, used for inputs, cards */
-    --border-secondary: var(--color-gray-200);    /* Secondary border, for subtle separations */
-    --border-tertiary: var(--color-gray-100);     /* Tertiary border, very subtle */
-    --border-disabled: var(--color-gray-300);     /* Border for disabled elements */
-    
-    --border-brand: var(--color-brand-400);       /* Brand-colored borders for emphasis */
-    --border-brand-solid: var(--color-brand-600); /* Solid brand borders for stronger emphasis */
-    
-    --border-error: var(--color-error-400);       /* Error state borders */
-    --border-error-solid: var(--color-error-500); /* Strong error borders */
-    
-    --border-warning: var(--color-warning-400);   /* Warning state borders */
-    --border-warning-solid: var(--color-warning-500); /* Strong warning borders */
-    
-    --border-success: var(--color-success-400);   /* Success state borders */
-    --border-success-solid: var(--color-success-500); /* Strong success borders */
-
-    /* Background Colors - Used for surfaces */
-    --bg-primary: var(--color-white);             /* Main background color */
-    --bg-secondary: var(--color-gray-50);         /* Secondary background, for subtle contrast */
-    --bg-tertiary: var(--color-gray-100);         /* Tertiary background, for stronger contrast */
-    --bg-quaternary: var(--color-gray-200);       /* Deeper background contrast */
-    --bg-disabled: var(--color-gray-100);         /* Background for disabled elements */
-    --bg-overlay: var(--color-gray-800);          /* Background for overlays with reduced opacity */
-    
-    --bg-brand-primary: var(--color-brand-50);    /* Subtle brand background */
-    --bg-brand-secondary: var(--color-brand-100); /* Stronger brand background */
-    --bg-brand-solid: var(--color-brand-600);     /* Solid brand background */
-    
-    --bg-error-primary: var(--color-error-50);    /* Subtle error background */
-    --bg-error-secondary: var(--color-error-100); /* Stronger error background */
-    --bg-error-solid: var(--color-error-600);     /* Solid error background */
-    
-    --bg-warning-primary: var(--color-warning-50);    /* Subtle warning background */
-    --bg-warning-secondary: var(--color-warning-100); /* Stronger warning background */
-    --bg-warning-solid: var(--color-warning-600);     /* Solid warning background */
-    
-    --bg-success-primary: var(--color-success-50);    /* Subtle success background */
-    --bg-success-secondary: var(--color-success-100); /* Stronger success background */
-    --bg-success-solid: var(--color-success-600);     /* Solid success background */
-
-    /* Foreground Colors - Used for interactive elements */
-    --fg-primary: var(--color-gray-900);          /* Primary foreground for icons, buttons */
-    --fg-secondary: var(--color-gray-700);        /* Secondary foreground, less emphasis */
-    --fg-tertiary: var(--color-gray-600);         /* Tertiary foreground, minimal emphasis */
-    --fg-quaternary: var(--color-gray-500);       /* Quaternary foreground, very light emphasis */
-    --fg-quinary: var(--color-gray-400);          /* Quinary foreground, extremely subtle */
-    --fg-disabled: var(--color-gray-400);         /* Foreground for disabled elements */
-    
-    --fg-brand-primary: var(--color-brand-600);   /* Brand-colored foreground elements */
-    --fg-brand-secondary: var(--color-brand-500); /* Secondary brand foreground */
-    
-    --fg-error-primary: var(--color-error-500);   /* Error foreground for icons, indicators */
-    --fg-error-secondary: var(--color-error-400); /* Secondary error foreground */
-    
-    --fg-warning-primary: var(--color-warning-500);   /* Warning foreground */
-    --fg-warning-secondary: var(--color-warning-400); /* Secondary warning foreground */
-    
-    --fg-success-primary: var(--color-success-500);   /* Success foreground */
-    --fg-success-secondary: var(--color-success-400); /* Secondary success foreground */
-    
-    --fg-white: var(--color-white);               /* White foreground for contrast on dark backgrounds */
-
-    /* ---------------------------------------- */
-    /* shadcn Required Variables: Light Theme   */
-    /* ---------------------------------------- */
-    
-    /* IMPORTANT: shadcn variables need to contain HSL parameters only, not complete colors.
-       These parameters will be wrapped in hsl() when used. */
-    
-    /* Base Theme Colors */
-    --background: 0 0% 100%;          /* Main app background (white) */
-    --foreground: 240 10% 3.9%;       /* Main text (gray-900) */
-    
-    /* Card Component Colors */
-    --card: 0 0% 100%;                /* Card background (white) */
-    --card-foreground: 240 10% 3.9%;  /* Card text (gray-900) */
-    
-    /* Popover/Dropdown Colors */
-    --popover: 0 0% 100%;             /* Popover background (white) */
-    --popover-foreground: 240 10% 3.9%; /* Popover text (gray-900) */
-    
-    /* Primary Button Colors */
-    --primary: 242 48% 56%;           /* Primary button (brand-600) */
-    --primary-foreground: 0 0% 100%;  /* Primary button text (white) */
-    
-    /* Secondary Button/Element Colors */
-    --secondary: 240 5% 96%;          /* Secondary button (gray-100) */
-    --secondary-foreground: 240 5% 26%; /* Secondary button text (gray-700) */
-    
-    /* Muted Elements Colors */
-    --muted: 240 5% 96%;              /* Muted background (gray-100) */
-    --muted-foreground: 240 4% 46%;   /* Muted text (gray-500) */
-    
-    /* Accent Elements */
-    --accent: 245 100% 97%;           /* Accent background (brand-50) */
-    --accent-foreground: 242 48% 56%; /* Accent text (brand-600) */
-    
-    /* Destructive Elements */
-    --destructive: 11 70% 44%;        /* Destructive background (error-600) */
-    --destructive-foreground: 0 0% 100%; /* Destructive text (white) */
-    
-    /* UI Element Border and Focus */
-    --border: 240 5% 84%;             /* Border color (gray-300) */
-    --input: var(--input-border-hsl);              /* Input field border (gray-300) */
-    --ring: var(--input-ring-hsl);              /* Focus ring color (brand-400) */
-    
-    /* Component Shape */
-    --radius: 0.5rem;                 /* Border radius for components */
-
-    /* Sidebar Component Variables */
-    --sidebar-background: 0 0% 100%;          /* Maps to --bg-primary in light mode */
-    --sidebar-foreground: 240 10% 3.9%;       /* Maps to --text-primary */
-    --sidebar-primary: 242 48% 56%;           /* Maps to brand-600 */
-    --sidebar-primary-foreground: 0 0% 100%;  /* Maps to white */
-    --sidebar-accent: 240 5% 96%;             /* Maps to --bg-tertiary */
-    --sidebar-accent-foreground: 240 5.9% 10%; /* Maps to --text-primary */
-    --sidebar-border: 240 5% 84%;             /* Maps to --border-secondary */
-    --sidebar-ring: 242 83% 60%;              /* Maps to brand/ring color for focus */
-
-    /* Map sidebar variables to shadcn values for better compatibility */
-    --sidebar-bg: hsl(var(--sidebar-background));
-    --sidebar-border: hsl(var(--sidebar-border));
-    --sidebar-item-bg-hover: hsl(var(--sidebar-accent));
-    --sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.1);
-    --sidebar-item-text-active: hsl(var(--sidebar-primary));
-
-    /* Ensure --sidebar-width and --sidebar-width-collapsed are defined here or in sidebar.css */
-    --sidebar-width: 240px; /* Default if not defined elsewhere */
-    --sidebar-width-collapsed: 64px; /* Default if not defined elsewhere */
-
-    --bg-app-base: #F9FAFB; /* App foundation background (gray-50) */
-  }
-
-  /* Dark theme variables */
-  .dark {
-    /* -------------------------------- */
-    /* Foundational Colors: Dark Theme */
-    /* -------------------------------- */
-    
-    /* Note: We're not redefining the base color variables in dark mode.
-       Instead, we're just updating the semantic variables to point to different colors. */
-    
-    /* ------------------------------- */
-    /* Semantic Variables: Dark Theme */
-    /* ------------------------------- */
-    
-    /* Text Colors - Adjusted for dark mode */
-    --text-primary: rgb(255 255 255 / 1);    /* Light text on dark background */
-    --text-secondary: rgb(255 255 255 / 0.73);  /* Secondary text on dark background */
-    --text-tertiary: rgb(255 255 255 / 0.60);   /* Tertiary text on dark background */
-    --text-disabled: rgb(255 255 255 / 0.38);   /* Disabled text on dark background */
-    
-    --text-brand-primary: #edf2ff;          /* Brand text in dark mode */
-    --text-brand-secondary: #c6cdf4;        /* Secondary brand text */
-    --text-brand-tertiary: #a6afec;         /* Tertiary brand text */
-    
-    --text-error-primary: #ef927a;          /* Error text in dark mode */
-    --text-warning-primary: #fde272;        /* Warning text in dark mode */
-    --text-success-primary: #73e2b2;        /* Success text in dark mode */
-    
-    /* Border Colors - Adjusted for dark mode */
-    --border-primary: #3f3f46;              /* Main border color in dark mode */
-    --border-secondary: #26262b;            /* Secondary border in dark mode */
-    --border-tertiary: #26262b;             /* Tertiary border in dark mode */
-    --border-disabled: #3f3f46;             /* Disabled borders in dark mode */
-    
-    --border-brand: #7479d6;                /* Brand border in dark mode */
-    --border-brand-solid: #a6afec;          /* Solid brand border */
-    
-    --border-error: #e37559;                /* Error border in dark mode */
-    --border-error-solid: #ef927a;          /* Solid error border */
-    
-    --border-warning: #fac515;              /* Warning border in dark mode */
-    --border-warning-solid: #fde272;        /* Solid warning border */
-    
-    --border-success: #3ccb8d;              /* Success border in dark mode */
-    --border-success-solid: #73e2b2;        /* Solid success border */
-    
-    /* Background Colors - Adjusted for dark mode */
-    --bg-primary: #131316;                  /* Main dark theme background */
-    --bg-secondary: #1a1a1e;                /* Secondary dark background */
-    --bg-tertiary: #26262b;                 /* Tertiary dark background */
-    --bg-quaternary: #3f3f46;               /* Quaternary dark background */
-    --bg-disabled: #26262b;                 /* Disabled background in dark mode */
-    --bg-overlay: #26262b;                  /* Overlay background */
-    
-    --bg-brand-primary: #1a1a1e;            /* Brand section background in dark mode */
-    --bg-brand-secondary: #131316;          /* Secondary brand background */
-    --bg-brand-solid: #4a49a6;              /* Solid brand background */
-    
-    --bg-error-primary: #d3593a;            /* Error background in dark mode */
-    --bg-error-secondary: #ef927a;          /* Secondary error background */
-    --bg-error-solid: #bd3e1e;              /* Solid error background */
-    
-    --bg-warning-primary: #eaaa08;          /* Warning background */
-    --bg-warning-secondary: #fde272;        /* Secondary warning background */
-    --bg-warning-solid: #ca8504;            /* Solid warning background */
-    
-    --bg-success-primary: #36b37d;          /* Success background */
-    --bg-success-secondary: #73e2b2;        /* Secondary success background */
-    --bg-success-solid: #2c9266;            /* Solid success background */
-    
-    /* Foreground Colors - Adjusted for dark mode */
-    --fg-primary: #ffffff;                  /* Primary foreground in dark mode */
-    --fg-secondary: #d1d1d6;                /* Secondary foreground */
-    --fg-tertiary: #a0a0ab;                 /* Tertiary foreground */
-    --fg-quaternary: #70707b;               /* Quaternary foreground */
-    --fg-quinary: #a0a0ab;                  /* Quinary foreground */
-    --fg-disabled: #70707b;                 /* Disabled foreground */
-    
-    --fg-brand-primary: #a6afec;            /* Brand foreground in dark mode */
-    --fg-brand-secondary: #7479d6;          /* Secondary brand foreground */
-    
-    --fg-error-primary: #ef927a;            /* Error foreground */
-    --fg-error-secondary: #e37559;          /* Secondary error foreground */
-    
-    --fg-warning-primary: #fde272;          /* Warning foreground */
-    --fg-warning-secondary: #fac515;        /* Secondary warning foreground */
-    
-    --fg-success-primary: #73e2b2;          /* Success foreground */
-    --fg-success-secondary: #3ccb8d;        /* Secondary success foreground */
-    
-    /* ---------------------------------------- */
-    /* shadcn Required Variables: Dark Theme    */
-    /* ---------------------------------------- */
-    
-    /* IMPORTANT: shadcn variables need to contain HSL parameters only, not complete colors.
-       These parameters will be wrapped in hsl() when used. */
-    
-    /* Base Theme Colors */
-    --background: 240 10% 3.9%;          /* Main dark theme background */
-    --foreground: 0 0% 98%;              /* Main content text in dark mode */
-    
-    /* Card Component Colors */
-    --card: 240 10% 3.9%;                /* Card background */
-    --card-foreground: 0 0% 98%;         /* Card text */
-    
-    /* Popover/Dropdown Colors */
-    --popover: 240 10% 3.9%;             /* Popover background */
-    --popover-foreground: 0 0% 98%;      /* Popover text */
-    
-    /* Primary Button Colors */
-    --primary: 242 48% 56%;              /* Primary button background */
-    --primary-foreground: 240 10% 3.9%;  /* Primary button text */
-    
-    /* Secondary Button/Element Colors */
-    --secondary: 240 4% 16%;             /* Secondary button background */
-    --secondary-foreground: 0 0% 98%;    /* Secondary button text */
-    
-    /* Muted Elements Colors */
-    --muted: 240 4% 16%;                 /* Muted background */
-    --muted-foreground: 240 5% 64.9%;    /* Muted text */
-    
-    /* Accent Elements */
-    --accent: 240 4% 16%;                /* Accent background */
-    --accent-foreground: 0 0% 98%;       /* Accent text */
-    
-    /* Destructive Elements */
-    --destructive: 0 62% 45%;            /* Destructive action background */
-    --destructive-foreground: 240 10% 3.9%; /* Destructive action text */
-    
-    /* UI Element Border and Focus */
-    --border: 240 4% 16%;                /* Border color */
-    --input: var(--input-border-hsl);                 /* Input field border */
-    --ring: var(--input-ring-hsl);                 /* Focus ring color */
-    
-    /* Sidebar Component Variables - Dark Mode */
-    --sidebar-background: 240 5.9% 10%;          /* Maps to --bg-primary in dark mode */
-    --sidebar-foreground: 240 4.8% 95.9%;        /* Maps to --text-primary in dark mode */
-    --sidebar-primary: 224.3 76.3% 48%;          /* Maps to brand color in dark mode */
-    --sidebar-primary-foreground: 0 0% 100%;     /* Maps to white */
-    --sidebar-accent: 240 3.7% 15.9%;            /* Maps to --bg-tertiary in dark mode */
-    --sidebar-accent-foreground: 240 4.8% 95.9%; /* Maps to --text-primary in dark mode */
-    --sidebar-border: 240 3.7% 15.9%;            /* Maps to --border-secondary in dark mode */
-    --sidebar-ring: 217.2 91.2% 59.8%;           /* Maps to brand/ring color for focus */
-
-    /* Map sidebar variables to shadcn values for better compatibility in dark mode */
-    --sidebar-bg: hsl(var(--sidebar-background));
-    --sidebar-border: hsl(var(--sidebar-border));
-    --sidebar-item-bg-hover: hsl(var(--sidebar-accent));
-    --sidebar-item-bg-active: hsl(var(--sidebar-primary) / 0.2);
-    --sidebar-item-text-active: hsl(var(--sidebar-primary));
-
-    --bg-app-base: #0C0C0C; /* App foundation background (dark) */
-  }
-}
-
-/* ---------------------------------------- */
-/* Component Specific Variables: Badge      */
-/* ---------------------------------------- */
+/* Button Component Variables */
 :root {
-  /* Primary Badge (mimics Button Primary) */
-  --badge-bg-primary: var(--button-bg-primary);
-  --badge-text-primary: var(--button-text-primary);
-  --badge-border-primary: var(--button-border-primary);
-  --badge-bg-primary-hover: var(--button-bg-primary-hover);
-  --badge-text-primary-hover: var(--button-text-primary-hover);
-  --badge-border-primary-hover: var(--button-border-primary-hover);
+  /* Primary Button */
+  --button-bg-primary: var(--color-brand-700);
+  --button-bg-primary-hover: var(--color-brand-800);
+  --button-text-primary: white;
+  --button-text-primary-hover: white;
+  --button-border-primary: var(--color-brand-700);
+  --button-border-primary-hover: var(--color-brand-800);
 
-  /* Gray Badge (mimics Button Secondary) */
-  --badge-bg-gray: var(--button-bg-secondary);
-  --badge-text-gray: var(--button-text-secondary);
-  --badge-border-gray: var(--button-border-secondary);
-  --badge-bg-gray-hover: var(--button-bg-secondary-hover);
-  --badge-text-gray-hover: var(--button-text-secondary-hover);
-  --badge-border-gray-hover: var(--button-border-secondary-hover);
+  /* Secondary Button */
+  --button-bg-secondary: var(--color-gray-100);
+  --button-bg-secondary-hover: var(--color-gray-200);
+  --button-text-secondary: var(--color-gray-700);
+  --button-text-secondary-hover: var(--color-gray-800);
+  --button-border-secondary: var(--color-gray-300);
+  --button-border-secondary-hover: var(--color-gray-300);
 
-  /* Destructive Badge (mimics Button Destructive) */
-  --badge-bg-destructive: var(--button-bg-destructive);
-  --badge-text-destructive: var(--button-text-destructive);
-  --badge-border-destructive: var(--button-border-destructive);
-  --badge-bg-destructive-hover: var(--button-bg-destructive-hover);
-  --badge-text-destructive-hover: var(--button-text-destructive-hover);
-  --badge-border-destructive-hover: var(--button-border-destructive-hover);
+  /* Ghost Button */
+  --button-bg-ghost-hover: var(--color-gray-100);
+  --button-text-ghost: var(--color-gray-600);
+  --button-text-ghost-hover: var(--color-gray-700);
 
-  /* Ghost Badge (mimics Button Ghost) */
-  --badge-text-ghost: var(--button-text-ghost);
-  --badge-bg-ghost-hover: var(--button-bg-ghost-hover);
-  --badge-text-ghost-hover: var(--button-text-ghost-hover);
-  /* Ghost badges typically don't have a border in their resting state */
-  --badge-border-ghost: transparent; 
-  --badge-border-ghost-hover: transparent;
+  /* Outline Button */
+  --button-bg-outline: white;
+  --button-bg-outline-hover: var(--color-gray-100);
+  --button-text-outline: var(--color-gray-700);
+  --button-text-outline-hover: var(--color-gray-800);
+  --button-border-outline: var(--color-gray-300);
+  --button-border-outline-hover: var(--color-gray-300);
 
+  /* Link Button */
+  --button-text-link: var(--color-brand-700);
+  --button-text-link-hover: var(--color-brand-800);
 
-  /* Outline Badge (mimics Button Outline) */
-  --badge-bg-outline: transparent; /* Outline badges are typically transparent */
-  --badge-text-outline: var(--button-text-outline);
-  --badge-border-outline: var(--button-border-outline);
-  --badge-bg-outline-hover: var(--button-bg-outline-hover);
-  --badge-text-outline-hover: var(--button-text-outline-hover);
-  --badge-border-outline-hover: var(--button-border-outline-hover);
+  /* Destructive Button */
+  --button-bg-destructive: var(--color-error-600);
+  --button-bg-destructive-hover: var(--color-error-700);
+  --button-text-destructive: white;
+  --button-text-destructive-hover: white;
+  --button-border-destructive: var(--color-error-600);
+  --button-border-destructive-hover: var(--color-error-700);
+
+  /* Button Icon Sizes */
+  --button-icon-size-sm: 12px;
+  --button-icon-size-md: 16px;
+  --button-icon-size-lg: 20px;
 }
 
-/* No specific dark theme overrides needed here if button variables correctly handle dark theme */
-
-/* ---------------------------------------- */
-/* Component Specific Variables: Checkbox   */
-/* ---------------------------------------- */
+/* Input Component Variables */
 :root {
-  /* Unchecked State */
-  --checkbox-border: var(--border-primary);
-  --checkbox-bg: transparent; /* Typically transparent when unchecked */
-  
-  /* Checked State */
-  --checkbox-bg-checked: var(--bg-brand-solid);
-  --checkbox-border-checked: var(--bg-brand-solid); /* Border often matches background when checked */
-  --checkbox-indicator-checked: var(--text-brand-primary); /* Checkmark color */
-  
-  /* Hover State (Unchecked) - Can be subtle or rely on focus ring */
-  --checkbox-border-hover: var(--border-brand); 
+  /* Input Light Theme HSL parameters for shadcn compatibility */
+  --input-border-hsl: 240 5% 84%;
+  --input-ring-hsl: 242 83% 71%;
 
-  /* Hover State (Checked) */
-  --checkbox-bg-checked-hover: var(--bg-brand-solid); /* Might be same as checked or slightly darker/lighter */
-  --checkbox-border-checked-hover: var(--bg-brand-solid);
-
-  /* Focus State - Uses existing --ring for the ring color */
-  
-  /* Disabled State (Unchecked) */
-  --checkbox-border-disabled: var(--border-disabled);
-  --checkbox-bg-disabled: var(--bg-disabled);
-
-  /* Disabled State (Checked) */
-  --checkbox-bg-disabled-checked: var(--border-disabled); /* Using border-disabled to appear grayed out */
-  --checkbox-border-disabled-checked: var(--border-disabled);
-  --checkbox-indicator-disabled-checked: var(--text-disabled);
+  /* Direct color variables for reference or non-shadcn use */
+  --input-border-color: var(--border-primary);
+  --input-ring-color: var(--color-brand-400);
 }
+
+/* Input-Dropdown Component Variables */
+:root {
+  /* Input Base Styles (Shared with Dropdown where applicable) */
+  --input-bg: var(--bg-secondary);
+  --input-text: var(--text-primary);
+  --input-border: var(--border-secondary);
+  --input-border-hover: var(--border-primary);
+  --input-border-focus: var(--border-brand);
+  --input-text-placeholder: var(--text-tertiary);
+
+  --input-bg-disabled: var(--bg-disabled);
+  --input-text-disabled: var(--text-disabled);
+  --input-border-disabled: var(--border-disabled);
+  --input-opacity-disabled: 0.6;
+
+  /* Dropdown Content Styles */
+  --dropdown-bg: var(--bg-primary);
+  --dropdown-text: var(--text-primary);
+  --dropdown-border: var(--border-secondary);
+  --dropdown-shadow:
+    0px 4px 10px -2px rgba(0, 0, 0, 0.08), 0px 2px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Dropdown Item Styles */
+  --dropdown-item-text: var(--text-primary);
+  --dropdown-item-bg-hover: var(--bg-secondary);
+  --dropdown-item-text-hover: var(--text-primary);
+  --dropdown-item-bg-focus: var(--dropdown-item-bg-hover);
+  --dropdown-item-text-focus: var(--dropdown-item-text-hover);
+
+  /* Colored Dropdown Item Variants */
+  --dropdown-item-bg-brand-hover: var(--bg-brand-primary);
+  --dropdown-item-text-brand-hover: var(--fg-brand-primary);
+  --dropdown-item-bg-brand-focus: var(--dropdown-item-bg-brand-hover);
+  --dropdown-item-text-brand-focus: var(--dropdown-item-text-brand-hover);
+
+  --dropdown-item-bg-error-hover: var(--bg-error-primary);
+  --dropdown-item-text-error-hover: var(--text-error-primary);
+  --dropdown-item-bg-error-focus: var(--dropdown-item-bg-error-hover);
+  --dropdown-item-text-error-focus: var(--dropdown-item-text-error-hover);
+
+  --dropdown-item-bg-warning-hover: var(--bg-warning-primary);
+  --dropdown-item-text-warning-hover: var(--text-warning-primary);
+  --dropdown-item-bg-warning-focus: var(--dropdown-item-bg-warning-hover);
+  --dropdown-item-text-warning-focus: var(--dropdown-item-text-warning-hover);
+
+  --dropdown-item-bg-success-hover: var(--bg-success-primary);
+  --dropdown-item-text-success-hover: var(--text-success-primary);
+  --dropdown-item-bg-success-focus: var(--dropdown-item-bg-success-hover);
+  --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
+
+  /* Dropdown Separator */
+  --dropdown-separator-bg: var(--border-tertiary);
+}
+
+/* Card Component Variables */
+:root {
+  /* Card Base Styles */
+  --card-border: var(--border-tertiary);
+  --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+
+  /* Card Variants */
+  --card-bg-border-only: transparent;
+  --card-border-border-only: var(--border-tertiary);
+
+  --card-bg-subtle: var(--bg-primary);
+  --card-border-subtle: var(--border-tertiary);
+
+  --card-bg-default: var(--bg-secondary);
+  --card-border-default: var(--border-tertiary);
+
+  /* Card Content */
+  --card-content-padding: 1.5rem;
+  --card-content-gap: 0.375rem;
+
+  /* Card Title */
+  --card-title-text: var(--text-primary);
+  --card-title-size: 1.5rem;
+  --card-title-weight: 600;
+
+  /* Card Description */
+  --card-description-text: var(--text-tertiary);
+  --card-description-size: 0.875rem;
+}
+
+/* Sidebar Component Variables */
+:root {
+  /* Dimensions */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --sidebar-header-height: 56px;
+  --sidebar-footer-height: 56px;
+  --sidebar-padding: 16px;
+  --sidebar-item-spacing: 2px;
+
+  /* Base Colors */
+  --sidebar-bg: var(--bg-app-base);
+  --sidebar-border: var(--border-secondary);
+  --sidebar-text: var(--text-primary);
+  --sidebar-text-secondary: var(--text-secondary);
+  --sidebar-text-tertiary: var(--text-tertiary);
+
+  /* Item Colors */
+  --sidebar-item-bg: transparent;
+  --sidebar-item-text: var(--text-primary);
+  --sidebar-item-icon: var(--fg-tertiary);
+  --sidebar-item-border: transparent;
+
+  --sidebar-item-bg-hover: var(--bg-tertiary);
+  --sidebar-item-text-hover: var(--text-primary);
+  --sidebar-item-icon-hover: var(--fg-primary);
+  --sidebar-item-border-hover: var(--border-primary);
+
+  --sidebar-item-bg-active: var(--bg-brand-primary);
+  --sidebar-item-text-active: var(--fg-brand-primary);
+  --sidebar-item-icon-active: var(--fg-brand-primary);
+  --sidebar-item-border-active: var(--border-brand);
+
+  /* Group Colors */
+  --sidebar-group-text: var(--text-tertiary);
+  --sidebar-group-border: var(--border-tertiary);
+
+  /* Separator Colors */
+  --sidebar-separator-bg: var(--border-secondary);
+}
+
+/* ===== DARK MODE COMPONENT VARIABLES ===== */
 
 .dark {
-  /* Unchecked State */
-  --checkbox-border: var(--border-primary); /* Uses dark theme variable */
-  --checkbox-bg: transparent;
-  
-  /* Checked State */
-  --checkbox-bg-checked: var(--bg-brand-solid); /* Uses dark theme variable */
-  --checkbox-border-checked: var(--bg-brand-solid); /* Uses dark theme variable */
-  --checkbox-indicator-checked: var(--text-brand-primary); /* Uses dark theme variable */
+  /* Button Component Variables - Dark Mode */
+  --button-bg-primary: var(--color-brand-700);
+  --button-bg-primary-hover: var(--color-brand-800);
+  --button-text-primary: white;
+  --button-text-primary-hover: white;
+  --button-border-primary: var(--color-brand-700);
+  --button-border-primary-hover: var(--color-brand-800);
 
-  /* Hover State (Unchecked) */
-  --checkbox-border-hover: var(--border-brand); /* Uses dark theme variable */
+  --button-bg-secondary: var(--color-gray-900);
+  --button-bg-secondary-hover: var(--color-gray-800);
+  --button-text-secondary: var(--color-gray-300);
+  --button-text-secondary-hover: var(--color-gray-100);
+  --button-border-secondary: var(--color-gray-700);
+  --button-border-secondary-hover: var(--color-gray-700);
 
-  /* Hover State (Checked) */
-  --checkbox-bg-checked-hover: var(--bg-brand-solid); /* Uses dark theme variable */
-  --checkbox-border-checked-hover: var(--bg-brand-solid); /* Uses dark theme variable */
-  
-  /* Disabled State (Unchecked) */
-  --checkbox-border-disabled: var(--border-disabled); /* Uses dark theme variable */
-  --checkbox-bg-disabled: var(--bg-disabled); /* Uses dark theme variable */
-  
-  /* Disabled State (Checked) */
-  --checkbox-bg-disabled-checked: var(--border-disabled); /* Uses dark theme variable */
-  --checkbox-border-disabled-checked: var(--border-disabled); /* Uses dark theme variable */
-  --checkbox-indicator-disabled-checked: var(--text-disabled); /* Uses dark theme variable */
+  --button-bg-ghost-hover: var(--color-gray-800);
+  --button-text-ghost: var(--color-gray-300);
+  --button-text-ghost-hover: var(--color-gray-100);
+
+  --button-bg-outline: var(--color-gray-900);
+  --button-bg-outline-hover: var(--color-gray-800);
+  --button-text-outline: var(--color-gray-300);
+  --button-text-outline-hover: var(--color-gray-100);
+  --button-border-outline: var(--color-gray-700);
+  --button-border-outline-hover: var(--color-gray-700);
+
+  --button-text-link: var(--color-brand-300);
+  --button-text-link-hover: var(--color-brand-100);
+
+  --button-bg-destructive: var(--color-error-600);
+  --button-bg-destructive-hover: var(--color-error-700);
+  --button-text-destructive: white;
+  --button-text-destructive-hover: white;
+  --button-border-destructive: var(--color-error-600);
+  --button-border-destructive-hover: var(--color-error-700);
+
+  /* Input Component Variables - Dark Mode */
+  --input-border-hsl: 240 5% 25%;
+  --input-ring-hsl: 240 38% 47%;
+  --input-border-color: var(--border-primary);
+  --input-ring-color: var(--color-brand-700);
+
+  /* Input-Dropdown Component Variables - Dark Mode */
+  --input-bg: var(--bg-secondary);
+  --input-text: var(--text-primary);
+  --input-border: var(--border-secondary);
+  --input-border-hover: var(--border-primary);
+  --input-border-focus: var(--border-brand);
+  --input-text-placeholder: var(--text-tertiary);
+
+  --input-bg-disabled: var(--bg-disabled);
+  --input-text-disabled: var(--text-disabled);
+  --input-border-disabled: var(--border-disabled);
+
+  --dropdown-bg: var(--bg-primary);
+  --dropdown-text: var(--text-primary);
+  --dropdown-border: var(--border-secondary);
+
+  --dropdown-item-text: var(--text-primary);
+  --dropdown-item-bg-hover: var(--bg-secondary);
+  --dropdown-item-text-hover: var(--text-primary);
+  --dropdown-item-bg-focus: var(--dropdown-item-bg-hover);
+  --dropdown-item-text-focus: var(--dropdown-item-text-hover);
+
+  --dropdown-item-bg-brand-hover: var(--bg-brand-primary);
+  --dropdown-item-text-brand-hover: var(--fg-brand-primary);
+  --dropdown-item-bg-brand-focus: var(--dropdown-item-bg-brand-hover);
+  --dropdown-item-text-brand-focus: var(--dropdown-item-text-brand-hover);
+
+  --dropdown-item-bg-error-hover: var(--bg-error-primary);
+  --dropdown-item-text-error-hover: var(--text-error-primary);
+  --dropdown-item-bg-error-focus: var(--dropdown-item-bg-error-hover);
+  --dropdown-item-text-error-focus: var(--dropdown-item-text-error-hover);
+
+  --dropdown-item-bg-warning-hover: var(--bg-warning-primary);
+  --dropdown-item-text-warning-hover: var(--text-warning-primary);
+  --dropdown-item-bg-warning-focus: var(--dropdown-item-bg-warning-hover);
+  --dropdown-item-text-warning-focus: var(--dropdown-item-text-warning-hover);
+
+  --dropdown-item-bg-success-hover: var(--bg-success-primary);
+  --dropdown-item-text-success-hover: var(--text-success-primary);
+  --dropdown-item-bg-success-focus: var(--dropdown-item-bg-success-hover);
+  --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
+
+  /* Card Component Variables - Dark Mode */
+  --card-border: var(--border-tertiary);
+  --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+  --card-bg-border-only: transparent;
+  --card-border-border-only: var(--border-tertiary);
+
+  --card-bg-subtle: var(--bg-primary);
+  --card-border-subtle: var(--border-tertiary);
+
+  --card-bg-default: var(--bg-secondary);
+  --card-border-default: var(--border-tertiary);
+
+  --card-content-padding: 1.5rem;
+  --card-content-gap: 0.375rem;
+
+  --card-title-text: var(--text-primary);
+  --card-title-size: 1.5rem;
+  --card-title-weight: 600;
+
+  --card-description-text: var(--text-tertiary);
+  --card-description-size: 0.875rem;
 }
-
-/* ---------------------------------------- */
-/* Component Specific Variables: Radio      */
-/* ---------------------------------------- */
-:root {
-  /* Unchecked State */
-  --radio-border: var(--border-primary);
-  --radio-bg: transparent;
-  
-  /* Checked State */
-  --radio-border-checked: var(--border-brand); /* Often a brand color for the border when checked */
-  --radio-indicator-checked: var(--fg-brand-primary); /* The inner dot color */
-  
-  /* Hover State (Unchecked) */
-  --radio-border-hover: var(--border-brand); 
-
-  /* Hover State (Checked) - Indicator usually doesn't change on hover, border might */
-  --radio-border-checked-hover: var(--border-brand); /* Or a slightly different shade */
-
-  /* Focus State - Uses existing --ring */
-  
-  /* Disabled State (Unchecked) */
-  --radio-border-disabled: var(--border-disabled);
-  --radio-bg-disabled: var(--bg-disabled);
-
-  /* Disabled State (Checked) */
-  --radio-border-disabled-checked: var(--border-disabled);
-  --radio-indicator-disabled-checked: var(--text-disabled);
-}
-
-.dark {
-  /* Unchecked State */
-  --radio-border: var(--border-primary);
-  --radio-bg: transparent;
-  
-  /* Checked State */
-  --radio-border-checked: var(--border-brand);
-  --radio-indicator-checked: var(--fg-brand-primary);
-  
-  /* Hover State (Unchecked) */
-  --radio-border-hover: var(--border-brand); 
-
-  /* Hover State (Checked) */
-  --radio-border-checked-hover: var(--border-brand);
-  
-  /* Disabled State (Unchecked) */
-  --radio-border-disabled: var(--border-disabled);
-  --radio-bg-disabled: var(--bg-disabled);
-  
-  /* Disabled State (Checked) */
-  --radio-border-disabled-checked: var(--border-disabled);
-  --radio-indicator-disabled-checked: var(--text-disabled);
-}
-
-@layer components {
-  /**
-   * Component Utilities
-   * 
-   * Define reusable utility classes for common component styles.
-   * These can be used to apply consistent styling across components.
-   */
-  
-  /* Example utility classes - add your own as needed */
-  .text-brand-heading {
-    @apply text-lg font-semibold text-[var(--text-brand-primary)];
-  }
-  
-  .card-highlight {
-    @apply border-[var(--border-brand)] bg-[var(--bg-brand-primary)];
-  }
-  
-  .alert-error {
-    @apply bg-[var(--bg-error-secondary)] border-[var(--border-error)] text-[var(--text-error-primary)];
-  }
-  
-  .alert-warning {
-    @apply bg-[var(--bg-warning-secondary)] border-[var(--border-warning)] text-[var(--text-warning-primary)];
-  }
-  
-  .alert-success {
-    @apply bg-[var(--bg-success-secondary)] border-[var(--border-success)] text-[var(--text-success-primary)];
-  }
-
-  .alert-brand {
-    @apply bg-[var(--bg-brand-secondary)] border-[var(--border-brand)] text-[var(--text-brand-primary)];
-  }
-
-  /* Styling for the SidebarMenu (ul) component from sidebar.tsx */
-  /* The component itself applies cn("space-y-1", className) */
-  /* We target it by assuming it might get a specific class or by being a descendant */
-  .float-sidebar-menu {
-    /* @apply space-y-1; /* This is already on the component */
-    @apply px-2; /* This is 8px padding on x-axis for the UL */
-    /* For spacing between ULs, this class would need to be on each UL */
-    /* Alternatively, manage spacing via elements between ULs */
-  }
-
-  /* Sidebar Menu Button */
-  .float-sidebar-menu-button {
-    /* Padding is now p-2 (0.5rem) from SidebarMenuButton component in sidebar.tsx */
-    /* Base styles are mostly from the component, this class is for potential overrides or specific child targeting */
-    @apply flex items-center w-full text-[14px] rounded-md h-9; /* h-9 might need adjustment based on p-2 */
-    @apply bg-[var(--sidebar-item-bg)] border border-transparent;
-    @apply transition-all duration-200;
-  }
-
-  /* Icon within the button */
-  .float-sidebar-menu-button-icon {
-    @apply h-5 w-5 text-[var(--sidebar-item-icon)];
-    /* margin-right: 8px !important; /* REMOVED - Rely on gap-2 from parent button */
-    @apply transition-colors duration-200;
-  }
-
-  .float-sidebar-menu-button:hover .float-sidebar-menu-button-icon {
-    color: var(--sidebar-item-icon-hover) !important;
-  }
-
-  /* Text within the button */
-  .float-sidebar-menu-button-text {
-    @apply truncate font-normal text-[var(--text-secondary)];
-    font-size: 14px;
-    @apply transition-colors duration-200;
-  }
-
-  .float-sidebar-menu-button:hover .float-sidebar-menu-button-text {
-    color: var(--text-primary);
-  }
-
-  /* Section Label - for spacing between menu groups */
-  .float-sidebar-section-label {
-    @apply px-[18px] pt-8 pb-2 text-[13px] font-medium text-[var(--sidebar-group-text)]; 
-    /* pt-8 (32px) to create space above it (below previous UL), pb-2 for space below label before next UL */
-  }
-
-  /* Collapsed state */
-  .float-sidebar-root[data-state="collapsed"] {
-    width: var(--sidebar-width-collapsed, 64px) !important;
-  }
-  .float-sidebar-root[data-state="collapsed"] .float-sidebar-menu-button-icon {
-    margin-right: 0 !important;
-  }
-  .float-sidebar-root[data-state="collapsed"] .float-sidebar-menu-button-text {
-    @apply hidden;
-  }
-}
-
-/* Remove any duplicated .float-sidebar-root or .float-sidebar-menu-button:hover from the bottom of this file if they exist */
-
-/* End of file */

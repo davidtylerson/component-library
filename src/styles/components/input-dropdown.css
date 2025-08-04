@@ -4,10 +4,12 @@
   --input-text: var(--text-primary);
   --input-border: var(--border-secondary);
   --input-border-hover: var(--border-primary);
-  --input-border-focus: var(--border-brand); /* Focus usually gets brand color */
+  --input-border-focus: var(
+    --border-brand
+  ); /* Focus usually gets brand color */
   /* Using shadcn --ring (var(--input-ring-hsl)) for focus ring, no separate var needed here */
   --input-text-placeholder: var(--text-tertiary);
-  
+
   --input-bg-disabled: var(--bg-disabled);
   --input-text-disabled: var(--text-disabled);
   --input-border-disabled: var(--border-disabled);
@@ -17,19 +19,22 @@
   --dropdown-bg: var(--bg-primary); /* Popovers/Dropdowns often on primary bg */
   --dropdown-text: var(--text-primary);
   --dropdown-border: var(--border-secondary);
-  --dropdown-shadow: 0px 4px 10px -2px rgba(0, 0, 0, 0.08), 0px 2px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  --dropdown-shadow:
+    0px 4px 10px -2px rgba(0, 0, 0, 0.08), 0px 2px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
 
   /* Dropdown Item Styles */
   --dropdown-item-text: var(--text-primary);
   --dropdown-item-bg-hover: var(--bg-secondary);
-  --dropdown-item-text-hover: var(--text-primary); 
+  --dropdown-item-text-hover: var(--text-primary);
   --dropdown-item-bg-focus: var(--dropdown-item-bg-hover);
   --dropdown-item-text-focus: var(--dropdown-item-text-hover);
-  
+
   /* Colored Dropdown Item Variants (for hover/focus states) */
   /* Brand */
   --dropdown-item-bg-brand-hover: var(--bg-brand-primary);
-  --dropdown-item-text-brand-hover: var(--fg-brand-primary); /* Using fg-brand for potentially better icon/text harmony */
+  --dropdown-item-text-brand-hover: var(
+    --fg-brand-primary
+  ); /* Using fg-brand for potentially better icon/text harmony */
   --dropdown-item-bg-brand-focus: var(--dropdown-item-bg-brand-hover);
   --dropdown-item-text-brand-focus: var(--dropdown-item-text-brand-hover);
 
@@ -38,7 +43,7 @@
   --dropdown-item-text-error-hover: var(--text-error-primary);
   --dropdown-item-bg-error-focus: var(--dropdown-item-bg-error-hover);
   --dropdown-item-text-error-focus: var(--dropdown-item-text-error-hover);
-  
+
   /* Warning */
   --dropdown-item-bg-warning-hover: var(--bg-warning-primary);
   --dropdown-item-text-warning-hover: var(--text-warning-primary);
@@ -52,7 +57,9 @@
   --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
 
   /* Dropdown Separator */
-  --dropdown-separator-bg: var(--border-tertiary); /* Using tertiary for a more subtle separator */
+  --dropdown-separator-bg: var(
+    --border-tertiary
+  ); /* Using tertiary for a more subtle separator */
 }
 
 .dark {
@@ -63,13 +70,13 @@
   --input-border-hover: var(--border-primary);
   --input-border-focus: var(--border-brand);
   --input-text-placeholder: var(--text-tertiary);
-  
+
   --input-bg-disabled: var(--bg-disabled);
   --input-text-disabled: var(--text-disabled);
   --input-border-disabled: var(--border-disabled);
 
   /* Dropdown Content Styles */
-  --dropdown-bg: var(--bg-primary); 
+  --dropdown-bg: var(--bg-primary);
   --dropdown-text: var(--text-primary);
   --dropdown-border: var(--border-secondary);
 
@@ -104,7 +111,7 @@
   --dropdown-item-text-success-hover: var(--text-success-primary);
   --dropdown-item-bg-success-focus: var(--dropdown-item-bg-success-hover);
   --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
-  
+
   /* Dropdown Separator */
   --dropdown-separator-bg: var(--border-tertiary);
-} 
+}

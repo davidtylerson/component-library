@@ -1,0 +1,245 @@
+.float-sidebar {
+  /* Dimensions */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --sidebar-header-height: 56px;
+  --sidebar-footer-height: 56px;
+  --sidebar-padding: 16px;
+  --sidebar-item-spacing: 2px;
+
+  /* Base Colors */
+  --sidebar-bg: var(--bg-app-base);
+  --sidebar-border: var(--border-secondary);
+  --sidebar-text: var(--text-primary);
+  --sidebar-text-secondary: var(--text-secondary);
+  --sidebar-text-tertiary: var(--text-tertiary);
+
+  /* Item Colors */
+  --sidebar-item-bg: transparent;
+  --sidebar-item-text: var(--text-primary);
+  --sidebar-item-icon: var(--fg-tertiary);
+  --sidebar-item-border: transparent;
+
+  --sidebar-item-bg-hover: var(--bg-tertiary);
+  --sidebar-item-text-hover: var(--text-primary);
+  --sidebar-item-icon-hover: var(--fg-primary);
+  --sidebar-item-border-hover: var(--border-primary);
+
+  --sidebar-item-bg-active: var(--bg-brand-primary);
+  --sidebar-item-text-active: var(--fg-brand-primary);
+  --sidebar-item-icon-active: var(--fg-brand-primary);
+  --sidebar-item-border-active: var(--border-brand);
+
+  /* Group Colors */
+  --sidebar-group-text: var(--text-tertiary);
+  --sidebar-group-border: var(--border-tertiary);
+
+  /* Separator Colors */
+  --sidebar-separator-bg: var(--border-secondary);
+}
+
+/* Custom overrides for shadcn sidebar */
+.float-sidebar {
+  @apply text-[var(--sidebar-text)];
+}
+
+/* Header styling */
+.float-sidebar-header,
+header[class*='sidebar-header'] {
+  @apply h-[var(--sidebar-header-height)] border-b border-[var(--sidebar-border)] px-[var(--sidebar-padding)];
+}
+
+/* Content styling */
+div[class*='sidebar-content'] {
+  @apply overflow-y-auto py-2;
+}
+
+/* Footer styling */
+footer[class*='sidebar-footer'] {
+  @apply h-[var(--sidebar-footer-height)] border-t border-[var(--sidebar-border)] px-[var(--sidebar-padding)];
+}
+
+/* Group styling */
+div[class*='sidebar-group'] {
+  @apply py-1;
+}
+
+h3[class*='sidebar-group-label'] {
+  @apply px-2 py-1 text-[13px] font-medium text-[var(--sidebar-group-text)];
+}
+
+/* Menu styling */
+ul[class*='sidebar-menu'] {
+  @apply space-y-[var(--sidebar-item-spacing)] px-2;
+}
+
+/* Menu button styling */
+button[class*='sidebar-menu-button'],
+a[class*='sidebar-menu-button'] {
+  @apply flex h-9 w-full items-center rounded-md px-3;
+  @apply bg-[var(--sidebar-item-bg)] text-[var(--sidebar-item-text)];
+  @apply hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
+  @apply transition-all duration-200;
+}
+
+button[class*='sidebar-menu-button'] svg,
+a[class*='sidebar-menu-button'] svg {
+  @apply text-[var(--sidebar-item-icon)] transition-colors duration-200;
+}
+
+button[class*='sidebar-menu-button']:hover svg,
+a[class*='sidebar-menu-button']:hover svg {
+  @apply text-[var(--sidebar-item-icon-hover)];
+}
+
+button[class*='sidebar-menu-button'][data-active='true'],
+a[class*='sidebar-menu-button'][data-active='true'] {
+  @apply bg-[var(--sidebar-item-bg-active)] text-[var(--sidebar-item-text-active)];
+}
+
+button[class*='sidebar-menu-button'][data-active='true'] svg,
+a[class*='sidebar-menu-button'][data-active='true'] svg {
+  @apply text-[var(--sidebar-item-icon-active)];
+}
+
+/* Separator styling */
+div[class*='sidebar-separator'] {
+  @apply my-2 h-px bg-[var(--sidebar-separator-bg)];
+}
+
+/* Collapsed state styling */
+aside[data-state='collapsed'] button[class*='sidebar-menu-button'] span,
+aside[data-state='collapsed'] a[class*='sidebar-menu-button'] span {
+  @apply hidden;
+}
+
+aside[data-state='collapsed'] button[class*='sidebar-menu-button'],
+aside[data-state='collapsed'] a[class*='sidebar-menu-button'] {
+  @apply justify-center px-0;
+}
+
+aside[data-state='collapsed'] h3[class*='sidebar-group-label'] {
+  @apply opacity-0;
+}
+
+/* Base Sidebar Styles */
+.float-sidebar-root {
+  @apply flex flex-col bg-[var(--sidebar-bg)] transition-[width] duration-300 ease-in-out;
+  width: var(--sidebar-width);
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+.float-sidebar-root[data-state='collapsed'] {
+  width: var(--sidebar-width-collapsed);
+}
+
+/* Group Styles */
+.float-sidebar-group {
+  @apply py-1;
+}
+
+.float-sidebar-group-label {
+  @apply mb-1 flex items-center justify-between px-[var(--sidebar-padding)];
+}
+
+.float-sidebar-group-label-text {
+  @apply text-[13px] font-normal text-[var(--sidebar-group-text)];
+}
+
+.float-sidebar-group-action {
+  @apply rounded-md p-1 text-[var(--sidebar-group-text)] hover:bg-[var(--sidebar-item-bg-hover)];
+}
+
+/* Section Label */
+.float-sidebar-section-label {
+  @apply px-[var(--sidebar-padding)] py-2 text-[13px] font-medium text-[var(--sidebar-group-text)];
+}
+
+/* Organization Switcher Styles */
+.float-sidebar-org-switcher {
+  @apply flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors;
+  @apply text-[var(--sidebar-item-text)] hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
+}
+
+.float-sidebar-org-switcher-content {
+  @apply flex-1 overflow-hidden;
+}
+
+.float-sidebar-org-switcher-name {
+  @apply truncate text-sm font-medium;
+}
+
+.float-sidebar-org-switcher-description {
+  @apply truncate text-xs text-[var(--sidebar-text-tertiary)];
+}
+
+/* Mobile Styles - Commenting out for now to fix overlap */
+/*
+@media (max-width: 768px) {
+  .float-sidebar-root {
+    @apply fixed inset-y-0 left-0 z-50 transform -translate-x-full transition-transform;
+    width: var(--sidebar-width);
+  }
+
+  .float-sidebar-root[data-state="open"] {
+    @apply translate-x-0;
+  }
+}
+*/
+
+/* Transition styles */
+.float-sidebar-menu-button span,
+.float-sidebar-group-label {
+  @apply transition-opacity duration-200;
+}
+
+.float-sidebar-collapse-button {
+  @apply rounded-md p-1.5 text-[var(--sidebar-item-icon)] hover:bg-[var(--sidebar-item-bg-hover)];
+  @apply transition-colors duration-200;
+}
+
+.float-sidebar-collapse-button:hover {
+  @apply text-[var(--sidebar-item-icon-hover)];
+}
+
+.float-sidebar-menu-button-text {
+  color: var(--text-secondary) !important;
+}
+
+/* Organization Switcher Styles */
+.float-sidebar-org-switcher {
+  @apply flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors;
+  @apply text-[var(--sidebar-item-text)] hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
+}
+
+.float-sidebar-org-switcher-content {
+  @apply flex-1 overflow-hidden;
+}
+
+.float-sidebar-org-switcher-name {
+  @apply truncate text-sm font-medium;
+}
+
+.float-sidebar-org-switcher-description {
+  @apply truncate text-xs text-[var(--sidebar-text-tertiary)];
+}
+
+/* Collapse button styling */
+.float-sidebar-collapse-button {
+  @apply rounded-md p-1.5 text-[var(--sidebar-item-icon)] hover:bg-[var(--sidebar-item-bg-hover)];
+  @apply transition-colors duration-200;
+}
+
+.float-sidebar-collapse-button:hover {
+  @apply text-[var(--sidebar-item-icon-hover)];
+}
+
+/* Section label styling - usable with shadcn sidebar */
+.float-sidebar-section-label {
+  @apply px-[var(--sidebar-padding)] py-2 text-[13px] font-medium text-[var(--sidebar-group-text)];
+}
+
+aside[data-state='collapsed'] .float-sidebar-section-label {
+  @apply hidden;
+}

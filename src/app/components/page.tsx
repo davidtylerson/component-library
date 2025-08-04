@@ -1,41 +1,83 @@
 'use client';
 
 import React from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
-import { Slider } from "@/components/ui/slider";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2, Info, XCircle, ChevronDown, Settings, User, LogOut, Copy, Share, MoreHorizontal } from "lucide-react";
-import { DropdownMenu } from "@/components/ui/dropdown-menu";
-import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from "@/components/ui/context-menu";
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../../components/ui/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '../../components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../../components/ui/select';
+import { Switch } from '../../components/ui/switch';
+import { Checkbox } from '../../components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group';
+import { Textarea } from '../../components/ui/textarea';
+import { Slider } from '../../components/ui/slider';
+import { Progress } from '../../components/ui/progress';
+import { Badge } from '../../components/ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert';
+import {
+  IconAlertTriangle,
+  IconCheck,
+  IconInfoCircle,
+  IconX,
+  IconChevronDown,
+  IconSettings,
+  IconUser,
+  IconLogout,
+  IconCopy,
+  IconShare,
+  IconDots,
+} from '@tabler/icons-react';
+import { DropdownMenu } from '../../components/ui/dropdown-menu';
+import {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+} from '../../components/ui/context-menu';
 
 export default function ComponentsPage() {
   return (
-    <div className="p-8 max-w-6xl mx-auto min-h-screen bg-bg-primary text-text-primary">
+    <div className="mx-auto min-h-screen max-w-6xl bg-bg-primary p-8 text-text-primary">
       <div className="mb-8">
         <h1 className="text-2xl font-bold">Components</h1>
-        <p className="text-text-secondary mt-2">
-          A collection of reusable components built with shadcn/ui and styled with our design system.
+        <p className="mt-2 text-text-secondary">
+          A collection of reusable components built with shadcn/ui and styled
+          with our design system.
         </p>
       </div>
 
       {/* Buttons */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Buttons</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border border-border-primary rounded-md">
+        <h2 className="mb-4 text-xl font-semibold">Buttons</h2>
+        <div className="grid grid-cols-1 gap-6 rounded-md border border-border-primary p-4 md:grid-cols-2">
           <div className="space-y-4">
             <div>
-              <h3 className="text-sm font-medium text-text-secondary mb-2">Default Buttons</h3>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">
+                Default Buttons
+              </h3>
               <div className="flex flex-wrap gap-2">
                 <Button>Default</Button>
                 <Button variant="secondary">Secondary</Button>
@@ -45,17 +87,25 @@ export default function ComponentsPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-medium text-text-secondary mb-2">Destructive Buttons</h3>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">
+                Destructive Buttons
+              </h3>
               <div className="flex flex-wrap gap-2">
                 <Button variant="destructive">Destructive</Button>
-                <Button variant="destructive" size="sm">Small</Button>
-                <Button variant="destructive" size="lg">Large</Button>
+                <Button variant="destructive" size="sm">
+                  Small
+                </Button>
+                <Button variant="destructive" size="lg">
+                  Large
+                </Button>
               </div>
             </div>
           </div>
           <div className="space-y-4">
             <div>
-              <h3 className="text-sm font-medium text-text-secondary mb-2">Button Sizes</h3>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">
+                Button Sizes
+              </h3>
               <div className="flex flex-wrap gap-2">
                 <Button size="sm">Small</Button>
                 <Button size="md">Default</Button>
@@ -63,13 +113,23 @@ export default function ComponentsPage() {
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-medium text-text-secondary mb-2">Disabled Buttons</h3>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">
+                Disabled Buttons
+              </h3>
               <div className="flex flex-wrap gap-2">
                 <Button disabled>Default</Button>
-                <Button variant="secondary" disabled>Secondary</Button>
-                <Button variant="outline" disabled>Outline</Button>
-                <Button variant="ghost" disabled>Ghost</Button>
-                <Button variant="link" disabled>Link</Button>
+                <Button variant="secondary" disabled>
+                  Secondary
+                </Button>
+                <Button variant="outline" disabled>
+                  Outline
+                </Button>
+                <Button variant="ghost" disabled>
+                  Ghost
+                </Button>
+                <Button variant="link" disabled>
+                  Link
+                </Button>
               </div>
             </div>
           </div>
@@ -78,13 +138,15 @@ export default function ComponentsPage() {
 
       {/* Form Elements */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Form Elements</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="mb-4 text-xl font-semibold">Form Elements</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Inputs */}
           <Card>
             <CardHeader>
               <CardTitle>Inputs</CardTitle>
-              <CardDescription>Text input fields with various states</CardDescription>
+              <CardDescription>
+                Text input fields with various states
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -142,7 +204,9 @@ export default function ComponentsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Checkbox id="marketing" />
-                    <Label htmlFor="marketing">Subscribe to marketing emails</Label>
+                    <Label htmlFor="marketing">
+                      Subscribe to marketing emails
+                    </Label>
                   </div>
                 </div>
               </div>
@@ -202,8 +266,8 @@ export default function ComponentsPage() {
 
       {/* Progress & Sliders */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Progress & Sliders</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="mb-4 text-xl font-semibold">Progress & Sliders</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Progress */}
           <Card>
             <CardHeader>
@@ -232,10 +296,10 @@ export default function ComponentsPage() {
 
       {/* Alerts */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Alerts</h2>
+        <h2 className="mb-4 text-xl font-semibold">Alerts</h2>
         <div className="space-y-4">
           <Alert>
-            <Info className="h-4 w-4" />
+            <IconInfoCircle className="h-4 w-4" />
             <AlertTitle>Information</AlertTitle>
             <AlertDescription>
               This is an informational alert with an icon.
@@ -243,7 +307,7 @@ export default function ComponentsPage() {
           </Alert>
 
           <Alert variant="destructive">
-            <XCircle className="h-4 w-4" />
+            <IconX className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>
               This is a destructive alert for error messages.
@@ -251,7 +315,7 @@ export default function ComponentsPage() {
           </Alert>
 
           <Alert variant="success">
-            <CheckCircle2 className="h-4 w-4" />
+            <IconCheck className="h-4 w-4" />
             <AlertTitle>Success</AlertTitle>
             <AlertDescription>
               This is a success alert for positive feedback.
@@ -259,7 +323,7 @@ export default function ComponentsPage() {
           </Alert>
 
           <Alert variant="warning">
-            <AlertCircle className="h-4 w-4" />
+            <IconAlertTriangle className="h-4 w-4" />
             <AlertTitle>Warning</AlertTitle>
             <AlertDescription>
               This is a warning alert for important notices.
@@ -270,7 +334,7 @@ export default function ComponentsPage() {
 
       {/* Badges */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Badges</h2>
+        <h2 className="mb-4 text-xl font-semibold">Badges</h2>
         <div className="flex flex-wrap gap-2">
           <Badge>Default</Badge>
           <Badge variant="gray">Secondary</Badge>
@@ -281,8 +345,8 @@ export default function ComponentsPage() {
 
       {/* Dropdown Menu */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Dropdown Menu</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="mb-4 text-xl font-semibold">Dropdown Menu</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Basic Dropdown</CardTitle>
@@ -292,21 +356,21 @@ export default function ComponentsPage() {
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                   <Button variant="outline">
-                    Open Menu <ChevronDown className="ml-2 h-4 w-4" />
+                    Open Menu <IconChevronDown className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Item>
-                    <User className="mr-2 h-4 w-4" />
+                    <IconUser className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenu.Item>
                   <DropdownMenu.Item>
-                    <Settings className="mr-2 h-4 w-4" />
+                    <IconSettings className="mr-2 h-4 w-4" />
                     Settings
                   </DropdownMenu.Item>
                   <DropdownMenu.Separator />
                   <DropdownMenu.Item color="error">
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <IconLogout className="mr-2 h-4 w-4" />
                     Logout
                   </DropdownMenu.Item>
                 </DropdownMenu.Content>
@@ -317,23 +381,25 @@ export default function ComponentsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Dropdown with Submenu</CardTitle>
-              <CardDescription>Dropdown menu with nested submenus</CardDescription>
+              <CardDescription>
+                Dropdown menu with nested submenus
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                   <Button variant="outline">
-                    More Actions <MoreHorizontal className="ml-2 h-4 w-4" />
+                    More Actions <IconDots className="ml-2 h-4 w-4" />
                   </Button>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
                   <DropdownMenu.Item>
-                    <Copy className="mr-2 h-4 w-4" />
+                    <IconCopy className="mr-2 h-4 w-4" />
                     Copy
                   </DropdownMenu.Item>
                   <DropdownMenu.Sub>
                     <DropdownMenu.SubTrigger>
-                      <Share className="mr-2 h-4 w-4" />
+                      <IconShare className="mr-2 h-4 w-4" />
                       Share
                     </DropdownMenu.SubTrigger>
                     <DropdownMenu.SubContent>
@@ -351,8 +417,8 @@ export default function ComponentsPage() {
 
       {/* Context Menu */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Context Menu</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 className="mb-4 text-xl font-semibold">Context Menu</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle>Basic Context Menu</CardTitle>
@@ -365,16 +431,16 @@ export default function ComponentsPage() {
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                   <ContextMenuItem>
-                    <Copy className="mr-2 h-4 w-4" />
+                    <IconCopy className="mr-2 h-4 w-4" />
                     Copy
                   </ContextMenuItem>
                   <ContextMenuItem>
-                    <Share className="mr-2 h-4 w-4" />
+                    <IconShare className="mr-2 h-4 w-4" />
                     Share
                   </ContextMenuItem>
                   <ContextMenuSeparator />
                   <ContextMenuItem color="error">
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <IconLogout className="mr-2 h-4 w-4" />
                     Delete
                   </ContextMenuItem>
                 </ContextMenuContent>
@@ -385,7 +451,9 @@ export default function ComponentsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Context Menu with Submenu</CardTitle>
-              <CardDescription>Right-click to open nested menus</CardDescription>
+              <CardDescription>
+                Right-click to open nested menus
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ContextMenu>
@@ -394,12 +462,12 @@ export default function ComponentsPage() {
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                   <ContextMenuItem>
-                    <User className="mr-2 h-4 w-4" />
+                    <IconUser className="mr-2 h-4 w-4" />
                     View Profile
                   </ContextMenuItem>
                   <ContextMenuSub>
                     <ContextMenuSubTrigger>
-                      <Settings className="mr-2 h-4 w-4" />
+                      <IconSettings className="mr-2 h-4 w-4" />
                       Settings
                     </ContextMenuSubTrigger>
                     <ContextMenuSubContent>
@@ -417,7 +485,7 @@ export default function ComponentsPage() {
 
       {/* Tabs */}
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Tabs</h2>
+        <h2 className="mb-4 text-xl font-semibold">Tabs</h2>
         <Tabs defaultValue="account" className="w-full">
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
@@ -439,7 +507,11 @@ export default function ComponentsPage() {
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" defaultValue="john@example.com" />
+                  <Input
+                    id="email"
+                    type="email"
+                    defaultValue="john@example.com"
+                  />
                 </div>
               </CardContent>
               <CardFooter>
@@ -451,9 +523,7 @@ export default function ComponentsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Password</CardTitle>
-                <CardDescription>
-                  Change your password here.
-                </CardDescription>
+                <CardDescription>Change your password here.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="space-y-1">

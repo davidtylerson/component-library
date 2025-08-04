@@ -23,10 +23,11 @@ In your main CSS file (e.g., `app/globals.css`), import the theme styles:
 The `ThemeProvider` must be used within a Client Component. The recommended approach is to create a dedicated `providers.tsx` file to house all client-side providers.
 
 **Create `app/components/providers.tsx`:**
-```tsx
-"use client"
 
-import { ThemeProvider } from "@tydavidson/design-system"
+```tsx
+'use client';
+
+import { ThemeProvider } from '@tydavidson/design-system';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -38,28 +39,27 @@ export function Providers({ children }: { children: React.ReactNode }) {
     >
       {children}
     </ThemeProvider>
-  )
+  );
 }
 ```
 
 **Update your root layout `app/layout.tsx`:**
+
 ```tsx
-import { Providers } from "./components/providers"
+import { Providers } from './components/providers';
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }
 ```
 
@@ -83,12 +83,15 @@ export default function MyPage() {
 ## Available Components
 
 ### `ThemeProvider`
+
 The main provider for the theme system. It is a Client Component that wraps the `next-themes` provider with sensible defaults for the design system.
 
 ### `ClientThemeToggle`
+
 A Server Component-safe theme toggle button. This component can be used anywhere in your application.
 
 ### `useThemeServer`
+
 A Server Component-safe hook that returns the default theme values. This is useful for accessing theme information in Server Components without causing client-side re-renders.
 
 ## Troubleshooting
@@ -106,22 +109,19 @@ A Server Component-safe hook that returns the default theme values. This is usef
 A wrapper around the `next-themes` `ThemeProvider`. It accepts all the same props.
 
 **Example Usage:**
+
 ```tsx
 // app/components/providers.tsx
-"use client"
+'use client';
 
-import { ThemeProvider } from "@tydavidson/design-system"
+import { ThemeProvider } from '@tydavidson/design-system';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem={false}
-    >
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       {children}
     </ThemeProvider>
-  )
+  );
 }
 ```
 
@@ -132,11 +132,7 @@ A theme toggle button that is safe to use in both Server and Client Components.
 ```tsx
 import { ClientThemeToggle } from '@tydavidson/design-system/themes';
 
-<ClientThemeToggle 
-  variant="icon" 
-  size="md" 
-  className="custom-class" 
-/>
+<ClientThemeToggle variant="icon" size="md" className="custom-class" />;
 ```
 
 ### useThemeServer
@@ -147,4 +143,4 @@ A server-safe hook that provides default theme values.
 import { useThemeServer } from '@tydavidson/design-system/themes';
 
 const { theme, isDark } = useThemeServer();
-``` 
+```

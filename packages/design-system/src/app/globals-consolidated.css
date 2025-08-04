@@ -1,0 +1,806 @@
+/**
+ * Global CSS for Design System
+ * 
+ * This file defines the color system based on our Figma design tokens.
+ * It follows a layered approach:
+ * 1. Foundational Colors: Raw color values from design system
+ * 2. Semantic Variables: Meaningful variables that map to foundational colors
+ * 3. shadcn Variables: Variables required by shadcn components
+ * 4. Component-specific Variables: Consolidated from component CSS files
+ *
+ * This structure allows changes at any level without breaking the entire system.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== FOUNDATIONAL COLORS ===== */
+:root {
+  /* Gray Scale */
+  --color-gray-25: #fcfcfc;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d1d1d6;
+  --color-gray-400: #a0a0ab;
+  --color-gray-500: #70707b;
+  --color-gray-600: #51515c;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #26262b;
+  --color-gray-900: #1a1a1e;
+  --color-gray-950: #131316;
+
+  /* Brand Colors */
+  --color-brand-25: #f8faff;
+  --color-brand-50: #edf2ff;
+  --color-brand-100: #dee4fa;
+  --color-brand-200: #c6cdf4;
+  --color-brand-300: #a6afec;
+  --color-brand-400: #8f97e0;
+  --color-brand-500: #7479d6;
+  --color-brand-600: #6063bd;
+  --color-brand-700: #4a49a6;
+  --color-brand-800: #343688;
+  --color-brand-900: #232469;
+  --color-brand-950: #15154d;
+
+  /* Error Colors */
+  --color-error-25: #fffbfa;
+  --color-error-50: #ffefeb;
+  --color-error-100: #fcdad1;
+  --color-error-200: #f7b8a8;
+  --color-error-300: #ef927a;
+  --color-error-400: #e37559;
+  --color-error-500: #d3593a;
+  --color-error-600: #bd3e1e;
+  --color-error-700: #99371e;
+  --color-error-800: #7a2e1e;
+  --color-error-900: #5c2a1e;
+  --color-error-950: #3d1e1e;
+
+  /* Warning Colors */
+  --color-warning-25: #fffbeb;
+  --color-warning-50: #fef3c7;
+  --color-warning-100: #fde68a;
+  --color-warning-200: #fcd34d;
+  --color-warning-300: #fbbf24;
+  --color-warning-400: #f59e0b;
+  --color-warning-500: #d97706;
+  --color-warning-600: #b45309;
+  --color-warning-700: #92400e;
+  --color-warning-800: #78350f;
+  --color-warning-900: #451a03;
+  --color-warning-950: #2d1b0b;
+
+  /* Success Colors */
+  --color-success-25: #f0fdf4;
+  --color-success-50: #dcfce7;
+  --color-success-100: #bbf7d0;
+  --color-success-200: #86efac;
+  --color-success-300: #4ade80;
+  --color-success-400: #22c55e;
+  --color-success-500: #16a34a;
+  --color-success-600: #15803d;
+  --color-success-700: #166534;
+  --color-success-800: #14532d;
+  --color-success-900: #052e16;
+  --color-success-950: #0a1f0a;
+
+  /* Semantic Variables: Light Theme */
+  --text-primary: #1a1a1e;
+  --text-secondary: #51515c;
+  --text-tertiary: #70707b;
+  --text-disabled: #a0a0ab;
+
+  --text-brand-primary: #4a49a6;
+  --text-brand-secondary: #6063bd;
+  --text-brand-tertiary: #7479d6;
+
+  --text-error-primary: #bd3e1e;
+  --text-warning-primary: #b45309;
+  --text-success-primary: #15803d;
+
+  /* Border Colors */
+  --border-primary: #d1d1d6;
+  --border-secondary: #f4f4f5;
+  --border-tertiary: #fafafa;
+  --border-disabled: #f4f4f5;
+
+  --border-brand: #a6afec;
+  --border-brand-solid: #6063bd;
+
+  --border-error: #f7b8a8;
+  --border-error-solid: #bd3e1e;
+
+  --border-warning: #fcd34d;
+  --border-warning-solid: #b45309;
+
+  --border-success: #86efac;
+  --border-success-solid: #15803d;
+
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f4f4f5;
+  --bg-quaternary: #e4e4e7;
+  --bg-disabled: #f4f4f5;
+  --bg-overlay: #fafafa;
+  --bg-app-base: #fafafa;
+
+  --bg-brand-primary: #f8faff;
+  --bg-brand-secondary: #edf2ff;
+  --bg-brand-solid: #6063bd;
+
+  --bg-error-primary: #fffbfa;
+  --bg-error-secondary: #ffefeb;
+  --bg-error-solid: #bd3e1e;
+
+  --bg-warning-primary: #fffbeb;
+  --bg-warning-secondary: #fef3c7;
+  --bg-warning-solid: #b45309;
+
+  --bg-success-primary: #f0fdf4;
+  --bg-success-secondary: #dcfce7;
+  --bg-success-solid: #15803d;
+
+  /* Foreground Colors */
+  --fg-primary: #1a1a1e;
+  --fg-secondary: #51515c;
+  --fg-tertiary: #70707b;
+  --fg-quaternary: #a0a0ab;
+  --fg-quinary: #d1d1d6;
+  --fg-disabled: #a0a0ab;
+
+  --fg-brand-primary: #4a49a6;
+  --fg-brand-secondary: #6063bd;
+
+  --fg-error-primary: #bd3e1e;
+  --fg-error-secondary: #d3593a;
+
+  --fg-warning-primary: #b45309;
+  --fg-warning-secondary: #d97706;
+
+  --fg-success-primary: #15803d;
+  --fg-success-secondary: #16a34a;
+
+  --fg-white: #ffffff;
+
+  /* shadcn Required Variables */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+}
+
+/* ===== COMPONENT CSS VARIABLES (CONSOLIDATED) ===== */
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Badge      */
+/* ---------------------------------------- */
+:root {
+  /* Primary Badge (mimics Button Primary) */
+  --badge-bg-primary: var(--button-bg-primary);
+  --badge-text-primary: var(--button-text-primary);
+  --badge-border-primary: var(--button-border-primary);
+  --badge-bg-primary-hover: var(--button-bg-primary-hover);
+  --badge-text-primary-hover: var(--button-text-primary-hover);
+  --badge-border-primary-hover: var(--button-border-primary-hover);
+
+  /* Gray Badge (mimics Button Secondary) */
+  --badge-bg-gray: var(--button-bg-secondary);
+  --badge-text-gray: var(--button-text-secondary);
+  --badge-border-gray: var(--button-border-secondary);
+  --badge-bg-gray-hover: var(--button-bg-secondary-hover);
+  --badge-text-gray-hover: var(--button-text-secondary-hover);
+  --badge-border-gray-hover: var(--button-border-secondary-hover);
+
+  /* Destructive Badge (mimics Button Destructive) */
+  --badge-bg-destructive: var(--button-bg-destructive);
+  --badge-text-destructive: var(--button-text-destructive);
+  --badge-border-destructive: var(--button-border-destructive);
+  --badge-bg-destructive-hover: var(--button-bg-destructive-hover);
+  --badge-text-destructive-hover: var(--button-text-destructive-hover);
+  --badge-border-destructive-hover: var(--button-border-destructive-hover);
+
+  /* Ghost Badge (mimics Button Ghost) */
+  --badge-text-ghost: var(--button-text-ghost);
+  --badge-bg-ghost-hover: var(--button-bg-ghost-hover);
+  --badge-text-ghost-hover: var(--button-text-ghost-hover);
+  /* Ghost badges typically don't have a border in their resting state */
+  --badge-border-ghost: transparent;
+  --badge-border-ghost-hover: transparent;
+
+  /* Outline Badge (mimics Button Outline) */
+  --badge-bg-outline: transparent; /* Outline badges are typically transparent */
+  --badge-text-outline: var(--button-text-outline);
+  --badge-border-outline: var(--button-border-outline);
+  --badge-bg-outline-hover: var(--button-bg-outline-hover);
+  --badge-text-outline-hover: var(--button-text-outline-hover);
+  --badge-border-outline-hover: var(--button-border-outline-hover);
+}
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Checkbox   */
+/* ---------------------------------------- */
+:root {
+  /* Unchecked State */
+  --checkbox-border: var(--border-primary);
+  --checkbox-bg: transparent; /* Typically transparent when unchecked */
+
+  /* Checked State */
+  --checkbox-bg-checked: var(--bg-brand-solid);
+  --checkbox-border-checked: var(
+    --bg-brand-solid
+  ); /* Border often matches background when checked */
+  --checkbox-indicator-checked: var(--text-brand-primary); /* Checkmark color */
+
+  /* Hover State (Unchecked) - Can be subtle or rely on focus ring */
+  --checkbox-border-hover: var(--border-brand);
+
+  /* Hover State (Checked) */
+  --checkbox-bg-checked-hover: var(
+    --bg-brand-solid
+  ); /* Might be same as checked or slightly darker/lighter */
+  --checkbox-border-checked-hover: var(--bg-brand-solid);
+
+  /* Focus State - Uses existing --ring for the ring color */
+
+  /* Disabled State (Unchecked) */
+  --checkbox-border-disabled: var(--border-disabled);
+  --checkbox-bg-disabled: var(--bg-disabled);
+
+  /* Disabled State (Checked) */
+  --checkbox-bg-disabled-checked: var(
+    --border-disabled
+  ); /* Using border-disabled to appear grayed out */
+  --checkbox-border-disabled-checked: var(--border-disabled);
+  --checkbox-indicator-disabled-checked: var(--text-disabled);
+}
+
+/* ---------------------------------------- */
+/* Component Specific Variables: Radio      */
+/* ---------------------------------------- */
+:root {
+  /* Unchecked State */
+  --radio-border: var(--border-primary);
+  --radio-bg: transparent;
+
+  /* Checked State */
+  --radio-border-checked: var(
+    --border-brand
+  ); /* Often a brand color for the border when checked */
+  --radio-indicator-checked: var(--fg-brand-primary); /* The inner dot color */
+
+  /* Hover State (Unchecked) */
+  --radio-border-hover: var(--border-brand);
+
+  /* Hover State (Checked) - Indicator usually doesn't change on hover, border might */
+  --radio-border-checked-hover: var(
+    --border-brand
+  ); /* Or a slightly different shade */
+
+  /* Focus State - Uses existing --ring */
+
+  /* Disabled State (Unchecked) */
+  --radio-border-disabled: var(--border-disabled);
+  --radio-bg-disabled: var(--bg-disabled);
+
+  /* Disabled State (Checked) */
+  --radio-border-disabled-checked: var(--border-disabled);
+  --radio-indicator-disabled-checked: var(--text-disabled);
+}
+
+/* Button Component Variables */
+:root {
+  /* Primary Button */
+  --button-bg-primary: var(--color-brand-700);
+  --button-bg-primary-hover: var(--color-brand-800);
+  --button-text-primary: white;
+  --button-text-primary-hover: white;
+  --button-border-primary: var(--color-brand-700);
+  --button-border-primary-hover: var(--color-brand-800);
+
+  /* Secondary Button */
+  --button-bg-secondary: var(--color-gray-100);
+  --button-bg-secondary-hover: var(--color-gray-200);
+  --button-text-secondary: var(--color-gray-700);
+  --button-text-secondary-hover: var(--color-gray-800);
+  --button-border-secondary: var(--color-gray-300);
+  --button-border-secondary-hover: var(--color-gray-300);
+
+  /* Ghost Button */
+  --button-bg-ghost-hover: var(--color-gray-100);
+  --button-text-ghost: var(--color-gray-600);
+  --button-text-ghost-hover: var(--color-gray-700);
+
+  /* Outline Button */
+  --button-bg-outline: white;
+  --button-bg-outline-hover: var(--color-gray-100);
+  --button-text-outline: var(--color-gray-700);
+  --button-text-outline-hover: var(--color-gray-800);
+  --button-border-outline: var(--color-gray-300);
+  --button-border-outline-hover: var(--color-gray-300);
+
+  /* Link Button */
+  --button-text-link: var(--color-brand-700);
+  --button-text-link-hover: var(--color-brand-800);
+
+  /* Destructive Button */
+  --button-bg-destructive: var(--color-error-600);
+  --button-bg-destructive-hover: var(--color-error-700);
+  --button-text-destructive: white;
+  --button-text-destructive-hover: white;
+  --button-border-destructive: var(--color-error-600);
+  --button-border-destructive-hover: var(--color-error-700);
+
+  /* Button Icon Sizes */
+  --button-icon-size-sm: 12px;
+  --button-icon-size-md: 16px;
+  --button-icon-size-lg: 20px;
+}
+
+/* Input Component Variables */
+:root {
+  /* Input Light Theme HSL parameters for shadcn compatibility */
+  --input-border-hsl: 240 5% 84%;
+  --input-ring-hsl: 242 83% 71%;
+
+  /* Direct color variables for reference or non-shadcn use */
+  --input-border-color: var(--border-primary);
+  --input-ring-color: var(--color-brand-400);
+}
+
+/* Input-Dropdown Component Variables */
+:root {
+  /* Input Base Styles (Shared with Dropdown where applicable) */
+  --input-bg: var(--bg-secondary);
+  --input-text: var(--text-primary);
+  --input-border: var(--border-secondary);
+  --input-border-hover: var(--border-primary);
+  --input-border-focus: var(--border-brand);
+  --input-text-placeholder: var(--text-tertiary);
+
+  --input-bg-disabled: var(--bg-disabled);
+  --input-text-disabled: var(--text-disabled);
+  --input-border-disabled: var(--border-disabled);
+  --input-opacity-disabled: 0.6;
+
+  /* Dropdown Content Styles */
+  --dropdown-bg: var(--bg-primary);
+  --dropdown-text: var(--text-primary);
+  --dropdown-border: var(--border-secondary);
+  --dropdown-shadow:
+    0px 4px 10px -2px rgba(0, 0, 0, 0.08), 0px 2px 6px -2px rgba(0, 0, 0, 0.05);
+
+  /* Dropdown Item Styles */
+  --dropdown-item-text: var(--text-primary);
+  --dropdown-item-bg-hover: var(--bg-secondary);
+  --dropdown-item-text-hover: var(--text-primary);
+  --dropdown-item-bg-focus: var(--dropdown-item-bg-hover);
+  --dropdown-item-text-focus: var(--dropdown-item-text-hover);
+
+  /* Colored Dropdown Item Variants */
+  --dropdown-item-bg-brand-hover: var(--bg-brand-primary);
+  --dropdown-item-text-brand-hover: var(--fg-brand-primary);
+  --dropdown-item-bg-brand-focus: var(--dropdown-item-bg-brand-hover);
+  --dropdown-item-text-brand-focus: var(--dropdown-item-text-brand-hover);
+
+  --dropdown-item-bg-error-hover: var(--bg-error-primary);
+  --dropdown-item-text-error-hover: var(--text-error-primary);
+  --dropdown-item-bg-error-focus: var(--dropdown-item-bg-error-hover);
+  --dropdown-item-text-error-focus: var(--dropdown-item-text-error-hover);
+
+  --dropdown-item-bg-warning-hover: var(--bg-warning-primary);
+  --dropdown-item-text-warning-hover: var(--text-warning-primary);
+  --dropdown-item-bg-warning-focus: var(--dropdown-item-bg-warning-hover);
+  --dropdown-item-text-warning-focus: var(--dropdown-item-text-warning-hover);
+
+  --dropdown-item-bg-success-hover: var(--bg-success-primary);
+  --dropdown-item-text-success-hover: var(--text-success-primary);
+  --dropdown-item-bg-success-focus: var(--dropdown-item-bg-success-hover);
+  --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
+
+  /* Dropdown Separator */
+  --dropdown-separator-bg: var(--border-tertiary);
+}
+
+/* Card Component Variables */
+:root {
+  /* Card Base Styles */
+  --card-border: var(--border-tertiary);
+  --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+
+  /* Card Variants */
+  --card-bg-border-only: transparent;
+  --card-border-border-only: var(--border-tertiary);
+
+  --card-bg-subtle: var(--bg-primary);
+  --card-border-subtle: var(--border-tertiary);
+
+  --card-bg-default: var(--bg-secondary);
+  --card-border-default: var(--border-tertiary);
+
+  /* Card Content */
+  --card-content-padding: 1.5rem;
+  --card-content-gap: 0.375rem;
+
+  /* Card Title */
+  --card-title-text: var(--text-primary);
+  --card-title-size: 1.5rem;
+  --card-title-weight: 600;
+
+  /* Card Description */
+  --card-description-text: var(--text-tertiary);
+  --card-description-size: 0.875rem;
+}
+
+/* Sidebar Component Variables */
+:root {
+  /* Dimensions */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 64px;
+  --sidebar-header-height: 56px;
+  --sidebar-footer-height: 56px;
+  --sidebar-padding: 16px;
+  --sidebar-item-spacing: 2px;
+
+  /* Base Colors */
+  --sidebar-bg: var(--bg-app-base);
+  --sidebar-border: var(--border-secondary);
+  --sidebar-text: var(--text-primary);
+  --sidebar-text-secondary: var(--text-secondary);
+  --sidebar-text-tertiary: var(--text-tertiary);
+
+  /* Item Colors */
+  --sidebar-item-bg: transparent;
+  --sidebar-item-text: var(--text-primary);
+  --sidebar-item-icon: var(--fg-tertiary);
+  --sidebar-item-border: transparent;
+
+  --sidebar-item-bg-hover: var(--bg-tertiary);
+  --sidebar-item-text-hover: var(--text-primary);
+  --sidebar-item-icon-hover: var(--fg-primary);
+  --sidebar-item-border-hover: var(--border-primary);
+
+  --sidebar-item-bg-active: var(--bg-brand-primary);
+  --sidebar-item-text-active: var(--fg-brand-primary);
+  --sidebar-item-icon-active: var(--fg-brand-primary);
+  --sidebar-item-border-active: var(--border-brand);
+
+  /* Group Colors */
+  --sidebar-group-text: var(--text-tertiary);
+  --sidebar-group-border: var(--border-tertiary);
+
+  /* Separator Colors */
+  --sidebar-separator-bg: var(--border-secondary);
+}
+
+/* ===== COMPONENT CSS CLASSES ===== */
+
+/* Button icon size classes */
+.float-button-sm svg {
+  width: var(--button-icon-size-sm);
+  height: var(--button-icon-size-sm);
+}
+
+.float-button-md svg {
+  width: var(--button-icon-size-md);
+  height: var(--button-icon-size-md);
+}
+
+.float-button-lg svg {
+  width: var(--button-icon-size-lg);
+  height: var(--button-icon-size-lg);
+}
+
+/* Icon-only button classes */
+.float-button-icon-sm svg {
+  width: var(--button-icon-size-sm);
+  height: var(--button-icon-size-sm);
+}
+
+.float-button-icon-md svg {
+  width: var(--button-icon-size-md);
+  height: var(--button-icon-size-md);
+}
+
+.float-button-icon-lg svg {
+  width: var(--button-icon-size-lg);
+  height: var(--button-icon-size-lg);
+}
+
+/* ===== DARK MODE COMPONENT VARIABLES ===== */
+
+.dark {
+  /* Text Colors - Adjusted for dark mode */
+  --text-primary: rgb(255 255 255 / 1);
+  --text-secondary: rgb(255 255 255 / 0.73);
+  --text-tertiary: rgb(255 255 255 / 0.6);
+  --text-disabled: rgb(255 255 255 / 0.38);
+
+  --text-brand-primary: #edf2ff;
+  --text-brand-secondary: #c6cdf4;
+  --text-brand-tertiary: #a6afec;
+
+  --text-error-primary: #ef927a;
+  --text-warning-primary: #fde272;
+  --text-success-primary: #73e2b2;
+
+  /* Border Colors - Adjusted for dark mode */
+  --border-primary: #52525b;
+  --border-secondary: #26262b;
+  --border-tertiary: #26262b;
+  --border-disabled: #3f3f46;
+
+  --border-brand: #7479d6;
+  --border-brand-solid: #a6afec;
+
+  --border-error: #e37559;
+  --border-error-solid: #ef927a;
+
+  --border-warning: #fac515;
+  --border-warning-solid: #fde272;
+
+  --border-success: #3ccb8d;
+  --border-success-solid: #73e2b2;
+
+  /* Background Colors - Adjusted for dark mode */
+  --bg-primary: #131316;
+  --bg-secondary: #1a1a1e;
+  --bg-tertiary: #26262b;
+  --bg-quaternary: #3f3f46;
+  --bg-disabled: #26262b;
+  --bg-overlay: #26262b;
+  --bg-app-base: #131316;
+
+  --bg-brand-primary: #1a1a1e;
+  --bg-brand-secondary: #131316;
+  --bg-brand-solid: #4a49a6;
+
+  --bg-error-primary: #d3593a;
+  --bg-error-secondary: #ef927a;
+  --bg-error-solid: #bd3e1e;
+
+  --bg-warning-primary: #eaaa08;
+  --bg-warning-secondary: #fde272;
+  --bg-warning-solid: #ca8504;
+
+  --bg-success-primary: #36b37d;
+  --bg-success-secondary: #73e2b2;
+  --bg-success-solid: #2c9266;
+
+  /* Foreground Colors - Adjusted for dark mode */
+  --fg-primary: #ffffff;
+  --fg-secondary: #d1d1d6;
+  --fg-tertiary: #a0a0ab;
+  --fg-quaternary: #70707b;
+  --fg-quinary: #a0a0ab;
+  --fg-disabled: #70707b;
+
+  --fg-brand-primary: #a6afec;
+  --fg-brand-secondary: #7479d6;
+
+  --fg-error-primary: #ef927a;
+  --fg-error-secondary: #e37559;
+
+  --fg-warning-primary: #fde272;
+  --fg-warning-secondary: #fac515;
+
+  --fg-success-primary: #73e2b2;
+  --fg-success-secondary: #3ccb8d;
+
+  --fg-white: #ffffff;
+
+  /* shadcn Required Variables: Dark Theme */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+
+  /* Checkbox Component Variables - Dark Mode */
+  --checkbox-bg: var(--bg-secondary);
+  --checkbox-border: var(--border-primary);
+  --checkbox-border-hover: var(--border-brand);
+
+  --checkbox-bg-checked: var(--color-brand-700);
+  --checkbox-border-checked: var(--color-brand-700);
+  --checkbox-indicator-checked: white;
+  --checkbox-bg-checked-hover: var(--color-brand-800);
+  --checkbox-border-checked-hover: var(--color-brand-800);
+
+  --checkbox-bg-disabled: var(--bg-disabled);
+  --checkbox-border-disabled: var(--border-disabled);
+  --checkbox-bg-disabled-checked: var(--color-gray-600);
+  --checkbox-border-disabled-checked: var(--color-gray-600);
+  --checkbox-indicator-disabled-checked: var(--color-gray-400);
+
+  /* Radio Group Component Variables - Dark Mode */
+  --radio-bg: var(--bg-secondary);
+  --radio-border: var(--border-primary);
+  --radio-border-hover: var(--border-brand);
+  --radio-indicator-checked: var(--color-brand-700);
+
+  --radio-border-checked: var(--color-brand-700);
+  --radio-border-checked-hover: var(--color-brand-800);
+
+  --radio-bg-disabled: var(--bg-disabled);
+  --radio-border-disabled: var(--border-disabled);
+  --radio-border-disabled-checked: var(--border-disabled);
+  --radio-indicator-disabled-checked: var(--text-disabled);
+
+  /* Checkbox Component Variables - Dark Mode */
+  --checkbox-border: var(--border-primary);
+  --checkbox-bg: transparent;
+
+  --checkbox-bg-checked: var(--bg-brand-solid);
+  --checkbox-border-checked: var(--bg-brand-solid);
+  --checkbox-indicator-checked: var(--text-brand-primary);
+
+  --checkbox-border-hover: var(--border-brand);
+
+  --checkbox-bg-checked-hover: var(--bg-brand-solid);
+  --checkbox-border-checked-hover: var(--bg-brand-solid);
+
+  --checkbox-border-disabled: var(--border-disabled);
+  --checkbox-bg-disabled: var(--bg-disabled);
+
+  --checkbox-bg-disabled-checked: var(--border-disabled);
+  --checkbox-border-disabled-checked: var(--border-disabled);
+  --checkbox-indicator-disabled-checked: var(--text-disabled);
+
+  /* Radio Component Variables - Dark Mode */
+  --radio-border: var(--border-primary);
+  --radio-bg: transparent;
+
+  --radio-border-checked: var(--border-brand);
+  --radio-indicator-checked: var(--fg-brand-primary);
+
+  --radio-border-hover: var(--border-brand);
+
+  --radio-border-checked-hover: var(--border-brand);
+
+  --radio-border-disabled: var(--border-disabled);
+  --radio-bg-disabled: var(--bg-disabled);
+
+  --radio-border-disabled-checked: var(--border-disabled);
+  --radio-indicator-disabled-checked: var(--text-disabled);
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+
+  /* Button Component Variables - Dark Mode */
+  --button-bg-primary: var(--color-brand-700);
+  --button-bg-primary-hover: var(--color-brand-800);
+  --button-text-primary: white;
+  --button-text-primary-hover: white;
+  --button-border-primary: var(--color-brand-700);
+  --button-border-primary-hover: var(--color-brand-800);
+
+  --button-bg-secondary: var(--color-gray-900);
+  --button-bg-secondary-hover: var(--color-gray-800);
+  --button-text-secondary: var(--color-gray-300);
+  --button-text-secondary-hover: var(--color-gray-100);
+  --button-border-secondary: var(--color-gray-700);
+  --button-border-secondary-hover: var(--color-gray-700);
+
+  --button-bg-ghost-hover: var(--color-gray-800);
+  --button-text-ghost: var(--color-gray-300);
+  --button-text-ghost-hover: var(--color-gray-100);
+
+  --button-bg-outline: var(--color-gray-900);
+  --button-bg-outline-hover: var(--color-gray-800);
+  --button-text-outline: var(--color-gray-300);
+  --button-text-outline-hover: var(--color-gray-100);
+  --button-border-outline: var(--color-gray-700);
+  --button-border-outline-hover: var(--color-gray-700);
+
+  --button-text-link: var(--color-brand-300);
+  --button-text-link-hover: var(--color-brand-100);
+
+  --button-bg-destructive: var(--color-error-600);
+  --button-bg-destructive-hover: var(--color-error-700);
+  --button-text-destructive: white;
+  --button-text-destructive-hover: white;
+  --button-border-destructive: var(--color-error-600);
+  --button-border-destructive-hover: var(--color-error-700);
+
+  /* Input Component Variables - Dark Mode */
+  --input-border-hsl: 240 5% 25%;
+  --input-ring-hsl: 240 38% 47%;
+  --input-border-color: var(--border-primary);
+  --input-ring-color: var(--color-brand-700);
+
+  /* Input-Dropdown Component Variables - Dark Mode */
+  --input-bg: var(--bg-secondary);
+  --input-text: var(--text-primary);
+  --input-border: var(--border-secondary);
+  --input-border-hover: var(--border-primary);
+  --input-border-focus: var(--border-brand);
+  --input-text-placeholder: var(--text-tertiary);
+
+  --input-bg-disabled: var(--bg-disabled);
+  --input-text-disabled: var(--text-disabled);
+  --input-border-disabled: var(--border-disabled);
+
+  --dropdown-bg: var(--bg-primary);
+  --dropdown-text: var(--text-primary);
+  --dropdown-border: var(--border-secondary);
+
+  --dropdown-item-text: var(--text-primary);
+  --dropdown-item-bg-hover: var(--bg-secondary);
+  --dropdown-item-text-hover: var(--text-primary);
+  --dropdown-item-bg-focus: var(--dropdown-item-bg-hover);
+  --dropdown-item-text-focus: var(--dropdown-item-text-hover);
+
+  --dropdown-item-bg-brand-hover: var(--bg-brand-primary);
+  --dropdown-item-text-brand-hover: var(--fg-brand-primary);
+  --dropdown-item-bg-brand-focus: var(--dropdown-item-bg-brand-hover);
+  --dropdown-item-text-brand-focus: var(--dropdown-item-text-brand-hover);
+
+  --dropdown-item-bg-error-hover: var(--bg-error-primary);
+  --dropdown-item-text-error-hover: var(--text-error-primary);
+  --dropdown-item-bg-error-focus: var(--dropdown-item-bg-error-hover);
+  --dropdown-item-text-error-focus: var(--dropdown-item-text-error-hover);
+
+  --dropdown-item-bg-warning-hover: var(--bg-warning-primary);
+  --dropdown-item-text-warning-hover: var(--text-warning-primary);
+  --dropdown-item-bg-warning-focus: var(--dropdown-item-bg-warning-hover);
+  --dropdown-item-text-warning-focus: var(--dropdown-item-text-warning-hover);
+
+  --dropdown-item-bg-success-hover: var(--bg-success-primary);
+  --dropdown-item-text-success-hover: var(--text-success-primary);
+  --dropdown-item-bg-success-focus: var(--dropdown-item-bg-success-hover);
+  --dropdown-item-text-success-focus: var(--dropdown-item-text-success-hover);
+
+  /* Card Component Variables - Dark Mode */
+  --card-border: var(--border-tertiary);
+  --card-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+  --card-bg-border-only: transparent;
+  --card-border-border-only: var(--border-tertiary);
+
+  --card-bg-subtle: var(--bg-primary);
+  --card-border-subtle: var(--border-tertiary);
+
+  --card-bg-default: var(--bg-secondary);
+  --card-border-default: var(--border-tertiary);
+
+  --card-content-padding: 1.5rem;
+  --card-content-gap: 0.375rem;
+
+  --card-title-text: var(--text-primary);
+  --card-title-size: 1.5rem;
+  --card-title-weight: 600;
+
+  --card-description-text: var(--text-tertiary);
+  --card-description-size: 0.875rem;
+}

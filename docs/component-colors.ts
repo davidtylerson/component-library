@@ -1,4 +1,3 @@
-
 // export const componentColorsComponentsAppStoreBadgesAppStoreBadgeBorder = '#a6a6a6'
 // export const componentColorsComponentsApplicationNavigationNavItemButtonIconFg = 'var(--colors-gray-light-mode-500)'
 // export const componentColorsComponentsApplicationNavigationNavItemButtonIconFg_active = 'var(--colors-gray-light-mode-700)'
@@ -16,45 +15,84 @@
 // export const componentColorsComponentsBreadcrumbsBreadcrumbFg_hover = 'var(--colors-gray-light-mode-700)'
 // export const componentColorsComponentsBreadcrumbsBreadcrumbIconFg = 'var(--colors-gray-light-mode-500)'
 // export const componentColorsComponentsBreadcrumbsBreadcrumbIconFg_hover = 'var(--colors-gray-light-mode-700)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryBg = 'var(--colors-brand-700)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryBg_hover = 'var(--colors-brand-800)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryBorder = 'var(--colors-brand-700)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryBorder_hover = 'var(--colors-brand-800)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryFg = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsPrimaryButtonPrimaryFg_hover = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBg = 'var(--colors-error-600)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBg_hover = 'var(--colors-error-700)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBorder = 'var(--colors-error-600)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBorder_hover = 'var(--colors-error-700)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorFg = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorFg_hover = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryBg = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryBg_hover = 'var(--colors-gray-light-mode-50)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryBorder = 'var(--colors-gray-light-mode-300)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryBorder_hover = 'var(--colors-gray-light-mode-300)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryFg = 'var(--colors-gray-light-mode-700)'
-export const componentColorsComponentsButtonsSecondaryButtonSecondaryFg_hover = 'var(--colors-gray-light-mode-800)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBg = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBg_hover = 'var(--colors-brand-50)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBorder = 'var(--colors-brand-300)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBorder_hover = 'var(--colors-brand-300)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorFg = 'var(--colors-brand-600)'
-export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorFg_hover = 'var(--colors-brand-700)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBg = 'var(--colors-base-white)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBg_hover = 'var(--colors-error-50)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBorder = 'var(--colors-error-300)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBorder_hover = 'var(--colors-error-300)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorFg = 'var(--colors-error-700)'
-export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorFg_hover = 'var(--colors-error-800)'
-export const componentColorsComponentsButtonsTertiaryButtonTertiaryBg_hover = 'var(--colors-gray-light-mode-50)'
-export const componentColorsComponentsButtonsTertiaryButtonTertiaryFg = 'var(--colors-gray-light-mode-600)'
-export const componentColorsComponentsButtonsTertiaryButtonTertiaryFg_hover = 'var(--colors-gray-light-mode-700)'
-export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorBg_hover = 'var(--colors-brand-50)'
-export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorFg = 'var(--colors-brand-700)'
-export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorFg_hover = 'var(--colors-brand-800)'
-export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorBg_hover = 'var(--colors-error-50)'
-export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorFg = 'var(--colors-error-700)'
-export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorFg_hover = 'var(--colors-error-800)'
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryBg =
+  'var(--colors-brand-700)';
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryBg_hover =
+  'var(--colors-brand-800)';
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryBorder =
+  'var(--colors-brand-700)';
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryBorder_hover =
+  'var(--colors-brand-800)';
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryFg =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsPrimaryButtonPrimaryFg_hover =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBg =
+  'var(--colors-error-600)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBg_hover =
+  'var(--colors-error-700)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBorder =
+  'var(--colors-error-600)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorBorder_hover =
+  'var(--colors-error-700)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorFg =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsPrimaryErrorButtonPrimaryErrorFg_hover =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryBg =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryBg_hover =
+  'var(--colors-gray-light-mode-50)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryBorder =
+  'var(--colors-gray-light-mode-300)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryBorder_hover =
+  'var(--colors-gray-light-mode-300)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryFg =
+  'var(--colors-gray-light-mode-700)';
+export const componentColorsComponentsButtonsSecondaryButtonSecondaryFg_hover =
+  'var(--colors-gray-light-mode-800)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBg =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBg_hover =
+  'var(--colors-brand-50)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBorder =
+  'var(--colors-brand-300)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorBorder_hover =
+  'var(--colors-brand-300)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorFg =
+  'var(--colors-brand-600)';
+export const componentColorsComponentsButtonsSecondaryColorButtonSecondaryColorFg_hover =
+  'var(--colors-brand-700)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBg =
+  'var(--colors-base-white)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBg_hover =
+  'var(--colors-error-50)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBorder =
+  'var(--colors-error-300)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorBorder_hover =
+  'var(--colors-error-300)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorFg =
+  'var(--colors-error-700)';
+export const componentColorsComponentsButtonsSecondaryErrorButtonSecondaryErrorFg_hover =
+  'var(--colors-error-800)';
+export const componentColorsComponentsButtonsTertiaryButtonTertiaryBg_hover =
+  'var(--colors-gray-light-mode-50)';
+export const componentColorsComponentsButtonsTertiaryButtonTertiaryFg =
+  'var(--colors-gray-light-mode-600)';
+export const componentColorsComponentsButtonsTertiaryButtonTertiaryFg_hover =
+  'var(--colors-gray-light-mode-700)';
+export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorBg_hover =
+  'var(--colors-brand-50)';
+export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorFg =
+  'var(--colors-brand-700)';
+export const componentColorsComponentsButtonsTertiaryColorButtonTertiaryColorFg_hover =
+  'var(--colors-brand-800)';
+export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorBg_hover =
+  'var(--colors-error-50)';
+export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorFg =
+  'var(--colors-error-700)';
+export const componentColorsComponentsButtonsTertiaryErrorButtonTertiaryErrorFg_hover =
+  'var(--colors-error-800)';
 // export const componentColorsComponentsFootersFooterBadgeBg = 'var(--colors-success-50)'
 // export const componentColorsComponentsFootersFooterBadgeBorder = 'var(--colors-success-200)'
 // export const componentColorsComponentsFootersFooterBadgeFg = 'var(--colors-success-700)'
