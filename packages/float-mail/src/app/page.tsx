@@ -1,27 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { 
-  Sidebar, 
-  SidebarContent, 
-  SidebarMenu, 
-  SidebarMenuButton, 
-  SidebarMenuItem, 
-  SidebarGroup, 
-  SidebarGroupLabel, 
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarGroupContent,
   SidebarProvider,
-  ClientThemeToggle
+  ClientThemeToggle,
 } from '@float-vibe-foundry/design-system';
-import {
-  IconSettings,
-  IconComponents,
-  IconEye
-} from '@tabler/icons-react';
+import { IconSettings, IconComponents, IconEye } from '@tabler/icons-react';
 import { Tabs, TabsList, TabsTrigger } from '@float-vibe-foundry/design-system';
-import MonacoEditor from '../components/MonacoEditor';
+import CodeMirrorEditor from '../components/CodeMirrorEditor';
 import EmailPreview from '../components/EmailPreview';
-import CodeViewer from '../components/CodeViewer';
+import CodeMirrorViewer from '../components/CodeMirrorViewer';
 import { TemplateLoader } from '../lib/template-loader';
 import { EnhancedTemplateRenderer } from '../lib/enhanced-template-renderer';
 import { TemplateData } from '../types/template-types';
@@ -40,7 +36,7 @@ const IconTemplate = ({ className }: { className?: string }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M4 4m0 1a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z" />
     <path d="M4 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
     <path d="M14 12l6 0" />
@@ -62,7 +58,7 @@ const IconFileInvoice = ({ className }: { className?: string }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
     <path d="M14 3v4a1 1 0 0 0 1 1h4" />
     <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
     <path d="M9 7l1 0" />
@@ -86,7 +82,7 @@ export default function FloatMailPage() {
       const templates = TemplateLoader.getAvailableTemplates();
       console.log('Loaded templates:', templates);
       setAvailableTemplates(templates);
-      
+
       // Load sample data for default template
       const sampleData = TemplateLoader.getSampleData('Welcome');
       console.log('Loaded sample data for Welcome:', sampleData);
@@ -118,39 +114,48 @@ export default function FloatMailPage() {
   // Update rendered HTML when template or data changes
   useEffect(() => {
     const updateRenderedHtml = async () => {
-      const result = await EnhancedTemplateRenderer.renderTemplate(selectedTemplate, previewData);
+      const result = await EnhancedTemplateRenderer.renderTemplate(
+        selectedTemplate,
+        previewData
+      );
       if (result) {
         setRenderedHtml(result.html);
       }
     };
-    
+
     if (selectedTemplate) {
       updateRenderedHtml();
     }
   }, [selectedTemplate, previewData]);
 
-
-
   return (
     <SidebarProvider>
-      <div className="w-full h-screen bg-bg-quinary flex">
+      <div className="bg-bg-quinary flex h-screen w-full">
         {/* Navigation Sidebar */}
-        <Sidebar className="w-[232px] bg-bg-app-base flex flex-col" data-testid="template-sidebar">
+        <Sidebar
+          className="bg-bg-app-base flex w-[232px] flex-col"
+          data-testid="template-sidebar"
+        >
           <SidebarContent className="flex-1">
             <SidebarMenu className="mt-6">
               <SidebarGroup>
-                <SidebarGroupLabel className="text-text-tertiary">Templates</SidebarGroupLabel>
+                <SidebarGroupLabel className="text-text-tertiary">
+                  Templates
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
-                  {availableTemplates.map((templateName) => {
-                    const templateInfo = TemplateLoader.getTemplateInfo(templateName);
+                  {availableTemplates.map(templateName => {
+                    const templateInfo =
+                      TemplateLoader.getTemplateInfo(templateName);
                     return (
                       <SidebarMenuItem key={templateName}>
-                        <SidebarMenuButton 
+                        <SidebarMenuButton
                           isActive={selectedTemplate === templateName}
                           onClick={() => handleTemplateChange(templateName)}
                         >
                           <IconTemplate className="h-4 w-4" />
-                          <span>{templateInfo?.displayName || templateName}</span>
+                          <span>
+                            {templateInfo?.displayName || templateName}
+                          </span>
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     );
@@ -158,7 +163,9 @@ export default function FloatMailPage() {
                 </SidebarGroupContent>
               </SidebarGroup>
               <SidebarGroup>
-                <SidebarGroupLabel className="text-text-tertiary">Tools</SidebarGroupLabel>
+                <SidebarGroupLabel className="text-text-tertiary">
+                  Tools
+                </SidebarGroupLabel>
                 <SidebarGroupContent>
                   <SidebarMenuItem>
                     <SidebarMenuButton>
@@ -177,31 +184,44 @@ export default function FloatMailPage() {
             </SidebarMenu>
           </SidebarContent>
           {/* Theme Toggle at bottom right */}
-          <div className="p-4 flex justify-end">
+          <div className="flex justify-end p-4">
             <ClientThemeToggle />
           </div>
         </Sidebar>
 
         {/* Main Container - Fills entire remaining space */}
-        <div className="flex-1 m-2 bg-bg-primary border border-border-tertiary rounded-md overflow-hidden flex">
+        <div className="m-2 flex flex-1 overflow-hidden rounded-md border border-border-tertiary bg-bg-primary">
           {/* Central Section - Flexes to fill available space */}
-          <div className="flex-1 flex flex-col min-w-0">
+          <div className="flex min-w-0 flex-1 flex-col">
             {/* Central Section Header */}
-            <div className="h-16 flex items-center border-b border-border-tertiary px-6 flex-shrink-0">
+            <div className="flex h-16 flex-shrink-0 items-center border-b border-border-tertiary px-6">
               <div className="flex items-center gap-4">
                 <IconTemplate className="h-5 w-5 text-text-primary" />
                 <span className="text-lg font-medium text-text-primary">
-                  {TemplateLoader.getTemplateInfo(selectedTemplate)?.displayName || selectedTemplate}
+                  {TemplateLoader.getTemplateInfo(selectedTemplate)
+                    ?.displayName || selectedTemplate}
                 </span>
               </div>
               <div className="ml-auto flex items-center gap-4">
-                <Tabs value={editMode} onValueChange={(value) => setEditMode(value as 'react' | 'html')} className="w-auto">
+                <Tabs
+                  value={editMode}
+                  onValueChange={value =>
+                    setEditMode(value as 'react' | 'html')
+                  }
+                  className="w-auto"
+                >
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="react">React</TabsTrigger>
                     <TabsTrigger value="html">HTML</TabsTrigger>
                   </TabsList>
                 </Tabs>
-                <Tabs value={viewMode} onValueChange={(value) => setViewMode(value as 'preview' | 'code')} className="w-auto">
+                <Tabs
+                  value={viewMode}
+                  onValueChange={value =>
+                    setViewMode(value as 'preview' | 'code')
+                  }
+                  className="w-auto"
+                >
                   <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="preview">
                       <IconEye className="h-4 w-4" />
@@ -213,18 +233,18 @@ export default function FloatMailPage() {
                 </Tabs>
               </div>
             </div>
-            
+
             {/* Central Canvas */}
-            <div className="flex-1 bg-white min-w-0">
+            <div className="min-w-0 flex-1 bg-white">
               {viewMode === 'preview' ? (
-                <EmailPreview 
+                <EmailPreview
                   templateName={selectedTemplate}
                   data={previewData}
                   viewMode="desktop"
                 />
               ) : (
                 <div className="h-full p-4">
-                  <CodeViewer 
+                  <CodeMirrorViewer
                     code={getCurrentCode()}
                     language={editMode === 'react' ? 'typescript' : 'html'}
                   />
@@ -234,50 +254,62 @@ export default function FloatMailPage() {
           </div>
 
           {/* Data Sidebar - Fixed width */}
-          <div className="w-[400px] border-l border-border-tertiary bg-bg-app-elevated flex-shrink-0 flex flex-col">
+          <div className="bg-bg-app-elevated flex w-[450px] flex-shrink-0 flex-col border-l border-border-tertiary">
             {/* Data Sidebar Header */}
-            <div className="h-16 flex items-center border-b border-border-tertiary px-6 flex-shrink-0">
+            <div className="flex h-16 flex-shrink-0 items-center border-b border-border-tertiary px-6">
               <div className="flex items-center gap-2">
                 <IconFileInvoice className="h-5 w-5 text-fg-primary" />
-                <span className="text-lg font-medium text-text-primary">Data</span>
+                <span className="text-lg font-medium text-text-primary">
+                  Data
+                </span>
               </div>
             </div>
-            
+
             {/* Data Sidebar Content */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex flex-1 flex-col">
               {/* JSON Error Display */}
               {jsonError && (
-                <div className="p-4 border-b border-border-tertiary">
-                  <div className="p-2 bg-red-50 border border-red-200 rounded-md">
+                <div className="border-b border-border-tertiary p-4">
+                  <div className="rounded-md border border-red-200 bg-red-50 p-2">
                     <div className="text-xs text-red-600">
                       <strong>JSON Error:</strong> {jsonError}
                     </div>
                   </div>
                 </div>
               )}
-              
+
               {/* JSON Editor */}
-              <div className="flex-1 p-4">
+              <div className="flex-1">
                 <div className="h-full">
-                  <MonacoEditor
+                  <CodeMirrorEditor
                     value={JSON.stringify(previewData, null, 2)}
-                    onChange={(value) => {
+                    onChange={value => {
                       console.log('JSON editor changed:', value);
                       try {
                         const parsedData = JSON.parse(value);
                         console.log('Parsed data:', parsedData);
                         setPreviewData(parsedData);
                         setJsonError(null); // Clear error on successful parse
-                        
+
                         // Validate the data
-                        const validation = TemplateLoader.validateData(parsedData, selectedTemplate);
+                        const validation = TemplateLoader.validateData(
+                          parsedData,
+                          selectedTemplate
+                        );
                         if (!validation.valid) {
-                          console.warn('Template validation errors:', validation.errors);
+                          console.warn(
+                            'Template validation errors:',
+                            validation.errors
+                          );
                         }
                       } catch (error) {
                         // Handle invalid JSON - show error in UI
                         console.error('JSON parse error:', error);
-                        setJsonError(error instanceof Error ? error.message : 'Invalid JSON format');
+                        setJsonError(
+                          error instanceof Error
+                            ? error.message
+                            : 'Invalid JSON format'
+                        );
                       }
                     }}
                     language="json"
@@ -292,4 +324,4 @@ export default function FloatMailPage() {
       </div>
     </SidebarProvider>
   );
-} 
+}

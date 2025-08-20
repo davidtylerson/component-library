@@ -15,6 +15,35 @@
 */
 
 /* Override hover state to be darker than active state */
-.dark [data-sidebar="menu-item"] button:hover {
+.dark [data-sidebar='menu-item'] button:hover {
   background-color: var(--bg-secondary) !important;
-} 
+}
+
+/* Add bg-primary-alt custom property */
+:root {
+  --bg-primary-alt: #fcfcfc; /* Gray 25 for light mode */
+  --selection-bg: #3b82f6; /* Blue selection for light mode */
+}
+
+.dark {
+  --bg-primary-alt: #16161a; /* Gray 925 for dark mode */
+  --selection-bg: #60a5fa; /* Light blue selection for dark mode */
+}
+
+/* Ensure CodeMirror text selection works properly */
+.cm-editor,
+.cm-content,
+.cm-line {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+.cm-editor {
+  cursor: text !important;
+}
+
+.cm-line {
+  cursor: text !important;
+}
