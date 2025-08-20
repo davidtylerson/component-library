@@ -313,7 +313,6 @@ export default function FloatMailPage() {
                       }
                     }}
                     language="json"
-                    height="100%"
                     theme="vs-dark"
                   />
                 </div>
