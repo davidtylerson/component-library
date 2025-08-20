@@ -51,7 +51,7 @@ export function ClientThemeToggle(props: any) {
     return (
       <button
         type="button"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border-tertiary bg-background"
         aria-label="Toggle theme"
         {...props}
       >
@@ -83,7 +83,7 @@ export function ClientThemeToggle(props: any) {
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border-tertiary bg-background hover:bg-accent hover:text-accent-foreground"
       aria-label="Toggle theme"
       {...props}
     >

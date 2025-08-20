@@ -1,5 +1,4 @@
 packages:
   - 'packages/*'
   - 'packages/design-system'
-  - 'packages/email-renderer'
-  - 'packages/test-app'
+  - 'packages/float-mail'

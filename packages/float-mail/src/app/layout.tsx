@@ -23,13 +23,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} bg-bg-app-base font-sans text-text-primary`}>
-        <ThemeProvider defaultTheme="dark" forcedTheme="dark">
-          <SidebarProvider>
-            {children}
-          </SidebarProvider>
+      <body
+        className={`${inter.variable} bg-bg-app-base font-sans text-text-primary`}
+      >
+        <ThemeProvider defaultTheme="system" enableSystem>
+          <SidebarProvider>{children}</SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
   );
-} 
+}
