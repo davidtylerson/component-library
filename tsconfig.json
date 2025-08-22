@@ -16,7 +16,6 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
       "@/design-system/*": ["./packages/design-system/src/*"],
       "@/float-mail/*": ["./packages/float-mail/src/*"],
       "@/test-app/*": ["./packages/test-app/src/*"]
