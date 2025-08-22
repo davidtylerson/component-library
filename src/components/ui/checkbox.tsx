@@ -11,12 +11,12 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      'peer h-4 w-4 shrink-0 rounded-sm border border-[var(--checkbox-border)] bg-[var(--checkbox-bg)] ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-      'hover:border-[var(--checkbox-border-hover)]',
-      'data-[state=checked]:border-[var(--checkbox-border-checked)] data-[state=checked]:bg-[var(--checkbox-bg-checked)] data-[state=checked]:text-[var(--checkbox-indicator-checked)]',
-      'data-[state=checked]:hover:border-[var(--checkbox-border-checked-hover)] data-[state=checked]:hover:bg-[var(--checkbox-bg-checked-hover)]',
-      'disabled:cursor-not-allowed disabled:border-[var(--checkbox-border-disabled)] disabled:bg-[var(--checkbox-bg-disabled)] disabled:opacity-50',
-      'data-[state=checked]:disabled:border-[var(--checkbox-border-disabled-checked)] data-[state=checked]:disabled:bg-[var(--checkbox-bg-disabled-checked)] data-[state=checked]:disabled:text-[var(--checkbox-indicator-disabled-checked)]',
+      'peer h-4 w-4 shrink-0 rounded-sm border border-border-primary bg-bg-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+      'hover:border-border-secondary',
+      'data-[state=checked]:border-border-brand-solid data-[state=checked]:bg-bg-brand-solid data-[state=checked]:text-fg-white',
+      'data-[state=checked]:hover:border-border-brand data-[state=checked]:hover:bg-bg-brand-primary',
+      'disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:opacity-50',
+      'data-[state=checked]:disabled:border-border-disabled data-[state=checked]:disabled:bg-bg-disabled data-[state=checked]:disabled:text-text-disabled',
       className
     )}
     {...props}

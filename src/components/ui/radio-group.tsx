@@ -26,12 +26,12 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'aspect-square h-4 w-4 rounded-full border border-[var(--radio-border)] bg-[var(--radio-bg)] text-[var(--radio-indicator-checked)] ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        'hover:border-[var(--radio-border-hover)]',
-        'data-[state=checked]:border-[var(--radio-border-checked)]',
-        'data-[state=checked]:hover:border-[var(--radio-border-checked-hover)]',
-        'disabled:cursor-not-allowed disabled:border-[var(--radio-border-disabled)] disabled:bg-[var(--radio-bg-disabled)] disabled:opacity-50',
-        'data-[state=checked]:disabled:border-[var(--radio-border-disabled-checked)] data-[state=checked]:disabled:text-[var(--radio-indicator-disabled-checked)]',
+        'aspect-square h-4 w-4 rounded-full border border-border-primary bg-bg-primary text-bg-brand-solid ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'hover:border-border-secondary',
+        'data-[state=checked]:border-border-brand-solid',
+        'data-[state=checked]:hover:border-border-brand',
+        'disabled:cursor-not-allowed disabled:border-border-disabled disabled:bg-bg-disabled disabled:opacity-50',
+        'data-[state=checked]:disabled:border-border-disabled data-[state=checked]:disabled:text-text-disabled',
         className
       )}
       {...props}

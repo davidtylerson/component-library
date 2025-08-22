@@ -8,15 +8,15 @@ const alertVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[var(--bg-primary)] border-[var(--border-tertiary)] text-[var(--text-primary)] [&>svg]:text-[var(--fg-primary)]',
+          'bg-bg-primary border-border-tertiary text-text-primary [&>svg]:text-text-primary',
         destructive:
-          'bg-[var(--color-error-800)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]',
+          'bg-bg-error-primary border-none text-text-error-primary [&>svg]:text-text-error-primary',
         warning:
-          'bg-[var(--color-warning-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]',
+          'bg-bg-tertiary border-none text-text-primary [&>svg]:text-text-primary',
         success:
-          'bg-[var(--color-success-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]',
+          'bg-bg-tertiary border-none text-text-primary [&>svg]:text-text-primary',
         brand:
-          'bg-[var(--color-brand-700)] border-none text-[var(--text-primary)] [&>svg]:text-[var(--text-primary)]',
+          'bg-bg-brand-primary border-none text-text-brand-primary [&>svg]:text-text-brand-primary',
       },
     },
     defaultVariants: {
@@ -57,7 +57,7 @@ const AlertDescription = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'text-sm text-[var(--text-tertiary)] [&_p]:leading-relaxed',
+      'text-sm text-text-tertiary [&_p]:leading-relaxed',
       className
     )}
     {...props}

@@ -10,14 +10,14 @@ const badgeVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-[var(--badge-bg-primary)] text-[var(--badge-text-primary)] border-[var(--badge-border-primary)] hover:bg-[var(--badge-bg-primary-hover)] hover:text-[var(--badge-text-primary-hover)] hover:border-[var(--badge-border-primary-hover)]',
-        gray: 'bg-[var(--badge-bg-gray)] text-[var(--badge-text-gray)] border-[var(--badge-border-gray)] hover:bg-[var(--badge-bg-gray-hover)] hover:text-[var(--badge-text-gray-hover)] hover:border-[var(--badge-border-gray-hover)]',
+          'bg-bg-brand-primary text-text-brand-primary border-border-brand hover:bg-bg-brand-secondary hover:text-text-brand-primary hover:border-border-brand-solid',
+        gray: 'bg-bg-secondary text-text-secondary border-border-secondary hover:bg-bg-tertiary hover:text-text-primary hover:border-border-tertiary',
         destructive:
-          'bg-[var(--badge-bg-destructive)] text-[var(--badge-text-destructive)] border-[var(--badge-border-destructive)] hover:bg-[var(--badge-bg-destructive-hover)] hover:text-[var(--badge-text-destructive-hover)] hover:border-[var(--badge-border-destructive-hover)]',
+          'bg-bg-error-primary text-text-error-primary border-border-error hover:bg-bg-error-secondary hover:text-text-error-primary hover:border-border-error-solid',
         outline:
-          'bg-[var(--badge-bg-outline)] text-[var(--badge-text-outline)] border-[var(--badge-border-outline)] hover:bg-[var(--badge-bg-outline-hover)] hover:text-[var(--badge-text-outline-hover)] hover:border-[var(--badge-border-outline-hover)]',
+          'bg-transparent text-text-primary border-border-primary hover:bg-bg-secondary hover:text-text-primary hover:border-border-secondary',
         ghost:
-          'text-[var(--badge-text-ghost)] border-[var(--badge-border-ghost)] hover:bg-[var(--badge-bg-ghost-hover)] hover:text-[var(--badge-text-ghost-hover)] hover:border-[var(--badge-border-ghost-hover)]',
+          'text-text-secondary border-transparent hover:bg-bg-secondary hover:text-text-primary hover:border-border-secondary',
       },
       size: {
         sm: 'h-5 px-2 text-[10px] float-badge-sm',

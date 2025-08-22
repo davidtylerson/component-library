@@ -9,18 +9,16 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variantClasses = {
-      default:
-        'bg-[var(--card-bg-default)] border-[var(--card-border-default)]',
-      subtle: 'bg-[var(--card-bg-subtle)] border-[var(--card-border-subtle)]',
-      'border-only':
-        'bg-[var(--card-bg-border-only)] border-[var(--card-border-border-only)]',
+      default: 'bg-bg-secondary border-border-tertiary',
+      subtle: 'bg-bg-primary border-border-tertiary',
+      'border-only': 'bg-transparent border-border-tertiary',
     };
 
     return (
       <div
         ref={ref}
         className={cn(
-          'rounded-lg border shadow-[var(--card-shadow)]',
+          'rounded-lg border shadow-sm',
           variantClasses[variant],
           className
         )}
@@ -37,10 +35,7 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      'flex flex-col space-y-[var(--card-content-gap)] p-[var(--card-content-padding)]',
-      className
-    )}
+    className={cn('flex flex-col space-y-1.5 p-6', className)}
     {...props}
   />
 ));
@@ -53,7 +48,7 @@ const CardTitle = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'font-[var(--card-title-weight)] leading-none tracking-tight text-[var(--card-title-size)] text-[var(--card-title-text)]',
+      'text-lg font-semibold leading-none tracking-tight text-text-primary',
       className
     )}
     {...props}
@@ -67,10 +62,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      'text-[var(--card-description-size)] text-[var(--card-description-text)]',
-      className
-    )}
+    className={cn('text-sm text-text-tertiary', className)}
     {...props}
   />
 ));
@@ -80,11 +72,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('p-[var(--card-content-padding)] pt-0', className)}
-    {...props}
-  />
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
 ));
 CardContent.displayName = 'CardContent';
 
@@ -94,10 +82,7 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      'flex items-center p-[var(--card-content-padding)] pt-0',
-      className
-    )}
+    className={cn('flex items-center p-6 pt-0', className)}
     {...props}
   />
 ));

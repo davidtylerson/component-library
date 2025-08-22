@@ -3,11 +3,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../lib/utils';
-import { ThemeColor, ComponentVariant } from '../../lib/theme-utils';
-import {
-  BUTTON_COLORS,
-  type ButtonVariant,
-} from '../../styles/constants/button-colors';
 
 const buttonVariants = cva(
   'float-button inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[4px] text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0',
@@ -15,23 +10,23 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          'bg-[var(--button-bg-primary)] text-[var(--button-text-primary)] hover:bg-[var(--button-bg-primary-hover)] hover:text-[var(--button-text-primary-hover)] border-[var(--button-border-primary)] hover:border-[var(--button-border-primary-hover)]',
+          'bg-brand-700 text-fg-white hover:bg-brand-800 hover:text-fg-white border border-brand-700 hover:border-brand-800',
         secondary:
-          'bg-[var(--button-bg-secondary)] text-[var(--button-text-secondary)] hover:bg-[var(--button-bg-secondary-hover)] hover:text-[var(--button-text-secondary-hover)] border-[var(--button-border-secondary)] hover:border-[var(--button-border-secondary-hover)]',
+          'bg-bg-tertiary text-text-primary hover:bg-bg-quaternary hover:text-text-primary border border-border-primary hover:border-border-primary',
         ghost:
-          'text-[var(--button-text-ghost)] hover:bg-[var(--button-bg-ghost-hover)] hover:text-[var(--button-text-ghost-hover)]',
+          'text-text-secondary hover:bg-bg-tertiary hover:text-text-primary bg-transparent border-transparent',
         outline:
-          'border  text-[var(--button-text-outline)] hover:bg-[var(--button-bg-outline-hover)] hover:text-[var(--button-text-outline-hover)] border-[var(--button-border-outline)] hover:border-[var(--button-border-outline-hover)]',
-        link: 'text-[var(--button-text-link)] hover:text-[var(--button-text-link-hover)] bg-transparent border-transparent',
+          'border bg-bg-primary text-text-primary hover:bg-bg-tertiary hover:text-text-primary border-border-primary hover:border-border-primary',
+        link: 'text-text-brand-primary hover:text-text-brand-secondary bg-transparent border-transparent underline-offset-4 hover:underline',
         destructive:
-          'bg-[var(--button-bg-destructive)] text-[var(--button-text-destructive)] hover:bg-[var(--button-bg-destructive-hover)] hover:text-[var(--button-text-destructive-hover)] border-[var(--button-border-destructive)] hover:border-[var(--button-border-destructive-hover)]',
+          'bg-error-600 text-fg-white hover:bg-error-700 hover:text-fg-white border border-error-600 hover:border-error-700',
         // Backward compatibility
         default:
-          'bg-[var(--button-bg-primary)] text-[var(--button-text-primary)] hover:bg-[var(--button-bg-primary-hover)] hover:text-[var(--button-text-primary-hover)] border-[var(--button-border-primary)] hover:border-[var(--button-border-primary-hover)]',
+          'bg-brand-700 text-fg-white hover:bg-brand-800 hover:text-fg-white border border-brand-700 hover:border-brand-800',
         tertiary:
-          'text-[var(--button-text-ghost)] hover:bg-[var(--button-bg-ghost-hover)] hover:text-[var(--button-text-ghost-hover)]',
+          'text-text-secondary hover:bg-bg-tertiary hover:text-text-primary bg-transparent border-transparent',
         primaryError:
-          'bg-[var(--button-bg-destructive)] text-[var(--button-text-destructive)] hover:bg-[var(--button-bg-destructive-hover)] hover:text-[var(--button-text-destructive-hover)] border-[var(--button-border-destructive)] hover:border-[var(--button-border-destructive-hover)]',
+          'bg-error-600 text-fg-white hover:bg-error-700 hover:text-fg-white border border-error-600 hover:border-error-700',
       },
       size: {
         sm: 'h-6 px-2 text-xs float-button-sm',
@@ -67,10 +62,6 @@ export interface ButtonProps
    * Whether the button is in a loading state
    */
   isLoading?: boolean;
-  /**
-   * Theme color to apply to the button (uses design system colors)
-   */
-  color?: ThemeColor;
   /**
    * Semantic design system variant - use this instead of variant for design system consistency
    */
@@ -113,7 +104,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       leftIcon,
       rightIcon,
       isLoading = false,
-      color = 'brand',
       dsVariant,
       iconOnly = false,
       children,
@@ -188,7 +178,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     if (asChild) {
       return (
-        <Slot className={classes} ref={ref as any} {...props}>
+        <Slot
+          className={classes}
+          ref={ref as React.Ref<HTMLElement>}
+          {...props}
+        >
           {children}
         </Slot>
       );
