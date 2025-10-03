@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { EditorView, basicSetup } from 'codemirror';
 import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { linter } from '@codemirror/lint';
 import { EditorState } from '@codemirror/state';
+import { Button } from '@float-vibe-foundry/design-system';
+import { IconCopy, IconCheck } from '@tabler/icons-react';
 
 interface CodeMirrorEditorProps {
   value: string;
@@ -18,6 +20,7 @@ export default function CodeMirrorEditor(props: CodeMirrorEditorProps) {
   const { value, onChange } = props;
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -145,13 +148,35 @@ export default function CodeMirrorEditor(props: CodeMirrorEditorProps) {
     }
   }, [value]);
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Failed to copy text - silently handle error
+    }
+  };
+
   return (
     <div className="h-full p-4">
       {/* Unified Card Container */}
-      <div className="h-full overflow-hidden rounded-md border border-border-tertiary">
+      <div className="border-border-tertiary h-full rounded-md border">
         {/* JSON Header */}
-        <div className="bg-bg-primary-alt border-b border-border-tertiary px-4 py-3">
-          <span className="text-sm font-medium text-text-secondary">JSON</span>
+        <div className="bg-bg-primary-alt border-border-tertiary flex items-center justify-between border-b px-4 py-3">
+          <span className="text-text-secondary text-sm font-medium">JSON</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleCopy}
+            className="h-6 w-6 p-0"
+          >
+            {copied ? (
+              <IconCheck className="h-3 w-3 text-green-600" />
+            ) : (
+              <IconCopy className="h-3 w-3" />
+            )}
+          </Button>
         </div>
 
         {/* Editor */}

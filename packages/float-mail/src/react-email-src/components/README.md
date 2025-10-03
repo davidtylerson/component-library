@@ -617,6 +617,29 @@ pnpm export
 pnpm export:formatted
 ```
 
+## 📧 Outlook Compatibility
+
+### Important: Outlook Reply Issues
+
+**All templates use table-based padding for Outlook compatibility.** When users reply to emails in Outlook, padding applied to `<div>` elements is often stripped. The `EmailLayout` component uses table-based padding to ensure consistent rendering.
+
+**Key Features**:
+
+- ✅ Table-based padding preserved during Outlook replies
+- ✅ Complete border rendering without clipping
+- ✅ Cross-client compatibility maintained
+- ✅ No visual changes to email appearance
+
+**For more details, see**: `OUTLOOK_COMPATIBILITY_GUIDE.md`
+
+### Best Practices
+
+1. **Use table-based layouts** for main content areas
+2. **Apply padding to `<td>` elements**, not `<div>` elements
+3. **Use inline CSS** for critical styling
+4. **Avoid border-radius** and overflow properties that can clip borders
+5. **Test in Outlook** during development
+
 ### File Structure
 
 ```

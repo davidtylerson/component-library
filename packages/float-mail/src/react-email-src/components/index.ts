@@ -49,5 +49,6 @@ export { Button, Link, ActionButton, TextLink, MutedLink } from './Interactive';
 export { Callout } from './Callout';
 export { DataTable } from './DataTable';
 export { GroupedDataTable } from './GroupedDataTable';
+export { AffirmationTable } from './AffirmationTable';
 export { Button as LegacyButton } from './Button';
 export { Spacer as LegacySpacer } from './Spacer';

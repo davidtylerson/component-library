@@ -86,12 +86,34 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
               <Container
                 style={{
                   boxSizing: 'border-box',
-                  padding: '24px',
                   width: '100%',
                 }}
               >
-                {/* Main Content */}
-                {children}
+                {/* Main Content with table-based padding for Outlook compatibility */}
+                <table
+                  width="100%"
+                  border="0"
+                  cellPadding="0"
+                  cellSpacing="0"
+                  role="presentation"
+                  style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                  }}
+                >
+                  <tbody>
+                    <tr>
+                      <td
+                        style={{
+                          padding: '24px',
+                          boxSizing: 'border-box',
+                        }}
+                      >
+                        {children}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </Container>
             </Section>
 

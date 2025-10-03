@@ -3,31 +3,47 @@ import {
   EmailLayout,
   PageTitle,
   BodyText,
-  GroupedDataTable,
+  AffirmationTable,
   MD,
   LG,
 } from '../react-email-src/components';
 
+interface TradeField {
+  field: string;
+  value: string;
+  counterparty?: string;
+}
+
+interface TradeGroup {
+  groupName: string;
+  rows: TradeField[];
+}
+
 interface AffirmationProps {
   organization_name: string;
   action: string;
-  trade_id: string;
-  counterparty_ref: string;
   trade_date: string;
-  amount: string;
-  currency: string;
+  groups?: TradeGroup[];
+  // Legacy props for backward compatibility
+  trade_id?: string;
+  counterparty_ref?: string;
+  amount?: string;
+  currency?: string;
 }
 
 export const Affirmation: React.FC<AffirmationProps> = ({
   organization_name = '{{organization_name}}',
   action = '{{action}}',
+  trade_date = '{{trade_date}}',
+  groups,
+  // Legacy props for backward compatibility
   trade_id = '{{trade_id}}',
   counterparty_ref = '{{counterparty_ref}}',
-  trade_date = '{{trade_date}}',
   amount = '{{amount}}',
   currency = '{{currency}}',
 }) => {
-  const tableGroups = [
+  // Use provided groups or fall back to legacy structure
+  const tableGroups = groups || [
     {
       groupName: 'Trade Details',
       rows: [
@@ -47,7 +63,7 @@ export const Affirmation: React.FC<AffirmationProps> = ({
 
   return (
     <EmailLayout preheader="Trade affirmation required">
-      <PageTitle>{action} Required</PageTitle>
+      <PageTitle>Trade Affirmation Required</PageTitle>
 
       <BodyText>
         <span style={{ fontWeight: 'bold' }}>{organization_name}</span> is
@@ -72,7 +88,7 @@ export const Affirmation: React.FC<AffirmationProps> = ({
 
       <LG />
 
-      <GroupedDataTable groups={tableGroups} />
+      <AffirmationTable groups={tableGroups} />
     </EmailLayout>
   );
 };

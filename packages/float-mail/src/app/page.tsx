@@ -69,7 +69,8 @@ const IconFileInvoice = ({ className }: { className?: string }) => (
 
 export default function FloatMailPage() {
   const [previewData, setPreviewData] = useState<TemplateData>({});
-  const [renderedHtml, setRenderedHtml] = useState<string>('');
+  const [templateHtmlWithVariables, setTemplateHtmlWithVariables] =
+    useState<string>('');
   const [jsonError, setJsonError] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState('Welcome');
   const [availableTemplates, setAvailableTemplates] = useState<string[]>([]);
@@ -80,16 +81,12 @@ export default function FloatMailPage() {
     // Load available templates
     try {
       const templates = TemplateLoader.getAvailableTemplates();
-      console.log('Loaded templates:', templates);
       setAvailableTemplates(templates);
 
       // Load sample data for default template
       const sampleData = TemplateLoader.getSampleData('Welcome');
-      console.log('Loaded sample data for Welcome:', sampleData);
       setPreviewData(sampleData);
-    } catch (error) {
-      // Log error for debugging
-      console.error('Error loading templates:', error);
+    } catch {
       setAvailableTemplates(['Error loading templates']);
     }
   }, []);
@@ -107,24 +104,62 @@ export default function FloatMailPage() {
     if (editMode === 'react') {
       return EnhancedTemplateRenderer.getTemplateSourceCode(selectedTemplate);
     } else {
-      return renderedHtml;
+      return templateHtmlWithVariables;
     }
   };
 
-  // Update rendered HTML when template or data changes
+  // Note: rendered HTML is computed in real-time by EmailPreview component
+  // No need to store it in state since it's used directly in the preview
+
+  // Update template HTML with variables when template changes
   useEffect(() => {
-    const updateRenderedHtml = async () => {
-      const result = await EnhancedTemplateRenderer.renderTemplate(
-        selectedTemplate,
-        previewData
-      );
-      if (result) {
-        setRenderedHtml(result.html);
+    const updateTemplateHtmlWithVariables = async () => {
+      const htmlWithVariables =
+        await EnhancedTemplateRenderer.renderTemplateWithVariables(
+          selectedTemplate
+        );
+      if (htmlWithVariables) {
+        setTemplateHtmlWithVariables(htmlWithVariables);
       }
     };
 
     if (selectedTemplate) {
-      updateRenderedHtml();
+      updateTemplateHtmlWithVariables();
+    }
+  }, [selectedTemplate]);
+
+  // State for HTML preview with data applied
+  const [templateHtmlWithData, setTemplateHtmlWithData] = useState<string>('');
+
+  // Update template HTML with data when template or data changes
+  useEffect(() => {
+    const updateTemplateHtmlWithData = async () => {
+      if (
+        selectedTemplate === 'Affirmation' ||
+        selectedTemplate === 'AffirmationMultiple'
+      ) {
+        const htmlWithData =
+          await EnhancedTemplateRenderer.renderHandlebarsTemplateWithData(
+            selectedTemplate,
+            previewData
+          );
+        if (htmlWithData) {
+          setTemplateHtmlWithData(htmlWithData);
+        }
+      } else {
+        // For other templates, render with data using the regular method
+        const result = await EnhancedTemplateRenderer.renderTemplate(
+          selectedTemplate,
+          previewData
+        );
+        if (result) {
+          setTemplateHtmlWithData(result.html);
+        }
+      }
+    };
+
+    if (selectedTemplate) {
+      updateTemplateHtmlWithData();
     }
   }, [selectedTemplate, previewData]);
 
@@ -190,14 +225,14 @@ export default function FloatMailPage() {
         </Sidebar>
 
         {/* Main Container - Fills entire remaining space */}
-        <div className="m-2 flex flex-1 overflow-hidden rounded-md border border-border-tertiary bg-bg-primary">
+        <div className="border-border-tertiary bg-bg-primary m-2 flex flex-1 overflow-hidden rounded-md border">
           {/* Central Section - Flexes to fill available space */}
           <div className="flex min-w-0 flex-1 flex-col">
             {/* Central Section Header */}
-            <div className="flex h-16 flex-shrink-0 items-center border-b border-border-tertiary px-6">
+            <div className="border-border-tertiary flex h-16 flex-shrink-0 items-center border-b px-6">
               <div className="flex items-center gap-4">
-                <IconTemplate className="h-5 w-5 text-text-primary" />
-                <span className="text-lg font-medium text-text-primary">
+                <IconTemplate className="text-text-primary h-5 w-5" />
+                <span className="text-text-primary text-lg font-medium">
                   {TemplateLoader.getTemplateInfo(selectedTemplate)
                     ?.displayName || selectedTemplate}
                 </span>
@@ -235,15 +270,27 @@ export default function FloatMailPage() {
             </div>
 
             {/* Central Canvas */}
-            <div className="min-w-0 flex-1 bg-white">
+            <div className="min-w-0 flex-1 overflow-hidden bg-white">
               {viewMode === 'preview' ? (
-                <EmailPreview
-                  templateName={selectedTemplate}
-                  data={previewData}
-                  viewMode="desktop"
-                />
+                editMode === 'react' ? (
+                  <EmailPreview
+                    templateName={selectedTemplate}
+                    data={previewData}
+                    viewMode="desktop"
+                  />
+                ) : (
+                  <div className="h-full overflow-hidden p-4">
+                    <iframe
+                      srcDoc={
+                        templateHtmlWithData || templateHtmlWithVariables || ''
+                      }
+                      className="h-full w-full border-0"
+                      title="HTML Preview"
+                    />
+                  </div>
+                )
               ) : (
-                <div className="h-full p-4">
+                <div className="h-full overflow-hidden p-4">
                   <CodeMirrorViewer
                     code={getCurrentCode()}
                     language={editMode === 'react' ? 'typescript' : 'html'}
@@ -254,22 +301,22 @@ export default function FloatMailPage() {
           </div>
 
           {/* Data Sidebar - Fixed width */}
-          <div className="bg-bg-app-elevated flex w-[450px] flex-shrink-0 flex-col border-l border-border-tertiary">
+          <div className="bg-bg-app-elevated border-border-tertiary flex w-[450px] flex-shrink-0 flex-col border-l">
             {/* Data Sidebar Header */}
-            <div className="flex h-16 flex-shrink-0 items-center border-b border-border-tertiary px-6">
+            <div className="border-border-tertiary flex h-16 flex-shrink-0 items-center border-b px-6">
               <div className="flex items-center gap-2">
-                <IconFileInvoice className="h-5 w-5 text-fg-primary" />
-                <span className="text-lg font-medium text-text-primary">
+                <IconFileInvoice className="text-fg-primary h-5 w-5" />
+                <span className="text-text-primary text-lg font-medium">
                   Data
                 </span>
               </div>
             </div>
 
             {/* Data Sidebar Content */}
-            <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col overflow-y-auto">
               {/* JSON Error Display */}
               {jsonError && (
-                <div className="border-b border-border-tertiary p-4">
+                <div className="border-border-tertiary border-b p-4">
                   <div className="rounded-md border border-red-200 bg-red-50 p-2">
                     <div className="text-xs text-red-600">
                       <strong>JSON Error:</strong> {jsonError}
@@ -279,15 +326,13 @@ export default function FloatMailPage() {
               )}
 
               {/* JSON Editor */}
-              <div className="flex-1">
+              <div className="min-h-0 flex-1">
                 <div className="h-full">
                   <CodeMirrorEditor
                     value={JSON.stringify(previewData, null, 2)}
                     onChange={value => {
-                      console.log('JSON editor changed:', value);
                       try {
                         const parsedData = JSON.parse(value);
-                        console.log('Parsed data:', parsedData);
                         setPreviewData(parsedData);
                         setJsonError(null); // Clear error on successful parse
 
@@ -297,14 +342,11 @@ export default function FloatMailPage() {
                           selectedTemplate
                         );
                         if (!validation.valid) {
-                          console.warn(
-                            'Template validation errors:',
-                            validation.errors
-                          );
+                          // Validation errors are handled internally by TemplateLoader
+                          // No need to log them
                         }
                       } catch (error) {
                         // Handle invalid JSON - show error in UI
-                        console.error('JSON parse error:', error);
                         setJsonError(
                           error instanceof Error
                             ? error.message

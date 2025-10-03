@@ -8,17 +8,22 @@ import { PasswordReset } from '@/templates/PasswordReset';
 import { DisputeConfirm } from '@/templates/DisputeConfirm';
 import { ReturnConfirmSimple } from '@/templates/ReturnConfirmSimple';
 import { Affirmation } from '@/templates/Affirmation';
+import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
 
 // Map template names to their components
-const TEMPLATE_COMPONENTS: Record<string, React.ComponentType<any>> = {
+const TEMPLATE_COMPONENTS: Record<
+  string,
+  React.ComponentType<Record<string, unknown>>
+> = {
   Welcome,
   PasswordReset,
   DisputeConfirm,
   ReturnConfirmSimple,
   Affirmation,
+  AffirmationMultiple,
   DisputeMultiple,
   ReturnConfirmTable,
   EmailComponents,
@@ -311,7 +316,7 @@ export const EmailComponents: React.FC<EmailComponentsProps> = ({
 export class TemplateRenderer {
   static getTemplateComponent(
     templateName: string
-  ): React.ComponentType<any> | null {
+  ): React.ComponentType<Record<string, unknown>> | null {
     return TEMPLATE_COMPONENTS[templateName] || null;
   }
 
@@ -332,8 +337,8 @@ export class TemplateRenderer {
         text,
         subject: this.extractSubject(templateName),
       };
-    } catch (error) {
-      console.error('Error rendering template:', error);
+    } catch {
+      // Error rendering template
       return null;
     }
   }
@@ -354,6 +359,7 @@ export class TemplateRenderer {
       ReturnConfirmSimple: 'Return confirmed',
       ReturnConfirmTable: 'Return confirmed with details',
       Affirmation: 'Action confirmed',
+      AffirmationMultiple: 'Multiple trade affirmations required',
       EmailComponents: 'Float Email Components Showcase',
     };
 

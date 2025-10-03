@@ -57,12 +57,148 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
   },
   Affirmation: {
     organization_name: 'Acme Corp',
-    action: 'Trade Confirmation',
-    trade_id: 'TXN-12345',
-    counterparty_ref: 'REF-2024-001',
+    action: 'Trade Affirmation',
     trade_date: '2024-01-15',
-    amount: '$10,000.00',
-    currency: 'USD',
+    groups: [
+      {
+        groupName: 'Trade Terms',
+        rows: [
+          { field: 'Direction', value: 'Buy' },
+          { field: 'Trade Date', value: '19-Nov-24' },
+        ],
+      },
+      {
+        groupName: 'Product Terms',
+        rows: [
+          { field: 'Notional Amount', value: '5,000,000' },
+          { field: 'Notional Currency', value: 'USD' },
+          { field: 'Expiration Date', value: '20-Dec-24' },
+          { field: 'Expiration Cut', value: 'New York 10:00' },
+          { field: 'Expiration Time', value: '10:00:00' },
+          { field: 'Expiration Location', value: 'New York' },
+        ],
+      },
+      {
+        groupName: 'Barrier 1',
+        rows: [
+          { field: 'Asset', value: 'EURUSD' },
+          { field: 'Level', value: '1.04' },
+          { field: 'Event Type', value: 'Knock In' },
+          { field: 'Trigger Type', value: 'Less or Equal' },
+        ],
+      },
+      {
+        groupName: 'Barrier 2',
+        rows: [
+          { field: 'Asset', value: 'USDJPY' },
+          { field: 'Level', value: '150' },
+          { field: 'Event Type', value: 'Knock In' },
+          { field: 'Trigger Type', value: 'Less or Equal' },
+        ],
+      },
+      {
+        groupName: 'Premium Terms',
+        rows: [
+          { field: 'Premium Currency', value: 'USD' },
+          { field: 'Price', value: '2.83%' },
+          { field: 'Premium', value: '141,600' },
+          { field: 'Premium Payment Date', value: '21-Nov-24' },
+          { field: 'Premium Payer', value: 'Alta Capital' },
+        ],
+      },
+    ],
+  },
+  AffirmationMultiple: {
+    organization_name: 'Acme Corp',
+    action: 'Trade Affirmation',
+    trade_date: '2024-01-15',
+    trades: [
+      {
+        tradeId: '32c7d92',
+        productType: 'Dual Binary Option',
+        groups: [
+          {
+            groupName: 'Trade Terms',
+            rows: [
+              { field: 'Direction', value: 'Buy' },
+              { field: 'Trade Date', value: '19-Nov-24' },
+            ],
+          },
+          {
+            groupName: 'Product Terms',
+            rows: [
+              { field: 'Notional Amount', value: '5,000,000' },
+              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Expiration Date', value: '20-Dec-24' },
+              { field: 'Expiration Cut', value: 'New York 10:00' },
+              { field: 'Expiration Time', value: '10:00:00' },
+              { field: 'Expiration Location', value: 'New York' },
+            ],
+          },
+          {
+            groupName: 'Barrier 1',
+            rows: [
+              { field: 'Asset', value: 'EURUSD' },
+              { field: 'Level', value: '1.04' },
+              { field: 'Event Type', value: 'Knock In' },
+              { field: 'Trigger Type', value: 'Less or Equal' },
+            ],
+          },
+          {
+            groupName: 'Barrier 2',
+            rows: [
+              { field: 'Asset', value: 'USDJPY' },
+              { field: 'Level', value: '150' },
+              { field: 'Event Type', value: 'Knock In' },
+              { field: 'Trigger Type', value: 'Less or Equal' },
+            ],
+          },
+          {
+            groupName: 'Premium Terms',
+            rows: [
+              { field: 'Premium Currency', value: 'USD' },
+              { field: 'Price', value: '2.83%' },
+              { field: 'Premium', value: '141,600' },
+              { field: 'Premium Payment Date', value: '21-Nov-24' },
+              { field: 'Premium Payer', value: 'Alta Capital' },
+            ],
+          },
+        ],
+      },
+      {
+        tradeId: '45d8e73',
+        productType: 'FX Forward',
+        groups: [
+          {
+            groupName: 'Trade Terms',
+            rows: [
+              { field: 'Direction', value: 'Sell' },
+              { field: 'Trade Date', value: '19-Nov-24' },
+            ],
+          },
+          {
+            groupName: 'Product Terms',
+            rows: [
+              { field: 'Notional Amount', value: '10,000,000' },
+              { field: 'Notional Currency', value: 'EUR' },
+              { field: 'Settlement Date', value: '22-Dec-24' },
+              { field: 'Exchange Rate', value: '1.0850' },
+              { field: 'Counter Currency', value: 'USD' },
+            ],
+          },
+          {
+            groupName: 'Premium Terms',
+            rows: [
+              { field: 'Premium Currency', value: 'EUR' },
+              { field: 'Price', value: '1.25%' },
+              { field: 'Premium', value: '125,000' },
+              { field: 'Premium Payment Date', value: '22-Nov-24' },
+              { field: 'Premium Payer', value: 'Acme Corp' },
+            ],
+          },
+        ],
+      },
+    ],
   },
   EmailComponents: {
     table_fields: [
@@ -113,7 +249,7 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
   },
 };
 
-export const TEMPLATE_INFO: Record<string, any> = {
+export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
   Welcome: {
     displayName: 'Welcome Email',
     description: 'Welcome new users to the platform',
@@ -266,19 +402,63 @@ export const TEMPLATE_INFO: Record<string, any> = {
   },
   Affirmation: {
     displayName: 'Affirmation',
-    description: 'General affirmation/confirmation email',
+    description: 'Trade affirmation email with flexible grouped data structure',
     variables: [
       {
-        name: 'message',
+        name: 'organization_name',
         type: 'string',
         required: true,
-        description: 'Confirmation message',
+        description: 'Organization name',
       },
       {
-        name: 'url',
+        name: 'action',
         type: 'string',
         required: true,
-        description: 'Action URL',
+        description: 'Action type (e.g., Trade Affirmation)',
+      },
+      {
+        name: 'trade_date',
+        type: 'string',
+        required: true,
+        description: 'Trade execution date',
+      },
+      {
+        name: 'groups',
+        type: 'array',
+        required: false,
+        description: 'Array of trade data groups with fields',
+      },
+    ],
+  },
+  AffirmationMultiple: {
+    displayName: 'Affirmation Multiple',
+    description:
+      'Multiple trade affirmations email with separate tables for each trade',
+    variables: [
+      {
+        name: 'organization_name',
+        type: 'string',
+        required: true,
+        description: 'Organization name',
+      },
+      {
+        name: 'action',
+        type: 'string',
+        required: true,
+        description: 'Action type (e.g., Trade Affirmation)',
+      },
+      {
+        name: 'trade_date',
+        type: 'string',
+        required: true,
+        description: 'Trade execution date',
+      },
+      {
+        name: 'trades',
+        type: 'array',
+        required: true,
+        description:
+          'Array of trade objects with tradeId, productType, and groups',
       },
     ],
   },

@@ -16,7 +16,6 @@ interface CodeMirrorViewerProps {
 export default function CodeMirrorViewer({
   code,
   language,
-  height = '100%',
 }: CodeMirrorViewerProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
@@ -43,20 +42,23 @@ export default function CodeMirrorViewer({
       EditorView.theme({
         '&': {
           fontSize: '14px',
+          height: '100%',
         },
         '.cm-content': {
           padding: '12px',
-          minHeight: '200px',
         },
         '.cm-focused': {
           outline: 'none',
         },
         '.cm-editor': {
           borderRadius: '6px',
+          height: '100%',
         },
         '.cm-scroller': {
           fontFamily:
             'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+          overflow: 'auto !important',
+          maxHeight: '100%',
         },
       }),
     ];
@@ -115,20 +117,23 @@ export default function CodeMirrorViewer({
             EditorView.theme({
               '&': {
                 fontSize: '14px',
+                height: '100%',
               },
               '.cm-content': {
                 padding: '12px',
-                minHeight: '200px',
               },
               '.cm-focused': {
                 outline: 'none',
               },
               '.cm-editor': {
                 borderRadius: '6px',
+                height: '100%',
               },
               '.cm-scroller': {
                 fontFamily:
                   'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
+                overflow: 'auto !important',
+                maxHeight: '100%',
               },
             }),
           ]),
@@ -139,7 +144,7 @@ export default function CodeMirrorViewer({
 
   return (
     <div className="h-full">
-      <div ref={editorRef} style={{ height }} />
+      <div ref={editorRef} className="h-full" />
     </div>
   );
 }
