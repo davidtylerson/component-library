@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import { ThemeProvider } from '@float-vibe-foundry/design-system';
+import { AppFrame } from '../components/AppFrame';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <AppFrame>{children}</AppFrame>
+        </ThemeProvider>
       </body>
     </html>
   );
