@@ -1,3 +1,2 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import the design system's consolidated CSS */
+@import '@float-vibe-foundry/design-system/src/app/globals-consolidated.css';

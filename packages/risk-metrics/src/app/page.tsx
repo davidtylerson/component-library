@@ -1,13 +1,26 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@float-vibe-foundry/design-system';
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="bg-bg-secondary min-h-screen p-8">
       <div className="mx-auto max-w-7xl">
-        <h1 className="mb-8 text-3xl font-bold text-gray-900">
-          Risk Metrics Dashboard
-        </h1>
-        <p className="text-gray-600">
-          Post-trade operational risk management dashboard prototype
-        </p>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle className="text-display-sm text-text-primary">
+              Risk Metrics Dashboard
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-text-secondary">
+              Post-trade operational risk management dashboard prototype
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </main>
   );
