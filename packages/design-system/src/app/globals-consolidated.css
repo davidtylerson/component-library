@@ -490,6 +490,12 @@
 
   /* Separator Colors */
   --sidebar-separator-bg: var(--border-secondary);
+
+  /* Shadcn Sidebar Variables */
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-ring: var(--border-primary);
+  --sidebar-foreground: var(--text-secondary);
 }
 
 /* ===== COMPONENT CSS CLASSES ===== */
@@ -524,6 +530,34 @@
 .float-button-icon-lg svg {
   width: var(--button-icon-size-lg);
   height: var(--button-icon-size-lg);
+}
+
+/* ===== SHADCN SIDEBAR COMPONENT STYLING ===== */
+
+/* Custom sidebar menu button styling for consistent behavior */
+[data-sidebar='menu-item'] button {
+  color: var(--text-secondary) !important;
+}
+
+[data-sidebar='menu-item'] button[data-active='true'] {
+  color: var(--text-primary) !important;
+}
+
+[data-sidebar='menu-item'] button:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Icon styling */
+[data-sidebar='menu-item'] button svg {
+  color: var(--fg-tertiary) !important;
+}
+
+[data-sidebar='menu-item'] button[data-active='true'] svg {
+  color: var(--fg-secondary) !important;
+}
+
+[data-sidebar='menu-item'] button:hover svg {
+  color: var(--fg-secondary) !important;
 }
 
 /* ===== DARK MODE COMPONENT VARIABLES ===== */
@@ -803,4 +837,10 @@
 
   --card-description-text: var(--text-tertiary);
   --card-description-size: 0.875rem;
+
+  /* Shadcn Sidebar Variables - Dark Mode */
+  --sidebar-accent: var(--bg-tertiary);
+  --sidebar-accent-foreground: var(--text-primary);
+  --sidebar-ring: var(--border-primary);
+  --sidebar-foreground: var(--text-secondary);
 }

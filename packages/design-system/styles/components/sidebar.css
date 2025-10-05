@@ -77,7 +77,7 @@ ul[class*='sidebar-menu'] {
 button[class*='sidebar-menu-button'],
 a[class*='sidebar-menu-button'] {
   @apply flex h-9 w-full items-center rounded-md px-3;
-  @apply bg-[var(--sidebar-item-bg)] text-[var(--sidebar-item-text)];
+  @apply bg-[var(--sidebar-item-bg)] text-[var(--sidebar-text-secondary)];
   @apply hover:bg-[var(--sidebar-item-bg-hover)] hover:text-[var(--sidebar-item-text-hover)];
   @apply transition-all duration-200;
 }
@@ -94,7 +94,7 @@ a[class*='sidebar-menu-button']:hover svg {
 
 button[class*='sidebar-menu-button'][data-active='true'],
 a[class*='sidebar-menu-button'][data-active='true'] {
-  @apply bg-[var(--sidebar-item-bg-active)] text-[var(--sidebar-item-text-active)];
+  @apply bg-[var(--sidebar-item-bg-active)] text-[var(--sidebar-text)];
 }
 
 button[class*='sidebar-menu-button'][data-active='true'] svg,
@@ -201,10 +201,6 @@ aside[data-state='collapsed'] h3[class*='sidebar-group-label'] {
 
 .float-sidebar-collapse-button:hover {
   @apply text-[var(--sidebar-item-icon-hover)];
-}
-
-.float-sidebar-menu-button-text {
-  color: var(--text-secondary) !important;
 }
 
 /* Organization Switcher Styles */

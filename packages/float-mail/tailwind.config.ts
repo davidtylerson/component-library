@@ -26,6 +26,7 @@ const config: Config = {
         },
         bg: {
           primary: 'var(--bg-primary)',
+          'primary-alt': 'var(--bg-primary-alt)',
           secondary: 'var(--bg-secondary)',
           tertiary: 'var(--bg-tertiary)',
           quaternary: 'var(--bg-quaternary)',
@@ -82,4 +83,4 @@ const config: Config = {
   },
   plugins: [],
 };
-export default config; 
+export default config;
