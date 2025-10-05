@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
@@ -148,11 +150,11 @@ const ExecutiveDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="bg-bg-secondary min-h-screen p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Risk Overview</h1>
-        <p className="text-sm text-gray-500">Friday, October 03, 2025</p>
+        <h1 className="text-text-primary text-2xl font-bold">Risk Overview</h1>
+        <p className="text-text-secondary text-sm">Friday, October 03, 2025</p>
       </div>
 
       {/* KPIs */}
@@ -160,12 +162,14 @@ const ExecutiveDashboard = () => {
         {kpis.map((kpi, i) => (
           <div
             key={i}
-            className={`rounded-lg border bg-white p-4 ${getStatusColor(kpi.status)}`}
+            className={`bg-bg-primary rounded-lg border p-4 ${getStatusColor(kpi.status)}`}
           >
             <div className="mb-2 text-sm font-medium">{kpi.label}</div>
             <div className="mb-1 text-2xl font-bold">{kpi.value}</div>
             {kpi.subValue && (
-              <div className="mb-1 text-lg text-gray-600">{kpi.subValue}</div>
+              <div className="text-text-secondary mb-1 text-lg">
+                {kpi.subValue}
+              </div>
             )}
             <div className="flex items-center text-sm">
               {kpi.trend === 'up' ? (

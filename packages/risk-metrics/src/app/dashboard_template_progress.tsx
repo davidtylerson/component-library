@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { Plus, TrendingUp } from 'lucide-react';
 
@@ -131,19 +133,19 @@ const TemplateProgressDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="bg-bg-secondary min-h-screen p-6">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-text-primary text-2xl font-bold">
             Coverage & Automation Tracking
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-text-secondary text-sm">
             Progress toward strategic risk reduction goals
           </p>
         </div>
         <select
-          className="rounded-lg border px-3 py-2 text-sm"
+          className="border-border-primary bg-bg-primary text-text-primary rounded-lg border px-3 py-2 text-sm"
           value={dateRange}
           onChange={e => setDateRange(e.target.value)}
         >
@@ -156,11 +158,11 @@ const TemplateProgressDashboard = () => {
       {/* Progress Charts */}
       <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Template Coverage */}
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="bg-bg-primary rounded-lg p-6 shadow">
           <div className="mb-4 flex items-start justify-between">
             <div>
               <h2 className="text-lg font-semibold">Template Coverage</h2>
-              <p className="text-sm text-gray-500">
+              <p className="text-text-secondary text-sm">
                 Target: {coverageData.template.target}% by{' '}
                 {coverageData.template.targetDate}
               </p>
@@ -169,7 +171,7 @@ const TemplateProgressDashboard = () => {
               <div className="text-3xl font-bold text-blue-600">
                 {coverageData.template.current}%
               </div>
-              <div className="text-xs text-gray-500">Current</div>
+              <div className="text-text-tertiary text-xs">Current</div>
             </div>
           </div>
 
@@ -187,7 +189,7 @@ const TemplateProgressDashboard = () => {
                       <div className="absolute -right-1 top-0 h-3 w-3 rounded-full border-2 border-white bg-blue-600" />
                     )}
                   </div>
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="text-text-tertiary mt-2 text-xs">
                     {point.month}
                   </div>
                 </div>
@@ -218,7 +220,7 @@ const TemplateProgressDashboard = () => {
         </div>
 
         {/* Electronic Affirmation */}
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="bg-bg-primary rounded-lg p-6 shadow">
           <div className="mb-4 flex items-start justify-between">
             <div>
               <h2 className="text-lg font-semibold">Electronic Affirmation</h2>
@@ -231,7 +233,7 @@ const TemplateProgressDashboard = () => {
               <div className="text-3xl font-bold text-purple-600">
                 {coverageData.electronic.current}%
               </div>
-              <div className="text-xs text-gray-500">Current</div>
+              <div className="text-text-tertiary text-xs">Current</div>
             </div>
           </div>
 
@@ -249,7 +251,7 @@ const TemplateProgressDashboard = () => {
                       <div className="absolute -right-1 top-0 h-3 w-3 rounded-full border-2 border-white bg-purple-600" />
                     )}
                   </div>
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="text-text-tertiary mt-2 text-xs">
                     {point.month}
                   </div>
                 </div>
