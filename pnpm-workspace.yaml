@@ -2,4 +2,3 @@ packages:
   - 'packages/*'
   - 'packages/design-system'
   - 'packages/float-mail'
-  - 'packages/risk-metrics'
