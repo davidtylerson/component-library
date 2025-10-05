@@ -1,17 +1,5 @@
-import { 
-  Trade, 
-  Break, 
-  Template, 
-  DashboardMetrics,
-  RiskExposureMetrics,
-  BreakAnalysisMetrics,
-  TemplateCoverageMetrics,
-  ProcessPerformanceMetrics,
-  CounterpartyScorecardMetrics,
-  AIMetrics,
-  TradingActivityMetrics,
-  TrendMetrics
-} from '@/types'
+// Mock data generator for Risk Metrics Dashboard
+// This file generates realistic mock data for development and testing
 
 // Mock data constants
 const COUNTERPARTIES = [
@@ -40,40 +28,40 @@ const PRODUCT_TYPES = [
   'Variance Swap'
 ]
 
-const PRODUCT_FAMILIES = ['rates', 'fx', 'equity', 'credit'] as const
+const PRODUCT_FAMILIES = ['rates', 'fx', 'equity', 'credit']
 
-const TRADE_STATUSES = ['pending_affirmation', 'affirmed', 'confirmed', 'disputed'] as const
+const TRADE_STATUSES = ['pending_affirmation', 'affirmed', 'confirmed', 'disputed']
 
-const BREAK_CATEGORIES = ['economic_high_risk', 'economic_medium_risk', 'documentation', 'legal_language'] as const
+const BREAK_CATEGORIES = ['economic_high_risk', 'economic_medium_risk', 'documentation', 'legal_language']
 
-const BREAK_OWNERS = ['client', 'counterparty', 'ai', 'unknown'] as const
+const BREAK_OWNERS = ['client', 'counterparty', 'ai', 'unknown']
 
 // Utility functions
-function randomChoice<T>(array: T[]): T {
+function randomChoice(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
 
-function randomBetween(min: number, max: number): number {
+function randomBetween(min, max) {
   return Math.random() * (max - min) + min
 }
 
-function randomDateInRange(daysBack: number): Date {
+function randomDateInRange(daysBack) {
   const now = new Date()
   const pastDate = new Date(now.getTime() - daysBack * 24 * 60 * 60 * 1000)
   return new Date(pastDate.getTime() + Math.random() * (now.getTime() - pastDate.getTime()))
 }
 
-function generateTradeId(): string {
+function generateTradeId() {
   return `TRD-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 }
 
-function generateBreakId(): string {
+function generateBreakId() {
   return `BRK-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 }
 
 // Generate mock trades
-export function generateMockTrades(count: number = 100): Trade[] {
-  const trades: Trade[] = []
+export function generateMockTrades(count = 100) {
+  const trades = []
   
   for (let i = 0; i < count; i++) {
     const tradeTime = randomDateInRange(90) // Last 90 days
@@ -83,15 +71,15 @@ export function generateMockTrades(count: number = 100): Trade[] {
     const status = randomChoice(TRADE_STATUSES)
     
     // Generate timestamps based on status
-    let docUploadedTime: Date | undefined
-    let affirmationSentTime: Date | undefined
-    let affirmationCompletedTime: Date | undefined
-    let confirmationReceivedTime: Date | undefined
-    let confirmationCompletedTime: Date | undefined
-    let reviewStartTime: Date | undefined
-    let reviewCompleteTime: Date | undefined
-    let firstDisputeTime: Date | undefined
-    let disputeResolutionTime: Date | undefined
+    let docUploadedTime
+    let affirmationSentTime
+    let affirmationCompletedTime
+    let confirmationReceivedTime
+    let confirmationCompletedTime
+    let reviewStartTime
+    let reviewCompleteTime
+    let firstDisputeTime
+    let disputeResolutionTime
     
     if (status !== 'pending_affirmation') {
       docUploadedTime = new Date(tradeTime.getTime() + randomBetween(0.5, 4) * 60 * 60 * 1000) // 0.5-4 hours
@@ -102,7 +90,7 @@ export function generateMockTrades(count: number = 100): Trade[] {
       }
       
       if (status === 'confirmed') {
-        confirmationReceivedTime = new Date(affirmationCompletedTime!.getTime() + randomBetween(0.1, 2) * 60 * 60 * 1000)
+        confirmationReceivedTime = new Date(affirmationCompletedTime.getTime() + randomBetween(0.1, 2) * 60 * 60 * 1000)
         confirmationCompletedTime = new Date(confirmationReceivedTime.getTime() + randomBetween(0.5, 4) * 60 * 60 * 1000)
       }
       
@@ -139,8 +127,8 @@ export function generateMockTrades(count: number = 100): Trade[] {
 }
 
 // Generate mock breaks
-export function generateMockBreaks(trades: Trade[]): Break[] {
-  const breaks: Break[] = []
+export function generateMockBreaks(trades) {
+  const breaks = []
   
   // Generate breaks for ~15% of trades
   const tradesWithBreaks = trades.filter(() => Math.random() < 0.15)
@@ -165,7 +153,7 @@ export function generateMockBreaks(trades: Trade[]): Break[] {
           ['strike', 'notional'],
           ['effective_date', 'termination_date']
         ]),
-        severityScore: randomChoice([1, 2, 3, 4, 5]) as 1 | 2 | 3 | 4 | 5,
+        severityScore: randomChoice([1, 2, 3, 4, 5]),
         resolutionStatus: randomChoice(['open', 'in_progress', 'resolved']),
         roundTripsToResolution: Math.floor(randomBetween(1, 5)),
         createdAt,
@@ -178,8 +166,8 @@ export function generateMockBreaks(trades: Trade[]): Break[] {
 }
 
 // Generate mock templates
-export function generateMockTemplates(): Template[] {
-  const templates: Template[] = []
+export function generateMockTemplates() {
+  const templates = []
   
   for (const counterparty of COUNTERPARTIES) {
     for (const productType of PRODUCT_TYPES) {
@@ -206,7 +194,7 @@ export function generateMockTemplates(): Template[] {
 }
 
 // Calculate metrics from mock data
-export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Template[]): DashboardMetrics {
+export function calculateMetrics(trades, breaks, templates) {
   const now = new Date()
   
   // Risk Exposure Metrics
@@ -216,7 +204,7 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
     return timeDiff > 24 * 60 * 60 * 1000 && (t.status === 'pending_affirmation' || t.status === 'disputed')
   })
   
-  const riskExposure: RiskExposureMetrics = {
+  const riskExposure = {
     openRiskScore: openTrades.reduce((sum, trade) => {
       const timeWeight = Math.min((now.getTime() - trade.tradeExecutedTime.getTime()) / (24 * 60 * 60 * 1000), 5)
       return sum + (trade.notional / 1000000) * timeWeight
@@ -229,13 +217,13 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
     averageTimeToRiskResolution: trades
       .filter(t => t.affirmationCompletedTime || t.confirmationCompletedTime)
       .reduce((sum, t) => {
-        const resolutionTime = t.affirmationCompletedTime || t.confirmationCompletedTime!
+        const resolutionTime = t.affirmationCompletedTime || t.confirmationCompletedTime
         return sum + (resolutionTime.getTime() - t.tradeExecutedTime.getTime()) / (60 * 60 * 1000)
       }, 0) / trades.filter(t => t.affirmationCompletedTime || t.confirmationCompletedTime).length
   }
   
   // Break Analysis Metrics
-  const breakAnalysis: BreakAnalysisMetrics = {
+  const breakAnalysis = {
     breakRateBySeverity: {
       high: (breaks.filter(b => b.severityScore >= 4).length / trades.length) * 100,
       medium: (breaks.filter(b => b.severityScore === 3).length / trades.length) * 100,
@@ -256,13 +244,13 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
     breakConcentrationScore: 0.75, // Mock value
     breakResolutionTime: breaks
       .filter(b => b.resolvedAt)
-      .reduce((sum, b) => sum + (b.resolvedAt!.getTime() - b.createdAt.getTime()) / (60 * 60 * 1000), 0) / 
+      .reduce((sum, b) => sum + (b.resolvedAt.getTime() - b.createdAt.getTime()) / (60 * 60 * 1000), 0) / 
       breaks.filter(b => b.resolvedAt).length,
     confirmDisputeRate: (breaks.length / trades.length) * 100
   }
   
   // Template Coverage Metrics
-  const templateCoverage: TemplateCoverageMetrics = {
+  const templateCoverage = {
     overallTemplateCoverage: (trades.filter(t => t.template).length / trades.length) * 100,
     templateGapAnalysis: COUNTERPARTIES.slice(0, 5).map(cp => ({
       counterparty: cp,
@@ -276,7 +264,7 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
   }
   
   // Process Performance Metrics
-  const processPerformance: ProcessPerformanceMetrics = {
+  const processPerformance = {
     slaAchievement24Hour: (trades.filter(t => {
       const timeDiff = (t.affirmationCompletedTime || t.confirmationCompletedTime)?.getTime() - t.tradeExecutedTime.getTime()
       return timeDiff && timeDiff <= 24 * 60 * 60 * 1000
@@ -296,7 +284,7 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
   }
   
   // Counterparty Scorecard Metrics
-  const counterpartyScorecards: Record<string, CounterpartyScorecardMetrics> = {}
+  const counterpartyScorecards = {}
   for (const cp of COUNTERPARTIES) {
     const cpTrades = trades.filter(t => t.counterparty === cp)
     const cpBreaks = breaks.filter(b => cpTrades.some(t => t.id === b.tradeId))
@@ -309,13 +297,13 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
       languageTemplateCompliance: randomBetween(80, 98),
       peerComparison: {
         percentile: randomBetween(10, 90),
-        quartile: randomChoice([1, 2, 3, 4]) as 1 | 2 | 3 | 4
+        quartile: randomChoice([1, 2, 3, 4])
       }
     }
   }
   
   // AI Metrics
-  const aiMetrics: AIMetrics = {
+  const aiMetrics = {
     fieldLevelExtractionAccuracy: {
       'strike': randomBetween(85, 98),
       'notional': randomBetween(90, 99),
@@ -337,24 +325,24 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
   }
   
   // Trading Activity Metrics
-  const tradingActivity: TradingActivityMetrics = {
+  const tradingActivity = {
     totalTrades: trades.length,
     tradesByProductType: PRODUCT_TYPES.reduce((acc, product) => {
       acc[product] = trades.filter(t => t.productType === product).length
       return acc
-    }, {} as Record<string, number>),
+    }, {}),
     tradesByProductFamily: PRODUCT_FAMILIES.reduce((acc, family) => {
       acc[family] = trades.filter(t => t.productFamily === family).length
       return acc
-    }, {} as Record<string, number>),
+    }, {}),
     tradesByCounterparty: COUNTERPARTIES.reduce((acc, cp) => {
       acc[cp] = trades.filter(t => t.counterparty === cp).length
       return acc
-    }, {} as Record<string, number>),
+    }, {}),
     volumeByProduct: PRODUCT_TYPES.reduce((acc, product) => {
       acc[product] = trades.filter(t => t.productType === product).reduce((sum, t) => sum + t.notional, 0)
       return acc
-    }, {} as Record<string, number>),
+    }, {}),
     volumeTrend: Array.from({ length: 30 }, (_, i) => ({
       date: new Date(now.getTime() - (29 - i) * 24 * 60 * 60 * 1000),
       count: Math.floor(randomBetween(20, 80))
@@ -362,7 +350,7 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
   }
   
   // Trend Metrics
-  const trendMetrics: TrendMetrics = {
+  const trendMetrics = {
     riskTrendScore: randomBetween(-15, 10),
     slaAchievementTrend: Array.from({ length: 12 }, (_, i) => ({
       date: new Date(now.getTime() - (11 - i) * 30 * 24 * 60 * 60 * 1000),
@@ -393,12 +381,7 @@ export function calculateMetrics(trades: Trade[], breaks: Break[], templates: Te
 }
 
 // Generate complete mock dataset
-export function generateMockDataset(): {
-  trades: Trade[]
-  breaks: Break[]
-  templates: Template[]
-  metrics: DashboardMetrics
-} {
+export function generateMockDataset() {
   const trades = generateMockTrades(1000)
   const breaks = generateMockBreaks(trades)
   const templates = generateMockTemplates()
