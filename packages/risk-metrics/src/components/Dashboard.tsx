@@ -3,9 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { 
   Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle,
+  CardContent,
   Button,
   Badge,
   Separator
@@ -39,10 +37,16 @@ export function Dashboard() {
     // Simulate loading
     const loadData = async () => {
       setIsLoading(true)
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate API call
-      const mockData = generateMockDataset()
-      setMetrics(mockData.metrics)
-      setIsLoading(false)
+      try {
+        await new Promise(resolve => setTimeout(resolve, 500)) // Simulate API call
+        const mockData = generateMockDataset()
+        console.log('Mock data generated:', mockData.metrics)
+        setMetrics(mockData.metrics)
+        setIsLoading(false)
+      } catch (error) {
+        console.error('Error loading data:', error)
+        setIsLoading(false)
+      }
     }
     
     loadData()

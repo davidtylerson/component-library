@@ -72,7 +72,7 @@ function generateBreakId(): string {
 }
 
 // Generate mock trades
-export function generateMockTrades(count: number = 1000): Trade[] {
+export function generateMockTrades(count: number = 100): Trade[] {
   const trades: Trade[] = []
   
   for (let i = 0; i < count; i++) {

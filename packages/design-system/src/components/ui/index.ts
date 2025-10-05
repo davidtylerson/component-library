@@ -117,6 +117,9 @@ export {
 // Badge component
 export { Badge } from './badge';
 
+// Progress component
+export { Progress } from './progress';
+
 // Separator component
 export { Separator } from './separator';
 
