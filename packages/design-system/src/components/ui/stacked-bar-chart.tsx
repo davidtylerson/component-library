@@ -89,7 +89,7 @@ const StackedBarChart = React.forwardRef<HTMLDivElement, StackedBarChartProps>(
               />
               <ChartTooltip content={<ChartTooltipContent hideLabel />} />
               {showLegend && <ChartLegend content={<ChartLegendContent />} />}
-              {dataKeys.map(({ key, color }, index) => (
+              {dataKeys.map(({ key }, index) => (
                 <Bar
                   key={key}
                   dataKey={key}

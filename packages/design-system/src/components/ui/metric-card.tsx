@@ -34,7 +34,7 @@ const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
       }
     };
 
-    const getStatusTextColor = (status?: string) => {
+    const _getStatusTextColor = (status?: string) => {
       switch (status) {
         case 'good':
           return 'text-[var(--color-success-600)]';

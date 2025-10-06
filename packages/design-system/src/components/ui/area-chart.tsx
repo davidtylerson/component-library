@@ -145,6 +145,4 @@ const AreaChartComponent = React.forwardRef<HTMLDivElement, AreaChartProps>(
   }
 );
 
-AreaChartComponent.displayName = "AreaChart";
-
 export { AreaChartComponent as AreaChart };

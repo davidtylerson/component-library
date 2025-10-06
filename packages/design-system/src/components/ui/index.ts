@@ -174,8 +174,8 @@ export { MetricCard } from './metric-card';
 // Chart components
 export { HorizontalBarChart } from './horizontal-bar-chart';
 export { StackedBarChart } from './stacked-bar-chart';
-export { LineChart } from './line-chart';
-export { AreaChart } from './area-chart';
+export { LineChartComponent as LineChart } from './line-chart';
+export { AreaChartComponent as AreaChart } from './area-chart';
 export {
   ChartContainer,
   ChartTooltip,
