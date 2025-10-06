@@ -97,7 +97,7 @@ const templateGapColumns: ColumnDef<TemplateGap>[] = [
       <SortableColumnHeader column={column} title="Template Name" />
     ),
     cell: ({ row }) => (
-      <div className="whitespace-nowrap font-medium text-[var(--text-primary)]">
+      <div className="text-text-secondary whitespace-nowrap font-medium">
         {row.getValue('templateName')}
       </div>
     ),
@@ -155,7 +155,7 @@ const templateGapColumns: ColumnDef<TemplateGap>[] = [
       <SortableColumnHeader column={column} title="Aged Days" />
     ),
     cell: ({ row }) => (
-      <div className="whitespace-nowrap text-[var(--text-primary)]">
+      <div className="text-text-secondary whitespace-nowrap">
         {row.getValue('agedDays')} days
       </div>
     ),
@@ -166,7 +166,7 @@ const templateGapColumns: ColumnDef<TemplateGap>[] = [
       <SortableColumnHeader column={column} title="Last Updated" />
     ),
     cell: ({ row }) => (
-      <div className="whitespace-nowrap text-[var(--text-secondary)]">
+      <div className="text-text-secondary whitespace-nowrap">
         {row.getValue('lastUpdated')}
       </div>
     ),
@@ -181,10 +181,10 @@ export default function DataTablePage() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-[var(--text-primary)]">
+        <h1 className="text-text-secondary mb-2 text-3xl font-bold">
           DataTable Component
         </h1>
-        <p className="text-[var(--text-secondary)]">
+        <p className="text-text-secondary">
           A powerful data table component built with TanStack Table and styled
           with the Float Design System.
         </p>
@@ -193,13 +193,11 @@ export default function DataTablePage() {
       {/* Main DataTable Example with Density Toggle */}
       <div className="mb-12">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-[var(--text-primary)]">
+          <h2 className="text-text-secondary text-2xl font-semibold">
             Template Gap Analysis Table
           </h2>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-[var(--text-secondary)]">
-              Density:
-            </span>
+            <span className="text-text-secondary text-sm">Density:</span>
             <Select
               value={density}
               onValueChange={(value: 'compact' | 'comfortable') =>
@@ -230,14 +228,14 @@ export default function DataTablePage() {
 
       {/* Table Cell Components Showcase */}
       <div className="mb-12">
-        <h2 className="mb-4 text-2xl font-semibold text-[var(--text-primary)]">
+        <h2 className="text-text-secondary mb-4 text-2xl font-semibold">
           Table Cell Components Showcase
         </h2>
 
         <div className="space-y-6">
           {/* StatusCell Examples */}
           <div>
-            <h3 className="mb-3 text-lg font-medium text-[var(--text-primary)]">
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
               StatusCell Component
             </h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -254,7 +252,7 @@ export default function DataTablePage() {
 
           {/* DocumentReviewState Examples */}
           <div>
-            <h3 className="mb-3 text-lg font-medium text-[var(--text-primary)]">
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
               DocumentReviewState Component
             </h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -267,7 +265,7 @@ export default function DataTablePage() {
 
           {/* AgedState Examples */}
           <div>
-            <h3 className="mb-3 text-lg font-medium text-[var(--text-primary)]">
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
               AgedState Component (Priority Levels)
             </h3>
             <div className="flex gap-4">
@@ -279,7 +277,7 @@ export default function DataTablePage() {
 
           {/* TradeTypeCell Examples */}
           <div>
-            <h3 className="mb-3 text-lg font-medium text-[var(--text-primary)]">
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
               TradeTypeCell Component
             </h3>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -292,7 +290,7 @@ export default function DataTablePage() {
 
           {/* IconLeadingCell Examples */}
           <div>
-            <h3 className="mb-3 text-lg font-medium text-[var(--text-primary)]">
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
               IconLeadingCell Component
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

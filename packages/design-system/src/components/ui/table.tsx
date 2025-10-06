@@ -37,7 +37,7 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn('bg-bg-primary text-text-tertiary font-medium', className)}
+    className={cn('bg-bg-primary text-text-secondary font-medium', className)}
     {...props}
   />
 ));
@@ -67,7 +67,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      'text-text-tertiary h-10 px-4 py-3 text-left align-middle font-medium',
+      'text-text-secondary h-10 px-4 py-3 text-left align-middle font-medium',
       'text-sm font-normal',
       '[&:has([role=checkbox])]:pr-0',
       className
@@ -86,7 +86,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      'text-text-tertiary px-4 align-middle',
+      'text-text-secondary px-4 align-middle',
       'text-sm font-normal',
       density === 'compact' ? 'h-10 py-2' : 'h-10 py-3',
       '[&:has([role=checkbox])]:pr-0',
