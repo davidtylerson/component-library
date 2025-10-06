@@ -1,13 +1,12 @@
-
 'use client';
 
 import React from 'react';
-import { 
-  IconTrendingUp, 
-  IconTrendingDown, 
-  IconChartBar, 
-  IconWorld, 
-  IconBuilding 
+import {
+  IconTrendingUp,
+  IconTrendingDown,
+  IconChartBar,
+  IconWorld,
+  IconBuilding,
 } from '@tabler/icons-react';
 import {
   Card,
@@ -23,7 +22,7 @@ import {
   LineChart,
   HorizontalBarChart,
   StackedBarChart,
-  MetricsTable
+  MetricsTable,
 } from '@float-vibe-foundry/design-system';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -130,7 +129,7 @@ const ExecutiveDashboard = () => {
   ];
 
   // Define columns for Priority Actions DataTable
-  const priorityActionsColumns: ColumnDef<typeof priorityActions[0]>[] = [
+  const priorityActionsColumns: ColumnDef<(typeof priorityActions)[0]>[] = [
     {
       accessorKey: 'rank',
       header: 'Rank',
@@ -146,11 +145,7 @@ const ExecutiveDashboard = () => {
       ),
       cell: ({ row }) => {
         const trade = row.getValue('trade') as string;
-        return (
-          <div className="text-sm font-medium text-blue-600">
-            {trade}
-          </div>
-        );
+        return <div className="text-sm font-medium text-blue-600">{trade}</div>;
       },
     },
     {
@@ -193,9 +188,7 @@ const ExecutiveDashboard = () => {
       cell: ({ row }) => {
         const score = row.getValue('score') as number;
         return (
-          <div className="text-sm font-semibold">
-            {score.toLocaleString()}
-          </div>
+          <div className="text-sm font-semibold">{score.toLocaleString()}</div>
         );
       },
     },
@@ -205,15 +198,48 @@ const ExecutiveDashboard = () => {
     totalTrades: 258,
     change: 12,
     byFamily: [
-      { name: 'Rates', value: 112, percentage: 43, icon: <IconTrendingUp size={16} /> },
+      {
+        name: 'Rates',
+        value: 112,
+        percentage: 43,
+        icon: <IconTrendingUp size={16} />,
+      },
       { name: 'FX', value: 68, percentage: 26, icon: <IconWorld size={16} /> },
-      { name: 'Equity', value: 52, percentage: 20, icon: <IconChartBar size={16} /> },
-      { name: 'Credit', value: 26, percentage: 11, icon: <IconTrendingDown size={16} /> },
+      {
+        name: 'Equity',
+        value: 52,
+        percentage: 20,
+        icon: <IconChartBar size={16} />,
+      },
+      {
+        name: 'Credit',
+        value: 26,
+        percentage: 11,
+        icon: <IconTrendingDown size={16} />,
+      },
     ],
     topCounterparties: [
-      { name: 'GS', value: 72, percentage: 28, label: 'trades', icon: <IconBuilding size={16} /> },
-      { name: 'JPM', value: 61, percentage: 24, label: 'trades', icon: <IconBuilding size={16} /> },
-      { name: 'MS', value: 52, percentage: 20, label: 'trades', icon: <IconBuilding size={16} /> },
+      {
+        name: 'GS',
+        value: 72,
+        percentage: 28,
+        label: 'trades',
+        icon: <IconBuilding size={16} />,
+      },
+      {
+        name: 'JPM',
+        value: 61,
+        percentage: 24,
+        label: 'trades',
+        icon: <IconBuilding size={16} />,
+      },
+      {
+        name: 'MS',
+        value: 52,
+        percentage: 20,
+        label: 'trades',
+        icon: <IconBuilding size={16} />,
+      },
     ],
     volumeTrendData: [
       { name: 'Sep 15', value: 50 },
@@ -234,12 +260,13 @@ const ExecutiveDashboard = () => {
     { label: 'Oct 6', value: 92 },
   ];
 
-
   return (
-    <div className="bg-bg-secondary min-h-screen p-6">
+    <div className="bg-background min-h-screen p-6">
       {/* Header */}
       <div className="mb-6">
-        <Heading level={1} className="text-text-primary">Risk Overview</Heading>
+        <Heading level={1} className="text-text-primary">
+          Risk Overview
+        </Heading>
         <p className="text-text-secondary text-sm">Friday, October 03, 2025</p>
       </div>
 
@@ -275,7 +302,10 @@ const ExecutiveDashboard = () => {
             className="mb-4"
           />
           <div className="border-t p-4 text-center">
-            <Button variant="ghost" className="text-sm font-medium text-blue-600 hover:text-blue-800">
+            <Button
+              variant="ghost"
+              className="text-sm font-medium text-blue-600 hover:text-blue-800"
+            >
               View All 18 Items →
             </Button>
           </div>
@@ -313,12 +343,18 @@ const ExecutiveDashboard = () => {
 
             <div>
               <div className="mb-2 text-sm font-medium">Volume Trend</div>
-              <div className="text-xs text-gray-500 mb-4">Weekly trading volume</div>
+              <div className="mb-4 text-xs text-gray-500">
+                Weekly trading volume
+              </div>
               <div className="h-40">
                 <StackedBarChart
                   data={activityData.volumeTrendData}
                   dataKeys={[
-                    { key: 'value', label: 'Volume', color: 'var(--color-brand-600)' },
+                    {
+                      key: 'value',
+                      label: 'Volume',
+                      color: 'var(--color-brand-600)',
+                    },
                   ]}
                   xAxisKey="name"
                   height={160}

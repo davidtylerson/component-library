@@ -56,7 +56,7 @@ const RiskDeepDiveDashboard = () => {
   const breakOwnership = [
     { owner: 'Counterparty', pct: 68, color: 'bg-[var(--color-error-500)]' },
     { owner: 'Rokos', pct: 23, color: 'bg-[var(--color-warning-500)]' },
-    { owner: 'AI', pct: 9, color: 'bg-[var(--color-brand-500)]' },
+    { owner: 'System', pct: 9, color: 'bg-[var(--color-brand-500)]' },
   ];
 
   const fieldBreaks = [
@@ -312,7 +312,7 @@ const RiskDeepDiveDashboard = () => {
             <CardTitle>Who Owns the Breaks?</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
+            <div className="h-64 pl-4">
               <HorizontalBarChart
                 data={breakOwnership.map(item => ({
                   name: item.owner,
