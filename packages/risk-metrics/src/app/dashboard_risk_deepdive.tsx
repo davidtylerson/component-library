@@ -55,8 +55,7 @@ const RiskDeepDiveDashboard = () => {
 
   const breakOwnership = [
     { owner: 'Counterparty', pct: 68, color: 'bg-[var(--color-error-500)]' },
-    { owner: 'Rokos', pct: 23, color: 'bg-[var(--color-warning-500)]' },
-    { owner: 'System', pct: 9, color: 'bg-[var(--color-brand-500)]' },
+    { owner: 'Alta', pct: 32, color: 'bg-[var(--color-warning-500)]' },
   ];
 
   const fieldBreaks = [
