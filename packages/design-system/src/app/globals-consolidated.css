@@ -88,36 +88,36 @@
   --color-success-950: #0a1f0a;
 
   /* Semantic Variables: Light Theme */
-  --text-primary: #1a1a1e;
-  --text-secondary: #51515c;
-  --text-tertiary: #70707b;
-  --text-disabled: #a0a0ab;
+  --text-primary: var(--color-gray-900);
+  --text-secondary: var(--color-gray-600);
+  --text-tertiary: var(--color-gray-500);
+  --text-disabled: var(--color-gray-400);
 
   --text-brand-primary: var(--color-brand-700);
   --text-brand-secondary: var(--color-brand-600);
-  --text-brand-tertiary: var(--color-brand-500);
+  --text-brand-tertiary: var(--color-brand-400);
 
-  --text-error-primary: var(--color-error-600);
-  --text-warning-primary: var(--color-warning-600);
-  --text-success-primary: var(--color-success-600);
+  --text-error-primary: var(--color-error-500);
+  --text-warning-primary: var(--color-warning-400);
+  --text-success-primary: var(--color-success-500);
 
   /* Border Colors */
-  --border-primary: var(--color-gray-300);
-  --border-secondary: var(--color-gray-100);
-  --border-tertiary: var(--color-gray-50);
+  --border-primary: var(--color-gray-400);
+  --border-secondary: var(--color-gray-300);
+  --border-tertiary: var(--color-gray-200);
   --border-disabled: var(--color-gray-100);
 
   --border-brand: var(--color-brand-300);
-  --border-brand-solid: var(--color-brand-600);
+  --border-brand-solid: var(--color-brand-500);
 
-  --border-error: var(--color-error-200);
-  --border-error-solid: var(--color-error-600);
+  --border-error: var(--color-error-300);
+  --border-error-solid: var(--color-error-400);
 
   --border-warning: var(--color-warning-200);
-  --border-warning-solid: var(--color-warning-600);
+  --border-warning-solid: var(--color-warning-400);
 
-  --border-success: var(--color-success-200);
-  --border-success-solid: var(--color-success-600);
+  --border-success: var(--color-success-400);
+  --border-success-solid: var(--color-success-500);
 
   /* Background Colors */
   --bg-primary: var(--color-gray-25);
@@ -134,15 +134,15 @@
 
   --bg-error-primary: var(--color-error-25);
   --bg-error-secondary: var(--color-error-50);
-  --bg-error-solid: var(--color-error-600);
+  --bg-error-solid: var(--color-error-500);
 
   --bg-warning-primary: var(--color-warning-25);
   --bg-warning-secondary: var(--color-warning-50);
-  --bg-warning-solid: var(--color-warning-600);
+  --bg-warning-solid: var(--color-warning-400);
 
   --bg-success-primary: var(--color-success-25);
   --bg-success-secondary: var(--color-success-50);
-  --bg-success-solid: var(--color-success-600);
+  --bg-success-solid: var(--color-success-500);
 
   /* Foreground Colors */
   --fg-primary: var(--color-gray-900);
@@ -571,20 +571,20 @@
 
   --text-brand-primary: var(--color-brand-50);
   --text-brand-secondary: var(--color-brand-200);
-  --text-brand-tertiary: var(--color-brand-300);
+  --text-brand-tertiary: var(--color-brand-400);
 
-  --text-error-primary: var(--color-error-300);
-  --text-warning-primary: var(--color-warning-300);
-  --text-success-primary: var(--color-success-300);
+  --text-error-primary: var(--color-error-400);
+  --text-warning-primary: var(--color-warning-400);
+  --text-success-primary: var(--color-success-400);
 
   /* Border Colors - Adjusted for dark mode */
-  --border-primary: var(--color-gray-500);
-  --border-secondary: var(--color-gray-800);
-  --border-tertiary: var(--color-gray-800);
+  --border-primary: var(--color-gray-400);
+  --border-secondary: var(--color-gray-500);
+  --border-tertiary: var(--color-gray-600);
   --border-disabled: var(--color-gray-700);
 
   --border-brand: var(--color-brand-500);
-  --border-brand-solid: var(--color-brand-300);
+  --border-brand-solid: var(--color-brand-400);
 
   --border-error: var(--color-error-400);
   --border-error-solid: var(--color-error-300);
@@ -634,10 +634,10 @@
   --fg-error-primary: var(--color-error-500);
   --fg-error-secondary: var(--color-error-400);
 
-  --fg-warning-primary: var(--color-warning-300);
-  --fg-warning-secondary: var(--color-warning-400);
+  --fg-warning-primary: var(--color-warning-400);
+  --fg-warning-secondary: var(--color-warning-300);
 
-  --fg-success-primary: var(--color-success-300);
+  --fg-success-primary: var(--color-success-500);
   --fg-success-secondary: var(--color-success-400);
 
   --fg-white: #ffffff;
