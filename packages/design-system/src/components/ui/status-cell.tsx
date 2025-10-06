@@ -7,7 +7,7 @@ import {
   IconCircleDashed,
   IconLinkOff,
   IconSend,
-  IconCancel,
+  IconX,
   IconLink,
   IconCircleDotted,
 } from '@tabler/icons-react';
@@ -52,7 +52,7 @@ export function StatusCell({
     },
     cancelled: {
       label: 'Cancelled',
-      icon: IconCancel,
+      icon: IconX,
       iconColor: 'var(--fg-secondary)', // rgba(209, 209, 214, 1)
       textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
@@ -105,11 +105,13 @@ export function StatusCell({
 interface DocumentReviewStateProps {
   state: 'in-dispute' | 'in-review' | 'not-matched' | 'return';
   className?: string;
+  showIcon?: boolean;
 }
 
 export function DocumentReviewState({
   state,
   className,
+  showIcon = true,
 }: DocumentReviewStateProps) {
   const stateConfig = {
     'in-dispute': {
@@ -143,11 +145,13 @@ export function DocumentReviewState({
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
-      <Icon
-        size={16}
-        style={{ color: config.iconColor }}
-        className="flex-shrink-0"
-      />
+      {showIcon && (
+        <Icon
+          size={16}
+          style={{ color: config.iconColor }}
+          className="flex-shrink-0"
+        />
+      )}
       <span className="text-sm font-normal" style={{ color: config.textColor }}>
         {config.label}
       </span>
