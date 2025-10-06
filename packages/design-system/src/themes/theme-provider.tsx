@@ -11,13 +11,13 @@ import type { ThemeProviderProps } from 'next-themes/dist/types';
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
-      attribute="class"
+      attribute={"class" as any}
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
       {...props}
     >
-      {children}
+      {children as any}
     </NextThemesProvider>
   );
 }

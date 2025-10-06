@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@float-vibe-foundry/design-system/themes';
+import { SidebarProvider } from '@float-vibe-foundry/design-system';
 import { AppFrame } from '../components/AppFrame';
 
 const inter = Inter({
@@ -24,10 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} bg-bg-primary text-text-primary font-sans`}
+        className={`${inter.variable} bg-bg-app-base font-sans text-text-primary`}
       >
         <ThemeProvider defaultTheme="system" enableSystem>
-          <AppFrame>{children}</AppFrame>
+          <SidebarProvider>
+            <AppFrame>{children}</AppFrame>
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

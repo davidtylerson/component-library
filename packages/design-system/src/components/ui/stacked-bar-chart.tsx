@@ -20,7 +20,7 @@ import {
 } from "./chart";
 
 export interface StackedBarChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+  title?: string;
   description?: string;
   data: Array<Record<string, any>>;
   dataKeys: Array<{
@@ -54,54 +54,42 @@ const StackedBarChart = React.forwardRef<HTMLDivElement, StackedBarChartProps>(
     }, {} as ChartConfig);
 
     return (
-      <Card
+      <div
         ref={ref}
         className={cn(className)}
         {...props}
       >
-        <CardHeader>
-          <CardTitle className="text-[var(--card-title-text)]">
-            {title}
-          </CardTitle>
-          {description && (
-            <CardDescription className="text-[var(--card-description-text)]">
-              {description}
-            </CardDescription>
-          )}
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="w-full">
-            <BarChart 
-              accessibilityLayer 
-              data={data}
-              width={undefined}
-              height={height}
-            >
-              {showGrid && <CartesianGrid vertical={false} />}
-              <XAxis
-                dataKey={xAxisKey}
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
-                stroke="var(--border-tertiary)"
-                tick={{ fill: "var(--text-tertiary)" }}
+        <ChartContainer config={chartConfig} className="w-full">
+          <BarChart 
+            accessibilityLayer 
+            data={data}
+            width={undefined}
+            height={height}
+          >
+            {showGrid && <CartesianGrid vertical={false} stroke="var(--border-tertiary)" />}
+            <XAxis
+              dataKey={xAxisKey}
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
+              stroke="var(--border-tertiary)"
+              tick={{ fill: "var(--text-tertiary)" }}
+            />
+            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            {showLegend && <ChartLegend content={<ChartLegendContent />} />}
+            {dataKeys.map(({ key }, index) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                stackId="a"
+                fill={`var(--color-${key})`}
+                radius={index === 0 ? [0, 0, 4, 4] : index === dataKeys.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
               />
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-              {showLegend && <ChartLegend content={<ChartLegendContent />} />}
-              {dataKeys.map(({ key }, index) => (
-                <Bar
-                  key={key}
-                  dataKey={key}
-                  stackId="a"
-                  fill={`var(--color-${key})`}
-                  radius={index === 0 ? [0, 0, 4, 4] : index === dataKeys.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
-                />
-              ))}
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+            ))}
+          </BarChart>
+        </ChartContainer>
+      </div>
     );
   }
 );

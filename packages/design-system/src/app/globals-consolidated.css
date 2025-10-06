@@ -879,6 +879,6 @@
     border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-bg-primary text-text-primary;
   }
 }

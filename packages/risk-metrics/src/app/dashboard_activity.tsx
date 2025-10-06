@@ -169,7 +169,7 @@ const ActivityDashboard = () => {
     { label: 'Sep 23', value: 93 },
   ];
 
-  const getTrendIcon = dir => {
+  const getTrendIcon = (dir: string) => {
     if (dir === 'up') return <span className="text-green-600">↑</span>;
     if (dir === 'down') return <span className="text-red-600">↓</span>;
     return <span className="text-gray-600">→</span>;

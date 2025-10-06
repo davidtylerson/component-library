@@ -121,13 +121,13 @@ const TemplateProgressDashboard = () => {
     riskReduction: 2.1,
   };
 
-  const getStatusColor = status => {
+  const getStatusColor = (status: string) => {
     if (status === 'good') return 'text-green-600';
     if (status === 'warning') return 'text-yellow-600';
     return 'text-red-600';
   };
 
-  const getPriorityBadge = priority => {
+  const getPriorityBadge = (priority: string) => {
     if (priority === 'high') return 'bg-red-100 text-red-800';
     return 'bg-yellow-100 text-yellow-800';
   };

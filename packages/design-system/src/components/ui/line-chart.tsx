@@ -18,7 +18,7 @@ import {
 } from "./chart";
 
 export interface LineChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+  title?: string;
   description?: string;
   data: Array<Record<string, any>>;
   dataKeys: Array<{
@@ -54,8 +54,6 @@ const LineChartComponent = React.forwardRef<HTMLDivElement, LineChartProps>(
     strokeWidth = 2,
     lineType = 'monotone',
     showAxes = false,
-    showLabels = false,
-    gradient = false,
     interactive = false,
     customDots = false,
     ...props 
@@ -67,68 +65,56 @@ const LineChartComponent = React.forwardRef<HTMLDivElement, LineChartProps>(
     }, {} as ChartConfig);
 
     return (
-      <Card
+      <div
         ref={ref}
         className={cn(className)}
         {...props}
       >
-        <CardHeader>
-          <CardTitle className="text-[var(--card-title-text)]">
-            {title}
-          </CardTitle>
-          {description && (
-            <CardDescription className="text-[var(--card-description-text)]">
-              {description}
-            </CardDescription>
-          )}
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="w-full">
-            <LineChart 
-              accessibilityLayer 
-              data={data}
-              width={undefined}
-              height={height}
-            >
-              {showGrid && <CartesianGrid vertical={false} />}
-              <XAxis
-                dataKey={xAxisKey}
+        <ChartContainer config={chartConfig} className="w-full">
+          <LineChart 
+            accessibilityLayer 
+            data={data}
+            width={undefined}
+            height={height}
+          >
+            {showGrid && <CartesianGrid vertical={false} stroke="var(--border-tertiary)" />}
+            <XAxis
+              dataKey={xAxisKey}
+              tickLine={false}
+              tickMargin={10}
+              axisLine={showAxes}
+              tickFormatter={(value) => value.slice(0, 3)}
+              stroke="var(--border-tertiary)"
+              tick={{ fill: "var(--text-tertiary)" }}
+            />
+            {showAxes && (
+              <YAxis
                 tickLine={false}
+                axisLine={false}
                 tickMargin={10}
-                axisLine={showAxes}
-                tickFormatter={(value) => value.slice(0, 3)}
                 stroke="var(--border-tertiary)"
                 tick={{ fill: "var(--text-tertiary)" }}
               />
-              {showAxes && (
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={10}
-                  stroke="var(--border-tertiary)"
-                  tick={{ fill: "var(--text-tertiary)" }}
-                />
-              )}
-              <ChartTooltip 
-                content={<ChartTooltipContent hideLabel />}
-                cursor={interactive ? { stroke: 'var(--color-border)', strokeWidth: 1 } : false}
+            )}
+            <ChartTooltip 
+              content={<ChartTooltipContent hideLabel />}
+              cursor={interactive ? { stroke: 'var(--color-border)', strokeWidth: 1 } : false}
+            />
+            {dataKeys.map(({ key }) => (
+              <Line
+                key={key}
+                type={lineType}
+                dataKey={key}
+                stroke={`var(--color-${key})`}
+                strokeWidth={strokeWidth}
+                dot={showDots ? (customDots ? { r: 6, fill: `var(--color-${key})` } : { r: 4 }) : false}
+                activeDot={interactive ? { r: 6, stroke: `var(--color-${key})`, strokeWidth: 2 } : { r: 6 }}
+                connectNulls={false}
               />
-              {dataKeys.map(({ key }) => (
-                <Line
-                  key={key}
-                  type={lineType}
-                  dataKey={key}
-                  stroke={`var(--color-${key})`}
-                  strokeWidth={strokeWidth}
-                  dot={showDots ? (customDots ? { r: 6, fill: `var(--color-${key})` } : { r: 4 }) : false}
-                  activeDot={interactive ? { r: 6, stroke: `var(--color-${key})`, strokeWidth: 2 } : { r: 6 }}
-                  connectNulls={false}
-                />
-              ))}
-            </LineChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+            ))}
+          </LineChart>
+        </ChartContainer>
+      </div>
     );
   }
 );

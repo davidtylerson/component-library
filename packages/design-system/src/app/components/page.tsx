@@ -53,11 +53,19 @@ import {
   ContextMenuSubContent,
 } from '@/components/ui/context-menu';
 import { MetricCard } from '@/components/ui/metric-card';
+import { MetricsTable } from '@/components/ui/metrics-table';
 import { HorizontalBarChart } from '@/components/ui/horizontal-bar-chart';
 import { StackedBarChart } from '@/components/ui/stacked-bar-chart';
 import { LineChart } from '@/components/ui/line-chart';
 import { AreaChart } from '@/components/ui/area-chart';
 import { DollarSign, Users, TrendingUp, Activity } from 'lucide-react';
+import { 
+  IconTrendingUp, 
+  IconTrendingDown, 
+  IconChartBar, 
+  IconWorld, 
+  IconBuilding 
+} from '@tabler/icons-react';
 
 export default function ComponentsPage() {
   return (
@@ -299,83 +307,168 @@ export default function ComponentsPage() {
         </div>
       </section>
 
-      {/* Charts */}
+      {/* Metrics Tables */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold">Metrics Tables</h2>
+        <div className="grid grid-cols-1 gap-6 rounded-md border border-border-primary p-4 md:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Trading Activity Summary</CardTitle>
+              <CardDescription>Product family breakdown and top counterparties</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <MetricsTable
+                title="By Product Family:"
+                items={[
+                  { name: 'Rates', value: 112, percentage: 43, icon: <IconTrendingUp size={16} /> },
+                  { name: 'FX', value: 68, percentage: 26, icon: <IconWorld size={16} /> },
+                  { name: 'Equity', value: 52, percentage: 20, icon: <IconChartBar size={16} /> },
+                  { name: 'Credit', value: 26, percentage: 11, icon: <IconTrendingDown size={16} /> },
+                ]}
+              />
+              
+              <MetricsTable
+                title="Top 3 Counterparties:"
+                items={[
+                  { name: 'GS', value: 72, percentage: 28, label: 'trades', icon: <IconBuilding size={16} /> },
+                  { name: 'JPM', value: 61, percentage: 24, label: 'trades', icon: <IconBuilding size={16} /> },
+                  { name: 'MS', value: 52, percentage: 20, label: 'trades', icon: <IconBuilding size={16} /> },
+                ]}
+                showRanking={true}
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Risk Distribution</CardTitle>
+              <CardDescription>Risk exposure by product type and region</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <MetricsTable
+                title="Risk by Product Type:"
+                items={[
+                  { name: 'CMS Options', value: 9400, percentage: 38 },
+                  { name: 'FX Options', value: 5200, percentage: 21 },
+                  { name: 'IRS', value: 3100, percentage: 12 },
+                  { name: 'Equity Options', value: 2800, percentage: 11 },
+                  { name: 'Swaptions', value: 900, percentage: 4 },
+                ]}
+              />
+              
+              <MetricsTable
+                title="Top Risk Regions:"
+                items={[
+                  { name: 'North America', value: 12500, percentage: 45, label: 'USD' },
+                  { name: 'Europe', value: 8900, percentage: 32, label: 'EUR' },
+                  { name: 'Asia Pacific', value: 4200, percentage: 15, label: 'JPY' },
+                ]}
+                showRanking={true}
+              />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
       <section className="mb-12">
         <h2 className="mb-4 text-xl font-semibold">Charts</h2>
         <div className="grid grid-cols-1 gap-6 rounded-md border border-border-primary p-4 lg:grid-cols-2">
-          <HorizontalBarChart
-            title="Risk by Counterparty"
-            description="Current risk exposure by counterparty"
-            data={[
-              { name: 'GS', value: 8900, max: 10000 },
-              { name: 'JPM', value: 5200, max: 10000 },
-              { name: 'Citi', value: 4100, max: 10000 },
-              { name: 'BAML', value: 2800, max: 10000 },
-              { name: 'MS', value: 1900, max: 10000 },
-            ]}
-            color="var(--color-error-600)"
-            height={120}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Risk by Counterparty</CardTitle>
+              <CardDescription>Current risk exposure by counterparty</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <HorizontalBarChart
+                data={[
+                  { name: 'GS', value: 8900, max: 10000 },
+                  { name: 'JPM', value: 5200, max: 10000 },
+                  { name: 'Citi', value: 4100, max: 10000 },
+                  { name: 'BAML', value: 2800, max: 10000 },
+                  { name: 'MS', value: 1900, max: 10000 },
+                ]}
+                color="var(--color-error-600)"
+                height={120}
+              />
+            </CardContent>
+          </Card>
           
-          <StackedBarChart
-            title="Trading Activity by Product Family"
-            description="Volume breakdown by product type"
-            data={[
-              { name: 'Rates', count: 112, pct: 43 },
-              { name: 'FX', count: 68, pct: 26 },
-              { name: 'Equity', count: 52, pct: 20 },
-              { name: 'Credit', count: 26, pct: 11 },
-            ]}
-            dataKeys={[
-              { key: 'count', label: 'Count', color: 'var(--color-brand-600)' },
-              { key: 'pct', label: 'Percentage', color: 'var(--color-success-600)' },
-            ]}
-            xAxisKey="name"
-            height={120}
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Trading Activity by Product Family</CardTitle>
+              <CardDescription>Volume breakdown by product type</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <StackedBarChart
+                data={[
+                  { name: 'Rates', count: 112, pct: 43 },
+                  { name: 'FX', count: 68, pct: 26 },
+                  { name: 'Equity', count: 52, pct: 20 },
+                  { name: 'Credit', count: 26, pct: 11 },
+                ]}
+                dataKeys={[
+                  { key: 'count', label: 'Count', color: 'var(--color-brand-600)' },
+                  { key: 'pct', label: 'Percentage', color: 'var(--color-success-600)' },
+                ]}
+                xAxisKey="name"
+                height={120}
+              />
+            </CardContent>
+          </Card>
           
-          <LineChart
-            title="SLA Performance Trend"
-            description="Performance over time with interactive features"
-            data={[
-              { label: 'Sep 1', value: 80 },
-              { label: 'Sep 8', value: 82 },
-              { label: 'Sep 15', value: 85 },
-              { label: 'Sep 22', value: 88 },
-              { label: 'Sep 29', value: 90 },
-              { label: 'Oct 6', value: 92 },
-            ]}
-            dataKeys={[
-              { key: 'value', label: 'SLA %', color: 'var(--color-success-600)' },
-            ]}
-            xAxisKey="label"
-            height={120}
-            interactive={true}
-            customDots={true}
-            lineType="linear"
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>SLA Performance Trend</CardTitle>
+              <CardDescription>Performance over time with interactive features</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <LineChart
+                data={[
+                  { label: 'Sep 1', value: 80 },
+                  { label: 'Sep 8', value: 82 },
+                  { label: 'Sep 15', value: 85 },
+                  { label: 'Sep 22', value: 88 },
+                  { label: 'Sep 29', value: 90 },
+                  { label: 'Oct 6', value: 92 },
+                ]}
+                dataKeys={[
+                  { key: 'value', label: 'SLA %', color: 'var(--color-success-600)' },
+                ]}
+                xAxisKey="label"
+                height={120}
+                interactive={true}
+                customDots={true}
+                lineType="linear"
+              />
+            </CardContent>
+          </Card>
           
-          <AreaChart
-            title="Risk Exposure Over Time"
-            description="Area chart showing risk trends"
-            data={[
-              { label: 'Jan', risk: 1200, target: 1000 },
-              { label: 'Feb', risk: 1500, target: 1000 },
-              { label: 'Mar', risk: 1800, target: 1000 },
-              { label: 'Apr', risk: 1600, target: 1000 },
-              { label: 'May', risk: 1400, target: 1000 },
-              { label: 'Jun', risk: 1200, target: 1000 },
-            ]}
-            dataKeys={[
-              { key: 'risk', label: 'Risk Score', color: 'var(--color-error-600)' },
-              { key: 'target', label: 'Target', color: 'var(--color-success-600)' },
-            ]}
-            xAxisKey="label"
-            height={120}
-            gradient={true}
-            showLegend={true}
-            areaType="monotone"
-          />
+          <Card>
+            <CardHeader>
+              <CardTitle>Risk Exposure Over Time</CardTitle>
+              <CardDescription>Area chart showing risk trends</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <AreaChart
+                data={[
+                  { label: 'Jan', risk: 1200, target: 1000 },
+                  { label: 'Feb', risk: 1500, target: 1000 },
+                  { label: 'Mar', risk: 1800, target: 1000 },
+                  { label: 'Apr', risk: 1600, target: 1000 },
+                  { label: 'May', risk: 1400, target: 1000 },
+                  { label: 'Jun', risk: 1200, target: 1000 },
+                ]}
+                dataKeys={[
+                  { key: 'risk', label: 'Risk Score', color: 'var(--color-error-600)' },
+                  { key: 'target', label: 'Target', color: 'var(--color-success-600)' },
+                ]}
+                xAxisKey="label"
+                height={120}
+                gradient={true}
+                showLegend={true}
+                areaType="monotone"
+              />
+            </CardContent>
+          </Card>
         </div>
       </section>
 

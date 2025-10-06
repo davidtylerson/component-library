@@ -190,19 +190,19 @@ const CounterpartyScorecard = () => {
     },
   };
 
-  const getStatusBadge = status => {
+  const getStatusBadge = (status: string) => {
     if (status === 'top') return '✓';
     if (status === 'bottom') return '⚠';
     return '-';
   };
 
-  const getStatusColor = status => {
+  const getStatusColor = (status: string) => {
     if (status === 'top') return 'text-green-600';
     if (status === 'bottom') return 'text-red-600';
     return 'text-gray-600';
   };
 
-  const selected = cpDetail[selectedCP];
+  const selected = cpDetail[selectedCP as keyof typeof cpDetail];
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">

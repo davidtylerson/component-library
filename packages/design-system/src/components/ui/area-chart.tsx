@@ -20,7 +20,7 @@ import {
 } from "./chart";
 
 export interface AreaChartProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+  title?: string;
   description?: string;
   data: Array<Record<string, any>>;
   dataKeys: Array<{
@@ -65,7 +65,6 @@ const AreaChartComponent = React.forwardRef<HTMLDivElement, AreaChartProps>(
     customDots = false,
     stacked = false,
     stackedExpanded = false,
-    showIcons = false,
     ...props 
   }, ref) => {
     // Build chart config from dataKeys
@@ -75,72 +74,60 @@ const AreaChartComponent = React.forwardRef<HTMLDivElement, AreaChartProps>(
     }, {} as ChartConfig);
 
     return (
-      <Card
+      <div
         ref={ref}
         className={cn(className)}
         {...props}
       >
-        <CardHeader>
-          <CardTitle className="text-[var(--card-title-text)]">
-            {title}
-          </CardTitle>
-          {description && (
-            <CardDescription className="text-[var(--card-description-text)]">
-              {description}
-            </CardDescription>
-          )}
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="w-full">
-            <AreaChart 
-              accessibilityLayer 
-              data={data}
-              width={undefined}
-              height={height}
-            >
-              {showGrid && <CartesianGrid vertical={false} />}
-              <XAxis
-                dataKey={xAxisKey}
+        <ChartContainer config={chartConfig} className="w-full">
+          <AreaChart 
+            accessibilityLayer 
+            data={data}
+            width={undefined}
+            height={height}
+          >
+            {showGrid && <CartesianGrid vertical={false} stroke="var(--border-tertiary)" />}
+            <XAxis
+              dataKey={xAxisKey}
+              tickLine={false}
+              tickMargin={10}
+              axisLine={showAxes}
+              tickFormatter={(value) => value.slice(0, 3)}
+              stroke="var(--border-tertiary)"
+              tick={{ fill: "var(--text-tertiary)" }}
+            />
+            {showAxes && (
+              <YAxis
                 tickLine={false}
+                axisLine={false}
                 tickMargin={10}
-                axisLine={showAxes}
-                tickFormatter={(value) => value.slice(0, 3)}
                 stroke="var(--border-tertiary)"
                 tick={{ fill: "var(--text-tertiary)" }}
               />
-              {showAxes && (
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={10}
-                  stroke="var(--border-tertiary)"
-                  tick={{ fill: "var(--text-tertiary)" }}
-                />
-              )}
-              <ChartTooltip 
-                content={<ChartTooltipContent hideLabel />}
-                cursor={interactive ? { stroke: 'var(--color-border)', strokeWidth: 1 } : false}
+            )}
+            <ChartTooltip 
+              content={<ChartTooltipContent hideLabel />}
+              cursor={interactive ? { stroke: 'var(--color-border)', strokeWidth: 1 } : false}
+            />
+            {showLegend && <ChartLegend content={<ChartLegendContent />} />}
+            {dataKeys.map(({ key }) => (
+              <Area
+                key={key}
+                type={areaType}
+                dataKey={key}
+                stackId={stacked || stackedExpanded ? "a" : undefined}
+                stroke={`var(--color-${key})`}
+                fill={`var(--color-${key})`}
+                strokeWidth={strokeWidth}
+                dot={showDots ? (customDots ? { r: 6, fill: `var(--color-${key})` } : { r: 4 }) : false}
+                activeDot={interactive ? { r: 6, stroke: `var(--color-${key})`, strokeWidth: 2 } : { r: 6 }}
+                connectNulls={false}
+                fillOpacity={gradient ? 0.8 : 1}
               />
-              {showLegend && <ChartLegend content={<ChartLegendContent />} />}
-              {dataKeys.map(({ key, color }, index) => (
-                <Area
-                  key={key}
-                  type={areaType}
-                  dataKey={key}
-                  stackId={stacked || stackedExpanded ? "a" : undefined}
-                  stroke={`var(--color-${key})`}
-                  fill={`var(--color-${key})`}
-                  strokeWidth={strokeWidth}
-                  dot={showDots ? (customDots ? { r: 6, fill: `var(--color-${key})` } : { r: 4 }) : false}
-                  activeDot={interactive ? { r: 6, stroke: `var(--color-${key})`, strokeWidth: 2 } : { r: 6 }}
-                  connectNulls={false}
-                  fillOpacity={gradient ? 0.8 : 1}
-                />
-              ))}
-            </AreaChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+            ))}
+          </AreaChart>
+        </ChartContainer>
+      </div>
     );
   }
 );

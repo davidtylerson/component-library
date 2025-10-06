@@ -78,7 +78,7 @@ const RiskDeepDiveDashboard = () => {
     },
   ];
 
-  const getSeverityBadge = severity => {
+  const getSeverityBadge = (severity: number) => {
     if (severity === 5)
       return (
         <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">

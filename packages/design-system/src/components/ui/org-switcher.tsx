@@ -42,7 +42,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
             <SidebarMenuButton
               size="lg"
               className={cn(
-                'border-tertiary rounded-md border focus-visible:ring-2 focus-visible:ring-sidebar-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sidebar-bg)]',
+                'border-border-tertiary rounded-md border focus-visible:ring-2 focus-visible:ring-sidebar-accent focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--sidebar-bg)]',
                 'group-data-[state=collapsed]/sidebar:h-10 group-data-[state=collapsed]/sidebar:w-10',
                 'data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
               )}
@@ -74,7 +74,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
                 onClick={() => setActiveOrg(org)}
                 className="gap-2 p-2"
               >
-                <div className="flex size-6 items-center justify-center rounded-sm border">
+                <div className="flex size-6 items-center justify-center rounded-sm border border-border-tertiary">
                   <org.logo />
                 </div>
                 {org.name}
@@ -83,7 +83,7 @@ export function OrgSwitcher({ organizations }: OrgSwitcherProps) {
             ))}
             <DropdownMenu.Separator />
             <DropdownMenu.Item className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+              <div className="flex size-6 items-center justify-center rounded-md border border-border-tertiary bg-background">
                 <IconPlus className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">

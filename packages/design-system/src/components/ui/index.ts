@@ -171,11 +171,20 @@ export {
 // Metric Card component
 export { MetricCard } from './metric-card';
 
+// Metrics Table component
+export { MetricsTable } from './metrics-table';
+
+// Org Switcher component
+export { OrgSwitcher } from './org-switcher';
+
+// Avatar components
+export { Avatar, AvatarImage, AvatarFallback } from './avatar';
+
 // Chart components
 export { HorizontalBarChart } from './horizontal-bar-chart';
 export { StackedBarChart } from './stacked-bar-chart';
-export { LineChartComponent as LineChart } from './line-chart';
-export { AreaChartComponent as AreaChart } from './area-chart';
+export { LineChart } from './line-chart';
+export { AreaChart } from './area-chart';
 export {
   ChartContainer,
   ChartTooltip,
