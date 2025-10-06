@@ -1,5 +1,18 @@
 # Component-Specific Color System
 
+This doc complements the global semantic color tokens and clarifies when to use text vs foreground (fg) tokens. Consume tokens via the design system Tailwind preset to avoid duplication and drift.
+
+## Single Source of Truth
+
+- Import theme CSS once: `@tydavidson/design-system/src/app/globals-consolidated.css`
+- Use the Tailwind preset: `presets: [require('@tydavidson/design-system/tailwind-preset')]`
+- Avoid raw Tailwind colors (e.g., `text-red-600`, `bg-white`) unless explicitly approved.
+
+## Text vs Foreground (Icons)
+
+- text-\* tokens: for body copy, labels, and numbers; tuned for readability
+- fg-\* tokens: for icons/indicators; slightly lighter/more saturated for visual weight
+
 ## Overview
 
 The component-specific color system is designed to provide isolated, scoped color variables for individual components while maintaining consistency with our global design system. This approach allows components to have their own semantic color variables without polluting the global namespace or creating conflicts.
@@ -256,3 +269,49 @@ Common issues and solutions:
 3. **Missing variables**: Verify that all needed variables are defined following the naming pattern
 4. **Inconsistent colors**: Ensure variables reference the correct global design tokens
 5. **Autocomplete not working**: Verify variable names follow the exact pattern `--{component}-{property}-{variant}`
+
+## Semantic Mappings (Reference)
+
+Error
+
+- text-text-error-primary → error-600
+- fg-error-primary → error-500 (icons)
+
+Warning
+
+- text-text-warning-primary → warning-600
+- fg-warning-primary → warning-500 (icons)
+
+Success
+
+- text-text-success-primary → success-600
+- fg-success-primary → success-500 (icons)
+
+Brand
+
+- text-text-brand-primary → brand-700
+- fg-brand-primary → brand-600
+
+Gray/Foreground
+
+- text-text-tertiary → gray-500
+- fg-tertiary → gray-400
+
+### Dark Theme Guidance
+
+- Avoid `bg-white`, `bg-*-50`, or gradients like `from-*-50 to-*-50` inside cards
+- Prefer `bg-bg-primary` / `bg-bg-secondary` for surfaces
+- Use text-_ for copy; fg-_ for icons/affordances
+
+### Examples
+
+```tsx
+// Icon with semantic foreground color
+<IconAlertHexagon className="h-4 w-4 text-fg-error-primary" />
+
+// Error text
+<Text className="text-text-error-primary">6.2d (↑0.9d)</Text>
+
+// Semantic backgrounds
+<div className="bg-bg-secondary border border-border-primary" />
+```

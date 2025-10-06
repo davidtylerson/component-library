@@ -24,67 +24,34 @@ Import the theme CSS file in your app's root layout or main CSS file:
 
 ```css
 /* In your global CSS file */
-@import '@tydavidson/design-system/themes/theme.css';
+@import '@tydavidson/design-system/src/app/globals-consolidated.css';
 ```
 
 Or in your Next.js app:
 
 ```tsx
 // app/layout.tsx or pages/_app.tsx
-import '@tydavidson/design-system/themes/theme.css';
+import '@tydavidson/design-system/src/app/globals-consolidated.css';
 ```
 
-### 2. Configure Tailwind CSS
+### 2. Configure Tailwind CSS (Single Source of Truth)
 
-Add the design system's color tokens to your `tailwind.config.js`:
+To avoid duplicating tokens, use the preset exported by the design system. This keeps your app fully in sync with the system tokens.
 
 ```js
 // tailwind.config.js
 module.exports = {
   darkMode: ['class'],
+  presets: [require('@tydavidson/design-system/tailwind-preset')],
   content: [
     './src/**/*.{js,ts,jsx,tsx}',
     './node_modules/@tydavidson/design-system/dist/**/*.{js,mjs}',
   ],
-  theme: {
+  // You can still extend if your app needs additional, app-specific tokens
+  theme: {ichi
     extend: {
-      colors: {
-        // Background colors
-        bg: {
-          primary: 'var(--bg-primary)',
-          secondary: 'var(--bg-secondary)',
-          tertiary: 'var(--bg-tertiary)',
-          quaternary: 'var(--bg-quaternary)',
-          disabled: 'var(--bg-disabled)',
-          overlay: 'var(--bg-overlay)',
-          'brand-primary': 'var(--bg-brand-primary)',
-          'error-primary': 'var(--bg-error-primary)',
-          'warning-primary': 'var(--bg-warning-primary)',
-          'success-primary': 'var(--bg-success-primary)',
-        },
-        // Text colors
-        text: {
-          primary: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
-          tertiary: 'var(--text-tertiary)',
-          disabled: 'var(--text-disabled)',
-          'brand-primary': 'var(--text-brand-primary)',
-          'error-primary': 'var(--text-error-primary)',
-          'warning-primary': 'var(--text-warning-primary)',
-          'success-primary': 'var(--text-success-primary)',
-        },
-        // Border colors
-        border: {
-          primary: 'var(--border-primary)',
-          secondary: 'var(--border-secondary)',
-          tertiary: 'var(--border-tertiary)',
-          disabled: 'var(--border-disabled)',
-          brand: 'var(--border-brand)',
-          error: 'var(--border-error)',
-          warning: 'var(--border-warning)',
-          success: 'var(--border-success)',
-        },
-      },
+      // example:
+      // colors: { brandAlt: '#123456' }
     },
   },
   plugins: [],

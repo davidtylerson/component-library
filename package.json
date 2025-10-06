@@ -4,7 +4,7 @@
   "private": true,
   "description": "Float Vibe Foundry - Design System & Applications",
   "scripts": {
-    "dev": "pnpm --parallel --filter design-system --filter float-mail dev",
+    "dev": "pnpm --parallel --filter design-system --filter float-mail --filter risk-metrics dev",
     "build": "pnpm --recursive build",
     "lint": "eslint packages/design-system/src packages/float-mail/src --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint packages/design-system/src packages/float-mail/src --ext .ts,.tsx,.js,.jsx --fix",

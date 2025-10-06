@@ -1,7 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Download } from 'lucide-react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Badge,
+  DataTable,
+  SortableColumnHeader,
+  Heading,
+  Text,
+  Separator,
+  StackedBarChart,
+  HorizontalBarChart,
+} from '@float-vibe-foundry/design-system';
+import { IconDownload, IconAlertHexagon } from '@tabler/icons-react';
 
 const RiskDeepDiveDashboard = () => {
   const [dateRange, setDateRange] = useState('90d');
@@ -34,9 +54,9 @@ const RiskDeepDiveDashboard = () => {
   ];
 
   const breakOwnership = [
-    { owner: 'Counterparty', pct: 68, color: 'bg-red-500' },
-    { owner: 'Rokos', pct: 23, color: 'bg-yellow-500' },
-    { owner: 'AI', pct: 9, color: 'bg-blue-500' },
+    { owner: 'Counterparty', pct: 68, color: 'bg-[var(--color-error-500)]' },
+    { owner: 'Rokos', pct: 23, color: 'bg-[var(--color-warning-500)]' },
+    { owner: 'AI', pct: 9, color: 'bg-[var(--color-brand-500)]' },
   ];
 
   const fieldBreaks = [
@@ -81,319 +101,336 @@ const RiskDeepDiveDashboard = () => {
   const getSeverityBadge = (severity: number) => {
     if (severity === 5)
       return (
-        <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">
-          🔴 5
-        </span>
+        <Badge variant="destructive" className="gap-1">
+          🔴 {severity}
+        </Badge>
       );
     if (severity === 4)
       return (
-        <span className="rounded bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
-          🟡 4
-        </span>
+        <Badge variant="outline" className="text-text-warning-primary gap-1">
+          🟡 {severity}
+        </Badge>
       );
     return (
-      <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+      <Badge variant="outline" className="text-text-success-primary gap-1">
         🟢 {severity}
-      </span>
+      </Badge>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="bg-background min-h-screen p-6">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <Heading level={1} className="text-text-primary">
             Risk Analysis - Break Details
-          </h1>
-          <p className="text-sm text-gray-500">
+          </Heading>
+          <Text className="text-text-secondary">
             Detailed breakdown of breaks and disputes
-          </p>
+          </Text>
         </div>
         <div className="flex gap-2">
-          <select
-            className="rounded-lg border px-3 py-2 text-sm"
-            value={dateRange}
-            onChange={e => setDateRange(e.target.value)}
-          >
-            <option value="30d">Last 30 Days</option>
-            <option value="90d">Last 90 Days</option>
-            <option value="180d">Last 180 Days</option>
-            <option value="365d">Last Year</option>
-          </select>
-          <select
-            className="rounded-lg border px-3 py-2 text-sm"
-            value={productFilter}
-            onChange={e => setProductFilter(e.target.value)}
-          >
-            <option value="all">All Products</option>
-            <option value="rates">Rates</option>
-            <option value="fx">FX</option>
-            <option value="equity">Equity</option>
-            <option value="credit">Credit</option>
-          </select>
-          <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-gray-50">
-            <Download className="h-4 w-4" />
+          <Select value={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="30d">Last 30 Days</SelectItem>
+              <SelectItem value="90d">Last 90 Days</SelectItem>
+              <SelectItem value="180d">Last 180 Days</SelectItem>
+              <SelectItem value="365d">Last Year</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={productFilter} onValueChange={setProductFilter}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Products</SelectItem>
+              <SelectItem value="rates">Rates</SelectItem>
+              <SelectItem value="fx">FX</SelectItem>
+              <SelectItem value="equity">Equity</SelectItem>
+              <SelectItem value="credit">Credit</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" size="sm">
+            <IconDownload className="mr-2 h-4 w-4" />
             Export
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Break Severity Distribution */}
-      <div className="mb-6 rounded-lg bg-white p-6 shadow">
-        <h2 className="mb-4 text-lg font-semibold">
-          Break Severity Distribution
-        </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div>
-            <div className="mb-4 flex items-baseline gap-4">
-              <div>
-                <div className="text-3xl font-bold">
-                  {breakSummary.totalTrades}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Break Severity Distribution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
+              <div className="mb-4 flex items-baseline gap-4">
+                <div>
+                  <div className="text-text-primary text-3xl font-bold">
+                    {breakSummary.totalTrades}
+                  </div>
+                  <div className="text-text-secondary text-sm">
+                    Total Trades
+                  </div>
                 </div>
-                <div className="text-sm text-gray-500">Total Trades</div>
+                <div className="text-border-tertiary text-2xl">|</div>
+                <div>
+                  <div className="text-text-primary text-3xl font-bold">
+                    {breakSummary.totalBreaks}
+                  </div>
+                  <div className="text-text-secondary text-sm">
+                    Breaks ({breakSummary.breakRate}%)
+                  </div>
+                </div>
               </div>
-              <div className="text-2xl text-gray-400">|</div>
-              <div>
-                <div className="text-3xl font-bold">
-                  {breakSummary.totalBreaks}
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <IconAlertHexagon className="text-fg-error-primary h-4 w-4" />
+                    <Text className="text-sm">High Severity:</Text>
+                  </div>
+                  <Text className="font-semibold">
+                    {breakSummary.byseverity.high.count} breaks (
+                    {breakSummary.byseverity.high.pct}%)
+                  </Text>
                 </div>
-                <div className="text-sm text-gray-500">
-                  Breaks ({breakSummary.breakRate}%)
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <IconAlertHexagon className="text-text-warning-primary h-4 w-4" />
+                    <Text className="text-sm">Medium Severity:</Text>
+                  </div>
+                  <Text className="font-semibold">
+                    {breakSummary.byseverity.medium.count} breaks (
+                    {breakSummary.byseverity.medium.pct}%)
+                  </Text>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <IconAlertHexagon className="text-fg-tertiary h-4 w-4" />
+                    <Text className="text-sm">Low Severity:</Text>
+                  </div>
+                  <Text className="font-semibold">
+                    {breakSummary.byseverity.low.count} breaks (
+                    {breakSummary.byseverity.low.pct}%)
+                  </Text>
+                </div>
+              </div>
+
+              <div className="border-border-tertiary mt-4 border-t pt-4">
+                <div className="text-text-success-primary text-sm font-medium">
+                  Break Rate Trend: ↓ {Math.abs(breakSummary.trendVsPrior)}% vs.
+                  prior 90 days
                 </div>
               </div>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">🔴 High Severity:</span>
-                <span className="font-semibold">
-                  {breakSummary.byseverity.high.count} breaks (
-                  {breakSummary.byseverity.high.pct}%)
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">🟡 Medium Severity:</span>
-                <span className="font-semibold">
-                  {breakSummary.byseverity.medium.count} breaks (
-                  {breakSummary.byseverity.medium.pct}%)
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm">🟢 Low Severity:</span>
-                <span className="font-semibold">
-                  {breakSummary.byseverity.low.count} breaks (
-                  {breakSummary.byseverity.low.pct}%)
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4 border-t pt-4">
-              <div className="text-sm font-medium text-green-600">
-                Break Rate Trend: ↓ {Math.abs(breakSummary.trendVsPrior)}% vs.
-                prior 90 days
+            {/* Dispute Metrics */}
+            <div className="p-4">
+              <h3 className="mb-3 font-semibold">Dispute Metrics</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <Text className="text-text-secondary">Active Disputes:</Text>
+                  <Text className="font-semibold">
+                    {disputeMetrics.activeDisputes}
+                  </Text>
+                </div>
+                <div className="flex justify-between">
+                  <Text className="text-text-secondary">
+                    Avg Time in Dispute:
+                  </Text>
+                  <Text className="font-semibold">
+                    {disputeMetrics.avgTimeInDispute} days
+                  </Text>
+                </div>
+                <div className="flex justify-between">
+                  <Text className="text-text-secondary">Longest Open:</Text>
+                  <Text className="font-semibold text-red-600">
+                    {disputeMetrics.longestDispute.days}d (#
+                    {disputeMetrics.longestDispute.trade},{' '}
+                    {disputeMetrics.longestDispute.counterparty})
+                  </Text>
+                </div>
+                <div className="flex justify-between">
+                  <Text className="text-text-secondary">
+                    Resolved &lt;48hrs:
+                  </Text>
+                  <Text className="font-semibold text-green-600">
+                    {disputeMetrics.resolvedUnder48hrs}% (↑
+                    {disputeMetrics.trendVsPrior}%)
+                  </Text>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Dispute Metrics */}
-          <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <h3 className="mb-3 font-semibold">Dispute Metrics</h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Active Disputes:</span>
-                <span className="font-semibold">
-                  {disputeMetrics.activeDisputes}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Avg Time in Dispute:</span>
-                <span className="font-semibold">
-                  {disputeMetrics.avgTimeInDispute} days
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Longest Open:</span>
-                <span className="font-semibold text-red-600">
-                  {disputeMetrics.longestDispute.days}d (#
-                  {disputeMetrics.longestDispute.trade},{' '}
-                  {disputeMetrics.longestDispute.counterparty})
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Resolved &lt;48hrs:</span>
-                <span className="font-semibold text-green-600">
-                  {disputeMetrics.resolvedUnder48hrs}% (↑
-                  {disputeMetrics.trendVsPrior}%)
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Charts Row */}
       <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Breaks by Severity Trend */}
-        <div className="rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 text-lg font-semibold">
-            Breaks by Severity (Trend)
-          </h2>
-          <div className="flex h-64 items-end justify-around gap-4">
-            {severityTrend.map((month, i) => (
-              <div key={i} className="flex flex-1 flex-col items-center">
-                <div
-                  className="flex w-full flex-col items-center"
-                  style={{ height: '200px' }}
-                >
-                  <div className="flex h-full w-full flex-col-reverse items-center justify-end gap-0.5">
-                    <div
-                      className="w-full rounded-t bg-red-500"
-                      style={{ height: `${(month.high / 18) * 100}%` }}
-                      title={`High: ${month.high}`}
-                    />
-                    <div
-                      className="w-full bg-yellow-500"
-                      style={{ height: `${(month.medium / 18) * 100}%` }}
-                      title={`Medium: ${month.medium}`}
-                    />
-                    <div
-                      className="w-full bg-green-500"
-                      style={{ height: `${(month.low / 18) * 100}%` }}
-                      title={`Low: ${month.low}`}
-                    />
-                  </div>
-                </div>
-                <div className="mt-2 text-sm text-gray-600">{month.month}</div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center gap-4 text-xs">
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded bg-red-500"></div>
-              <span>High</span>
+        <Card>
+          <CardHeader>
+            <CardTitle>Breaks by Severity (Trend)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <StackedBarChart
+                data={severityTrend}
+                dataKeys={[
+                  {
+                    key: 'high',
+                    label: 'High',
+                    color: 'var(--color-error-500)',
+                  },
+                  {
+                    key: 'medium',
+                    label: 'Medium',
+                    color: 'var(--color-warning-500)',
+                  },
+                  {
+                    key: 'low',
+                    label: 'Low',
+                    color: 'var(--color-success-500)',
+                  },
+                ]}
+                xAxisKey="month"
+                height={200}
+              />
             </div>
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded bg-yellow-500"></div>
-              <span>Medium</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded bg-green-500"></div>
-              <span>Low</span>
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* Break Ownership */}
-        <div className="rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 text-lg font-semibold">Who Owns the Breaks?</h2>
-          <div className="space-y-6">
-            {breakOwnership.map((item, i) => (
-              <div key={i}>
-                <div className="mb-2 flex justify-between">
-                  <span className="font-medium">{item.owner}:</span>
-                  <span className="font-bold">{item.pct}%</span>
-                </div>
-                <div className="h-8 w-full rounded-full bg-gray-200">
-                  <div
-                    className={`${item.color} flex h-8 items-center justify-end rounded-full pr-3 text-sm font-medium text-white`}
-                    style={{ width: `${item.pct}%` }}
-                  >
-                    {item.pct}%
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 border-t pt-4">
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-800">
-              View by Counterparty →
-            </button>
-          </div>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Who Owns the Breaks?</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <HorizontalBarChart
+                data={breakOwnership.map(item => ({
+                  name: item.owner,
+                  value: item.pct,
+                }))}
+                dataKey="value"
+                color="var(--color-brand-600)"
+                height={200}
+              />
+            </div>
+            <div className="border-border-tertiary mt-6 border-t pt-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-brand-600 hover:text-brand-800"
+              >
+                View by Counterparty →
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Field-Level Break Frequency */}
-      <div className="mb-6 rounded-lg bg-white shadow">
-        <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-lg font-semibold">
-            Field-Level Break Frequency (High & Medium Severity Only)
-          </h2>
-          <button className="text-sm font-medium text-blue-600 hover:text-blue-800">
-            Show All Fields (23) →
-          </button>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="border-b bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Field
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Severity
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Break Rate
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Top Counterparties
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {fieldBreaks.map((field, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 text-sm font-medium">
-                    {field.field}
-                  </td>
-                  <td className="px-4 py-3">
-                    {getSeverityBadge(field.severity)}
-                  </td>
-                  <td className="px-4 py-3">
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>
+              Field-Level Break Frequency (High & Medium Severity Only)
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-brand-600 hover:text-brand-800"
+            >
+              Show All Fields (23) →
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            columns={[
+              {
+                accessorKey: 'field',
+                header: ({ column }) => (
+                  <SortableColumnHeader column={column} title="Field" />
+                ),
+                cell: ({ row }) => (
+                  <Text className="font-medium">{row.getValue('field')}</Text>
+                ),
+              },
+              {
+                accessorKey: 'severity',
+                header: 'Severity',
+                cell: ({ row }) => getSeverityBadge(row.getValue('severity')),
+              },
+              {
+                accessorKey: 'breakRate',
+                header: 'Break Rate',
+                cell: ({ row }) => {
+                  const breakRate = row.getValue('breakRate') as number;
+                  const severity = row.getValue('severity') as number;
+                  return (
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold">
-                        {field.breakRate}%
-                      </span>
-                      <div className="h-2 w-24 rounded-full bg-gray-200">
+                      <Text className="font-semibold">{breakRate}%</Text>
+                      <div className="bg-background-secondary h-2 w-24 rounded-full">
                         <div
-                          className={`h-2 rounded-full ${field.severity === 5 ? 'bg-red-500' : 'bg-yellow-500'}`}
-                          style={{ width: `${(field.breakRate / 10) * 100}%` }}
+                          className={`h-2 rounded-full ${
+                            severity === 5 ? 'bg-red-500' : 'bg-yellow-500'
+                          }`}
+                          style={{ width: `${(breakRate / 10) * 100}%` }}
                         />
                       </div>
                     </div>
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
-                    {field.counterparties}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  );
+                },
+              },
+              {
+                accessorKey: 'counterparties',
+                header: 'Top Counterparties',
+                cell: ({ row }) => (
+                  <Text className="text-text-secondary">
+                    {row.getValue('counterparties')}
+                  </Text>
+                ),
+              },
+            ]}
+            data={fieldBreaks}
+            searchKey="field"
+            searchPlaceholder="Search fields..."
+            showPagination={false}
+            showSearch={true}
+          />
+        </CardContent>
+      </Card>
 
       {/* Break Concentration Analysis */}
-      <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-6">
-        <h2 className="mb-2 text-lg font-semibold">
-          Break Concentration Analysis
-        </h2>
-        <div className="space-y-2 text-sm">
-          <p>
-            Top 3 Counterparties account for{' '}
-            <span className="font-bold">62%</span> of all breaks
-          </p>
-          <p>
-            Top 2 Product Types account for{' '}
-            <span className="font-bold">71%</span> of all breaks
-          </p>
-        </div>
-        <div className="mt-4 border-t border-yellow-300 pt-4">
-          <p className="text-sm font-medium">
+      <Card className="border-yellow-200 bg-yellow-50">
+        <CardHeader>
+          <CardTitle>Break Concentration Analysis</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2 text-sm">
+            <Text>
+              Top 3 Counterparties account for{' '}
+              <Text className="font-bold">62%</Text> of all breaks
+            </Text>
+            <Text>
+              Top 2 Product Types account for{' '}
+              <Text className="font-bold">71%</Text> of all breaks
+            </Text>
+          </div>
+          <Separator className="my-4 border-yellow-300" />
+          <Text className="text-sm font-medium">
             ⚠️ Recommendation: Focus on GS (CMS Options) and JPM (FX)
-          </p>
-        </div>
-      </div>
+          </Text>
+        </CardContent>
+      </Card>
     </div>
   );
 };

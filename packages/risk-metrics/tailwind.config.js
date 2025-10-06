@@ -9,6 +9,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        sm: [
+          '0.8125rem', // 13px
+          {
+            lineHeight: '1.25rem',
+          },
+        ],
+      },
       colors: {
         // Semantic color system from design system
         text: {

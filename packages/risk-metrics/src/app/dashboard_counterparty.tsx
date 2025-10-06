@@ -1,7 +1,26 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Download, Calendar } from 'lucide-react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Badge,
+  DataTable,
+  SortableColumnHeader,
+  Heading,
+  Text,
+  CellTrend,
+} from '@float-vibe-foundry/design-system';
+import { IconDownload, IconCalendar } from '@tabler/icons-react';
 
 const CounterpartyScorecard = () => {
   const [selectedCP, setSelectedCP] = useState('GS');
@@ -191,580 +210,706 @@ const CounterpartyScorecard = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    if (status === 'top') return '✓';
-    if (status === 'bottom') return '⚠';
-    return '-';
+    if (status === 'top')
+      return (
+        <Badge variant="outline" className="text-text-success-primary">
+          ✓
+        </Badge>
+      );
+    if (status === 'bottom') return <Badge variant="destructive">⚠</Badge>;
+    return <Badge variant="outline">-</Badge>;
   };
 
   const getStatusColor = (status: string) => {
-    if (status === 'top') return 'text-green-600';
-    if (status === 'bottom') return 'text-red-600';
-    return 'text-gray-600';
+    if (status === 'top') return 'text-text-success-primary';
+    if (status === 'bottom') return 'text-text-error-primary';
+    return 'text-text-secondary';
   };
 
   const selected = cpDetail[selectedCP as keyof typeof cpDetail];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="bg-background min-h-screen p-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <Heading level={1} className="text-text-primary">
           Counterparty Performance - Q3 2025
-        </h1>
-        <p className="text-sm text-gray-500">
+        </Heading>
+        <Text className="text-text-secondary">
           Comprehensive scorecard with peer comparison
-        </p>
+        </Text>
       </div>
 
       {/* Filters */}
       <div className="mb-6 flex gap-3">
-        <select
-          className="rounded-lg border px-3 py-2 text-sm"
-          value={compareGroup}
-          onChange={e => setCompareGroup(e.target.value)}
-        >
-          <option value="all">Compare: All Counterparties</option>
-          <option value="tier1">Tier 1 Banks Only</option>
-          <option value="highvolume">High Volume (&gt;50 trades)</option>
-        </select>
-        <select className="rounded-lg border px-3 py-2 text-sm">
-          <option value="all">Products: All</option>
-          <option value="rates">Rates Only</option>
-          <option value="fx">FX Only</option>
-          <option value="equity">Equity Only</option>
-        </select>
+        <Select value={compareGroup} onValueChange={setCompareGroup}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Compare: All Counterparties</SelectItem>
+            <SelectItem value="tier1">Tier 1 Banks Only</SelectItem>
+            <SelectItem value="highvolume">
+              High Volume (&gt;50 trades)
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Select>
+          <SelectTrigger className="w-[140px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Products: All</SelectItem>
+            <SelectItem value="rates">Rates Only</SelectItem>
+            <SelectItem value="fx">FX Only</SelectItem>
+            <SelectItem value="equity">Equity Only</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Rankings Table */}
-      <div className="mb-6 overflow-hidden rounded-lg bg-white shadow">
-        <div className="border-b bg-gray-50 p-4">
-          <h2 className="text-lg font-semibold">
-            Overall Rankings (Volume-Weighted)
-          </h2>
-          <p className="mt-1 text-sm text-gray-500">
-            Click any row for detailed view
-          </p>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="border-b bg-gray-50">
-              <tr>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Rank
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Counterparty
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Trades (Vol)
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Confirm Dispute %
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Break Rate
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Time to Doc (hrs)
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Time to Confirm (hrs)
-                </th>
-                <th className="px-3 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Time in Dispute (days)
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {rankings.map(row => (
-                <tr
-                  key={row.cp}
-                  className={`cursor-pointer hover:bg-gray-50 ${selectedCP === row.cp ? 'bg-blue-50' : ''}`}
-                  onClick={() => setSelectedCP(row.cp)}
-                >
-                  <td className="px-3 py-3 font-medium">{row.rank}</td>
-                  <td className="px-3 py-3 font-semibold text-blue-600">
-                    {row.cp}
-                  </td>
-                  <td className="px-3 py-3">
-                    <div>{row.trades}</div>
-                    <div className="text-xs text-gray-500">{row.volume}</div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div
-                      className={`font-medium ${getStatusColor(row.status)}`}
-                    >
-                      {row.disputePct}% {getStatusBadge(row.status)}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Overall Rankings (Volume-Weighted)</CardTitle>
+          <CardDescription>Click any row for detailed view</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            columns={[
+              {
+                accessorKey: 'rank',
+                header: ({ column }) => (
+                  <SortableColumnHeader column={column} title="Rank" />
+                ),
+                cell: ({ row }) => (
+                  <Text className="font-medium">{row.getValue('rank')}</Text>
+                ),
+              },
+              {
+                accessorKey: 'cp',
+                header: 'Counterparty',
+                cell: ({ row }) => (
+                  <Text className="text-brand-600 font-semibold">
+                    {row.getValue('cp')}
+                  </Text>
+                ),
+              },
+              {
+                accessorKey: 'trades',
+                header: 'Trades (Vol)',
+                cell: ({ row }) => {
+                  const trades = row.getValue('trades') as number;
+                  const volume = row.getValue('volume') as string;
+                  return (
+                    <div>
+                      <Text>{trades}</Text>
+                      <Text className="text-text-secondary text-xs">
+                        {volume}
+                      </Text>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      ({row.disputePercentile})
+                  );
+                },
+              },
+              {
+                accessorKey: 'disputePct',
+                header: 'Confirm Dispute %',
+                cell: ({ row }) => {
+                  const disputePct = row.getValue('disputePct') as number;
+                  const disputePercentile = row.getValue(
+                    'disputePercentile'
+                  ) as string;
+                  const status = row.getValue('status') as string;
+                  return (
+                    <div>
+                      <div className={`font-medium ${getStatusColor(status)}`}>
+                        {disputePct}% {getStatusBadge(status)}
+                      </div>
+                      <Text className="text-text-secondary text-xs">
+                        ({disputePercentile})
+                      </Text>
                     </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div
-                      className={`font-medium ${getStatusColor(row.status)}`}
-                    >
-                      {row.breakRate}% {getStatusBadge(row.status)}
+                  );
+                },
+              },
+              {
+                accessorKey: 'breakRate',
+                header: 'Break Rate',
+                cell: ({ row }) => {
+                  const breakRate = row.getValue('breakRate') as number;
+                  const breakPercentile = row.getValue(
+                    'breakPercentile'
+                  ) as string;
+                  const status = row.getValue('status') as string;
+                  return (
+                    <div>
+                      <div className={`font-medium ${getStatusColor(status)}`}>
+                        {breakRate}% {getStatusBadge(status)}
+                      </div>
+                      <Text className="text-text-secondary text-xs">
+                        ({breakPercentile})
+                      </Text>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      ({row.breakPercentile})
+                  );
+                },
+              },
+              {
+                accessorKey: 'timeToDoc',
+                header: 'Time to Doc (hrs)',
+                cell: ({ row }) => {
+                  const timeToDoc = row.getValue('timeToDoc') as number;
+                  const docPercentile = row.getValue('docPercentile') as string;
+                  const status = row.getValue('status') as string;
+                  return (
+                    <div>
+                      <div className={`font-medium ${getStatusColor(status)}`}>
+                        {timeToDoc}h {getStatusBadge(status)}
+                      </div>
+                      <Text className="text-text-secondary text-xs">
+                        ({docPercentile})
+                      </Text>
                     </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div
-                      className={`font-medium ${getStatusColor(row.status)}`}
-                    >
-                      {row.timeToDoc}h {getStatusBadge(row.status)}
+                  );
+                },
+              },
+              {
+                accessorKey: 'timeToConfirm',
+                header: 'Time to Confirm (hrs)',
+                cell: ({ row }) => {
+                  const timeToConfirm = row.getValue('timeToConfirm') as number;
+                  const confirmPercentile = row.getValue(
+                    'confirmPercentile'
+                  ) as string;
+                  const status = row.getValue('status') as string;
+                  return (
+                    <div>
+                      <div className={`font-medium ${getStatusColor(status)}`}>
+                        {timeToConfirm}h {getStatusBadge(status)}
+                      </div>
+                      <Text className="text-text-secondary text-xs">
+                        ({confirmPercentile})
+                      </Text>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      ({row.docPercentile})
+                  );
+                },
+              },
+              {
+                accessorKey: 'timeInDispute',
+                header: 'Time in Dispute (days)',
+                cell: ({ row }) => {
+                  const timeInDispute = row.getValue('timeInDispute') as number;
+                  const disputeTimePercentile = row.getValue(
+                    'disputeTimePercentile'
+                  ) as string;
+                  const status = row.getValue('status') as string;
+                  return (
+                    <div>
+                      <div className={`font-medium ${getStatusColor(status)}`}>
+                        {timeInDispute}d {getStatusBadge(status)}
+                      </div>
+                      <Text className="text-text-secondary text-xs">
+                        ({disputeTimePercentile})
+                      </Text>
                     </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div
-                      className={`font-medium ${getStatusColor(row.status)}`}
-                    >
-                      {row.timeToConfirm}h {getStatusBadge(row.status)}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      ({row.confirmPercentile})
-                    </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div
-                      className={`font-medium ${getStatusColor(row.status)}`}
-                    >
-                      {row.timeInDispute}d {getStatusBadge(row.status)}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      ({row.disputeTimePercentile})
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="border-t bg-gray-50 p-3 text-sm text-gray-600">
-          Legend:{' '}
-          <span className="font-medium text-green-600">✓ Top Quartile</span> ·
-          <span className="ml-2 font-medium text-gray-600">- Middle</span> ·
-          <span className="ml-2 font-medium text-red-600">
-            ⚠ Bottom Quartile
-          </span>
-        </div>
-      </div>
+                  );
+                },
+              },
+            ]}
+            data={rankings}
+            searchKey="cp"
+            searchPlaceholder="Search counterparties..."
+            showPagination={false}
+            showSearch={true}
+          />
+          <div className="border-border-tertiary mt-4 border-t pt-3">
+            <Text className="text-text-secondary text-sm">
+              Legend:{' '}
+              <Text className="text-text-success-primary font-medium">
+                ✓ Top Quartile
+              </Text>{' '}
+              ·
+              <Text className="text-text-secondary ml-2 font-medium">
+                - Middle
+              </Text>{' '}
+              ·
+              <Text className="text-text-error-primary ml-2 font-medium">
+                ⚠ Bottom Quartile
+              </Text>
+            </Text>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Detailed View */}
-      <div className="rounded-lg bg-white shadow">
-        <div className="border-b bg-gradient-to-r from-blue-50 to-white p-4">
+      <Card>
+        <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-xl font-bold">
+              <CardTitle className="text-xl">
                 {selectedCP} - Detailed Performance
-              </h2>
+              </CardTitle>
               <div className="mt-2 flex gap-6 text-sm">
-                <span>
-                  <strong>{selected.trades}</strong> Trades
-                </span>
-                <span>
-                  <strong>{selected.volume}</strong> Volume
-                </span>
-                <span>
-                  <strong>{selected.breakRate}%</strong> Break Rate
-                </span>
+                <Text>
+                  <Text className="font-bold">{selected.trades}</Text> Trades
+                </Text>
+                <Text>
+                  <Text className="font-bold">{selected.volume}</Text> Volume
+                </Text>
+                <Text>
+                  <Text className="font-bold">{selected.breakRate}%</Text> Break
+                  Rate
+                </Text>
               </div>
             </div>
-            <select
-              className="rounded-lg border px-3 py-2 text-sm"
-              value={selectedCP}
-              onChange={e => setSelectedCP(e.target.value)}
-            >
-              {rankings.map(r => (
-                <option key={r.cp} value={r.cp}>
-                  {r.cp}
-                </option>
-              ))}
-            </select>
+            <Select value={selectedCP} onValueChange={setSelectedCP}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {rankings.map(r => (
+                  <SelectItem key={r.cp} value={r.cp}>
+                    {r.cp}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-        </div>
+        </CardHeader>
 
-        <div className="p-6">
+        <CardContent className="p-6">
           {/* Summary Stats */}
-          <div className="mb-6 grid grid-cols-3 gap-4 rounded-lg border border-red-200 bg-red-50 p-4">
-            <div>
-              <div className="text-sm text-gray-600">
-                High-Severity Break Rate
+          <Card className="mb-6">
+            <CardContent className="p-4">
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <Text className="text-text-secondary text-sm">
+                    High-Severity Break Rate
+                  </Text>
+                  <div className="text-text-error-primary text-xl font-bold">
+                    {selected.highSevBreakRate}%{' '}
+                    <span className="text-sm">⚠</span>
+                  </div>
+                  <Text className="text-text-secondary text-xs">
+                    vs. {selected.peerAvg}% peer avg
+                  </Text>
+                </div>
+                <div>
+                  <Text className="text-text-secondary text-sm">
+                    Avg Resolution Time
+                  </Text>
+                  <div className="text-text-error-primary text-xl font-bold">
+                    {selected.avgResolutionTime} days{' '}
+                    <span className="text-sm">⚠</span>
+                  </div>
+                  <Text className="text-text-secondary text-xs">
+                    vs. {selected.resolutionPeerAvg} day avg
+                  </Text>
+                </div>
+                <div>
+                  <Text className="text-text-secondary text-sm">
+                    Template Compliance
+                  </Text>
+                  <div className="text-text-error-primary text-xl font-bold">
+                    {selected.templateCompliance}%{' '}
+                    <span className="text-sm">⚠</span>
+                  </div>
+                  <Text className="text-text-secondary text-xs">
+                    vs. {selected.compliancePeerAvg}% peer avg
+                  </Text>
+                </div>
               </div>
-              <div className="text-xl font-bold text-red-600">
-                {selected.highSevBreakRate}% <span className="text-sm">⚠</span>
-              </div>
-              <div className="text-xs text-gray-500">
-                vs. {selected.peerAvg}% peer avg
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-600">Avg Resolution Time</div>
-              <div className="text-xl font-bold text-red-600">
-                {selected.avgResolutionTime} days{' '}
-                <span className="text-sm">⚠</span>
-              </div>
-              <div className="text-xs text-gray-500">
-                vs. {selected.resolutionPeerAvg} day avg
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-600">Template Compliance</div>
-              <div className="text-xl font-bold text-red-600">
-                {selected.templateCompliance}%{' '}
-                <span className="text-sm">⚠</span>
-              </div>
-              <div className="text-xs text-gray-500">
-                vs. {selected.compliancePeerAvg}% peer avg
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Timing & Quality Metrics */}
           <div className="mb-6 grid grid-cols-2 gap-6">
             {/* Timing */}
-            <div>
-              <h3 className="mb-3 border-b pb-2 font-semibold">
-                Timing Metrics
-              </h3>
-              <div className="space-y-4 text-sm">
-                <div>
-                  <div className="mb-1 font-medium">Time to Receive Doc</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                    <div>
-                      Avg:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeToDoc.avg}h ⚠
-                      </span>
-                    </div>
-                    <div>Median: {selected.timing.timeToDoc.median}h</div>
-                    <div>
-                      Within 1hr: {selected.timing.timeToDoc.within1hr}%
-                    </div>
-                    <div>Peer avg: {selected.timing.timeToDoc.peerAvg}%</div>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-1 font-medium">Time to Affirm</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                    <div>Avg: {selected.timing.timeToAffirm.avg}h</div>
-                    <div>Median: {selected.timing.timeToAffirm.median}h</div>
-                    <div>
-                      &lt;24hr SLA:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeToAffirm.sla}% ⚠
-                      </span>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Timing Metrics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <Text className="mb-1 font-medium">
+                      Time to Receive Doc
+                    </Text>
+                    <div className="text-text-secondary grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        Avg:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeToDoc.avg}h ⚠
+                        </Text>
+                      </div>
+                      <div>Median: {selected.timing.timeToDoc.median}h</div>
+                      <div>
+                        Within 1hr: {selected.timing.timeToDoc.within1hr}%
+                      </div>
+                      <div>Peer avg: {selected.timing.timeToDoc.peerAvg}%</div>
                     </div>
                   </div>
-                </div>
-                <div>
-                  <div className="mb-1 font-medium">Time to Confirm</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                    <div>
-                      Avg:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeToConfirm.avg}h ⚠
-                      </span>
+                  <div>
+                    <Text className="mb-1 font-medium">Time to Affirm</Text>
+                    <div className="text-text-secondary grid grid-cols-2 gap-2 text-xs">
+                      <div>Avg: {selected.timing.timeToAffirm.avg}h</div>
+                      <div>Median: {selected.timing.timeToAffirm.median}h</div>
+                      <div>
+                        &lt;24hr SLA:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeToAffirm.sla}% ⚠
+                        </Text>
+                      </div>
                     </div>
-                    <div>Median: {selected.timing.timeToConfirm.median}h</div>
-                    <div>
-                      &lt;24hr SLA:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeToConfirm.sla}% ⚠
-                      </span>
+                  </div>
+                  <div>
+                    <Text className="mb-1 font-medium">Time to Confirm</Text>
+                    <div className="text-text-secondary grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        Avg:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeToConfirm.avg}h ⚠
+                        </Text>
+                      </div>
+                      <div>Median: {selected.timing.timeToConfirm.median}h</div>
+                      <div>
+                        &lt;24hr SLA:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeToConfirm.sla}% ⚠
+                        </Text>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <Text className="mb-1 font-medium">Time in Dispute</Text>
+                    <div className="text-text-secondary grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        Avg:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeInDispute.avg}d ⚠
+                        </Text>
+                      </div>
+                      <div>Median: {selected.timing.timeInDispute.median}d</div>
+                      <div>
+                        &lt;48hr resolution:{' '}
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.timing.timeInDispute.under48hr}% ⚠
+                        </Text>
+                      </div>
+                      <div>
+                        Peer avg: {selected.timing.timeInDispute.peerAvg}%
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div className="mb-1 font-medium">Time in Dispute</div>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
-                    <div>
-                      Avg:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeInDispute.avg}d ⚠
-                      </span>
-                    </div>
-                    <div>Median: {selected.timing.timeInDispute.median}d</div>
-                    <div>
-                      &lt;48hr resolution:{' '}
-                      <span className="font-semibold text-red-600">
-                        {selected.timing.timeInDispute.under48hr}% ⚠
-                      </span>
-                    </div>
-                    <div>
-                      Peer avg: {selected.timing.timeInDispute.peerAvg}%
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
 
             {/* Quality */}
-            <div>
-              <h3 className="mb-3 border-b pb-2 font-semibold">
-                Quality Metrics
-              </h3>
-              <div className="space-y-4 text-sm">
-                <div>
-                  <div className="mb-1 font-medium">Confirm Dispute Rate</div>
-                  <div className="mb-1 text-2xl font-bold text-red-600">
-                    {selected.quality.disputeRate}%{' '}
-                    <span className="text-sm">⚠</span>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Quality Metrics</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <Text className="mb-1 font-medium">
+                      Confirm Dispute Rate
+                    </Text>
+                    <div className="text-text-error-primary mb-1 text-2xl font-bold">
+                      {selected.quality.disputeRate}%{' '}
+                      <span className="text-sm">⚠</span>
+                    </div>
+                    <Text className="text-text-secondary text-xs">
+                      ({selected.quality.disputeCount} of {selected.trades})
+                    </Text>
                   </div>
-                  <div className="text-xs text-gray-600">
-                    ({selected.quality.disputeCount} of {selected.trades})
+                  <div>
+                    <Text className="mb-2 font-medium">
+                      Break Rate by Severity
+                    </Text>
+                    <div className="space-y-2 text-xs">
+                      <div className="flex justify-between">
+                        <Text>High:</Text>
+                        <Text className="text-text-error-primary font-semibold">
+                          {selected.quality.breakBySeverity.high}% ⚠
+                        </Text>
+                      </div>
+                      <div className="flex justify-between">
+                        <Text>Medium:</Text>
+                        <Text className="font-semibold">
+                          {selected.quality.breakBySeverity.medium}%
+                        </Text>
+                      </div>
+                      <div className="flex justify-between">
+                        <Text>Low:</Text>
+                        <Text className="font-semibold">
+                          {selected.quality.breakBySeverity.low}%
+                        </Text>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <Text className="mb-1 font-medium">
+                      Template Compliance
+                    </Text>
+                    <div className="text-text-error-primary mb-1 text-2xl font-bold">
+                      {selected.quality.templateCompliance}%{' '}
+                      <span className="text-sm">⚠</span>
+                    </div>
+                    <Text className="text-text-secondary text-xs">
+                      vs {selected.compliancePeerAvg}% peer avg
+                    </Text>
                   </div>
                 </div>
-                <div>
-                  <div className="mb-2 font-medium">Break Rate by Severity</div>
-                  <div className="space-y-2 text-xs">
-                    <div className="flex justify-between">
-                      <span>High:</span>
-                      <span className="font-semibold text-red-600">
-                        {selected.quality.breakBySeverity.high}% ⚠
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Medium:</span>
-                      <span className="font-semibold">
-                        {selected.quality.breakBySeverity.medium}%
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Low:</span>
-                      <span className="font-semibold">
-                        {selected.quality.breakBySeverity.low}%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-1 font-medium">Template Compliance</div>
-                  <div className="mb-1 text-2xl font-bold text-red-600">
-                    {selected.quality.templateCompliance}%{' '}
-                    <span className="text-sm">⚠</span>
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    vs {selected.compliancePeerAvg}% peer avg
-                  </div>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Trend Analysis */}
-          <div className="mb-6">
-            <h3 className="mb-3 border-b pb-2 font-semibold">
-              Trend Analysis (Last 4 Quarters)
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Metric
-                    </th>
-                    {selected.trend.map((q, i) => (
-                      <th
-                        key={i}
-                        className="px-3 py-2 text-left text-xs font-medium text-gray-500"
-                      >
-                        {q.quarter}
-                      </th>
-                    ))}
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Trend
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  <tr>
-                    <td className="px-3 py-2 font-medium">Break Rate</td>
-                    {selected.trend.map((q, i) => (
-                      <td key={i} className="px-3 py-2">
-                        {q.breakRate}%
-                      </td>
-                    ))}
-                    <td className="px-3 py-2 font-medium text-green-600">
-                      ↓ Better
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2 font-medium">Dispute Rate</td>
-                    {selected.trend.map((q, i) => (
-                      <td key={i} className="px-3 py-2">
-                        {q.disputeRate}%
-                      </td>
-                    ))}
-                    <td className="px-3 py-2 font-medium text-green-600">
-                      ↓ Better
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2 font-medium">Time to Doc (hrs)</td>
-                    {selected.trend.map((q, i) => (
-                      <td key={i} className="px-3 py-2">
-                        {q.timeToDoc}h
-                      </td>
-                    ))}
-                    <td className="px-3 py-2 font-medium text-green-600">
-                      ↓ Better
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2 font-medium">
-                      Time in Dispute (days)
-                    </td>
-                    {selected.trend.map((q, i) => (
-                      <td key={i} className="px-3 py-2">
-                        {q.timeInDispute}d
-                      </td>
-                    ))}
-                    <td className="px-3 py-2 font-medium text-green-600">
-                      ↓ Better
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2 font-medium">&lt;24hr SLA Rate</td>
-                    {selected.trend.map((q, i) => (
-                      <td key={i} className="px-3 py-2">
-                        {q.slaRate}%
-                      </td>
-                    ))}
-                    <td className="px-3 py-2 font-medium text-green-600">
-                      ↑ Better
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="text-base">
+                Trend Analysis (Last 4 Quarters)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DataTable
+                columns={[
+                  {
+                    accessorKey: 'metric',
+                    header: 'Metric',
+                    cell: ({ row }) => (
+                      <Text className="font-medium">
+                        {row.getValue('metric')}
+                      </Text>
+                    ),
+                  },
+                  ...selected.trend.map((q, i) => ({
+                    accessorKey: `quarter_${i}`,
+                    header: q.quarter,
+                    cell: ({ row }: { row: any }) => {
+                      const metric = row.getValue('metric') as string;
+                      const quarterData = selected.trend[i];
+                      let value = '';
+                      if (metric === 'Break Rate')
+                        value = `${quarterData.breakRate}%`;
+                      else if (metric === 'Dispute Rate')
+                        value = `${quarterData.disputeRate}%`;
+                      else if (metric === 'Time to Doc (hrs)')
+                        value = `${quarterData.timeToDoc}h`;
+                      else if (metric === 'Time in Dispute (days)')
+                        value = `${quarterData.timeInDispute}d`;
+                      else if (metric === '<24hr SLA Rate')
+                        value = `${quarterData.slaRate}%`;
+                      return <Text>{value}</Text>;
+                    },
+                  })),
+                  {
+                    accessorKey: 'trend',
+                    header: 'Trend',
+                    cell: ({ row }: { row: any }) => {
+                      const metric = row.getValue('metric') as string;
+                      const isImproving = [
+                        'Break Rate',
+                        'Dispute Rate',
+                        'Time to Doc (hrs)',
+                        'Time in Dispute (days)',
+                      ].includes(metric);
+                      const isSLA = metric === '<24hr SLA Rate';
+
+                      if (isImproving) {
+                        return (
+                          <CellTrend
+                            direction="down"
+                            label="Better"
+                            variant="success"
+                          />
+                        );
+                      } else if (isSLA) {
+                        return (
+                          <CellTrend
+                            direction="up"
+                            label="Better"
+                            variant="success"
+                          />
+                        );
+                      } else {
+                        return (
+                          <CellTrend
+                            direction="down"
+                            label="Worse"
+                            variant="error"
+                          />
+                        );
+                      }
+                    },
+                  },
+                ]}
+                data={[
+                  { metric: 'Break Rate' },
+                  { metric: 'Dispute Rate' },
+                  { metric: 'Time to Doc (hrs)' },
+                  { metric: 'Time in Dispute (days)' },
+                  { metric: '<24hr SLA Rate' },
+                ]}
+                searchKey="metric"
+                searchPlaceholder="Search metrics..."
+                showPagination={false}
+                showSearch={false}
+              />
+            </CardContent>
+          </Card>
 
           {/* Product Breakdown */}
-          <div className="mb-6">
-            <h3 className="mb-3 border-b pb-2 font-semibold">
-              Product Breakdown
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Product
-                    </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Trades
-                    </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Dispute %
-                    </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Avg Time to Confirm
-                    </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">
-                      Key Issues
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y">
-                  {selected.products.map((prod, i) => (
-                    <tr key={i} className={prod.warning ? 'bg-yellow-50' : ''}>
-                      <td className="px-3 py-2 font-medium">{prod.name}</td>
-                      <td className="px-3 py-2">{prod.trades}</td>
-                      <td className="px-3 py-2">
-                        <span
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="text-base">Product Breakdown</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DataTable
+                columns={[
+                  {
+                    accessorKey: 'name',
+                    header: 'Product',
+                    cell: ({ row }) => (
+                      <Text className="font-medium">
+                        {row.getValue('name')}
+                      </Text>
+                    ),
+                  },
+                  {
+                    accessorKey: 'trades',
+                    header: 'Trades',
+                    cell: ({ row }) => <Text>{row.getValue('trades')}</Text>,
+                  },
+                  {
+                    accessorKey: 'disputePct',
+                    header: 'Dispute %',
+                    cell: ({ row }: { row: any }) => {
+                      const disputePct = row.getValue('disputePct') as number;
+                      const warning = row.getValue('warning') as boolean;
+                      return (
+                        <Text
                           className={
-                            prod.warning ? 'font-bold text-red-600' : ''
+                            warning ? 'text-text-error-primary font-bold' : ''
                           }
                         >
-                          {prod.disputePct}% {prod.warning && '⚠'}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2">
-                        <span
+                          {disputePct}% {warning && '⚠'}
+                        </Text>
+                      );
+                    },
+                  },
+                  {
+                    accessorKey: 'avgTimeToConf',
+                    header: 'Avg Time to Confirm',
+                    cell: ({ row }: { row: any }) => {
+                      const avgTimeToConf = row.getValue(
+                        'avgTimeToConf'
+                      ) as number;
+                      const warning = row.getValue('warning') as boolean;
+                      return (
+                        <Text
                           className={
-                            prod.warning ? 'font-bold text-red-600' : ''
+                            warning ? 'text-text-error-primary font-bold' : ''
                           }
                         >
-                          {prod.avgTimeToConf}h {prod.warning && '⚠'}
-                        </span>
-                      </td>
-                      <td className="px-3 py-2 text-gray-600">{prod.issues}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          {avgTimeToConf}h {warning && '⚠'}
+                        </Text>
+                      );
+                    },
+                  },
+                  {
+                    accessorKey: 'issues',
+                    header: 'Key Issues',
+                    cell: ({ row }) => (
+                      <Text className="text-text-secondary">
+                        {row.getValue('issues')}
+                      </Text>
+                    ),
+                  },
+                ]}
+                data={selected.products.map(prod => ({
+                  ...prod,
+                  warning: prod.warning || false,
+                }))}
+                searchKey="name"
+                searchPlaceholder="Search products..."
+                showPagination={false}
+                showSearch={true}
+              />
+            </CardContent>
+          </Card>
 
           {/* Talking Points */}
-          <div className="rounded-lg border bg-gray-50 p-4">
-            <h3 className="mb-3 font-semibold">
-              Key Talking Points for Quarterly Review
-            </h3>
-            <div className="space-y-3 text-sm">
-              <div>
-                <div className="mb-1 font-medium text-green-600">
-                  ✓ POSITIVES:
+          <Card className="bg-background-secondary mb-6">
+            <CardHeader>
+              <CardTitle className="text-base">
+                Key Talking Points for Quarterly Review
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <Text className="text-text-success-primary mb-1 font-medium">
+                    ✓ POSITIVES:
+                  </Text>
+                  <ul className="text-text-secondary ml-2 list-inside list-disc space-y-1">
+                    <li>
+                      Consistent improvement across all metrics for 4 quarters
+                    </li>
+                    <li>
+                      Time to send docs improving (5.2h vs 6.1h a year ago)
+                    </li>
+                    <li>CMS Options performing close to peer average</li>
+                  </ul>
                 </div>
-                <ul className="ml-2 list-inside list-disc space-y-1 text-gray-700">
-                  <li>
-                    Consistent improvement across all metrics for 4 quarters
-                  </li>
-                  <li>Time to send docs improving (5.2h vs 6.1h a year ago)</li>
-                  <li>CMS Options performing close to peer average</li>
-                </ul>
-              </div>
-              <div>
-                <div className="mb-1 font-medium text-red-600">
-                  ⚠ CONCERNS:
+                <div>
+                  <Text className="text-text-error-primary mb-1 font-medium">
+                    ⚠ CONCERNS:
+                  </Text>
+                  <ul className="text-text-secondary ml-2 list-inside list-disc space-y-1">
+                    <li>Overall metrics still bottom quartile vs peers</li>
+                    <li>FX Options dispute rate 2.4x peer average</li>
+                    <li>
+                      Dispute resolution taking 2x longer than top performers
+                    </li>
+                    <li>
+                      Only 31% of trades meeting 24-hour SLA vs 85% peer avg
+                    </li>
+                  </ul>
                 </div>
-                <ul className="ml-2 list-inside list-disc space-y-1 text-gray-700">
-                  <li>Overall metrics still bottom quartile vs peers</li>
-                  <li>FX Options dispute rate 2.4x peer average</li>
-                  <li>
-                    Dispute resolution taking 2x longer than top performers
-                  </li>
-                  <li>
-                    Only 31% of trades meeting 24-hour SLA vs 85% peer avg
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <div className="mb-1 font-medium text-blue-600">
-                  💡 RECOMMENDATIONS:
+                <div>
+                  <Text className="mb-1 font-medium text-blue-600">
+                    💡 RECOMMENDATIONS:
+                  </Text>
+                  <ul className="text-text-secondary ml-2 list-inside list-disc space-y-1">
+                    <li>Request process review for FX Options specifically</li>
+                    <li>Discuss template compliance improvement plan</li>
+                    <li>
+                      Establish escalation path for disputes over 48 hours
+                    </li>
+                  </ul>
                 </div>
-                <ul className="ml-2 list-inside list-disc space-y-1 text-gray-700">
-                  <li>Request process review for FX Options specifically</li>
-                  <li>Discuss template compliance improvement plan</li>
-                  <li>Establish escalation path for disputes over 48 hours</li>
-                </ul>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Action Buttons */}
-          <div className="mt-6 flex justify-end gap-3">
-            <button className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-gray-50">
-              <Download className="h-4 w-4" />
+          <div className="flex justify-end gap-3">
+            <Button variant="outline" size="sm">
+              <IconDownload className="mr-2 h-4 w-4" />
               Export Full Scorecard (PDF)
-            </button>
-            <button className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-gray-50">
-              <Download className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="sm">
+              <IconDownload className="mr-2 h-4 w-4" />
               Export Data (CSV)
-            </button>
-            <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-              <Calendar className="h-4 w-4" />
+            </Button>
+            <Button size="sm">
+              <IconCalendar className="mr-2 h-4 w-4" />
               Schedule Review
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

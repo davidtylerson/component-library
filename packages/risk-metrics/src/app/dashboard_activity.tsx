@@ -1,7 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Download, TrendingUp, AlertCircle } from 'lucide-react';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Button,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Badge,
+  DataTable,
+  Heading,
+  Text,
+  LineChart,
+} from '@float-vibe-foundry/design-system';
+import {
+  IconDownload,
+  IconTrendingUp,
+  IconAlertCircle,
+} from '@tabler/icons-react';
 
 const ActivityDashboard = () => {
   const [dateRange, setDateRange] = useState('90d');
@@ -170,309 +191,380 @@ const ActivityDashboard = () => {
   ];
 
   const getTrendIcon = (dir: string) => {
-    if (dir === 'up') return <span className="text-green-600">↑</span>;
+    if (dir === 'up')
+      return <span className="text-text-success-primary">↑</span>;
     if (dir === 'down') return <span className="text-red-600">↓</span>;
-    return <span className="text-gray-600">→</span>;
+    return <span className="text-text-secondary">→</span>;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="bg-background min-h-screen p-6">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <Heading level={1} className="text-text-primary">
             Trading Activity Analysis
-          </h1>
-          <p className="text-sm text-gray-500">
+          </Heading>
+          <Text className="text-text-secondary">
             Volume and activity trends across products and counterparties
-          </p>
+          </Text>
         </div>
         <div className="flex gap-2">
-          <select
-            className="rounded-lg border px-3 py-2 text-sm"
-            value={dateRange}
-            onChange={e => setDateRange(e.target.value)}
-          >
-            <option value="30d">Last 30 Days</option>
-            <option value="90d">Last 90 Days</option>
-            <option value="180d">Last 180 Days</option>
-            <option value="365d">Last Year</option>
-          </select>
-          <select
-            className="rounded-lg border px-3 py-2 text-sm"
-            value={groupBy}
-            onChange={e => setGroupBy(e.target.value)}
-          >
-            <option value="day">Group By: Daily</option>
-            <option value="week">Group By: Weekly</option>
-            <option value="month">Group By: Monthly</option>
-          </select>
-          <button className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm hover:bg-gray-50">
-            <Download className="h-4 w-4" />
+          <Select value={dateRange} onValueChange={setDateRange}>
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="30d">Last 30 Days</SelectItem>
+              <SelectItem value="90d">Last 90 Days</SelectItem>
+              <SelectItem value="180d">Last 180 Days</SelectItem>
+              <SelectItem value="365d">Last Year</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={groupBy} onValueChange={setGroupBy}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="day">Group By: Daily</SelectItem>
+              <SelectItem value="week">Group By: Weekly</SelectItem>
+              <SelectItem value="month">Group By: Monthly</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button variant="outline" size="sm">
+            <IconDownload className="mr-2 h-4 w-4" />
             Export
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Volume Overview */}
-      <div className="mb-6 rounded-lg bg-white p-6 shadow">
-        <h2 className="mb-4 text-lg font-semibold">Volume Overview</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div>
-            <div className="mb-1 text-sm text-gray-600">Total Trades</div>
-            <div className="text-3xl font-bold">
-              {volumeOverview.totalTrades}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Volume Overview</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div>
+              <Text className="text-text-secondary mb-1 text-sm">
+                Total Trades
+              </Text>
+              <div className="text-text-primary text-3xl font-bold">
+                {volumeOverview.totalTrades}
+              </div>
+              <div className="text-text-success-primary mt-1 flex items-center gap-1 text-sm">
+                <IconTrendingUp className="h-4 w-4" />↑{' '}
+                {volumeOverview.tradesTrend}% vs. prior period
+              </div>
             </div>
-            <div className="mt-1 flex items-center gap-1 text-sm text-green-600">
-              <TrendingUp className="h-4 w-4" />↑ {volumeOverview.tradesTrend}%
-              vs. prior period
+            <div>
+              <Text className="text-text-secondary mb-1 text-sm">
+                Total Volume
+              </Text>
+              <div className="text-text-primary text-3xl font-bold">
+                {volumeOverview.totalVolume}
+              </div>
+              <div className="text-text-success-primary mt-1 flex items-center gap-1 text-sm">
+                <IconTrendingUp className="h-4 w-4" />↑{' '}
+                {volumeOverview.volumeTrend}% vs. prior period
+              </div>
+            </div>
+            <div>
+              <Text className="text-text-secondary mb-1 text-sm">
+                Avg Trade Size
+              </Text>
+              <div className="text-text-primary text-3xl font-bold">
+                {volumeOverview.avgTradeSize}
+              </div>
+              <div className="text-text-secondary mt-1 text-sm">
+                Per trade notional
+              </div>
             </div>
           </div>
-          <div>
-            <div className="mb-1 text-sm text-gray-600">Total Volume</div>
-            <div className="text-3xl font-bold">
-              {volumeOverview.totalVolume}
-            </div>
-            <div className="mt-1 flex items-center gap-1 text-sm text-green-600">
-              <TrendingUp className="h-4 w-4" />↑ {volumeOverview.volumeTrend}%
-              vs. prior period
-            </div>
-          </div>
-          <div>
-            <div className="mb-1 text-sm text-gray-600">Avg Trade Size</div>
-            <div className="text-3xl font-bold">
-              {volumeOverview.avgTradeSize}
-            </div>
-            <div className="mt-1 text-sm text-gray-500">Per trade notional</div>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Product Family Distribution */}
       <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div className="rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 text-lg font-semibold">
-            Trades by Product Family
-          </h2>
-          <div className="space-y-4">
-            {productFamily.byCount.map((family, i) => (
-              <div key={i}>
-                <div className="mb-1 flex justify-between text-sm">
-                  <span className="font-medium">{family.name}</span>
-                  <span className="text-gray-600">
-                    {family.count} ({family.pct}%)
-                  </span>
+        <Card>
+          <CardHeader>
+            <CardTitle>Trades by Product Family</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {productFamily.byCount.map((family, i) => (
+                <div key={i}>
+                  <div className="mb-1 flex justify-between text-sm">
+                    <Text className="font-medium">{family.name}</Text>
+                    <Text className="text-text-secondary">
+                      {family.count} ({family.pct}%)
+                    </Text>
+                  </div>
+                  <div className="bg-background-secondary h-3 w-full rounded-full">
+                    <div
+                      className="bg-brand-500 h-3 rounded-full"
+                      style={{ width: `${family.pct}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-3 w-full rounded-full bg-gray-200">
-                  <div
-                    className="h-3 rounded-full bg-blue-500"
-                    style={{ width: `${family.pct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-        <div className="rounded-lg bg-white p-6 shadow">
-          <h2 className="mb-4 text-lg font-semibold">
-            Volume by Product Family
-          </h2>
-          <div className="space-y-4">
-            {productFamily.byCount.map((family, i) => (
-              <div key={i}>
-                <div className="mb-1 flex justify-between text-sm">
-                  <span className="font-medium">{family.name}</span>
-                  <span className="text-gray-600">
-                    {family.volume} ({family.volPct}%)
-                  </span>
+        <Card>
+          <CardHeader>
+            <CardTitle>Volume by Product Family</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {productFamily.byCount.map((family, i) => (
+                <div key={i}>
+                  <div className="mb-1 flex justify-between text-sm">
+                    <Text className="font-medium">{family.name}</Text>
+                    <Text className="text-text-secondary">
+                      {family.volume} ({family.volPct}%)
+                    </Text>
+                  </div>
+                  <div className="bg-background-secondary h-3 w-full rounded-full">
+                    <div
+                      className="bg-text-success-primary h-3 rounded-full"
+                      style={{ width: `${family.volPct}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="h-3 w-full rounded-full bg-gray-200">
-                  <div
-                    className="h-3 rounded-full bg-green-500"
-                    style={{ width: `${family.volPct}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Trades by Product Type */}
-      <div className="mb-6 rounded-lg bg-white shadow">
-        <div className="border-b p-4">
-          <h2 className="text-lg font-semibold">
-            Trades by Product Type (Top 10)
-          </h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="border-b bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Product Type
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Count
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Volume
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Trend (vs prior)
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {productTypes.map((product, i) => (
-                <tr
-                  key={i}
-                  className={`hover:bg-gray-50 ${product.surge ? 'bg-yellow-50' : ''}`}
-                >
-                  <td className="px-4 py-3 font-medium">
-                    {product.name}
-                    {product.surge && (
-                      <span className="ml-2 rounded bg-yellow-200 px-2 py-0.5 text-xs font-medium text-yellow-800">
-                        ⚠ Surge
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 font-semibold">{product.count}</td>
-                  <td className="px-4 py-3 font-semibold">{product.volume}</td>
-                  <td className="px-4 py-3">
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Trades by Product Type (Top 10)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            columns={[
+              {
+                accessorKey: 'name',
+                header: 'Product Type',
+                cell: ({ row }) => {
+                  const name = row.getValue('name') as string;
+                  const surge = row.getValue('surge') as boolean;
+                  return (
+                    <div>
+                      <Text className="font-medium">{name}</Text>
+                      {surge && (
+                        <Badge
+                          variant="outline"
+                          className="ml-2 bg-yellow-200 text-yellow-800"
+                        >
+                          ⚠ Surge
+                        </Badge>
+                      )}
+                    </div>
+                  );
+                },
+              },
+              {
+                accessorKey: 'count',
+                header: 'Count',
+                cell: ({ row }) => (
+                  <Text className="font-semibold">{row.getValue('count')}</Text>
+                ),
+              },
+              {
+                accessorKey: 'volume',
+                header: 'Volume',
+                cell: ({ row }) => (
+                  <Text className="font-semibold">
+                    {row.getValue('volume')}
+                  </Text>
+                ),
+              },
+              {
+                accessorKey: 'trend',
+                header: 'Trend (vs prior)',
+                cell: ({ row }) => {
+                  const trend = row.getValue('trend') as number;
+                  const trendDir = row.getValue('trendDir') as string;
+                  return (
                     <span
                       className={`flex items-center gap-1 ${
-                        product.trendDir === 'up'
-                          ? 'text-green-600'
-                          : product.trendDir === 'down'
+                        trendDir === 'up'
+                          ? 'text-text-success-primary'
+                          : trendDir === 'down'
                             ? 'text-red-600'
-                            : 'text-gray-600'
+                            : 'text-text-secondary'
                       }`}
                     >
-                      {getTrendIcon(product.trendDir)} {product.trend}%
+                      {getTrendIcon(trendDir)} {trend}%
                     </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  );
+                },
+              },
+            ]}
+            data={productTypes.map(product => ({
+              ...product,
+              surge: product.surge || false,
+            }))}
+            searchKey="name"
+            searchPlaceholder="Search products..."
+            showPagination={false}
+            showSearch={true}
+            className=""
+          />
+        </CardContent>
+      </Card>
 
       {/* Trades by Counterparty */}
-      <div className="mb-6 rounded-lg bg-white shadow">
-        <div className="border-b p-4">
-          <h2 className="text-lg font-semibold">
-            Trades by Counterparty (Top 10)
-          </h2>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="border-b bg-gray-50">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Counterparty
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Count
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  Volume
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                  % of Total
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {counterparties.map((cp, i) => (
-                <tr key={i} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">{cp.name}</td>
-                  <td className="px-4 py-3 font-semibold">{cp.count}</td>
-                  <td className="px-4 py-3 font-semibold">{cp.volume}</td>
-                  <td className="px-4 py-3">
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle>Trades by Counterparty (Top 10)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable
+            columns={[
+              {
+                accessorKey: 'name',
+                header: 'Counterparty',
+                cell: ({ row }) => (
+                  <Text className="font-medium">{row.getValue('name')}</Text>
+                ),
+              },
+              {
+                accessorKey: 'count',
+                header: 'Count',
+                cell: ({ row }) => (
+                  <Text className="font-semibold">{row.getValue('count')}</Text>
+                ),
+              },
+              {
+                accessorKey: 'volume',
+                header: 'Volume',
+                cell: ({ row }) => (
+                  <Text className="font-semibold">
+                    {row.getValue('volume')}
+                  </Text>
+                ),
+              },
+              {
+                accessorKey: 'percentage',
+                header: '% of Total',
+                cell: ({ row }) => {
+                  const countPct = row.getValue('countPct') as number;
+                  const volPct = row.getValue('volPct') as number;
+                  return (
                     <div className="text-sm">
-                      <span className="font-medium">{cp.countPct}%</span> trades
-                      /<span className="ml-1 font-medium">{cp.volPct}%</span>{' '}
-                      volume
+                      <Text className="font-medium">{countPct}%</Text> trades /
+                      <Text className="ml-1 font-medium">{volPct}%</Text> volume
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  );
+                },
+              },
+            ]}
+            data={counterparties}
+            searchKey="name"
+            searchPlaceholder="Search counterparties..."
+            showPagination={false}
+            showSearch={true}
+          />
+        </CardContent>
+      </Card>
 
       {/* Trading Activity Over Time */}
-      <div className="mb-6 rounded-lg bg-white p-6 shadow">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Trading Activity Over Time</h2>
-          <div className="flex gap-2 text-xs">
-            <button className="rounded bg-blue-100 px-2 py-1 font-medium text-blue-700">
-              All
-            </button>
-            <button className="rounded px-2 py-1 hover:bg-gray-100">
-              Rates
-            </button>
-            <button className="rounded px-2 py-1 hover:bg-gray-100">FX</button>
-            <button className="rounded px-2 py-1 hover:bg-gray-100">
-              Equity
-            </button>
-            <button className="rounded px-2 py-1 hover:bg-gray-100">
-              Credit
-            </button>
-          </div>
-        </div>
-        <div className="flex h-64 items-end justify-between gap-1">
-          {activityOverTime.map((point, i) => (
-            <div key={i} className="flex flex-1 flex-col items-center">
-              <div className="relative w-full" style={{ height: '220px' }}>
-                <div
-                  className="absolute bottom-0 w-full cursor-pointer rounded-t bg-blue-500 transition-colors hover:bg-blue-600"
-                  style={{ height: `${(point.value / 100) * 220}px` }}
-                  title={`${point.label}: ${point.value} trades`}
-                />
-              </div>
-              <div className="mt-2 origin-top-left -rotate-45 whitespace-nowrap text-xs text-gray-500">
-                {point.label}
-              </div>
+      <Card className="mb-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Trading Activity Over Time</CardTitle>
+            <div className="flex gap-2 text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-blue-100 text-blue-700"
+              >
+                All
+              </Button>
+              <Button variant="ghost" size="sm">
+                Rates
+              </Button>
+              <Button variant="ghost" size="sm">
+                FX
+              </Button>
+              <Button variant="ghost" size="sm">
+                Equity
+              </Button>
+              <Button variant="ghost" size="sm">
+                Credit
+              </Button>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="h-64">
+            <LineChart
+              data={activityOverTime}
+              dataKeys={[
+                {
+                  key: 'value',
+                  label: 'Trades',
+                  color: 'var(--color-brand-600)',
+                },
+              ]}
+              xAxisKey="label"
+              height={220}
+              showGrid={true}
+              showDots={true}
+              strokeWidth={3}
+              interactive={true}
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Activity Insights */}
-      <div className="rounded-lg border border-blue-200 bg-blue-50 p-6">
-        <div className="mb-3 flex items-center gap-2">
-          <AlertCircle className="h-5 w-5 text-blue-600" />
-          <h2 className="text-lg font-semibold">Activity Insights</h2>
-        </div>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li>
-            • <strong>CMS Options volume up 22%</strong> - highest growth
-            product
-          </li>
-          <li>
-            • <strong>GS concentration at 29% of volume</strong> (up from 24%
-            last Q)
-          </li>
-          <li>
-            • <strong>Rates products represent 50% of volume</strong> but only
-            43% of count (larger average trade size)
-          </li>
-          <li>
-            • <strong>Trading activity spiked week of Aug 15</strong> (+34% vs
-            average)
-          </li>
-        </ul>
-        <div className="mt-4 border-t border-blue-200 pt-4">
-          <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-            Export Activity Report
-          </button>
-        </div>
-      </div>
+      <Card className="border-blue-200 bg-blue-50">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <IconAlertCircle className="h-5 w-5 text-blue-600" />
+            <CardTitle>Activity Insights</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <ul className="text-text-secondary space-y-2 text-sm">
+            <li>
+              • <Text className="font-bold">CMS Options volume up 22%</Text> -
+              highest growth product
+            </li>
+            <li>
+              •{' '}
+              <Text className="font-bold">
+                GS concentration at 29% of volume
+              </Text>{' '}
+              (up from 24% last Q)
+            </li>
+            <li>
+              •{' '}
+              <Text className="font-bold">
+                Rates products represent 50% of volume
+              </Text>{' '}
+              but only 43% of count (larger average trade size)
+            </li>
+            <li>
+              •{' '}
+              <Text className="font-bold">
+                Trading activity spiked week of Aug 15
+              </Text>{' '}
+              (+34% vs average)
+            </li>
+          </ul>
+          <div className="mt-4 border-t border-blue-200 pt-4">
+            <Button size="sm">Export Activity Report</Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

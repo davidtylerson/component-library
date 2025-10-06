@@ -15,7 +15,7 @@ npm install @tydavidson/design-system
 In your main CSS file (e.g., `app/globals.css`), import the theme styles:
 
 ```css
-@import '@tydavidson/design-system/src/themes/theme.css';
+@import '@tydavidson/design-system/src/app/globals-consolidated.css';
 ```
 
 ### 3. Set Up Theme Provider
@@ -100,7 +100,7 @@ A Server Component-safe hook that returns the default theme values. This is usef
 
 1. **Theme not switching**: Ensure `ThemeProvider` is wrapping your app within a Client Component (like the `providers.tsx` file shown above).
 2. **Hydration errors**: Add `suppressHydrationWarning` to your `<html>` element in the root layout.
-3. **CSS not loading**: Make sure you have imported the `theme.css` file in your global stylesheet.
+3. **CSS not loading**: Make sure you have imported the `globals-consolidated.css` file in your global stylesheet.
 
 ## API Reference
 

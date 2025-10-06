@@ -24,7 +24,7 @@ import { Button, Card, useTheme } from '@float-vibe-foundry/design-system';
 
 ### Form Components
 
-- **Button** - Primary, secondary, and variant buttons
+- **Button** - Primary and variants (primary, gray, outline, ghost, destructive)
 - **Input** - Text input with validation states
 - **Checkbox** - Checkbox with custom styling
 - **Radio Group** - Radio button groups
@@ -125,7 +125,7 @@ function ButtonExamples() {
       <Button variant="primary">Primary</Button>
       <Button variant="destructive">Destructive</Button>
       <Button variant="outline">Outline</Button>
-      <Button variant="secondary">Secondary</Button>
+      <Button variant="gray">Gray</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="link">Link</Button>
     </div>
@@ -300,13 +300,7 @@ interface CommonProps {
 
 ```tsx
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-    | 'primary'
-    | 'secondary'
-    | 'ghost'
-    | 'outline'
-    | 'link'
-    | 'destructive';
+  variant?: 'primary' | 'gray' | 'ghost' | 'outline' | 'link' | 'destructive';
   size?: 'sm' | 'md' | 'lg' | 'iconSm' | 'iconMd' | 'iconLg';
   asChild?: boolean;
   leftIcon?: React.ReactNode;

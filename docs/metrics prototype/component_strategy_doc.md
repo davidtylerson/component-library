@@ -14,6 +14,7 @@ This prototype work serves dual purposes:
 2. **Strategic:** Create reusable component library for future custom dashboarding capability
 
 The key insight: Build components with **explicit, documented interfaces** now so they can be:
+
 - Used in fixed layouts today
 - Made selectable/configurable later
 - Composed into custom dashboards without rebuild
@@ -21,6 +22,14 @@ The key insight: Build components with **explicit, documented interfaces** now s
 ---
 
 ## Core Philosophy
+
+### Theming & Tokens (Single Source of Truth)
+
+- Import theme CSS once: `@tydavidson/design-system/src/app/globals-consolidated.css`
+- Use Tailwind preset: `presets: [require('@tydavidson/design-system/tailwind-preset')]`
+- Use semantic classes: `bg-*`, `text-*`, `border-*`, `fg-*`
+- text-_ for copy; fg-_ for icons/indicators
+- Avoid raw Tailwind colors (e.g., `text-red-600`, `bg-white`) unless explicitly approved
 
 ### Components as Configurable Units
 
@@ -71,6 +80,7 @@ Executive Dashboard
 ```
 
 **Characteristics:**
+
 - Fast to build
 - Purpose-specific
 - No configuration UI needed
@@ -89,6 +99,7 @@ Component Library
 ```
 
 **Characteristics:**
+
 - Clear data contracts
 - Configuration schemas defined
 - Reusable across dashboards
@@ -112,6 +123,7 @@ User Workflow:
 ```
 
 **Characteristics:**
+
 - Drag-and-drop builder
 - No-code configuration
 - Save/share custom dashboards
@@ -130,6 +142,7 @@ Every component must document its expected data shape.
 Define canonical shapes for common patterns:
 
 **Single Metric:**
+
 ```typescript
 {
   value: number,
@@ -140,35 +153,39 @@ Define canonical shapes for common patterns:
 ```
 
 **Time Series:**
+
 ```typescript
 Array<{
-  date: string,      // ISO date or label
-  value: number,
-  metadata?: object  // Optional tooltip data
-}>
+  date: string; // ISO date or label
+  value: number;
+  metadata?: object; // Optional tooltip data
+}>;
 ```
 
 **Ranked List:**
+
 ```typescript
 Array<{
-  label: string,
-  value: number,
-  rank?: number,
-  metadata?: object
-}>
+  label: string;
+  value: number;
+  rank?: number;
+  metadata?: object;
+}>;
 ```
 
 **Grouped/Categorical:**
+
 ```typescript
 Array<{
-  category: string,
-  subcategory?: string,
-  value: number,
-  metadata?: object
-}>
+  category: string;
+  subcategory?: string;
+  value: number;
+  metadata?: object;
+}>;
 ```
 
 **Tabular Data:**
+
 ```typescript
 {
   columns: Array<{ key: string, label: string, type: 'string' | 'number' | 'date' }>,
@@ -184,16 +201,17 @@ Each component specifies:
 ## Component: KPI Card
 
 ### Data Interface
+
 Type: Single Metric
 Required: value (number)
 Optional: change (number), trend (string), comparisonPeriod (string)
 
 Example:
 {
-  value: 14779,
-  change: 12,
-  trend: "up",
-  comparisonPeriod: "vs. last week"
+value: 14779,
+change: 12,
+trend: "up",
+comparisonPeriod: "vs. last week"
 }
 ```
 
@@ -204,23 +222,27 @@ Components should accept configuration as props, with sensible defaults.
 #### Configuration Categories
 
 **Visual Options:**
+
 - Colors
 - Sizes
 - Fonts
 - Layout orientation
 
 **Data Options:**
+
 - Sort order
 - Grouping dimension
 - Metric selection
 - Filtering criteria
 
 **Behavioral Options:**
+
 - Click handlers
 - Hover behaviors
 - Animation preferences
 
 **Threshold Options:**
+
 - Warning levels
 - Color coding rules
 - Target lines
@@ -228,11 +250,13 @@ Components should accept configuration as props, with sensible defaults.
 #### Example: Configurable vs Hardcoded
 
 **Bad (tightly coupled):**
+
 ```jsx
-<KPICard />  // Reaches into global state, hardcoded metric
+<KPICard /> // Reaches into global state, hardcoded metric
 ```
 
 **Good (explicit interface):**
+
 ```jsx
 <KPICard
   value={14779}
@@ -247,14 +271,15 @@ Components should accept configuration as props, with sensible defaults.
 ```
 
 **Future (configuration object):**
+
 ```jsx
 <KPICard
   data={metricData}
   config={{
-    label: "Open Risk Score",
+    label: 'Open Risk Score',
     thresholds: { warning: 10000, danger: 20000 },
     showTrend: true,
-    colors: { good: "green", warning: "yellow", danger: "red" }
+    colors: { good: 'green', warning: 'yellow', danger: 'red' },
   }}
 />
 ```
@@ -284,31 +309,39 @@ Each component needs comprehensive documentation:
 # Component Name
 
 ## Purpose
+
 One-sentence description of what this component does.
 
 ## Data Interface
+
 - Type: [Single Metric | Time Series | Ranked List | etc.]
 - Required fields: [list]
 - Optional fields: [list]
 - Example data structure
 
 ## Configuration Options
+
 - [option name]: [type] - [description] - [default value]
 
 ## Visual Variants
+
 - Screenshots/examples of different configurations
 
 ## Usage Examples
+
 Code examples showing:
+
 - Basic usage
 - With filters
 - With custom styling
 - Edge cases (empty data, loading)
 
 ## Used In
+
 List of dashboards where this component appears
 
 ## Future Enhancements
+
 Potential configuration options for custom dashboards
 ```
 
@@ -318,22 +351,25 @@ Potential configuration options for custom dashboards
 # KPI Card
 
 ## Purpose
+
 Display a single metric with optional trend indicator and comparison to previous period.
 
 ## Data Interface
+
 Type: Single Metric
 Required: value (number)
 Optional: change (number), trend ('up'|'down'|'flat'), comparisonPeriod (string)
 
 Example:
 {
-  value: 14779,
-  change: 12,
-  trend: "up",
-  comparisonPeriod: "vs. last week"
+value: 14779,
+change: 12,
+trend: "up",
+comparisonPeriod: "vs. last week"
 }
 
 ## Configuration Options
+
 - label: string - Display label for the metric - Required
 - status: 'good'|'warning'|'danger' - Color coding - Default: null
 - showTrend: boolean - Display trend arrow - Default: true
@@ -341,9 +377,11 @@ Example:
 - onClick: function - Click handler - Default: null
 
 ## Visual Variants
+
 [Show screenshots of different configurations]
 
 ## Usage Examples
+
 Basic:
 <KPICard
   value={14779}
@@ -361,16 +399,18 @@ With trend:
 
 With status thresholds:
 <KPICard
-  value={14779}
-  label="Open Risk Score"
-  threshold={{ warning: 10000, danger: 20000 }}
+value={14779}
+label="Open Risk Score"
+threshold={{ warning: 10000, danger: 20000 }}
 />
 
 ## Used In
+
 - Dashboard 1: Executive Overview (Open Risk Score, Trades Outside SLA, etc.)
 - Dashboard 4: Template Progress (Coverage %, Electronic Affirmation %)
 
 ## Future Enhancements
+
 - Sparkline visualization of trend
 - Drill-down click to filtered view
 - Comparative display (vs peer average)
@@ -383,12 +423,14 @@ With status thresholds:
 Organize components by function:
 
 ### 1. Metrics Display
+
 - **KPI Card** - Single metric with trend
 - **Metrics Grid** - Multiple KPIs in grid layout
 - **Gauge** - Progress toward target
 - **Score Card** - Composite score with breakdown
 
 ### 2. Data Visualization
+
 - **Line Chart** - Time series trends
 - **Bar Chart** - Category comparison
 - **Stacked Bar Chart** - Category with subcategories
@@ -397,18 +439,21 @@ Organize components by function:
 - **Heat Map** - Matrix of values with color coding
 
 ### 3. Tables & Lists
+
 - **Data Table** - Sortable, filterable tabular data
 - **Priority List** - Ranked items with severity
 - **Comparison Table** - Side-by-side comparison
 - **Expandable Rows** - Master-detail table
 
 ### 4. Filters & Controls
+
 - **Date Range Picker** - Select time window
 - **Multi-Select Dropdown** - Choose multiple options
 - **Search Box** - Text-based filtering
 - **Quick Filters** - Preset filter buttons
 
 ### 5. Containers & Layout
+
 - **Dashboard Grid** - Responsive grid layout
 - **Card Container** - Consistent card wrapper
 - **Collapsible Section** - Expandable content area
@@ -427,7 +472,7 @@ For future custom dashboards, each widget instance stores configuration as JSON:
   // Widget identity
   widgetId: string,
   componentType: string,  // References component from catalog
-  
+
   // Data source configuration
   dataSource: {
     entity: string,       // "trades", "breaks", "counterparties"
@@ -446,7 +491,7 @@ For future custom dashboards, each widget instance stores configuration as JSON:
       limit?: number
     }
   },
-  
+
   // Visualization configuration
   visualization: {
     type: string,         // Component variant if applicable
@@ -455,7 +500,7 @@ For future custom dashboards, each widget instance stores configuration as JSON:
       // Matches the component's configuration interface
     }
   },
-  
+
   // Layout (for dashboard builder)
   layout: {
     x: number,
@@ -540,10 +585,10 @@ When hardcoding, add comments noting what could be configurable:
 ```jsx
 <BarChart
   data={riskByCounterparty}
-  xAxisKey="counterparty"  // CONFIG: User could select grouping dimension
-  yAxisKey="riskScore"     // CONFIG: User could select metric to display
-  color="#3b82f6"          // CONFIG: User could customize color
-  sortBy="value"           // CONFIG: User could choose sort order
+  xAxisKey="counterparty" // CONFIG: User could select grouping dimension
+  yAxisKey="riskScore" // CONFIG: User could select metric to display
+  color="#3b82f6" // CONFIG: User could customize color
+  sortBy="value" // CONFIG: User could choose sort order
 />
 ```
 
@@ -570,7 +615,11 @@ function KPICard() {
 
 // Good: Data passed from parent
 function KPICard({ value, label }) {
-  return <div>{label}: {value}</div>;
+  return (
+    <div>
+      {label}: {value}
+    </div>
+  );
 }
 ```
 
@@ -584,12 +633,14 @@ As you build the prototype, maintain a component catalog document:
 ## Metrics Display
 
 ### KPI Card
+
 - Status: ✓ Built
 - File: src/components/KPICard.jsx
 - Documentation: docs/components/KPICard.md
 - Used in: Dashboard 1, Dashboard 4
 
 ### Metrics Grid
+
 - Status: ✓ Built
 - File: src/components/MetricsGrid.jsx
 - Documentation: docs/components/MetricsGrid.md
@@ -598,18 +649,21 @@ As you build the prototype, maintain a component catalog document:
 ## Data Visualization
 
 ### Bar Chart
+
 - Status: ✓ Built
 - File: src/components/BarChart.jsx
 - Documentation: docs/components/BarChart.md
 - Used in: Dashboard 1, Dashboard 2, Dashboard 5
 
 ### Stacked Bar Chart
+
 - Status: 🚧 In Progress
 - File: src/components/StackedBarChart.jsx
 - Documentation: docs/components/StackedBarChart.md
 - Used in: Dashboard 2
 
 ### Line Chart
+
 - Status: ✓ Built
 - File: src/components/LineChart.jsx
 - Documentation: docs/components/LineChart.md
@@ -635,13 +689,17 @@ function adaptTradesForBarChart(trades, groupBy, metric) {
   return Object.entries(grouped).map(([category, trades]) => ({
     category,
     value: calculateMetric(trades, metric),
-    metadata: { count: trades.length }
+    metadata: { count: trades.length },
   }));
 }
 
 // Usage
-const chartData = adaptTradesForBarChart(mockTrades, 'counterparty', 'riskScore');
-<BarChart data={chartData} xAxisKey="category" yAxisKey="value" />
+const chartData = adaptTradesForBarChart(
+  mockTrades,
+  'counterparty',
+  'riskScore'
+);
+<BarChart data={chartData} xAxisKey="category" yAxisKey="value" />;
 ```
 
 ### Standard Aggregation Functions
@@ -651,11 +709,21 @@ Create library of reusable aggregation functions:
 ```javascript
 // src/utils/aggregations.js
 
-export function groupBy(array, key) { /* ... */ }
-export function sumBy(array, key) { /* ... */ }
-export function averageBy(array, key) { /* ... */ }
-export function countBy(array, key) { /* ... */ }
-export function percentileBy(array, key, percentile) { /* ... */ }
+export function groupBy(array, key) {
+  /* ... */
+}
+export function sumBy(array, key) {
+  /* ... */
+}
+export function averageBy(array, key) {
+  /* ... */
+}
+export function countBy(array, key) {
+  /* ... */
+}
+export function percentileBy(array, key, percentile) {
+  /* ... */
+}
 ```
 
 These become building blocks for custom dashboard data pipelines.
@@ -681,6 +749,7 @@ Important: This phase is about **foundation**, not the full custom dashboard sys
 ### Why Not Yet
 
 These features require:
+
 - Backend infrastructure
 - Authentication/authorization
 - Data persistence layer
@@ -700,6 +769,7 @@ These features require:
 ### 2. Component Library Documentation
 
 For each reusable component:
+
 - Purpose statement
 - Data interface specification (TypeScript types or JSON schema)
 - Configuration options with defaults
@@ -710,6 +780,7 @@ For each reusable component:
 ### 3. Data Interface Standards
 
 Document standard data shapes:
+
 - Single Metric
 - Time Series
 - Ranked List
@@ -751,6 +822,7 @@ You'll know this approach is working when:
 ### Priority 1: Core Components (Build Now)
 
 Components needed for prototype dashboards:
+
 - KPI Card
 - Bar Chart (horizontal/vertical)
 - Line Chart
@@ -763,6 +835,7 @@ Focus: Get these working in fixed dashboards.
 ### Priority 2: Documentation (Build In Parallel)
 
 As you build each component, document:
+
 - Data interface
 - Configuration options
 - Usage examples
@@ -772,6 +845,7 @@ Focus: Create reusable reference material.
 ### Priority 3: Standardization (Refactor As Patterns Emerge)
 
 When you build the second instance of something similar:
+
 - Extract common functionality
 - Standardize data shapes
 - Document the pattern
@@ -781,6 +855,7 @@ Focus: Don't premature abstract, but do capture patterns.
 ### Priority 4: Configuration Schema (Design, Don't Build)
 
 Think through how components would be configured in custom dashboards:
+
 - What options make sense to expose?
 - What should have sensible defaults?
 - How granular should configuration be?

@@ -10,7 +10,7 @@ import {
 interface IconLeadingCellProps {
   icon: React.ComponentType<{
     className?: string;
-    size?: number;
+    size?: string | number;
     style?: React.CSSProperties;
   }>;
   text: string;

@@ -97,7 +97,7 @@ export default function ServerComponent() {
 
 ```tsx
 // Make sure to import the CSS
-import '@tydavidson/design-system/src/themes/theme.css';
+import '@tydavidson/design-system/src/app/globals-consolidated.css';
 ```
 
 ### 5. Hydration Mismatch Errors
