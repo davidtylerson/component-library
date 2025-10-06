@@ -16,7 +16,7 @@ export function CellText({
   variant = 'default',
 }: CellTextProps) {
   const variantClasses = {
-    default: 'text-text-primary',
+    default: 'text-text-secondary',
     secondary: 'text-text-secondary',
     success: 'text-text-success-primary',
     error: 'text-text-error-primary',
@@ -47,7 +47,7 @@ export function CellTrend({
     if (variant === 'success') return 'text-text-success-primary';
     if (variant === 'error') return 'text-text-error-primary';
     if (variant === 'warning') return 'text-text-warning-primary';
-    return 'text-text-primary';
+    return 'text-text-secondary';
   };
 
   const getIcon = () => {
@@ -79,11 +79,11 @@ export function CellBadge({
   className,
 }: CellBadgeProps) {
   const variantClasses = {
-    default: 'bg-bg-secondary text-text-primary',
+    default: 'bg-bg-secondary text-text-secondary',
     success: 'bg-bg-success-secondary text-text-success-primary',
     error: 'bg-bg-error-secondary text-text-error-primary',
     warning: 'bg-bg-warning-secondary text-text-warning-primary',
-    outline: 'border border-border-primary text-text-primary',
+    outline: 'border border-border-primary text-text-secondary',
   };
 
   return (

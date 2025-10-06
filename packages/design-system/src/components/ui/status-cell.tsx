@@ -36,49 +36,49 @@ export function StatusCell({
       label: 'Pending',
       icon: IconCircleDotted,
       iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'in-progress': {
       label: 'In Progress',
       icon: IconCircleDashed,
       iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     completed: {
       label: 'Completed',
       icon: IconCheck,
       iconColor: 'var(--text-success-primary)', // #15803d - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     cancelled: {
       label: 'Cancelled',
       icon: IconSlash,
       iconColor: 'var(--fg-secondary)', // rgba(209, 209, 214, 1)
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'in-dispute': {
       label: 'In Dispute',
       icon: IconArrowBack,
       iconColor: 'var(--text-error-primary)', // #bd3e1e - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     matched: {
       label: 'Matched',
       icon: IconLink,
       iconColor: 'var(--text-success-primary)', // #15803d - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     unmatched: {
       label: 'Unmatched',
       icon: IconLinkOff,
       iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'pending-return': {
       label: 'Pending Return',
       icon: IconSend,
       iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
   };
 
@@ -116,25 +116,25 @@ export function DocumentReviewState({
       label: 'Disputed',
       icon: IconArrowBack,
       iconColor: 'var(--text-error-primary)', // #bd3e1e - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'in-review': {
       label: 'In Review',
       icon: IconCircleDashed,
       iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'not-matched': {
       label: 'Not Matched',
       icon: IconLinkOff,
       iconColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     return: {
       label: 'Return',
       icon: IconSend,
       iconColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
   };
 
