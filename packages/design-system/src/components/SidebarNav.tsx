@@ -23,7 +23,8 @@ import {
   IconHome,
   IconPalette,
   IconLayersSubtract,
-
+  IconTable,
+  IconChartBar,
 } from '@tabler/icons-react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Button } from './ui/button';
@@ -44,6 +45,16 @@ const navItems = [
     title: 'Components',
     icon: IconLayersSubtract,
     url: '/components',
+  },
+  {
+    title: 'DataTable',
+    icon: IconTable,
+    url: '/data-table',
+  },
+  {
+    title: 'Chart Testing',
+    icon: IconChartBar,
+    url: '/interactive-chart-test',
   },
   {
     title: 'Test Page',

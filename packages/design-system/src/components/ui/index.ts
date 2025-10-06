@@ -117,11 +117,27 @@ export {
 // Badge component
 export { Badge } from './badge';
 
-// Progress component
-export { Progress } from './progress';
-
 // Separator component
 export { Separator } from './separator';
+
+// Table components
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from './table';
+
+// DataTable component
+export { DataTable, SortableColumnHeader } from './data-table';
+
+// Table cell components
+export { IconLeadingCell, TradeTypeCell } from './icon-leading-cell';
+export { StatusCell, DocumentReviewState, AgedState } from './status-cell';
 
 // Sidebar components
 export {
@@ -151,6 +167,22 @@ export {
   SidebarTriggerExternal,
   useSidebar,
 } from './sidebar';
+
+// Metric Card component
+export { MetricCard } from './metric-card';
+
+// Chart components
+export { HorizontalBarChart } from './horizontal-bar-chart';
+export { StackedBarChart } from './stacked-bar-chart';
+export { LineChart } from './line-chart';
+export { AreaChart } from './area-chart';
+export {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from './chart';
 
 // Comment out components that don't exist yet
 // export * from './input/input'; // Uncomment when implemented

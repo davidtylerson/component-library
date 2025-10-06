@@ -52,6 +52,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuSubContent,
 } from '@/components/ui/context-menu';
+import { MetricCard } from '@/components/ui/metric-card';
+import { HorizontalBarChart } from '@/components/ui/horizontal-bar-chart';
+import { StackedBarChart } from '@/components/ui/stacked-bar-chart';
+import { LineChart } from '@/components/ui/line-chart';
+import { AreaChart } from '@/components/ui/area-chart';
+import { DollarSign, Users, TrendingUp, Activity } from 'lucide-react';
 
 export default function ComponentsPage() {
   return (
@@ -256,6 +262,120 @@ export default function ComponentsPage() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* Metric Cards */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold">Metric Cards</h2>
+        <div className="grid grid-cols-1 gap-6 rounded-md border border-border-primary p-4 md:grid-cols-2 lg:grid-cols-4">
+          <MetricCard
+            title="Total Revenue"
+            value="$45,231.89"
+            description="+20.1% from last month"
+            icon={<DollarSign />}
+          />
+          
+          <MetricCard
+            title="Active Users"
+            value="2,350"
+            description="+180.1% from last month"
+            icon={<Users />}
+          />
+          
+          <MetricCard
+            title="Sales"
+            value="12,234"
+            description="+19% from last month"
+            icon={<TrendingUp />}
+          />
+          
+          <MetricCard
+            title="Active Now"
+            value="573"
+            description="+201 since last hour"
+            icon={<Activity />}
+          />
+        </div>
+      </section>
+
+      {/* Charts */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold">Charts</h2>
+        <div className="grid grid-cols-1 gap-6 rounded-md border border-border-primary p-4 lg:grid-cols-2">
+          <HorizontalBarChart
+            title="Risk by Counterparty"
+            description="Current risk exposure by counterparty"
+            data={[
+              { name: 'GS', value: 8900, max: 10000 },
+              { name: 'JPM', value: 5200, max: 10000 },
+              { name: 'Citi', value: 4100, max: 10000 },
+              { name: 'BAML', value: 2800, max: 10000 },
+              { name: 'MS', value: 1900, max: 10000 },
+            ]}
+            color="var(--color-error-600)"
+            height={120}
+          />
+          
+          <StackedBarChart
+            title="Trading Activity by Product Family"
+            description="Volume breakdown by product type"
+            data={[
+              { name: 'Rates', count: 112, pct: 43 },
+              { name: 'FX', count: 68, pct: 26 },
+              { name: 'Equity', count: 52, pct: 20 },
+              { name: 'Credit', count: 26, pct: 11 },
+            ]}
+            dataKeys={[
+              { key: 'count', label: 'Count', color: 'var(--color-brand-600)' },
+              { key: 'pct', label: 'Percentage', color: 'var(--color-success-600)' },
+            ]}
+            xAxisKey="name"
+            height={120}
+          />
+          
+          <LineChart
+            title="SLA Performance Trend"
+            description="Performance over time with interactive features"
+            data={[
+              { label: 'Sep 1', value: 80 },
+              { label: 'Sep 8', value: 82 },
+              { label: 'Sep 15', value: 85 },
+              { label: 'Sep 22', value: 88 },
+              { label: 'Sep 29', value: 90 },
+              { label: 'Oct 6', value: 92 },
+            ]}
+            dataKeys={[
+              { key: 'value', label: 'SLA %', color: 'var(--color-success-600)' },
+            ]}
+            xAxisKey="label"
+            height={120}
+            interactive={true}
+            customDots={true}
+            lineType="linear"
+          />
+          
+          <AreaChart
+            title="Risk Exposure Over Time"
+            description="Area chart showing risk trends"
+            data={[
+              { label: 'Jan', risk: 1200, target: 1000 },
+              { label: 'Feb', risk: 1500, target: 1000 },
+              { label: 'Mar', risk: 1800, target: 1000 },
+              { label: 'Apr', risk: 1600, target: 1000 },
+              { label: 'May', risk: 1400, target: 1000 },
+              { label: 'Jun', risk: 1200, target: 1000 },
+            ]}
+            dataKeys={[
+              { key: 'risk', label: 'Risk Score', color: 'var(--color-error-600)' },
+              { key: 'target', label: 'Target', color: 'var(--color-success-600)' },
+            ]}
+            xAxisKey="label"
+            height={120}
+            gradient={true}
+            showLegend={true}
+            areaType="monotone"
+          />
         </div>
       </section>
 
