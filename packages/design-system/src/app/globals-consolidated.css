@@ -578,22 +578,22 @@
   --text-success-primary: var(--color-success-400);
 
   /* Border Colors - Adjusted for dark mode */
-  --border-primary: var(--color-gray-400);
-  --border-secondary: var(--color-gray-500);
-  --border-tertiary: var(--color-gray-600);
-  --border-disabled: var(--color-gray-700);
+  --border-primary: var(--color-gray-500);
+  --border-secondary: var(--color-gray-600);
+  --border-tertiary: var(--color-gray-700);
+  --border-disabled: var(--color-gray-600);
 
-  --border-brand: var(--color-brand-500);
-  --border-brand-solid: var(--color-brand-400);
+  --border-brand: var(--color-brand-400);
+  --border-brand-solid: var(--color-brand-600);
 
   --border-error: var(--color-error-400);
-  --border-error-solid: var(--color-error-300);
+  --border-error-solid: var(--color-error-500);
 
-  --border-warning: var(--color-warning-400);
-  --border-warning-solid: var(--color-warning-300);
+  --border-warning: var(--color-warning-300);
+  --border-warning-solid: var(--color-warning-500);
 
-  --border-success: var(--color-success-400);
-  --border-success-solid: var(--color-success-300);
+  --border-success: var(--color-success-500);
+  --border-success-solid: var(--color-success-600);
 
   /* Background Colors - Adjusted for dark mode */
   --bg-primary: var(--color-gray-950);
