@@ -33,9 +33,7 @@ export function IconLeadingCell({
         style={{ color: iconColor }}
         className="flex-shrink-0"
       />
-      <span className="truncate font-normal text-[var(--text-disabled)]">
-        {text}
-      </span>
+      <span className="text-text-secondary truncate font-normal">{text}</span>
     </div>
   );
 }
@@ -52,25 +50,25 @@ export function TradeTypeCell({ type, className }: TradeTypeCellProps) {
       icon: IconArrowBarToRight,
       text: 'Full Termination',
       iconColor: 'var(--fg-brand-primary)',
-      textColor: 'var(--text-disabled)',
+      textColor: 'var(--text-secondary)',
     },
     'partial-term': {
       icon: IconArrowDownRight,
       text: 'Partial Termination',
       iconColor: 'var(--fg-brand-primary)',
-      textColor: 'var(--text-disabled)',
+      textColor: 'var(--text-secondary)',
     },
     novation: {
       icon: IconChartCircles,
       text: 'Novation',
       iconColor: 'var(--fg-brand-primary)',
-      textColor: 'var(--text-disabled)',
+      textColor: 'var(--text-secondary)',
     },
     execution: {
       icon: IconArrowsRightLeft,
       text: 'Execution',
       iconColor: 'var(--fg-brand-primary)',
-      textColor: 'var(--text-disabled)',
+      textColor: 'var(--text-secondary)',
     },
   };
 

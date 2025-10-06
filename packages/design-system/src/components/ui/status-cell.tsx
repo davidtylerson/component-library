@@ -7,7 +7,7 @@ import {
   IconCircleDashed,
   IconLinkOff,
   IconSend,
-  IconSlash,
+  IconCancel,
   IconLink,
   IconCircleDotted,
 } from '@tabler/icons-react';
@@ -52,7 +52,7 @@ export function StatusCell({
     },
     cancelled: {
       label: 'Cancelled',
-      icon: IconSlash,
+      icon: IconCancel,
       iconColor: 'var(--fg-secondary)', // rgba(209, 209, 214, 1)
       textColor: 'var(--text-secondary)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
