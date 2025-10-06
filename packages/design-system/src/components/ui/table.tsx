@@ -19,11 +19,7 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead
-    ref={ref}
-    className={cn('bg-[var(--color-gray-950)]', className)}
-    {...props}
-  />
+  <thead ref={ref} className={cn('bg-background', className)} {...props} />
 ));
 TableHeader.displayName = 'TableHeader';
 
@@ -31,11 +27,7 @@ const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <tbody
-    ref={ref}
-    className={cn('bg-[var(--color-gray-950)]', className)}
-    {...props}
-  />
+  <tbody ref={ref} className={cn('bg-background', className)} {...props} />
 ));
 TableBody.displayName = 'TableBody';
 
@@ -45,10 +37,7 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn(
-      'bg-[var(--color-gray-950)] font-medium text-[var(--color-gray-400)]',
-      className
-    )}
+    className={cn('bg-background text-text-tertiary font-medium', className)}
     {...props}
   />
 ));
@@ -61,9 +50,9 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'border-b border-[var(--color-gray-800)] transition-colors',
-      'hover:bg-[var(--color-gray-900)]',
-      'data-[state=selected]:bg-[var(--color-gray-900)]',
+      'border-border-primary border-b transition-colors',
+      'hover:bg-bg-secondary',
+      'data-[state=selected]:bg-bg-secondary',
       className
     )}
     {...props}
@@ -78,7 +67,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      'h-10 px-4 py-3 text-left align-middle font-medium text-[var(--color-gray-400)]',
+      'text-text-tertiary h-10 px-4 py-3 text-left align-middle font-medium',
       'text-sm font-normal',
       '[&:has([role=checkbox])]:pr-0',
       className
@@ -97,7 +86,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      'px-4 align-middle text-[var(--color-gray-400)]',
+      'text-text-tertiary px-4 align-middle',
       'text-sm font-normal',
       density === 'compact' ? 'h-10 py-2' : 'h-10 py-3',
       '[&:has([role=checkbox])]:pr-0',

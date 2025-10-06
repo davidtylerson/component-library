@@ -9,21 +9,33 @@ import {
   IconSend,
   IconSlash,
   IconLink,
-  IconCircleDotted
+  IconCircleDotted,
 } from '@tabler/icons-react';
 
 interface StatusCellProps {
-  status: 'pending' | 'in-progress' | 'completed' | 'cancelled' | 'in-dispute' | 'matched' | 'unmatched' | 'pending-return';
+  status:
+    | 'pending'
+    | 'in-progress'
+    | 'completed'
+    | 'cancelled'
+    | 'in-dispute'
+    | 'matched'
+    | 'unmatched'
+    | 'pending-return';
   className?: string;
   showIcon?: boolean;
 }
 
-export function StatusCell({ status, className, showIcon = true }: StatusCellProps) {
+export function StatusCell({
+  status,
+  className,
+  showIcon = true,
+}: StatusCellProps) {
   const statusConfig = {
-    'pending': {
+    pending: {
       label: 'Pending',
       icon: IconCircleDotted,
-      iconColor: 'var(--color-gray-400)', // rgba(160, 160, 171, 1)
+      iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'in-progress': {
@@ -32,16 +44,16 @@ export function StatusCell({ status, className, showIcon = true }: StatusCellPro
       iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
-    'completed': {
+    completed: {
       label: 'Completed',
       icon: IconCheck,
       iconColor: 'var(--text-success-primary)', // #15803d - design system semantic color
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
-    'cancelled': {
+    cancelled: {
       label: 'Cancelled',
       icon: IconSlash,
-      iconColor: 'var(--color-gray-500)', // rgba(209, 209, 214, 1)
+      iconColor: 'var(--fg-secondary)', // rgba(209, 209, 214, 1)
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'in-dispute': {
@@ -50,22 +62,22 @@ export function StatusCell({ status, className, showIcon = true }: StatusCellPro
       iconColor: 'var(--text-error-primary)', // #bd3e1e - design system semantic color
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
-    'matched': {
+    matched: {
       label: 'Matched',
       icon: IconLink,
       iconColor: 'var(--text-success-primary)', // #15803d - design system semantic color
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
-    'unmatched': {
+    unmatched: {
       label: 'Unmatched',
       icon: IconLinkOff,
-      iconColor: 'var(--color-gray-400)', // rgba(160, 160, 171, 1)
+      iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
     'pending-return': {
       label: 'Pending Return',
       icon: IconSend,
-      iconColor: 'var(--color-gray-400)', // rgba(160, 160, 171, 1)
+      iconColor: 'var(--fg-tertiary)', // rgba(160, 160, 171, 1)
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
   };
@@ -82,10 +94,7 @@ export function StatusCell({ status, className, showIcon = true }: StatusCellPro
           className="flex-shrink-0"
         />
       )}
-      <span
-        className="text-sm font-normal"
-        style={{ color: config.textColor }}
-      >
+      <span className="text-sm font-normal" style={{ color: config.textColor }}>
         {config.label}
       </span>
     </div>
@@ -98,7 +107,10 @@ interface DocumentReviewStateProps {
   className?: string;
 }
 
-export function DocumentReviewState({ state, className }: DocumentReviewStateProps) {
+export function DocumentReviewState({
+  state,
+  className,
+}: DocumentReviewStateProps) {
   const stateConfig = {
     'in-dispute': {
       label: 'Disputed',
@@ -118,7 +130,7 @@ export function DocumentReviewState({ state, className }: DocumentReviewStatePro
       iconColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
       textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
     },
-    'return': {
+    return: {
       label: 'Return',
       icon: IconSend,
       iconColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
@@ -136,10 +148,7 @@ export function DocumentReviewState({ state, className }: DocumentReviewStatePro
         style={{ color: config.iconColor }}
         className="flex-shrink-0"
       />
-      <span
-        className="text-sm font-normal"
-        style={{ color: config.textColor }}
-      >
+      <span className="text-sm font-normal" style={{ color: config.textColor }}>
         {config.label}
       </span>
     </div>
@@ -154,17 +163,17 @@ interface AgedStateProps {
 
 export function AgedState({ level, className }: AgedStateProps) {
   const levelConfig = {
-    'high': {
+    high: {
       label: 'High',
       variant: 'destructive' as const,
       size: 'sm' as const,
     },
-    'medium': {
+    medium: {
       label: 'Medium',
       variant: 'outline' as const,
       size: 'sm' as const,
     },
-    'low': {
+    low: {
       label: 'Low',
       variant: 'primary' as const,
       size: 'sm' as const,

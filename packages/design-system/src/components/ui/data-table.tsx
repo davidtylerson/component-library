@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
       {/* Table */}
       <div
         className={cn(
-          'rounded-md border border-[var(--color-gray-800)] bg-[var(--color-gray-950)] text-sm'
+          'border-border-primary bg-background rounded-md border text-sm'
         )}
       >
         <Table>
