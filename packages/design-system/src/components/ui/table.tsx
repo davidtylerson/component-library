@@ -8,10 +8,7 @@ const Table = React.forwardRef<
   <div className="relative w-full overflow-auto">
     <table
       ref={ref}
-      className={cn(
-        'w-full caption-bottom text-sm',
-        className
-      )}
+      className={cn('w-full caption-bottom text-sm', className)}
       {...props}
     />
   </div>
@@ -24,10 +21,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn(
-      'bg-[var(--color-gray-950)]',
-      className
-    )}
+    className={cn('bg-[var(--color-gray-950)]', className)}
     {...props}
   />
 ));
@@ -39,10 +33,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tbody
     ref={ref}
-    className={cn(
-      'bg-[var(--color-gray-950)]',
-      className
-    )}
+    className={cn('bg-[var(--color-gray-950)]', className)}
     {...props}
   />
 ));
@@ -99,13 +90,16 @@ TableHead.displayName = 'TableHead';
 
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
-  React.TdHTMLAttributes<HTMLTableCellElement>
->(({ className, ...props }, ref) => (
+  React.TdHTMLAttributes<HTMLTableCellElement> & {
+    density?: 'compact' | 'comfortable';
+  }
+>(({ className, density = 'comfortable', ...props }, ref) => (
   <td
     ref={ref}
     className={cn(
-      'px-4 py-3 align-middle text-[var(--color-gray-400)]',
-      'text-sm font-normal h-10',
+      'px-4 align-middle text-[var(--color-gray-400)]',
+      'text-sm font-normal',
+      density === 'compact' ? 'h-10 py-2' : 'h-10 py-3',
       '[&:has([role=checkbox])]:pr-0',
       className
     )}
@@ -120,10 +114,7 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn(
-      'mt-4 text-sm text-[var(--text-tertiary)]',
-      className
-    )}
+    className={cn('mt-4 text-sm text-[var(--text-tertiary)]', className)}
     {...props}
   />
 ));

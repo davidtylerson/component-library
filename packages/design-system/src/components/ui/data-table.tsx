@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import {
+  Column,
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -13,7 +14,12 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { IconChevronDown, IconChevronUp, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconChevronLeft,
+  IconChevronRight,
+} from '@tabler/icons-react';
 
 import { cn } from '../../lib/utils';
 import { Button } from './button';
@@ -42,6 +48,7 @@ interface DataTableProps<TData, TValue> {
   showPagination?: boolean;
   showSearch?: boolean;
   showColumnVisibility?: boolean;
+  density?: 'compact' | 'comfortable';
   className?: string;
 }
 
@@ -53,11 +60,15 @@ export function DataTable<TData, TValue>({
   showPagination = true,
   showSearch = true,
   showColumnVisibility = false,
+  density = 'compact',
   className,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -87,8 +98,10 @@ export function DataTable<TData, TValue>({
           {showSearch && searchKey && (
             <Input
               placeholder={searchPlaceholder}
-              value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
-              onChange={(event) =>
+              value={
+                (table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
+              }
+              onChange={event =>
                 table.getColumn(searchKey)?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
@@ -98,15 +111,17 @@ export function DataTable<TData, TValue>({
             <div className="ml-auto">
               <Select
                 value={table.getState().pagination.pageSize.toString()}
-                onValueChange={(value) => {
+                onValueChange={value => {
                   table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger className="h-8 w-[70px]">
-                  <SelectValue placeholder={table.getState().pagination.pageSize} />
+                  <SelectValue
+                    placeholder={table.getState().pagination.pageSize}
+                  />
                 </SelectTrigger>
                 <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
+                  {[10, 20, 30, 40, 50].map(pageSize => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
                     </SelectItem>
@@ -119,7 +134,11 @@ export function DataTable<TData, TValue>({
       )}
 
       {/* Table */}
-      <div className="rounded-md border border-[var(--color-gray-800)] bg-[var(--color-gray-950)]">
+      <div
+        className={cn(
+          'rounded-md border border-[var(--color-gray-800)] bg-[var(--color-gray-950)] text-sm'
+        )}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map(headerGroup => (
@@ -147,15 +166,21 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell key={cell.id} density={density}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center text-[var(--text-tertiary)]">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-[var(--text-tertiary)]"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -176,15 +201,17 @@ export function DataTable<TData, TValue>({
               <p className="text-sm font-medium">Rows per page</p>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
-                onValueChange={(value) => {
+                onValueChange={value => {
                   table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger className="h-8 w-[70px]">
-                  <SelectValue placeholder={table.getState().pagination.pageSize} />
+                  <SelectValue
+                    placeholder={table.getState().pagination.pageSize}
+                  />
                 </SelectTrigger>
                 <SelectContent side="top">
-                  {[10, 20, 30, 40, 50].map((pageSize) => (
+                  {[10, 20, 30, 40, 50].map(pageSize => (
                     <SelectItem key={pageSize} value={`${pageSize}`}>
                       {pageSize}
                     </SelectItem>
@@ -245,7 +272,7 @@ export function SortableColumnHeader({
   column,
   title,
 }: {
-  column: any;
+  column: Column<any, unknown>;
   title: string;
 }) {
   return (

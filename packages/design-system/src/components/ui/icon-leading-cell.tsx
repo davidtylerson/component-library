@@ -1,9 +1,18 @@
 import * as React from 'react';
 import { cn } from '../../lib/utils';
-import { IconAlignRight, IconArrowDownRight, IconCoins, IconSwitchHorizontal } from '@tabler/icons-react';
+import {
+  IconArrowDownRight,
+  IconArrowsRightLeft,
+  IconArrowBarToRight,
+  IconChartCircles,
+} from '@tabler/icons-react';
 
 interface IconLeadingCellProps {
-  icon: React.ComponentType<{ className?: string; size?: number; style?: React.CSSProperties }>;
+  icon: React.ComponentType<{
+    className?: string;
+    size?: number;
+    style?: React.CSSProperties;
+  }>;
   text: string;
   className?: string;
   iconSize?: number;
@@ -24,7 +33,7 @@ export function IconLeadingCell({
         style={{ color: iconColor }}
         className="flex-shrink-0"
       />
-      <span className="text-sm font-normal text-[var(--text-disabled)] truncate">
+      <span className="truncate font-normal text-[var(--text-disabled)]">
         {text}
       </span>
     </div>
@@ -40,34 +49,34 @@ interface TradeTypeCellProps {
 export function TradeTypeCell({ type, className }: TradeTypeCellProps) {
   const tradeTypeConfig = {
     'full-term': {
-      icon: IconAlignRight,
+      icon: IconArrowBarToRight,
       text: 'Full Termination',
-      iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      iconColor: 'var(--fg-brand-primary)',
+      textColor: 'var(--text-disabled)',
     },
     'partial-term': {
       icon: IconArrowDownRight,
       text: 'Partial Termination',
-      iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      iconColor: 'var(--fg-brand-primary)',
+      textColor: 'var(--text-disabled)',
     },
-    'novation': {
-      icon: IconCoins,
+    novation: {
+      icon: IconChartCircles,
       text: 'Novation',
-      iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      iconColor: 'var(--fg-brand-primary)',
+      textColor: 'var(--text-disabled)',
     },
-    'execution': {
-      icon: IconSwitchHorizontal,
+    execution: {
+      icon: IconArrowsRightLeft,
       text: 'Execution',
-      iconColor: 'var(--text-brand-secondary)', // #6063bd - design system semantic color
-      textColor: 'var(--text-disabled)', // #A0A0AB - matches Figma --colors-text-text-tertiary-600
+      iconColor: 'var(--fg-brand-primary)',
+      textColor: 'var(--text-disabled)',
     },
   };
 
   const config = tradeTypeConfig[type];
   const Icon = config.icon;
-  
+
   return (
     <div className={cn('flex items-center gap-1', className)}>
       <Icon
@@ -75,10 +84,7 @@ export function TradeTypeCell({ type, className }: TradeTypeCellProps) {
         style={{ color: config.iconColor }}
         className="flex-shrink-0"
       />
-      <span
-        className="text-sm font-normal"
-        style={{ color: config.textColor }}
-      >
+      <span className="font-normal" style={{ color: config.textColor }}>
         {config.text}
       </span>
     </div>

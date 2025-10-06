@@ -25,6 +25,7 @@ import {
   IconLayersSubtract,
   IconTable,
   IconChartBar,
+  IconTypography,
 } from '@tabler/icons-react';
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar';
 import { Button } from './ui/button';
@@ -40,6 +41,11 @@ const navItems = [
     title: 'Color',
     icon: IconPalette,
     url: '/design-system',
+  },
+  {
+    title: 'Typography',
+    icon: IconTypography,
+    url: '/typography',
   },
   {
     title: 'Components',
@@ -154,7 +160,7 @@ export function SidebarNav({
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <SidebarTrigger
-                    className="mb-4 h-8 w-8 rounded-full bg-bg-tertiary"
+                    className="bg-bg-tertiary mb-4 h-8 w-8 rounded-full"
                     aria-label="Expand sidebar"
                   >
                     <IconArrowBigRightLine className="h-4 w-4" />

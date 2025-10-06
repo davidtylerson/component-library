@@ -135,6 +135,9 @@ export {
 // DataTable component
 export { DataTable, SortableColumnHeader } from './data-table';
 
+// Table cell primitives
+export { CellText, CellTrend, CellBadge } from './table-cells';
+
 // Table cell components
 export { IconLeadingCell, TradeTypeCell } from './icon-leading-cell';
 export { StatusCell, DocumentReviewState, AgedState } from './status-cell';

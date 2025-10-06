@@ -31,9 +31,19 @@ export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
 
   /**
    * The color of the text
-   * @default 'default'
+   * @default 'primary'
    */
-  color?: 'default' | 'muted' | 'brand' | 'error' | 'warning' | 'success';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'disabled'
+    | 'brand-primary'
+    | 'brand-secondary'
+    | 'brand-tertiary'
+    | 'error-primary'
+    | 'warning-primary'
+    | 'success-primary';
 
   /**
    * The HTML element to render
@@ -55,7 +65,7 @@ export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
       weight = 'regular',
       italic = false,
       underline = false,
-      color = 'default',
+      color = 'primary',
       className = '',
       as: Component = 'p',
       children,
@@ -80,14 +90,18 @@ export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
       bold: 'font-bold',
     };
 
-    // Keep the existing color classes since they're semantic
+    // Map to design system semantic color classes
     const colorClasses = {
-      default: 'text-foreground',
-      muted: 'text-muted-foreground',
-      brand: 'text-brand-700 dark:text-brand-400',
-      error: 'text-error-700 dark:text-error-400',
-      warning: 'text-warning-700 dark:text-warning-400',
-      success: 'text-success-700 dark:text-success-400',
+      primary: 'text-text-primary',
+      secondary: 'text-text-secondary',
+      tertiary: 'text-text-tertiary',
+      disabled: 'text-text-disabled',
+      'brand-primary': 'text-text-brand-primary',
+      'brand-secondary': 'text-text-brand-secondary',
+      'brand-tertiary': 'text-text-brand-tertiary',
+      'error-primary': 'text-text-error-primary',
+      'warning-primary': 'text-text-warning-primary',
+      'success-primary': 'text-text-success-primary',
     };
 
     return (
