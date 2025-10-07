@@ -13,17 +13,14 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import {
-  IconChevronDown,
-  IconChevronUp,
-} from '@tabler/icons-react';
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from './select';
 
 import { cn } from '../../lib/utils';
 import { Button } from './button';

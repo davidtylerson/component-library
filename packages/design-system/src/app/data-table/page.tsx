@@ -21,7 +21,6 @@ import {
   TradeTypeCell,
   IconLeadingCell,
 } from '@/components/ui/icon-leading-cell';
-import { Badge } from '@/components/ui/badge';
 import { CellPerformance } from '@/components/ui/table-cells';
 
 // Sample data for the template gap table
@@ -288,7 +287,6 @@ export default function DataTablePage() {
               <CellPerformance level="bottom" />
             </div>
           </div>
-
 
           {/* TradeTypeCell Examples */}
           <div>
