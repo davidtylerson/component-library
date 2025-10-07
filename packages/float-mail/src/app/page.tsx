@@ -317,8 +317,8 @@ export default function FloatMailPage() {
               {/* JSON Error Display */}
               {jsonError && (
                 <div className="border-border-tertiary border-b p-4">
-                  <div className="rounded-md border border-red-200 bg-red-50 p-2">
-                    <div className="text-xs text-red-600">
+                  <div className="rounded-md border border-border-error bg-bg-error-subtle p-2">
+                    <div className="text-xs text-text-error-primary">
                       <strong>JSON Error:</strong> {jsonError}
                     </div>
                   </div>

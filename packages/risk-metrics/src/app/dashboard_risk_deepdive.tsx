@@ -118,7 +118,7 @@ const RiskDeepDiveDashboard = () => {
   };
 
   return (
-    <div className="bg-background min-h-screen p-6">
+    <div className="bg-bg-primary min-h-screen p-6 text-text-primary">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -249,7 +249,7 @@ const RiskDeepDiveDashboard = () => {
                 </div>
                 <div className="flex justify-between">
                   <Text className="text-text-secondary">Longest Open:</Text>
-                  <Text className="font-semibold text-red-600">
+                  <Text className="font-semibold text-text-error-primary">
                     {disputeMetrics.longestDispute.days}d (#
                     {disputeMetrics.longestDispute.trade},{' '}
                     {disputeMetrics.longestDispute.counterparty})
@@ -259,7 +259,7 @@ const RiskDeepDiveDashboard = () => {
                   <Text className="text-text-secondary">
                     Resolved &lt;48hrs:
                   </Text>
-                  <Text className="font-semibold text-green-600">
+                  <Text className="font-semibold text-text-success-primary">
                     {disputeMetrics.resolvedUnder48hrs}% (↑
                     {disputeMetrics.trendVsPrior}%)
                   </Text>
@@ -380,7 +380,7 @@ const RiskDeepDiveDashboard = () => {
                       <div className="bg-background-secondary h-2 w-24 rounded-full">
                         <div
                           className={`h-2 rounded-full ${
-                            severity === 5 ? 'bg-red-500' : 'bg-yellow-500'
+                            severity === 5 ? 'bg-bg-error-solid' : 'bg-bg-warning-solid'
                           }`}
                           style={{ width: `${(breakRate / 10) * 100}%` }}
                         />
@@ -409,7 +409,7 @@ const RiskDeepDiveDashboard = () => {
       </Card>
 
       {/* Break Concentration Analysis */}
-      <Card className="border-yellow-200 bg-yellow-50">
+      <Card className="border-border-warning bg-bg-warning-subtle">
         <CardHeader>
           <CardTitle>Break Concentration Analysis</CardTitle>
         </CardHeader>
@@ -424,7 +424,7 @@ const RiskDeepDiveDashboard = () => {
               <Text className="font-bold">71%</Text> of all breaks
             </Text>
           </div>
-          <Separator className="my-4 border-yellow-300" />
+          <Separator className="my-4 border-border-warning" />
           <Text className="text-sm font-medium">
             ⚠️ Recommendation: Focus on GS (CMS Options) and JPM (FX)
           </Text>

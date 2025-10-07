@@ -17,28 +17,7 @@ export default function DesignSystemPage() {
 
 
 
-  // shadcn colors for swatches with descriptions
-  const shadcnColors = [
-    { name: 'primary', desc: 'Primary button color' },
-    { name: 'primary-foreground', desc: 'Primary button text' },
-    { name: 'secondary', desc: 'Secondary button color' },
-    { name: 'secondary-foreground', desc: 'Secondary button text' },
-    { name: 'accent', desc: 'Accent color' },
-    { name: 'accent-foreground', desc: 'Accent text' },
-    { name: 'muted', desc: 'Muted background' },
-    { name: 'muted-foreground', desc: 'Muted text' },
-    { name: 'destructive', desc: 'Destructive action color' },
-    { name: 'destructive-foreground', desc: 'Destructive text' },
-    { name: 'card', desc: 'Card background' },
-    { name: 'card-foreground', desc: 'Card text' },
-    { name: 'popover', desc: 'Popover background' },
-    { name: 'popover-foreground', desc: 'Popover text' },
-    { name: 'border', desc: 'Border color' },
-    { name: 'input', desc: 'Input border' },
-    { name: 'ring', desc: 'Focus ring' },
-    { name: 'background', desc: 'Page background' },
-    { name: 'foreground', desc: 'Default text' },
-  ];
+  // Removed shadcn color demo: we standardize on semantic tokens only
 
   // Function to render a color swatch with inline styles
   const renderSwatch = (type: string, weight: number) => {
@@ -84,24 +63,7 @@ export default function DesignSystemPage() {
     );
   };
 
-  // Function to get computed CSS variable value
-  const [cssVarValues, setCssVarValues] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && mounted) {
-      const values: Record<string, string> = {};
-
-      setTimeout(() => {
-        shadcnColors.forEach(color => {
-          const styles = getComputedStyle(document.documentElement);
-          const value = styles.getPropertyValue(`--${color.name}`);
-          values[color.name] = value.trim();
-        });
-
-        setCssVarValues(values);
-      }, 100);
-    }
-  }, [isDark, mounted, shadcnColors]);
+  // Removed shadcn variable inspection
 
   // Don't render until client-side to avoid hydration mismatch
   if (!mounted) return null;
@@ -123,13 +85,13 @@ export default function DesignSystemPage() {
 
         {/* Test box with direct classes */}
         <div
-          className={`rounded border p-2 ${isDark ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
+          className={`rounded border p-2 ${isDark ? 'bg-bg-primary text-text-primary' : 'bg-bg-primary text-text-primary'}`}
         >
           This box uses direct classes based on the isDark state
         </div>
 
         {/* Test box with Tailwind dark mode */}
-        <div className="mt-2 rounded border bg-white p-2 text-black dark:bg-gray-800 dark:text-white">
+        <div className="mt-2 rounded border bg-bg-primary p-2 text-text-primary dark:bg-bg-primary dark:text-text-primary">
           This box uses Tailwind dark: variant
         </div>
       </section>
@@ -497,261 +459,7 @@ export default function DesignSystemPage() {
         </div>
       </section>
 
-      {/* shadcn Components */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-xl font-semibold">
-          shadcn Component Variables
-        </h2>
-        <p className="mb-4 text-sm text-text-secondary">
-          These are the CSS variables used by shadcn components. They're defined
-          in terms of our semantic design system variables.
-        </p>
-
-        {/* Debug section - CSS Variable Inspection */}
-        <div className="mb-6 rounded-md bg-bg-secondary p-4">
-          <h3 className="mb-2 text-lg font-medium">CSS Variable Values</h3>
-          <p className="mb-4 text-sm">
-            This section displays the actual HSL values stored in each shadcn
-            CSS variable.
-          </p>
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-            {shadcnColors.map(color => (
-              <div
-                key={`debug-${color.name}`}
-                className="rounded-md border border-border-primary p-2"
-              >
-                <div className="text-sm font-medium">--{color.name}</div>
-                <code className="mt-1 block rounded-sm bg-bg-tertiary p-1 text-xs">
-                  {cssVarValues[color.name] || 'Not set'}
-                </code>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-4 rounded-md bg-bg-secondary p-4">
-          <h3 className="mb-2 text-lg font-medium">
-            How shadcn Variables Work
-          </h3>
-          <p className="mb-2 text-sm">
-            The shadcn UI uses a different approach to CSS variables than our
-            custom design system:
-          </p>
-          <ul className="list-disc space-y-1 pl-5 text-sm text-text-secondary">
-            <li>
-              shadcn CSS variables contain only the HSL color values (hue,
-              saturation, lightness), not complete colors
-            </li>
-            <li>
-              These values must be used with the{' '}
-              <code className="rounded bg-bg-tertiary px-1">
-                hsl(var(--variable))
-              </code>{' '}
-              syntax
-            </li>
-            <li>
-              This is different from our design system variables which are
-              complete color values
-            </li>
-            <li>
-              In React and CSS, you must remember to wrap them in{' '}
-              <code className="rounded bg-bg-tertiary px-1">hsl()</code>
-            </li>
-          </ul>
-        </div>
-
-        <h3 className="mb-3 text-lg font-medium">shadcn Color Swatches</h3>
-        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {shadcnColors.map(item => (
-            <div
-              key={item.name}
-              className="rounded-md border border-border-primary p-4"
-            >
-              <div className="flex items-center gap-2">
-                <div
-                  className="h-8 w-8 rounded-full"
-                  style={{ backgroundColor: `hsl(var(--${item.name}))` }}
-                ></div>
-                <div className="font-medium">{item.name}</div>
-              </div>
-              <div className="mt-2 text-sm text-text-secondary">
-                {item.desc}
-              </div>
-              <div className="mt-1 text-xs text-text-tertiary">
-                Usage in CSS:{' '}
-                <code className="rounded bg-bg-tertiary px-1">
-                  hsl(var(--{item.name}))
-                </code>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <h3 className="mb-3 text-lg font-medium">shadcn Component Previews</h3>
-        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--primary))',
-              color: 'hsl(var(--primary-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            <div className="font-medium">Primary</div>
-            <div className="text-sm opacity-80">
-              --primary / --primary-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--primary))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--secondary))',
-              color: 'hsl(var(--secondary-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            <div className="font-medium">Secondary</div>
-            <div className="text-sm opacity-80">
-              --secondary / --secondary-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--secondary))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--accent))',
-              color: 'hsl(var(--accent-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            <div className="font-medium">Accent</div>
-            <div className="text-sm opacity-80">
-              --accent / --accent-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--accent))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--muted))',
-              color: 'hsl(var(--muted-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            <div className="font-medium">Muted</div>
-            <div className="text-sm opacity-80">
-              --muted / --muted-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--muted))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--destructive))',
-              color: 'hsl(var(--destructive-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-            }}
-          >
-            <div className="font-medium">Destructive</div>
-            <div className="text-sm opacity-80">
-              --destructive / --destructive-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--destructive))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--card))',
-              color: 'hsl(var(--card-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              border: '1px solid hsl(var(--border))',
-            }}
-          >
-            <div className="font-medium">Card</div>
-            <div className="text-sm opacity-80">--card / --card-foreground</div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--card))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--popover))',
-              color: 'hsl(var(--popover-foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              border: '1px solid hsl(var(--border))',
-            }}
-          >
-            <div className="font-medium">Popover</div>
-            <div className="text-sm opacity-80">
-              --popover / --popover-foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--popover))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-          <div
-            style={{
-              backgroundColor: 'hsl(var(--background))',
-              color: 'hsl(var(--foreground))',
-              padding: '1rem',
-              borderRadius: '0.5rem',
-              border: '1px solid hsl(var(--border))',
-            }}
-          >
-            <div className="font-medium">Background/Foreground</div>
-            <div className="text-sm opacity-80">
-              --background / --foreground
-            </div>
-            <div className="mt-2 text-xs">
-              Usage:{' '}
-              <code className="bg-bg-tertiary/40 rounded px-1">
-                style=&#123;&#123;backgroundColor:
-                'hsl(var(--background))'&#125;&#125;
-              </code>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Removed shadcn Components section */}
 
       {/* Typography - Text Sizes */}
       <section className="mb-12">
@@ -933,14 +641,14 @@ export default function DesignSystemPage() {
           </div>
           <div
             style={{
-              backgroundColor: 'hsl(var(--destructive) / 0.1)',
-              color: 'hsl(var(--destructive))',
-              border: '1px solid hsl(var(--destructive))',
+              backgroundColor: 'var(--bg-error-primary)',
+              color: 'var(--text-error-primary)',
+              border: '1px solid var(--border-error)',
               padding: '1rem',
               borderRadius: '0.375rem',
             }}
           >
-            Error Alert: Using shadcn destructive variables with HSL syntax
+            Error Alert: Using design system error variables
           </div>
           <div
             style={{

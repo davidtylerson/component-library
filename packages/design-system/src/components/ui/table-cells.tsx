@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { IconTrendingUp, IconTrendingDown } from '@tabler/icons-react';
+import { IconTrendingUp, IconTrendingDown, IconCheck, IconX } from '@tabler/icons-react';
 import { cn } from '../../lib/utils';
 
 interface CellTextProps {
@@ -98,3 +98,51 @@ export function CellBadge({
     </span>
   );
 }
+
+interface CellPerformanceProps {
+  level: 'top' | 'middle' | 'bottom';
+  className?: string;
+}
+
+export function CellPerformance({
+  level,
+  className,
+}: CellPerformanceProps) {
+  const getConfig = () => {
+    switch (level) {
+      case 'top':
+        return { 
+          icon: IconCheck, 
+          color: 'text-text-success-primary',
+          label: 'Top Quartile'
+        };
+      case 'bottom':
+        return { 
+          icon: IconX, 
+          color: 'text-text-error-primary',
+          label: 'Bottom Quartile'
+        };
+      case 'middle':
+        return { 
+          icon: null, 
+          color: 'text-text-secondary',
+          label: 'Middle'
+        };
+    }
+  };
+
+  const config = getConfig();
+
+  return (
+    <div
+      className={cn(
+        'flex items-center gap-1',
+        config.color,
+        className
+      )}
+    >
+      {config.icon && <config.icon className="h-3 w-3" />}
+    </div>
+  );
+}
+

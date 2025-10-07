@@ -21,6 +21,8 @@ import {
   TradeTypeCell,
   IconLeadingCell,
 } from '@/components/ui/icon-leading-cell';
+import { Badge } from '@/components/ui/badge';
+import { CellPerformance } from '@/components/ui/table-cells';
 
 // Sample data for the template gap table
 interface TemplateGap {
@@ -266,14 +268,27 @@ export default function DataTablePage() {
           {/* AgedState Examples */}
           <div>
             <h3 className="text-text-secondary mb-3 text-lg font-medium">
-              AgedState Component (Priority Levels)
+              AgedState Component (Aging Information)
             </h3>
             <div className="flex gap-4">
-              <AgedState level="high" />
-              <AgedState level="medium" />
-              <AgedState level="low" />
+              <AgedState level="within_sla" days={1} />
+              <AgedState level="approaching_sla" days={2} />
+              <AgedState level="over_sla" days={5} />
             </div>
           </div>
+
+          {/* CellPerformance Examples */}
+          <div>
+            <h3 className="text-text-secondary mb-3 text-lg font-medium">
+              CellPerformance Component (Performance Rankings)
+            </h3>
+            <div className="flex gap-4">
+              <CellPerformance level="top" />
+              <CellPerformance level="middle" />
+              <CellPerformance level="bottom" />
+            </div>
+          </div>
+
 
           {/* TradeTypeCell Examples */}
           <div>

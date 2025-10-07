@@ -548,6 +548,8 @@ export default function ComponentsPage() {
           <Badge variant="gray">Secondary</Badge>
           <Badge variant="outline">Outline</Badge>
           <Badge variant="destructive">Destructive</Badge>
+          <Badge variant="error">Error</Badge>
+          <Badge variant="warning">Warning</Badge>
         </div>
       </section>
 

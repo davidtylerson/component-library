@@ -55,7 +55,7 @@ export default function EmailPreview({
   if (error) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="text-red-500">Error: {error}</div>
+        <div className="text-text-error-primary">Error: {error}</div>
       </div>
     );
   }

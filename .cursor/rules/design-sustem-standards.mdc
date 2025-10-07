@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+
+- Always use components and styles from the projects design system package. documentatio can be found here: /Users/tylerdavidson/Development/float-prototype-library/docs/design-system
+- always use the semantic styles defined by the comprehensive color system. Rather than using something like red-50, you should always attemtpt to find a semantic value based on the context. For text, use the text-[semantic value], or for a foreground element use the fg-[semantic value], etc. Please check the documentation if you do not understand what to do
+- Only create new components in a new package if directed or absolutely necessary. You should always check to see if an existing component can be used. 
+- If you need to modify an existing component. stop and ask before proceedeing. 

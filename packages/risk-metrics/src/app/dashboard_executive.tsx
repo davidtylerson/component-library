@@ -145,7 +145,7 @@ const ExecutiveDashboard = () => {
       ),
       cell: ({ row }) => {
         const trade = row.getValue('trade') as string;
-        return <div className="text-sm font-medium text-blue-600">{trade}</div>;
+        return <div className="text-sm font-medium text-text-brand">{trade}</div>;
       },
     },
     {
@@ -177,7 +177,7 @@ const ExecutiveDashboard = () => {
       header: 'Age',
       cell: ({ row }) => {
         const age = row.getValue('age') as string;
-        return <div className="text-sm text-gray-500">{age}</div>;
+        return <div className="text-sm text-text-tertiary">{age}</div>;
       },
     },
     {
@@ -261,7 +261,7 @@ const ExecutiveDashboard = () => {
   ];
 
   return (
-    <div className="bg-background min-h-screen p-6">
+    <div className="bg-bg-primary min-h-screen p-6 text-text-primary">
       {/* Header */}
       <div className="mb-6">
         <Heading level={1} className="text-text-primary">
@@ -304,7 +304,7 @@ const ExecutiveDashboard = () => {
           <div className="border-t p-4 text-center">
             <Button
               variant="ghost"
-              className="text-sm font-medium text-blue-600 hover:text-blue-800"
+              className="text-sm font-medium text-text-brand hover:text-text-brand-hover"
             >
               View All 18 Items →
             </Button>
@@ -322,11 +322,11 @@ const ExecutiveDashboard = () => {
             <div>
               <div className="mb-2 text-3xl font-bold">
                 {activityData.totalTrades}
-                <span className="ml-2 text-sm text-green-600">
+                <span className="ml-2 text-sm text-text-success-primary">
                   ↑ {activityData.change}%
                 </span>
               </div>
-              <div className="mb-4 text-sm text-gray-500">Total Trades</div>
+              <div className="mb-4 text-sm text-text-tertiary">Total Trades</div>
 
               <MetricsTable
                 title="By Product Family:"
@@ -343,7 +343,7 @@ const ExecutiveDashboard = () => {
 
             <div>
               <div className="mb-2 text-sm font-medium">Volume Trend</div>
-              <div className="mb-4 text-xs text-gray-500">
+              <div className="mb-4 text-xs text-text-tertiary">
                 Weekly trading volume
               </div>
               <div className="h-40">

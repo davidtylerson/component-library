@@ -166,26 +166,7 @@
 
   --fg-white: #ffffff;
 
-  /* shadcn Required Variables */
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 240 5.9% 10%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 240 5.9% 10%;
+  /* radius token remains for borderRadius mapping */
   --radius: 0.5rem;
 }
 
@@ -218,6 +199,14 @@
   --badge-bg-destructive-hover: var(--button-bg-destructive-hover);
   --badge-text-destructive-hover: var(--button-text-destructive-hover);
   --badge-border-destructive-hover: var(--button-border-destructive-hover);
+
+  /* Warning Badge (mimics Button Warning) */
+  --badge-bg-warning: var(--button-bg-warning);
+  --badge-text-warning: var(--button-text-warning);
+  --badge-border-warning: var(--button-border-warning);
+  --badge-bg-warning-hover: var(--button-bg-warning-hover);
+  --badge-text-warning-hover: var(--button-text-warning-hover);
+  --badge-border-warning-hover: var(--button-border-warning-hover);
 
   /* Ghost Badge (mimics Button Ghost) */
   --badge-text-ghost: var(--button-text-ghost);
@@ -642,10 +631,7 @@
 
   --fg-white: #ffffff;
 
-  /* shadcn Required Variables: Dark Theme */
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
+  /* retained tokens below are part of our semantic system */
 
   /* Checkbox Component Variables - Dark Mode */
   --checkbox-bg: var(--bg-secondary);
@@ -717,19 +703,7 @@
   --card-foreground: 0 0% 98%;
   --popover: 240 10% 3.9%;
   --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
+  /* removed shadcn color variables */
 
   /* Button Component Variables - Dark Mode */
   --button-bg-primary: var(--color-brand-700);
@@ -766,6 +740,14 @@
   --button-text-destructive-hover: white;
   --button-border-destructive: var(--color-error-600);
   --button-border-destructive-hover: var(--color-error-700);
+
+  /* Warning Button */
+  --button-bg-warning: var(--color-warning-600);
+  --button-bg-warning-hover: var(--color-warning-700);
+  --button-text-warning: white;
+  --button-text-warning-hover: white;
+  --button-border-warning: var(--color-warning-600);
+  --button-border-warning-hover: var(--color-warning-700);
 
   /* Input Component Variables - Dark Mode */
   --input-border-hsl: 240 5% 25%;
@@ -876,7 +858,7 @@
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    border-color: var(--border-primary);
   }
   body {
     @apply bg-bg-primary text-text-primary;

@@ -193,12 +193,12 @@ const ActivityDashboard = () => {
   const getTrendIcon = (dir: string) => {
     if (dir === 'up')
       return <span className="text-text-success-primary">↑</span>;
-    if (dir === 'down') return <span className="text-red-600">↓</span>;
+    if (dir === 'down') return <span className="text-text-error-primary">↓</span>;
     return <span className="text-text-secondary">→</span>;
   };
 
   return (
-    <div className="bg-background min-h-screen p-6">
+    <div className="bg-bg-primary min-h-screen p-6 text-text-primary">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -300,7 +300,7 @@ const ActivityDashboard = () => {
                       {family.count} ({family.pct}%)
                     </Text>
                   </div>
-                  <div className="bg-background-secondary h-3 w-full rounded-full">
+                  <div className="bg-bg-secondary h-3 w-full rounded-full">
                     <div
                       className="bg-brand-500 h-3 rounded-full"
                       style={{ width: `${family.pct}%` }}
@@ -326,7 +326,7 @@ const ActivityDashboard = () => {
                       {family.volume} ({family.volPct}%)
                     </Text>
                   </div>
-                  <div className="bg-background-secondary h-3 w-full rounded-full">
+                  <div className="bg-bg-secondary h-3 w-full rounded-full">
                     <div
                       className="bg-text-success-primary h-3 rounded-full"
                       style={{ width: `${family.volPct}%` }}
@@ -359,7 +359,7 @@ const ActivityDashboard = () => {
                       {surge && (
                         <Badge
                           variant="outline"
-                          className="ml-2 bg-yellow-200 text-yellow-800"
+                          className="ml-2 bg-bg-warning-subtle text-text-warning-primary"
                         >
                           ⚠ Surge
                         </Badge>
@@ -396,7 +396,7 @@ const ActivityDashboard = () => {
                         trendDir === 'up'
                           ? 'text-text-success-primary'
                           : trendDir === 'down'
-                            ? 'text-red-600'
+                            ? 'text-text-error-primary'
                             : 'text-text-secondary'
                       }`}
                     >
@@ -483,7 +483,7 @@ const ActivityDashboard = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="bg-blue-100 text-blue-700"
+                className="bg-bg-brand-subtle text-text-brand"
               >
                 All
               </Button>
@@ -525,10 +525,10 @@ const ActivityDashboard = () => {
       </Card>
 
       {/* Activity Insights */}
-      <Card className="border-blue-200 bg-blue-50">
+      <Card className="border-border-warning bg-bg-warning-subtle">
         <CardHeader>
           <div className="flex items-center gap-2">
-            <IconAlertCircle className="h-5 w-5 text-blue-600" />
+            <IconAlertCircle className="h-5 w-5 text-text-warning-primary" />
             <CardTitle>Activity Insights</CardTitle>
           </div>
         </CardHeader>
@@ -560,7 +560,7 @@ const ActivityDashboard = () => {
               (+34% vs average)
             </li>
           </ul>
-          <div className="mt-4 border-t border-blue-200 pt-4">
+          <div className="mt-4 border-t border-border-warning pt-4">
             <Button size="sm">Export Activity Report</Button>
           </div>
         </CardContent>

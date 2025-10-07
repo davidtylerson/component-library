@@ -156,7 +156,7 @@ const TemplateProgressDashboard = () => {
   };
 
   return (
-    <div className="bg-background min-h-screen p-6">
+    <div className="bg-bg-primary min-h-screen p-6 text-text-primary">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -265,7 +265,7 @@ const TemplateProgressDashboard = () => {
               />
             </div>
 
-            <div className="rounded-lg bg-yellow-50 py-2 text-center text-yellow-700">
+            <div className="rounded-lg bg-bg-warning-subtle py-2 text-center text-text-warning-primary">
               <div className="font-medium">⚠ Slightly Behind</div>
             </div>
           </CardContent>
@@ -404,7 +404,7 @@ const TemplateProgressDashboard = () => {
                       </span>
                       <div className="bg-background-secondary h-2 w-24 rounded-full">
                         <div
-                          className={`h-2 rounded-full ${status === 'good' ? 'bg-text-success-primary' : 'bg-yellow-500'}`}
+                          className={`h-2 rounded-full ${status === 'good' ? 'bg-text-success-primary' : 'bg-bg-warning-solid'}`}
                           style={{ width: `${accuracy}%` }}
                         />
                       </div>

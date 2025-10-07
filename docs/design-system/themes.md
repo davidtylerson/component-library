@@ -1,61 +1,109 @@
-# Theme System
+## Theme System
 
-The Float Vibe Foundry theme system provides a flexible and powerful way to manage design tokens, color schemes, and theme switching across your applications.
+### How semantic colors work in this project
 
-## 🎯 Overview
+We use a property-namespace semantic color system defined in `packages/design-system/src/app/globals-consolidated.css` and exposed via Tailwind utilities in the design system package. The namespaces correspond to the role of the color:
 
-Our theme system features:
-- **Light and dark mode support** - Automatic theme switching
-- **CSS variables** - Dynamic theming with CSS custom properties
-- **Design tokens** - Consistent spacing, colors, and typography
-- **TypeScript support** - Type-safe theme configuration
-- **Next.js integration** - Optimized for App Router and Pages Router
+- `text-*`: text color tokens, e.g. `text-text-primary`, `text-text-secondary`, `text-text-error-primary`
+- `bg-*`: background tokens, e.g. `bg-bg-primary`, `bg-bg-secondary`, `bg-bg-brand-solid`
+- `border-*`: border tokens, e.g. `border-border-primary`, `border-border-tertiary`, `border-border-error`
+- `fg-*`: foreground tokens used for icon fills/strokes and special foreground accents, e.g. `bg-fg-success-primary` or inline `style={{ color: 'var(--fg-success)' }}`
 
-## 🚀 Quick Start
+These semantic tokens are implemented as CSS variables in `globals-consolidated.css` with light/dark variants. Tailwind is configured to map these variables into utilities, so you use semantic classes like `text-text-secondary` instead of raw color scales.
 
-### Basic Theme Usage
+### Layers of the color system
+
+1. Foundational scales: `--color-gray-*`, `--color-brand-*`, `--color-error-*`, `--color-warning-*`, `--color-success-*`.
+2. Semantic variables: `--text-*`, `--bg-*`, `--border-*`, `--fg-*` map to foundational scales and change per theme.
+3. shadcn variables: HSL-only variables like `--background`, `--primary` used with `hsl(var(--...))` for third-party components.
+4. Component variables: e.g. `--button-*`, `--card-*`, `--badge-*` defined in terms of semantic variables.
+
+Dark mode overrides live under the `.dark` selector in `globals-consolidated.css` and flip semantic mappings appropriately.
+
+### Tailwind mapping
+
+In Tailwind config, we extend colors to include our semantic namespaces. This generates utilities like:
+
+- Text: `text-text-primary`, `text-text-secondary`, `text-text-tertiary`, `text-text-disabled`, brand/error/warning/success primary
+- Background: `bg-bg-primary`, `bg-bg-secondary`, `bg-bg-tertiary`, `bg-bg-quaternary`, `bg-bg-disabled`, `bg-bg-overlay`, plus brand/error/warning/success primary/secondary/solid
+- Border: `border-border-primary`, `border-border-secondary`, `border-border-tertiary`, `border-border-disabled`, and brand/error solid variants
+- Foreground: `bg-fg-*` classes are available for swatches; components often use inline `var(--fg-*)` for icon color
+
+We also keep shadcn’s HSL variables mapped to Tailwind keys like `background`, `foreground`, `primary`, etc., used with `hsl(var(--...))`.
+
+### How components apply semantic colors
+
+- Button (`components/ui/button.tsx`): uses component-level variables that reference semantics, e.g. `bg-[var(--button-bg-primary)]`, `text-[var(--button-text-primary)]`, `border-[var(--button-border-primary)]`. These `--button-*` variables are defined in `globals-consolidated.css` for light/dark.
+- Card (`components/ui/card.tsx`): uses `--card-*` variables mapped to semantics: `bg-[var(--card-bg-default)]`, `border-[var(--card-border-default)]`, titles/descriptions use `text-[var(--card-title-text)]`, `text-[var(--card-description-text)]`.
+- Dropdown (`components/ui/dropdown-menu/dropdown-menu.tsx`): surface uses `bg-bg-primary` and `border-border-secondary`; items use `text-text-primary` with hover/focus `bg-bg-secondary`. Optional colored item variants map to `bg-{brand|error|warning|success}-*` and `text-*` semantic pairs.
+- Input (`components/ui/input.tsx`): uses `--input-*` variables that point at semantic `--bg-*`, `--border-*`, `--text-*` with hover/focus/disabled states.
+- Data-display components (e.g. `status-cell.tsx`): icon colors use inline `style={{ color: 'var(--fg-success)' }}` etc., labels use `text-text-secondary`.
+
+### Page-level usage in design system demos
+
+Pages like `src/app/design-system/page.tsx` and `src/app/components/page.tsx` use semantic classes at layout level:
+
+- Container backgrounds and text: `bg-bg-primary text-text-primary`
+- Section surfaces: `bg-bg-secondary border-border-primary`
+- Labels and muted text: `text-text-secondary` or `text-text-tertiary`
+- Swatches and borders demonstrate `bg-bg-*`, `border-border-*`, and `fg-*`
+
+### Using the tokens correctly
+
+- Prefer semantic utilities over raw scales: use `text-text-secondary` instead of `text-gray-600`; `bg-bg-secondary` instead of `bg-gray-50`.
+- For icons, prefer `var(--fg-*)`: either via `className="text-[var(--fg-success)]"` or inline `style={{ color: 'var(--fg-success)' }}`.
+- For component internals (Button, Card, Badge), rely on provided variants; do not override internals with raw colors.
+- Avoid shadcn variables entirely; use semantic classes (`text-*`, `bg-*`, `border-*`, `fg-*`).
+
+### Examples
+
+Semantic utilities:
 
 ```tsx
-import { useTheme, ThemeProvider } from '@float-vibe-foundry/design-system';
-
-function App() {
-  return (
-    <ThemeProvider>
-      <MyApp />
-    </ThemeProvider>
-  );
-}
-
-function MyComponent() {
-  const { theme, setTheme, isDark } = useTheme();
-  
-  return (
-    <div>
-      <p>Current theme: {theme}</p>
-      <button onClick={() => setTheme('dark')}>
-        Switch to Dark Mode
-      </button>
-    </div>
-  );
-}
+<div className="bg-bg-primary text-text-primary">
+  <h2 className="text-text-secondary">Subtitle</h2>
+  <div className="rounded-md border border-border-tertiary bg-bg-secondary p-4" />
+</div>
 ```
 
-### Next.js App Router Setup
+Icon foreground with `fg-*`:
 
 ```tsx
-// app/layout.tsx
-import { ThemeProvider } from '@float-vibe-foundry/design-system';
+<IconCheck className="h-4 w-4" style={{ color: 'var(--fg-success)' }} />
+```
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+Button variant (uses component variables wired to semantics):
+
+```tsx
+<Button dsVariant="primary">Save</Button>
+<Button dsVariant="destructive">Delete</Button>
+```
+
+### Dark mode
+
+Dark mode is class-based. Adding `dark` to the root flips semantic variable mappings defined under `.dark` in `globals-consolidated.css`. Semantic classes and component variables automatically reflect the correct values; no class changes are required.
+
+### Gotchas
+
+- `fg-*` is intended for iconography and special accents; `text-*` is for text content.
+- shadcn variables are HSL fragments; always wrap with `hsl(var(--...))` when used in styles.
+- Avoid mixing raw Tailwind palette classes with semantic utilities to maintain theme fidelity.
+
+### Quick start
+
+Wrap your app with the ThemeProvider exported by the design system and use semantic utilities:
+
+```tsx
+import { ThemeProvider, Button } from '@float-vibe-foundry/design-system';
+
+export default function App() {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          {children}
+          <main className="bg-bg-primary text-text-primary">
+            <Button dsVariant="primary">Action</Button>
+          </main>
         </ThemeProvider>
       </body>
     </html>
@@ -63,395 +111,4 @@ export default function RootLayout({
 }
 ```
 
-## 🎨 Theme Configuration
-
-### CSS Variables
-
-The theme system uses CSS custom properties for dynamic theming:
-
-```css
-:root {
-  /* Background colors */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  
-  /* Primary colors */
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  
-  /* Secondary colors */
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  
-  /* Muted colors */
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  
-  /* Accent colors */
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  
-  /* Destructive colors */
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  
-  /* Border colors */
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  
-  /* Radius */
-  --radius: 0.5rem;
-}
-
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --primary: 210 40% 98%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 212.7 26.8% 83.9%;
-}
-```
-
-### Using CSS Variables
-
-```tsx
-// In your components
-<div className="bg-background text-foreground border-border">
-  <h1 className="text-primary">Primary Text</h1>
-  <p className="text-muted-foreground">Muted text</p>
-</div>
-```
-
-## 🔧 Theme Hooks and Components
-
-### useTheme Hook
-
-The main hook for theme management:
-
-```tsx
-import { useTheme } from '@float-vibe-foundry/design-system';
-
-function ThemeExample() {
-  const { 
-    theme,           // Current theme: 'light' | 'dark' | 'system'
-    setTheme,        // Function to change theme
-    isDark,          // Boolean: true if dark mode is active
-    systemTheme,     // System preference: 'light' | 'dark'
-    resolvedTheme    // Resolved theme: 'light' | 'dark'
-  } = useTheme();
-  
-  return (
-    <div>
-      <p>Current theme: {theme}</p>
-      <p>Is dark mode: {isDark ? 'Yes' : 'No'}</p>
-      <p>System preference: {systemTheme}</p>
-      <p>Resolved theme: {resolvedTheme}</p>
-      
-      <button onClick={() => setTheme('light')}>Light</button>
-      <button onClick={() => setTheme('dark')}>Dark</button>
-      <button onClick={() => setTheme('system')}>System</button>
-    </div>
-  );
-}
-```
-
-### ThemeProvider Component
-
-The provider component that enables theme functionality:
-
-```tsx
-import { ThemeProvider } from '@float-vibe-foundry/design-system';
-
-function App() {
-  return (
-    <ThemeProvider
-      attribute="class"           // HTML attribute to apply theme
-      defaultTheme="system"       // Default theme
-      enableSystem={true}         // Enable system theme detection
-      disableTransitionOnChange   // Disable transitions during theme change
-    >
-      <YourApp />
-    </ThemeProvider>
-  );
-}
-```
-
-### Theme Toggle Component
-
-A pre-built theme toggle component:
-
-```tsx
-import { ThemeToggle } from '@float-vibe-foundry/design-system';
-
-function Header() {
-  return (
-    <header className="flex items-center justify-between">
-      <h1>My App</h1>
-      <ThemeToggle />
-    </header>
-  );
-}
-```
-
-## 🎨 Custom Themes
-
-### Creating Custom Themes
-
-You can create custom themes by extending the CSS variables:
-
-```css
-/* Custom theme: Ocean */
-[data-theme="ocean"] {
-  --background: 200 50% 95%;
-  --foreground: 200 50% 10%;
-  --primary: 200 70% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 200 30% 85%;
-  --secondary-foreground: 200 50% 20%;
-  /* ... more custom variables */
-}
-
-[data-theme="ocean"][data-theme-mode="dark"] {
-  --background: 200 50% 10%;
-  --foreground: 200 50% 90%;
-  --primary: 200 70% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 200 30% 20%;
-  --secondary-foreground: 200 50% 80%;
-  /* ... dark mode overrides */
-}
-```
-
-### Using Custom Themes
-
-```tsx
-import { useTheme } from '@float-vibe-foundry/design-system';
-
-function CustomThemeExample() {
-  const { setTheme } = useTheme();
-  
-  return (
-    <div>
-      <button onClick={() => setTheme('ocean')}>
-        Switch to Ocean Theme
-      </button>
-      <button onClick={() => setTheme('light')}>
-        Switch to Light Theme
-      </button>
-    </div>
-  );
-}
-```
-
-## 🎯 Theme-Aware Components
-
-### Conditional Styling
-
-```tsx
-import { useTheme } from '@float-vibe-foundry/design-system';
-
-function ThemeAwareComponent() {
-  const { isDark } = useTheme();
-  
-  return (
-    <div className={cn(
-      'p-4 rounded-lg',
-      isDark 
-        ? 'bg-gray-800 text-white border-gray-700' 
-        : 'bg-white text-gray-900 border-gray-200'
-    )}>
-      <h2>Theme-Aware Component</h2>
-      <p>This component adapts to the current theme.</p>
-    </div>
-  );
-}
-```
-
-### CSS-in-JS with Theme
-
-```tsx
-import { useTheme } from '@float-vibe-foundry/design-system';
-
-function StyledComponent() {
-  const { isDark } = useTheme();
-  
-  const styles = {
-    backgroundColor: isDark ? '#1f2937' : '#ffffff',
-    color: isDark ? '#f9fafb' : '#111827',
-    border: isDark ? '1px solid #374151' : '1px solid #d1d5db',
-  };
-  
-  return (
-    <div style={styles}>
-      <p>Styled with CSS-in-JS</p>
-    </div>
-  );
-}
-```
-
-## 🔧 Advanced Configuration
-
-### Custom Theme Provider
-
-```tsx
-import { createThemeProvider } from '@float-vibe-foundry/design-system';
-
-const CustomThemeProvider = createThemeProvider({
-  themes: ['light', 'dark', 'ocean'],
-  defaultTheme: 'system',
-  storageKey: 'my-app-theme',
-  attribute: 'data-theme',
-});
-
-function App() {
-  return (
-    <CustomThemeProvider>
-      <YourApp />
-    </CustomThemeProvider>
-  );
-}
-```
-
-### Theme Persistence
-
-The theme system automatically persists the user's preference:
-
-```tsx
-// Theme is stored in localStorage by default
-// You can customize the storage key:
-<ThemeProvider storageKey="my-custom-theme-key">
-  <YourApp />
-</ThemeProvider>
-```
-
-### Server-Side Rendering
-
-For Next.js App Router, use the client wrapper:
-
-```tsx
-// app/providers.tsx
-'use client';
-
-import { ThemeProvider } from '@float-vibe-foundry/design-system';
-
-export function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <ThemeProvider>
-      {children}
-    </ThemeProvider>
-  );
-}
-
-// app/layout.tsx
-import { Providers } from './providers';
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
-  );
-}
-```
-
-## 🎨 Design Tokens
-
-### Color Tokens
-
-```css
-/* Brand colors */
---brand-50: 210 40% 98%;
---brand-100: 210 40% 96%;
---brand-500: 222.2 47.4% 11.2%;
---brand-900: 222.2 84% 4.9%;
-
-/* Semantic colors */
---success: 142 76% 36%;
---warning: 38 92% 50%;
---error: 0 84% 60%;
---info: 217 91% 60%;
-```
-
-### Spacing Tokens
-
-```css
---spacing-1: 0.25rem;
---spacing-2: 0.5rem;
---spacing-4: 1rem;
---spacing-8: 2rem;
---spacing-16: 4rem;
-```
-
-### Typography Tokens
-
-```css
---font-family-sans: ui-sans-serif, system-ui, sans-serif;
---font-family-mono: ui-monospace, SFMono-Regular, monospace;
-
---font-size-xs: 0.75rem;
---font-size-sm: 0.875rem;
---font-size-base: 1rem;
---font-size-lg: 1.125rem;
---font-size-xl: 1.25rem;
-```
-
-## 🚨 Troubleshooting
-
-### Common Issues
-
-**Theme not switching:**
-- Ensure `ThemeProvider` wraps your app
-- Check that CSS variables are properly defined
-- Verify the `attribute` prop matches your CSS selectors
-
-**Hydration errors:**
-- Add `suppressHydrationWarning` to the `<html>` element
-- Use the client wrapper pattern for Next.js App Router
-
-**Theme not persisting:**
-- Check localStorage permissions
-- Verify the `storageKey` is unique
-- Ensure the theme provider is mounted before accessing theme
-
-### Debug Mode
-
-Enable debug mode to see theme changes in the console:
-
-```tsx
-<ThemeProvider enableDebug={true}>
-  <YourApp />
-</ThemeProvider>
-```
-
-## 📚 Resources
-
-- [next-themes Documentation](https://github.com/pacocoursey/next-themes)
-- [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
-- [Design Tokens](https://www.designtokens.org/)
-
----
-
-**Need help?** Check the [troubleshooting guide](../troubleshooting/common-issues.md) or create an issue in the repository. 
+For more, see `packages/design-system/src/app/design-system/page.tsx` for live examples of text, background, border, and foreground tokens.

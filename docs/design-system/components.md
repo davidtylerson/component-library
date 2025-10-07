@@ -271,12 +271,12 @@ You can customize components using Tailwind classes:
 
 ```tsx
 // Override default styles
-<Button className="bg-blue-500 hover:bg-blue-600 text-white">
+<Button className="bg-bg-brand-solid hover:bg-bg-brand-solid-hover text-fg-white">
   Custom Blue Button
 </Button>
 
 // Extend with additional styles
-<Card className="border-2 border-dashed border-gray-300">
+<Card className="border-2 border-dashed border-border-tertiary">
   <CardContent>Custom bordered card</CardContent>
 </Card>
 ```

@@ -171,7 +171,7 @@ className = 'bg-bg-primary text-text-primary border-border-primary';
 className = 'bg-[var(--bg-primary)] text-[var(--text-primary)]';
 
 // ✅ CORRECT: Use Tailwind color utilities
-className = 'bg-blue-500 text-white hover:bg-blue-600';
+className = 'bg-bg-brand-solid text-fg-white hover:bg-bg-brand-solid-hover';
 
 // ✅ CORRECT: Use CSS variables for complex values
 className = 'bg-[var(--complex-gradient)]';

@@ -229,7 +229,7 @@ const CounterpartyScorecard = () => {
   const selected = cpDetail[selectedCP as keyof typeof cpDetail];
 
   return (
-    <div className="bg-background min-h-screen p-6">
+    <div className="bg-bg-primary min-h-screen p-6 text-text-primary">
       {/* Header */}
       <div className="mb-6">
         <Heading level={1} className="text-text-primary">
@@ -840,7 +840,7 @@ const CounterpartyScorecard = () => {
           </Card>
 
           {/* Talking Points */}
-          <Card className="bg-background-secondary mb-6">
+          <Card className="bg-bg-secondary mb-6">
             <CardHeader>
               <CardTitle className="text-base">
                 Key Talking Points for Quarterly Review
@@ -878,7 +878,7 @@ const CounterpartyScorecard = () => {
                   </ul>
                 </div>
                 <div>
-                  <Text className="mb-1 font-medium text-blue-600">
+                  <Text className="mb-1 font-medium text-text-brand">
                     💡 RECOMMENDATIONS:
                   </Text>
                   <ul className="text-text-secondary ml-2 list-inside list-disc space-y-1">

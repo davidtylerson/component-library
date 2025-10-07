@@ -26,11 +26,11 @@ export default function Toast({ message, type = 'info', duration = 3000, onClose
     
     switch (type) {
       case 'success':
-        return `${baseStyles} bg-green-600 text-white`;
+        return `${baseStyles} bg-bg-success-solid text-fg-white`;
       case 'error':
-        return `${baseStyles} bg-red-600 text-white`;
+        return `${baseStyles} bg-bg-error-solid text-fg-white`;
       default:
-        return `${baseStyles} bg-blue-600 text-white`;
+        return `${baseStyles} bg-bg-brand-solid text-fg-white`;
     }
   };
 
@@ -43,7 +43,7 @@ export default function Toast({ message, type = 'info', duration = 3000, onClose
             setIsVisible(false);
             setTimeout(onClose, 300);
           }}
-          className="ml-2 text-white hover:text-gray-200"
+          className="ml-2 text-fg-white hover:text-text-tertiary"
         >
           ×
         </button>

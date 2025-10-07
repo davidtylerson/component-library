@@ -31,6 +31,7 @@ import {
   IconUsers,
   IconTrendingUp,
   IconActivity,
+  IconFileText,
 } from '@tabler/icons-react';
 import { ClientThemeToggle } from '@float-vibe-foundry/design-system/themes';
 
@@ -65,6 +66,26 @@ const navItems = [
     url: '/',
   },
   {
+    title: 'Risk Command Center',
+    icon: IconShield,
+    url: '/dashboard_risk_command_center',
+  },
+  {
+    title: 'Performance Analytics',
+    icon: IconTrendingUp,
+    url: '/dashboard_performance_analytics',
+  },
+  {
+    title: 'Templates & Automation',
+    icon: IconFileText,
+    url: '/dashboard_templates_automation',
+  },
+  {
+    title: 'Counterparty Scorecard',
+    icon: IconUsers,
+    url: '/dashboard_counterparty_scorecard',
+  },
+  {
     title: 'Risk Overview',
     icon: IconShield,
     url: '/dashboard_executive',
@@ -75,12 +96,12 @@ const navItems = [
     url: '/dashboard_risk_deepdive',
   },
   {
-    title: 'Counterparty Scorecard',
+    title: 'Counterparty (Old)',
     icon: IconUsers,
     url: '/dashboard_counterparty',
   },
   {
-    title: 'Template Progress',
+    title: 'Template Progress (Old)',
     icon: IconTrendingUp,
     url: '/dashboard_template_progress',
   },

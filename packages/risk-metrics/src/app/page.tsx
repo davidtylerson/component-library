@@ -5,16 +5,48 @@ import {
   CardTitle,
 } from '@float-vibe-foundry/design-system';
 import Link from 'next/link';
-import { BarChart3, TrendingUp, Users, Shield, Activity } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Shield, Activity, FileText } from 'lucide-react';
 
 const dashboardCards = [
+  {
+    title: 'Risk Command Center',
+    description:
+      'Daily operational dashboard for immediate risk assessment and action',
+    icon: Shield,
+    href: '/dashboard_risk_command_center',
+    color: 'text-text-error-primary',
+  },
+  {
+    title: 'Performance Analytics',
+    description:
+      'Trend analysis - "How are our processes performing over time?"',
+    icon: TrendingUp,
+    href: '/dashboard_performance_analytics',
+    color: 'text-text-brand',
+  },
+  {
+    title: 'Templates & Automation',
+    description:
+      'Strategic initiative tracking - "Are our investments paying off?"',
+    icon: FileText,
+    href: '/dashboard_templates_automation',
+    color: 'text-text-success-primary',
+  },
+  {
+    title: 'Counterparty Scorecard',
+    description:
+      'Broker performance reviews - "How do you compare to peers?"',
+    icon: Users,
+    href: '/dashboard_counterparty_scorecard',
+    color: 'text-purple-600',
+  },
   {
     title: 'Risk Overview',
     description:
       'Executive summary of current risk exposure and priority actions',
     icon: Shield,
     href: '/dashboard_executive',
-    color: 'text-red-600',
+    color: 'text-text-error-primary',
   },
   {
     title: 'Risk Deep Dive',
@@ -28,14 +60,14 @@ const dashboardCards = [
     description: 'Comprehensive counterparty performance metrics and rankings',
     icon: Users,
     href: '/dashboard_counterparty',
-    color: 'text-blue-600',
+    color: 'text-text-brand',
   },
   {
     title: 'Template Progress',
     description: 'Coverage and automation tracking with AI accuracy metrics',
     icon: TrendingUp,
     href: '/dashboard_template_progress',
-    color: 'text-green-600',
+    color: 'text-text-success-primary',
   },
   {
     title: 'Trading Activity',

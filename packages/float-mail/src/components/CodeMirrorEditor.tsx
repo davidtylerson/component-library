@@ -172,7 +172,7 @@ export default function CodeMirrorEditor(props: CodeMirrorEditorProps) {
             className="h-6 w-6 p-0"
           >
             {copied ? (
-              <IconCheck className="h-3 w-3 text-green-600" />
+              <IconCheck className="h-3 w-3 text-text-success-primary" />
             ) : (
               <IconCopy className="h-3 w-3" />
             )}
