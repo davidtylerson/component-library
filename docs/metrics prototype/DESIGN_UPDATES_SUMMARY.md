@@ -12,22 +12,26 @@ This document summarizes all design changes made based on user feedback and open
 ### Major Changes
 
 **1. Added Notional Column to All Tables**
+
 - Format: Two-row cell with amount (millions, 2 decimals) and currency
 - Example: `189.01` over `NZD`
 - **Important:** Can show notional per trade, but CANNOT aggregate/sum across currencies
 - Screenshot reference provided showing desired format
 
 **2. Added Affirmation & Confirmation Status Columns**
+
 - **Affirmation Status:** Affirmed, Pending Affirm, Not Started
 - **Confirmation Status:** In Dispute, Waiting on CP, Escalated, Needs Review, Pending Doc
 - Both columns added to Priority Actions: Trades with Breaks table
 
 **3. Updated Risk Distribution Charts**
+
 - **Removed:** Dollar notional amounts (can't aggregate across currencies)
 - **Kept:** Break count distribution by severity (High/Med/Low)
 - Removed "Click segment to filter" text (users will discover)
 
 **4. Data Refresh Strategy**
+
 - Changed from "real-time/5-min refresh" to "update/refresh latest data on page load"
 - Simpler approach, sufficient for daily standup use case
 
@@ -47,7 +51,11 @@ notional: {
   currency: string; // "NZD", "USD", "NOK", etc.
 }
 affirmationStatus: 'affirmed' | 'pending_affirm' | 'not_started';
-confirmationStatus: 'in_dispute' | 'waiting_on_cp' | 'escalated' | 'needs_review' | 'pending_doc';
+confirmationStatus: 'in_dispute' |
+  'waiting_on_cp' |
+  'escalated' |
+  'needs_review' |
+  'pending_doc';
 ```
 
 ---
@@ -57,14 +65,17 @@ confirmationStatus: 'in_dispute' | 'waiting_on_cp' | 'escalated' | 'needs_review
 ### Minor Changes
 
 **1. Table Row Defaults**
+
 - Show top 5 counterparties/products by default
 - "Show More" button to expand to full list
 
 **2. Export Functionality**
+
 - PDF export (primary)
 - CSV export (secondary - TBD later)
 
 **3. Break Analysis Section**
+
 - Will have placeholder initially
 - Assume data is available for prototype (not "coming soon")
 
@@ -89,6 +100,7 @@ confirmationStatus: 'in_dispute' | 'waiting_on_cp' | 'escalated' | 'needs_review
 ### Structural Changes
 
 **1. New Section Order:**
+
 ```
 OLD:                          NEW:
 ├─ Template Coverage          ├─ Strategic Impact (NEW - moved from bottom)
@@ -100,21 +112,25 @@ OLD:                          NEW:
 **Purpose:** Show outcomes immediately, not just inputs
 
 **Three metric cards:**
+
 - Break Rate Reduction (e.g., -4.2pp since Apr)
 - Avg Confirm Time Reduction (e.g., -1.3 days since Apr)
 - Combined Progress (67% coverage + 45% auto-match)
 
 **Key insight text:**
+
 - One sentence connecting initiatives to outcomes
 - Example: "As template coverage increased 27pp and automation increased 18pp, break rates decreased 4.2pp..."
 
 **3. Removed Content:**
+
 - ❌ "Combined Impact" section at bottom (duplicative)
 - ❌ "Time Saved" metrics (hard to calculate, not tracking)
 - ❌ "Bottom Line" text card (feels marketing-y, data speaks for itself)
 - ❌ Efficiency hour savings estimates (not reliable)
 
 **Rationale:**
+
 - Original Combined Impact section repeated the numbers from Template/Automation sections
 - Strategic Impact at top shows **causation** (coverage → reduced breaks), not just metric duplication
 - Focus on measurable business outcomes, not estimated time savings
@@ -130,11 +146,13 @@ OLD:                          NEW:
 ### User Flow Impact
 
 **Before:**
+
 1. See template coverage (67%)
 2. See automation performance (45%)
 3. Scroll to bottom for "is this working?" answer
 
 **After:**
+
 1. **Immediately see:** "Break rates down 4.2pp, confirm time down 1.3 days"
 2. Decision made in 10 seconds: initiatives are working
 3. Scroll for details only if needed
@@ -146,18 +164,21 @@ OLD:                          NEW:
 ### Major Removals
 
 **1. Removed Talking Points Section**
+
 - ✓ POSITIVES
-- ⚠ CONCERNS  
+- ⚠ CONCERNS
 - 💡 RECOMMENDATIONS
 - **Why removed:** Natasha will form her own talking points from the data
 
 **2. Removed Export/Action Buttons**
+
 - Export Full Scorecard (PDF)
 - Export Data (CSV)
 - Schedule Meeting
 - **Why removed:** Premature - will figure out export strategy later
 
 **3. Updated User Flows**
+
 - Changed: "Reads talking points" → "Prepares discussion strategy based on data"
 - Changed: "Clicks Export PDF" → "Takes notes and screenshots"
 
@@ -187,21 +208,25 @@ talkingPoints: {
 ### Consistent Design Decisions
 
 **1. Table Row Defaults**
+
 - All dashboards: Show top 5 rows by default
 - "Show More" / "Expand" button for full list
 - Keeps initial view clean and scannable
 
 **2. Notional Display**
+
 - Where applicable: Show notional amount + currency
 - Format: Millions with 2 decimals (e.g., "189.01 NZD")
 - **Critical constraint:** Cannot aggregate across currencies
 
 **3. User Discovery Over Instructions**
+
 - Removed "Click to filter" text on charts
 - Removed explicit interaction instructions
 - Let users discover clickable elements naturally
 
 **4. Data-Driven Over Narrative**
+
 - Removed auto-generated text summaries
 - Removed "talking points" sections
 - Let data speak for itself
@@ -212,7 +237,9 @@ talkingPoints: {
 ## Implementation Priorities (Updated)
 
 ### Phase 1: Risk Command Center (Sprint 1-2)
+
 **Changes from original plan:**
+
 - Add notional column implementation
 - Add affirmation + confirmation status columns
 - Implement two-row cell format for notional
@@ -221,7 +248,9 @@ talkingPoints: {
 **Complexity increase:** Medium (new cell format)
 
 ### Phase 2: Performance Analytics (Sprint 3-4)
+
 **No changes from original plan:**
+
 - Add affirmation metrics
 - Enhance existing confirmation metrics
 - Same approach as before
@@ -229,7 +258,9 @@ talkingPoints: {
 **Complexity:** Low (mostly additive)
 
 ### Phase 3: Templates & Automation (Sprint 5-6)
+
 **Significant changes:**
+
 - NEW: Strategic Impact section at top
 - REMOVE: Combined Impact section at bottom
 - NEW: Outcome-focused metrics (break rate reduction, time reduction)
@@ -238,12 +269,15 @@ talkingPoints: {
 **Complexity increase:** Medium (new calculations, new section)
 
 **Data Requirements:**
+
 - Need historical break rate (6 months ago)
 - Need historical confirm time (6 months ago)
 - Calculate deltas for impact metrics
 
 ### Phase 4: Counterparty Scorecard (Sprint 7-8)
+
 **Simplified from original:**
+
 - REMOVE: Talking points generation (no AI needed)
 - REMOVE: Export functionality (defer to later)
 - Focus on data display only
@@ -257,6 +291,7 @@ talkingPoints: {
 ### New Cell Format Required
 
 **Notional Cell Component:**
+
 ```tsx
 <div className="notional-cell">
   <div className="amount">189.01</div>
@@ -265,6 +300,7 @@ talkingPoints: {
 ```
 
 **Styling:**
+
 - Amount: Larger font, bold
 - Currency: Smaller font, secondary color
 - Aligned: Center or right-aligned in table
@@ -273,11 +309,13 @@ talkingPoints: {
 ### Status Column Values
 
 **Affirmation Status Enum:**
+
 - `affirmed`
 - `pending_affirm`
 - `not_started`
 
 **Confirmation Status Enum:**
+
 - `in_dispute`
 - `waiting_on_cp`
 - `escalated`
@@ -287,22 +325,24 @@ talkingPoints: {
 ### Historical Data for Impact Metrics
 
 **Required for Templates & Automation:**
+
 ```typescript
 {
   historical: {
     breakRate: {
       current: number;
       sixMonthsAgo: number;
-    };
+    }
     avgConfirmTime: {
       current: number; // days
       sixMonthsAgo: number; // days
-    };
-  };
+    }
+  }
 }
 ```
 
 **Calculation:**
+
 - Compare point-in-time values (not rolling averages)
 - 6 months ago = same month last period
 - Show as delta: current - historical
@@ -312,12 +352,14 @@ talkingPoints: {
 ## Design Files Updated
 
 **Updated:**
+
 - ✅ `/dashboard_layouts/01_risk_command_center.md` - Added notional, status columns, removed dollar amounts
 - ✅ `/dashboard_layouts/02_performance_analytics.md` - Resolved open questions
 - ✅ `/dashboard_layouts/03_templates_automation_REVISED.md` - Complete redesign
 - ✅ `/dashboard_layouts/04_counterparty_scorecard.md` - Removed talking points & exports
 
 **No Changes Needed:**
+
 - `dashboard_design_spec.md` - High-level spec still valid
 - `prd_risk_metrics.md` - Strategic requirements unchanged
 - `README_DASHBOARD_DESIGN.md` - Navigation guide still accurate
@@ -362,11 +404,10 @@ talkingPoints: {
 
 ## Changelog
 
-| Date | Change | Reason |
-|------|--------|--------|
-| Oct 2025 | Added notional columns | User feedback - show dollars at risk per trade |
-| Oct 2025 | Added affirmation/confirmation status | User feedback - need process visibility |
-| Oct 2025 | Redesigned Templates & Automation | User feedback - Combined Impact was duplicative |
+| Date     | Change                                | Reason                                              |
+| -------- | ------------------------------------- | --------------------------------------------------- |
+| Oct 2025 | Added notional columns                | User feedback - show dollars at risk per trade      |
+| Oct 2025 | Added affirmation/confirmation status | User feedback - need process visibility             |
+| Oct 2025 | Redesigned Templates & Automation     | User feedback - Combined Impact was duplicative     |
 | Oct 2025 | Removed talking points from Scorecard | User feedback - don't need auto-generated narrative |
-| Oct 2025 | Resolved all open questions | User provided answers inline in docs |
-
+| Oct 2025 | Resolved all open questions           | User provided answers inline in docs                |
