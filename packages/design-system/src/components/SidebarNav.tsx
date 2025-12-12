@@ -63,6 +63,11 @@ const navItems = [
     url: '/interactive-chart-test',
   },
   {
+    title: 'Chart Comparison',
+    icon: IconChartBar,
+    url: '/chart-comparison',
+  },
+  {
     title: 'Test Page',
     icon: IconInfoCircle,
     url: '/test',

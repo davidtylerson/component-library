@@ -13,6 +13,7 @@ import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
+import { TradeFileError } from '@/templates/TradeFileError';
 
 // Map template names to their components
 const TEMPLATE_COMPONENTS: Record<
@@ -28,6 +29,7 @@ const TEMPLATE_COMPONENTS: Record<
   DisputeMultiple,
   ReturnConfirmTable,
   EmailComponents,
+  TradeFileError,
 };
 
 // Template source code (simplified versions for display)
@@ -583,6 +585,7 @@ export class EnhancedTemplateRenderer {
       ReturnConfirmTable: 'Return confirmed with details',
       Affirmation: 'Action confirmed',
       EmailComponents: 'Float Email Components Showcase',
+      TradeFileError: 'Error processing trade file',
     };
 
     return subjects[templateName] || 'Email from Float';

@@ -12,6 +12,7 @@ import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
+import { TradeFileError } from '@/templates/TradeFileError';
 
 // Map template names to their components
 const TEMPLATE_COMPONENTS: Record<
@@ -27,6 +28,7 @@ const TEMPLATE_COMPONENTS: Record<
   DisputeMultiple,
   ReturnConfirmTable,
   EmailComponents,
+  TradeFileError,
 };
 
 // Template source code (simplified versions for display)
@@ -311,6 +313,70 @@ export const EmailComponents: React.FC<EmailComponentsProps> = ({
     </EmailLayout>
   );
 };`,
+
+  TradeFileError: `import React from 'react';
+import {
+  EmailLayout,
+  SectionTitle,
+  SubsectionTitle,
+  DataTable,
+  ActionButton,
+  MD,
+  LG,
+} from '../react-email-src/components';
+
+interface TradeStatus {
+  tradeIdentifier: string;
+  success: boolean;
+  reason: string;
+}
+
+interface TradeFileErrorProps {
+  file: string;
+  status?: string;
+  rowsProcessed: number;
+  totalRows: number;
+  date: string;
+  tradeStatuses?: TradeStatus[];
+  url: string;
+}
+
+export const TradeFileError: React.FC<TradeFileErrorProps> = ({
+  file,
+  status,
+  rowsProcessed,
+  totalRows,
+  date,
+  tradeStatuses,
+  url,
+}) => {
+  const detailsData = [
+    { label: 'File', value: file },
+    ...(status ? [{ label: 'Status', value: status }] : []),
+    { label: 'Rows', value: \`\${rowsProcessed} of \${totalRows}\` },
+    { label: 'Date', value: date },
+  ];
+
+  return (
+    <EmailLayout preheader="Error processing trade file">
+      <SectionTitle>
+        The following trade file encountered errors during processing:
+      </SectionTitle>
+      <MD />
+      <SubsectionTitle>Details</SubsectionTitle>
+      <DataTable data={detailsData} />
+      {tradeStatuses && tradeStatuses.length > 0 && (
+        <>
+          <LG />
+          <SubsectionTitle>Trades</SubsectionTitle>
+          {/* Trade statuses table */}
+        </>
+      )}
+      <MD />
+      <ActionButton href={url} fullWidth>View in Float</ActionButton>
+    </EmailLayout>
+  );
+};`,
 };
 
 export class TemplateRenderer {
@@ -361,6 +427,7 @@ export class TemplateRenderer {
       Affirmation: 'Action confirmed',
       AffirmationMultiple: 'Multiple trade affirmations required',
       EmailComponents: 'Float Email Components Showcase',
+      TradeFileError: 'Error processing trade file',
     };
 
     return subjects[templateName] || 'Email from Float';

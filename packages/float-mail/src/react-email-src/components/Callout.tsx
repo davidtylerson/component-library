@@ -3,7 +3,7 @@ import React from 'react';
 
 interface CalloutProps {
   children: React.ReactNode;
-  variant?: 'default' | 'warning' | 'success';
+  variant?: 'default' | 'warning' | 'success' | 'error';
 }
 
 export const Callout: React.FC<CalloutProps> = ({
@@ -32,6 +32,15 @@ export const Callout: React.FC<CalloutProps> = ({
     success: {
       backgroundColor: '#d1fae5',
       border: '1px solid #10b981',
+      borderRadius: '8px',
+      padding: '16px',
+      marginBottom: '16px',
+      width: '100%',
+      boxSizing: 'border-box' as const,
+    },
+    error: {
+      backgroundColor: '#fee2e2',
+      border: '1px solid #ef4444',
       borderRadius: '8px',
       padding: '16px',
       marginBottom: '16px',
