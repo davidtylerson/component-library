@@ -265,6 +265,18 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     date: '23 Dec 2024',
     url: 'https://app.float.tech/documents/docid',
   },
+  ValuationFileError: {
+    errorMessage:
+      'Fatal Error - Row 35 failed due to invalid valuation date\nFatal Error - Row 42 contains missing market data reference',
+    status: 'Partially Processed',
+    rowsProcessed: 87,
+    rowsSkipped: 14,
+    totalRows: 101,
+    source: 'GBB',
+    file: 'valuation_file_20241223.csv',
+    date: '23 Dec 2024',
+    url: 'https://app.float.tech/documents/docid',
+  },
 };
 
 export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
@@ -539,6 +551,67 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         required: false,
         description:
           'Array of trade status objects with tradeIdentifier, success, and optional reason',
+      },
+      {
+        name: 'url',
+        type: 'string',
+        required: true,
+        description: 'URL to view the error details in Float',
+      },
+      {
+        name: 'errorMessage',
+        type: 'string',
+        required: false,
+        description: 'Optional error message to display in a callout box',
+      },
+    ],
+  },
+  ValuationFileError: {
+    displayName: 'Valuation File Error',
+    description: 'Notification email for valuation file processing errors',
+    variables: [
+      {
+        name: 'file',
+        type: 'string',
+        required: true,
+        description: 'Name of the valuation file that encountered errors',
+      },
+      {
+        name: 'status',
+        type: 'string',
+        required: true,
+        description:
+          'Processing status (e.g., "Success", "Partially Processed")',
+      },
+      {
+        name: 'rowsProcessed',
+        type: 'number',
+        required: true,
+        description: 'Number of rows successfully processed',
+      },
+      {
+        name: 'rowsSkipped',
+        type: 'number',
+        required: true,
+        description: 'Number of rows skipped during processing',
+      },
+      {
+        name: 'totalRows',
+        type: 'number',
+        required: true,
+        description: 'Total number of rows in the file',
+      },
+      {
+        name: 'source',
+        type: 'string',
+        required: true,
+        description: 'Source of the valuation file',
+      },
+      {
+        name: 'date',
+        type: 'string',
+        required: true,
+        description: 'Date of the file processing',
       },
       {
         name: 'url',
