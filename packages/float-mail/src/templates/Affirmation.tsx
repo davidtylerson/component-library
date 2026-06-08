@@ -21,10 +21,7 @@ interface TradeGroup {
 
 interface AffirmationProps {
   organization_name: string;
-  action: string;
-  trade_date: string;
   groups?: TradeGroup[];
-  // Legacy props for backward compatibility
   trade_id?: string;
   counterparty_ref?: string;
   amount?: string;
@@ -33,28 +30,24 @@ interface AffirmationProps {
 
 export const Affirmation: React.FC<AffirmationProps> = ({
   organization_name = '{{organization_name}}',
-  action = '{{action}}',
-  trade_date = '{{trade_date}}',
   groups,
-  // Legacy props for backward compatibility
   trade_id = '{{trade_id}}',
   counterparty_ref = '{{counterparty_ref}}',
   amount = '{{amount}}',
   currency = '{{currency}}',
 }) => {
-  // Use provided groups or fall back to legacy structure
+  const isPreviewMode = organization_name !== '{{organization_name}}';
+
   const tableGroups = groups || [
     {
       groupName: 'Trade Details',
       rows: [
-        { field: 'Action', value: action, counterparty: '' },
         { field: 'Trade ID', value: trade_id, counterparty: '' },
         {
           field: 'Counterparty Ref',
           value: counterparty_ref,
           counterparty: '',
         },
-        { field: 'Trade Date', value: trade_date, counterparty: '' },
         { field: 'Amount', value: amount, counterparty: '' },
         { field: 'Currency', value: currency, counterparty: '' },
       ],
@@ -67,9 +60,8 @@ export const Affirmation: React.FC<AffirmationProps> = ({
 
       <BodyText>
         <span style={{ fontWeight: 'bold' }}>{organization_name}</span> is
-        requesting your affirmation of the following trade executed on{' '}
-        <span style={{ fontWeight: 'bold' }}>{trade_date}</span>. Please review
-        the detailed trade information provided below.
+        requesting your affirmation of the following trade. Please review the
+        detailed trade information provided below.
       </BodyText>
 
       <MD />
@@ -88,7 +80,53 @@ export const Affirmation: React.FC<AffirmationProps> = ({
 
       <LG />
 
-      <AffirmationTable groups={tableGroups} />
+      {isPreviewMode ? (
+        <AffirmationTable groups={tableGroups} />
+      ) : (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `
+              <table style="width: 100%; border-collapse: collapse; background-color: #ffffff;">
+                <thead>
+                  <tr>
+                    <th style="padding: 4px 8px; border-top: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left; width: 30%;">
+                      Field
+                    </th>
+                    <th style="padding: 4px 8px; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left; width: 35%;">
+                      Value
+                    </th>
+                    <th style="padding: 4px 8px; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left; width: 35%;">
+                      Counterparty Economics (if disputed)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each groups}}
+                  <tr>
+                    <td colspan="3" style="padding: 4px 8px; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: bold; color: #111827; background-color: #f3f4f6; text-align: left;">
+                      {{groupName}}
+                    </td>
+                  </tr>
+                  {{#each rows}}
+                  <tr>
+                    <td style="padding: 4px 8px; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; font-weight: normal; color: #374151; background-color: #f9fafb; vertical-align: top;">
+                      {{field}}
+                    </td>
+                    <td style="padding: 4px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827; vertical-align: top; word-break: break-word;">
+                      {{value}}
+                    </td>
+                    <td style="padding: 4px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #6b7280; vertical-align: top; word-break: break-word;">
+                      {{#if counterparty}}{{counterparty}}{{/if}}
+                    </td>
+                  </tr>
+                  {{/each}}
+                  {{/each}}
+                </tbody>
+              </table>
+            `,
+          }}
+        />
+      )}
     </EmailLayout>
   );
 };

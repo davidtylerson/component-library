@@ -57,8 +57,6 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
   },
   Affirmation: {
     organization_name: 'Acme Corp',
-    action: 'Trade Affirmation',
-    trade_date: '2024-01-15',
     groups: [
       {
         groupName: 'Trade Terms',
@@ -110,16 +108,19 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
   },
   AffirmationMultiple: {
     organization_name: 'Acme Corp',
-    action: 'Trade Affirmation',
-    trade_date: '2024-01-15',
     trades: [
       {
-        tradeId: '32c7d92',
-        productType: 'Dual Binary Option',
+        tradeId: 'EQ-88471',
+        productType: 'EQ Option',
         groups: [
           {
             groupName: 'Trade Terms',
             rows: [
+              { field: 'Trade ID', value: 'EQ-88471' },
+              { field: 'Trade Status', value: 'New' },
+              { field: 'Trade Type', value: 'Vanilla Option' },
+              { field: 'Entity', value: 'Acme Corp' },
+              { field: 'Executing Broker', value: 'Globo Bank' },
               { field: 'Direction', value: 'Buy' },
               { field: 'Trade Date', value: '19-Nov-24' },
             ],
@@ -127,76 +128,212 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
           {
             groupName: 'Product Terms',
             rows: [
-              { field: 'Notional Amount', value: '5,000,000' },
-              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Product Type', value: 'EQ Option' },
+              { field: 'Asset', value: 'AAPL US Equity' },
+              { field: 'Option Style', value: 'European' },
+              { field: 'Number of Options', value: '10,000' },
+              { field: 'Multiplier', value: '100' },
+              { field: 'Strike Price', value: '185.00' },
               { field: 'Expiration Date', value: '20-Dec-24' },
-              { field: 'Expiration Cut', value: 'New York 10:00' },
-              { field: 'Expiration Time', value: '10:00:00' },
-              { field: 'Expiration Location', value: 'New York' },
+              { field: 'Expiration Time', value: '16:00:00 EST' },
             ],
           },
           {
-            groupName: 'Barrier 1',
+            groupName: 'Settlement Terms',
             rows: [
-              { field: 'Asset', value: 'EURUSD' },
-              { field: 'Level', value: '1.04' },
-              { field: 'Event Type', value: 'Knock In' },
-              { field: 'Trigger Type', value: 'Less or Equal' },
-            ],
-          },
-          {
-            groupName: 'Barrier 2',
-            rows: [
-              { field: 'Asset', value: 'USDJPY' },
-              { field: 'Level', value: '150' },
-              { field: 'Event Type', value: 'Knock In' },
-              { field: 'Trigger Type', value: 'Less or Equal' },
+              { field: 'Settlement Type', value: 'Cash' },
+              { field: 'Settlement Date', value: '22-Dec-24' },
             ],
           },
           {
             groupName: 'Premium Terms',
             rows: [
               { field: 'Premium Currency', value: 'USD' },
-              { field: 'Price', value: '2.83%' },
-              { field: 'Premium', value: '141,600' },
+              { field: 'Price', value: '3.50%' },
+              { field: 'Premium', value: '64,750' },
               { field: 'Premium Payment Date', value: '21-Nov-24' },
-              { field: 'Premium Payer', value: 'Alta Capital' },
+              { field: 'Premium Payer', value: 'Acme Corp' },
             ],
           },
         ],
       },
       {
-        tradeId: '45d8e73',
-        productType: 'FX Forward',
+        tradeId: 'IR-33912',
+        productType: 'IR CMS One Look',
         groups: [
           {
             groupName: 'Trade Terms',
             rows: [
-              { field: 'Direction', value: 'Sell' },
+              { field: 'Trade ID', value: 'IR-33912' },
+              { field: 'Trade Type', value: 'CMS One Look' },
+              { field: 'Entity', value: 'Acme Corp' },
+              { field: 'Executing Broker', value: 'Globo Bank' },
+              { field: 'Counterparty', value: 'Globo Bank' },
+              { field: 'Direction', value: 'Buy' },
+              { field: 'Trade Date', value: '19-Nov-24' },
+              { field: 'Trade Time', value: '14:30:00' },
+            ],
+          },
+          {
+            groupName: 'Product Terms',
+            rows: [
+              { field: 'Product Type', value: 'IR CMS One Look' },
+              { field: 'Effective Date', value: '21-Nov-24' },
+              { field: 'Termination Date', value: '21-Nov-26' },
+              { field: 'Notional Amount', value: '25,000,000' },
+              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Option Type', value: 'Cap' },
+            ],
+          },
+          {
+            groupName: 'Floating Amounts',
+            rows: [
+              { field: 'Pay / Receive', value: 'Receive' },
+              { field: 'Rate Option', value: 'USD-CMS-10Y' },
+              { field: 'Determination Date', value: '19-Nov-26' },
+              { field: 'Business Days', value: 'New York' },
+              { field: 'Day Count Convention', value: 'ACT/360' },
+              { field: 'Strike Rate', value: '4.25%' },
+            ],
+          },
+          {
+            groupName: 'Fixed Amounts',
+            rows: [
+              { field: 'Pay / Receive', value: 'Pay' },
+              { field: 'Notional Amount', value: '25,000,000' },
+              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Payment Date', value: '21-Nov-26' },
+            ],
+          },
+          {
+            groupName: 'Collateral Terms',
+            rows: [
+              { field: 'Independent Amount', value: '500,000' },
+              { field: 'Independent Amount Currency', value: 'USD' },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  AffirmationMultipleSummary: {
+    organization_name: 'Acme Corp',
+    short_name: 'Acme',
+    trades: [
+      {
+        tradeId: 'EQ-88471',
+        productType: 'EQ Option',
+        tradeDate: '19-Nov-24',
+        groups: [
+          {
+            groupName: 'Trade Terms',
+            rows: [
+              { field: 'Trade ID', value: 'EQ-88471' },
+              { field: 'Trade Status', value: 'New' },
+              { field: 'Trade Type', value: 'Vanilla Option' },
+              { field: 'Entity', value: 'Acme Corp' },
+              { field: 'Executing Broker', value: 'Globo Bank' },
+              { field: 'Direction', value: 'Buy' },
               { field: 'Trade Date', value: '19-Nov-24' },
             ],
           },
           {
             groupName: 'Product Terms',
             rows: [
-              { field: 'Notional Amount', value: '10,000,000' },
-              { field: 'Notional Currency', value: 'EUR' },
+              { field: 'Product Type', value: 'EQ Option' },
+              { field: 'Asset', value: 'AAPL US Equity' },
+              { field: 'Option Style', value: 'European' },
+              { field: 'Number of Options', value: '10,000' },
+              { field: 'Multiplier', value: '100' },
+              { field: 'Strike Price', value: '185.00' },
+              { field: 'Expiration Date', value: '20-Dec-24' },
+              { field: 'Expiration Time', value: '16:00:00 EST' },
+            ],
+          },
+          {
+            groupName: 'Settlement Terms',
+            rows: [
+              { field: 'Settlement Type', value: 'Cash' },
               { field: 'Settlement Date', value: '22-Dec-24' },
-              { field: 'Exchange Rate', value: '1.0850' },
-              { field: 'Counter Currency', value: 'USD' },
             ],
           },
           {
             groupName: 'Premium Terms',
             rows: [
-              { field: 'Premium Currency', value: 'EUR' },
-              { field: 'Price', value: '1.25%' },
-              { field: 'Premium', value: '125,000' },
-              { field: 'Premium Payment Date', value: '22-Nov-24' },
+              { field: 'Premium Currency', value: 'USD' },
+              { field: 'Price', value: '3.50%' },
+              { field: 'Premium', value: '64,750' },
+              { field: 'Premium Payment Date', value: '21-Nov-24' },
               { field: 'Premium Payer', value: 'Acme Corp' },
             ],
           },
         ],
+      },
+      {
+        tradeId: 'IR-33912',
+        productType: 'IR CMS One Look',
+        tradeDate: '19-Nov-24',
+        groups: [
+          {
+            groupName: 'Trade Terms',
+            rows: [
+              { field: 'Trade ID', value: 'IR-33912' },
+              { field: 'Trade Type', value: 'CMS One Look' },
+              { field: 'Entity', value: 'Acme Corp' },
+              { field: 'Executing Broker', value: 'Globo Bank' },
+              { field: 'Counterparty', value: 'Globo Bank' },
+              { field: 'Direction', value: 'Buy' },
+              { field: 'Trade Date', value: '19-Nov-24' },
+              { field: 'Trade Time', value: '14:30:00' },
+            ],
+          },
+          {
+            groupName: 'Product Terms',
+            rows: [
+              { field: 'Product Type', value: 'IR CMS One Look' },
+              { field: 'Effective Date', value: '21-Nov-24' },
+              { field: 'Termination Date', value: '21-Nov-26' },
+              { field: 'Notional Amount', value: '25,000,000' },
+              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Option Type', value: 'Cap' },
+            ],
+          },
+          {
+            groupName: 'Floating Amounts',
+            rows: [
+              { field: 'Pay / Receive', value: 'Receive' },
+              { field: 'Rate Option', value: 'USD-CMS-10Y' },
+              { field: 'Determination Date', value: '19-Nov-26' },
+              { field: 'Business Days', value: 'New York' },
+              { field: 'Day Count Convention', value: 'ACT/360' },
+              { field: 'Strike Rate', value: '4.25%' },
+            ],
+          },
+          {
+            groupName: 'Fixed Amounts',
+            rows: [
+              { field: 'Pay / Receive', value: 'Pay' },
+              { field: 'Notional Amount', value: '25,000,000' },
+              { field: 'Notional Currency', value: 'USD' },
+              { field: 'Payment Date', value: '21-Nov-26' },
+            ],
+          },
+          {
+            groupName: 'Collateral Terms',
+            rows: [
+              { field: 'Independent Amount', value: '500,000' },
+              { field: 'Independent Amount Currency', value: 'USD' },
+            ],
+          },
+        ],
+        originalTrade: {
+          tradeId: 'IR-33910',
+          productType: 'IR CMS One Look',
+          rows: [
+            { field: 'Trade Date', value: '14-May-24' },
+            { field: 'CP Trade ID', value: 'GLOBO-77F30A2' },
+          ],
+        },
       },
     ],
   },
@@ -275,6 +412,11 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     source: 'GBB',
     file: 'valuation_file_20241223.csv',
     date: '23 Dec 2024',
+    valuationStatuses: [
+      { tradeIdentifier: 'POS-98271', reason: 'Invalid valuation date' },
+      { tradeIdentifier: 'POS-98272', reason: 'Missing market data reference' },
+      { tradeIdentifier: 'POS-98273', reason: 'Currency mismatch' },
+    ],
     url: 'https://app.float.tech/documents/docid',
   },
 };
@@ -441,18 +583,6 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         description: 'Organization name',
       },
       {
-        name: 'action',
-        type: 'string',
-        required: true,
-        description: 'Action type (e.g., Trade Affirmation)',
-      },
-      {
-        name: 'trade_date',
-        type: 'string',
-        required: true,
-        description: 'Trade execution date',
-      },
-      {
         name: 'groups',
         type: 'array',
         required: false,
@@ -472,23 +602,37 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         description: 'Organization name',
       },
       {
-        name: 'action',
+        name: 'trades',
+        type: 'array',
+        required: true,
+        description:
+          'Array of trade objects with tradeId, productType, and groups',
+      },
+    ],
+  },
+  AffirmationMultipleSummary: {
+    displayName: 'Affirmation Multiple + Summary',
+    description:
+      'Trade affirmations with summary table for dealer response (supports single and multiple trades)',
+    variables: [
+      {
+        name: 'organization_name',
         type: 'string',
         required: true,
-        description: 'Action type (e.g., Trade Affirmation)',
+        description: 'Organization name',
       },
       {
-        name: 'trade_date',
+        name: 'short_name',
         type: 'string',
         required: true,
-        description: 'Trade execution date',
+        description: 'Short client name used in table headers (e.g. "Acme")',
       },
       {
         name: 'trades',
         type: 'array',
         required: true,
         description:
-          'Array of trade objects with tradeId, productType, and groups',
+          'Array of trade objects with tradeId, productType, groups, and an optional originalTrade reference (for lifecycle trades such as novations/terminations)',
       },
     ],
   },
@@ -612,6 +756,13 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         type: 'string',
         required: true,
         description: 'Date of the file processing',
+      },
+      {
+        name: 'valuationStatuses',
+        type: 'array',
+        required: false,
+        description:
+          'Array of valuation status objects with tradeIdentifier and reason',
       },
       {
         name: 'url',

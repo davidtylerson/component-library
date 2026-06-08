@@ -7,8 +7,6 @@ When using the AffirmationMultiple template in SendGrid, use this JSON structure
 ```json
 {
   "organization_name": "Acme Corp",
-  "action": "Trade Affirmation",
-  "trade_date": "2024-01-15",
   "trades": [
     {
       "tradeId": "32c7d92",
@@ -101,7 +99,7 @@ When using the AffirmationMultiple template in SendGrid, use this JSON structure
 
 ## Key Points for SendGrid
 
-1. **Required Fields**: `organization_name`, `action`, `trade_date`, `trades`
+1. **Required Fields**: `organization_name`, `trades`
 2. **Trades Array**: Each trade must have `tradeId`, `productType`, and `groups`
 3. **Groups Array**: Each group must have `groupName` and `rows`
 4. **Rows Array**: Each row must have `field` and `value` (optional `counterparty`)
@@ -111,8 +109,6 @@ When using the AffirmationMultiple template in SendGrid, use this JSON structure
 In SendGrid, map these variables:
 
 - `organization_name` → `{{organization_name}}`
-- `action` → `{{action}}`
-- `trade_date` → `{{trade_date}}`
 - `trades` → `{{trades}}`
 
 ## Testing

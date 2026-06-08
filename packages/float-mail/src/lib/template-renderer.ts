@@ -9,6 +9,7 @@ import { DisputeConfirm } from '@/templates/DisputeConfirm';
 import { ReturnConfirmSimple } from '@/templates/ReturnConfirmSimple';
 import { Affirmation } from '@/templates/Affirmation';
 import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
+import { AffirmationMultipleSummary } from '@/templates/AffirmationMultipleSummary';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
@@ -26,6 +27,7 @@ const TEMPLATE_COMPONENTS: Record<
   ReturnConfirmSimple,
   Affirmation,
   AffirmationMultiple,
+  AffirmationMultipleSummary,
   DisputeMultiple,
   ReturnConfirmTable,
   EmailComponents,
@@ -428,6 +430,7 @@ export class TemplateRenderer {
       ReturnConfirmTable: 'Return confirmed with details',
       Affirmation: 'Action confirmed',
       AffirmationMultiple: 'Multiple trade affirmations required',
+      AffirmationMultipleSummary: 'Multiple trade affirmations required',
       EmailComponents: 'Float Email Components Showcase',
       TradeFileError: 'Error processing trade file',
       ValuationFileError: 'Error processing valuation file',

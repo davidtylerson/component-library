@@ -134,27 +134,12 @@ export default function FloatMailPage() {
   // Update template HTML with data when template or data changes
   useEffect(() => {
     const updateTemplateHtmlWithData = async () => {
-      if (
-        selectedTemplate === 'Affirmation' ||
-        selectedTemplate === 'AffirmationMultiple'
-      ) {
-        const htmlWithData =
-          await EnhancedTemplateRenderer.renderHandlebarsTemplateWithData(
-            selectedTemplate,
-            previewData
-          );
-        if (htmlWithData) {
-          setTemplateHtmlWithData(htmlWithData);
-        }
-      } else {
-        // For other templates, render with data using the regular method
-        const result = await EnhancedTemplateRenderer.renderTemplate(
-          selectedTemplate,
-          previewData
-        );
-        if (result) {
-          setTemplateHtmlWithData(result.html);
-        }
+      const result = await EnhancedTemplateRenderer.renderTemplate(
+        selectedTemplate,
+        previewData
+      );
+      if (result) {
+        setTemplateHtmlWithData(result.html);
       }
     };
 
@@ -317,8 +302,8 @@ export default function FloatMailPage() {
               {/* JSON Error Display */}
               {jsonError && (
                 <div className="border-border-tertiary border-b p-4">
-                  <div className="rounded-md border border-border-error bg-bg-error-subtle p-2">
-                    <div className="text-xs text-text-error-primary">
+                  <div className="border-border-error bg-bg-error-subtle rounded-md border p-2">
+                    <div className="text-text-error-primary text-xs">
                       <strong>JSON Error:</strong> {jsonError}
                     </div>
                   </div>
