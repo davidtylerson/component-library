@@ -18,6 +18,9 @@ interface EmailLayoutProps {
   maxWidth?: string;
   showHeader?: boolean;
   showFooter?: boolean;
+  // Override the footer marketing copy for this email. When omitted, the
+  // shared Footer default is used.
+  footerDescription?: string;
 }
 
 export const EmailLayout: React.FC<EmailLayoutProps> = ({
@@ -27,6 +30,7 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
   maxWidth = '600px',
   showHeader = true,
   showFooter = true,
+  footerDescription,
 }) => {
   return (
     <Html>
@@ -87,6 +91,9 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
                 style={{
                   boxSizing: 'border-box',
                   width: '100%',
+                  // Without this, React Email's Container defaults to 600px and
+                  // caps the content tables no matter how wide maxWidth is.
+                  maxWidth: '100%',
                 }}
               >
                 {/* Main Content with table-based padding for Outlook compatibility */}
@@ -118,7 +125,7 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
             </Section>
 
             {/* Footer */}
-            {showFooter && <Footer />}
+            {showFooter && <Footer companyDescription={footerDescription} />}
           </Container>
         </Body>
       </Tailwind>

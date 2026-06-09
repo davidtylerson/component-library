@@ -217,11 +217,12 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     ],
   },
   AffirmationMultipleSummary: {
-    organization_name: 'Acme Corp',
+    entity_name: 'Acme Corp',
     short_name: 'Acme',
     trades: [
       {
         tradeId: 'EQ-88471',
+        dealId: 'DEAL-5567',
         productType: 'EQ Option',
         tradeDate: '19-Nov-24',
         groups: [
@@ -327,8 +328,6 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
           },
         ],
         originalTrade: {
-          tradeId: 'IR-33910',
-          productType: 'IR CMS One Look',
           rows: [
             { field: 'Trade Date', value: '14-May-24' },
             { field: 'CP Trade ID', value: 'GLOBO-77F30A2' },
@@ -616,10 +615,11 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
       'Trade affirmations with summary table for dealer response (supports single and multiple trades)',
     variables: [
       {
-        name: 'organization_name',
+        name: 'entity_name',
         type: 'string',
         required: true,
-        description: 'Organization name',
+        description:
+          'Entity name — the party whose perspective all trade fields and economics are shown from',
       },
       {
         name: 'short_name',
@@ -632,7 +632,7 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         type: 'array',
         required: true,
         description:
-          'Array of trade objects with tradeId, productType, groups, and an optional originalTrade reference (for lifecycle trades such as novations/terminations)',
+          'Array of trade objects with tradeId, an optional dealId (renders as a second ID column/header line when present), productType, groups, and an optional originalTrade reference (for lifecycle trades such as novations/terminations)',
       },
     ],
   },

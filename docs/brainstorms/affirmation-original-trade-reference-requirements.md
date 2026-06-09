@@ -22,16 +22,23 @@ This is an inherently technical brainstorm (data model + email-template renderin
 **Data model**
 
 - R1. Each `Trade` gains an optional `originalTrade` reference, present only for lifecycle trades. A trade references at most one original trade (1:1).
-- R2. The reference holds: `tradeId` (the original trade's client-side ID, shown in the block header), an optional `productType`, and a flexible `rows: TradeField[]` list (reusing the existing `{ field, value }` shape) so the displayed fields can grow without a model or template change. Extensibility is a hard requirement — adding a field must be data-only.
+- R2. The reference holds only a flexible `rows: TradeField[]` list (reusing the existing `{ field, value }` shape) so the displayed fields can grow without a model or template change. Extensibility is a hard requirement — adding a field must be data-only. No `tradeId`/`productType` on the reference: the block header is a static label, and the meaningful identifier (CP Trade ID) lives in `rows`.
 - R3. The initial `rows` field set is exactly two: **Trade Date** and **CP Trade ID** (the counterparty's own identifier for the original trade — the reconciliation key). Counterparty / broker _identity_ is deliberately excluded because both sides already know it.
 
 **Rendering**
 
 - R4. For a trade with an `originalTrade`, render a second block **directly below** that trade's existing detail table, within the Trade Details section.
-- R5. The reference block reuses the existing header-block style (e.g. `Original Trade: {tradeId}` with optional greyed `productType`) but **without the blue bottom border** (`4px solid #4a49a6`). Absence of the underline is the visual signal that this block is read-only context, not the thing being affirmed.
+- R5. The reference block reuses the existing header-block style with the static label **"Original Trade"** (no trade ID or product type in the header) but **without the blue bottom border** (`4px solid #4a49a6`). Absence of the underline is the visual signal that this block is read-only context, not the thing being affirmed.
 - R6. The reference block is a **2-column read-only** Field / Value table. It omits the "Counterparty Economics (if disputed)" column — the original trade is context, not an affirmable/disputable record.
 - R7. Trades without an `originalTrade` render exactly as today (no empty block, no layout shift).
 - R8. The new field/rendering must exist in both the preview-mode (React) and Handlebars (`{{#if originalTrade}}` / `{{#each}}`) branches of the template, matching the existing dual-render pattern.
+
+---
+
+**Dual trade identifiers** (follow-on, same template)
+
+- R9. Each `Trade` supports two identifier fields: `tradeId` (existing, required) and `dealId` (new, optional). Both are named fields on the trade — the single source of truth read by every renderer, so the table and card header cannot drift.
+- R10. Both the Summary table and the detail card header render whichever IDs are present: both when both exist, just the one when only `tradeId` is set. Existing single-ID emails are unaffected (no `dealId` → no Deal ID column or header line). The summary table shows the optional "Deal ID" column when any trade has a `dealId`; each card header shows "Deal ID" only for trades that carry one. Implemented in both render branches; the Handlebars branch gates the column on `{{#if trades.0.dealId}}` and the card line on `{{#if dealId}}`.
 
 ---
 
