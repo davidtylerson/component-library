@@ -37,8 +37,8 @@ This is an inherently technical brainstorm (data model + email-template renderin
 
 **Dual trade identifiers** (follow-on, same template)
 
-- R9. Each `Trade` supports two identifier fields: `tradeId` (existing, required) and `dealId` (new, optional). Both are named fields on the trade — the single source of truth read by every renderer, so the table and card header cannot drift.
-- R10. Both the Summary table and the detail card header render whichever IDs are present: both when both exist, just the one when only `tradeId` is set. Existing single-ID emails are unaffected (no `dealId` → no Deal ID column or header line). The summary table shows the optional "Deal ID" column when any trade has a `dealId`; each card header shows "Deal ID" only for trades that carry one. Implemented in both render branches; the Handlebars branch gates the column on `{{#if trades.0.dealId}}` and the card line on `{{#if dealId}}`.
+- R9. Each `Trade` supports two identifier fields: `tradeId` (existing, required) and `contractId` (new, optional). Both are named fields on the trade — the single source of truth read by every renderer, so the table and card header cannot drift. They are labeled **"Trade ID"** and **"Contract ID"** in the UI (the first ID column is no longer labeled with the client short name).
+- R10. Both the Summary table and the detail card header render whichever IDs are present: both when both exist, just the one when only `tradeId` is set. Existing single-ID emails are unaffected (no `contractId` → no Contract ID column or header line). The summary table shows the optional "Contract ID" column when any trade has a `contractId`; each card header shows "Contract ID" only for trades that carry one. Implemented in both render branches; the Handlebars branch gates the column on `{{#if trades.0.contractId}}` and the card line on `{{#if contractId}}`.
 
 ---
 

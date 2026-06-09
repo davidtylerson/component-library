@@ -217,12 +217,11 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     ],
   },
   AffirmationMultipleSummary: {
-    entity_name: 'Acme Corp',
-    short_name: 'Acme',
+    organization_name: 'Acme Corp',
     trades: [
       {
         tradeId: 'EQ-88471',
-        dealId: 'DEAL-5567',
+        contractId: 'CONTRACT-5567',
         productType: 'EQ Option',
         tradeDate: '19-Nov-24',
         groups: [
@@ -615,24 +614,18 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
       'Trade affirmations with summary table for dealer response (supports single and multiple trades)',
     variables: [
       {
-        name: 'entity_name',
+        name: 'organization_name',
         type: 'string',
         required: true,
         description:
-          'Entity name — the party whose perspective all trade fields and economics are shown from',
-      },
-      {
-        name: 'short_name',
-        type: 'string',
-        required: true,
-        description: 'Short client name used in table headers (e.g. "Acme")',
+          'Organization name — the requesting party shown in the intro; also stated as the perspective all trade fields and economics are shown from',
       },
       {
         name: 'trades',
         type: 'array',
         required: true,
         description:
-          'Array of trade objects with tradeId, an optional dealId (renders as a second ID column/header line when present), productType, groups, and an optional originalTrade reference (for lifecycle trades such as novations/terminations)',
+          'Array of trade objects with tradeId, an optional contractId (renders as a second ID column/header line when present), productType, groups, and an optional originalTrade reference (for lifecycle trades such as novations/terminations)',
       },
     ],
   },

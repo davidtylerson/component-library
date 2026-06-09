@@ -28,7 +28,7 @@ interface Trade {
   // Optional second identifier. When present it renders alongside tradeId in
   // both the summary table and the detail card header; when absent, neither
   // place shows it (existing single-ID emails are unaffected).
-  dealId?: string;
+  contractId?: string;
   productType: string;
   tradeDate?: string;
   groups: TradeGroup[];
@@ -36,8 +36,7 @@ interface Trade {
 }
 
 interface AffirmationMultipleSummaryProps {
-  entity_name: string;
-  short_name: string;
+  organization_name: string;
   trades: Trade[];
 }
 
@@ -52,22 +51,15 @@ const cellBorder = '1px solid #e5e7eb';
 
 export const AffirmationMultipleSummary: React.FC<
   AffirmationMultipleSummaryProps
-> = ({
-  entity_name = '{{entity_name}}',
-  short_name = '{{short_name}}',
-  trades = [],
-}) => {
-  const isPreviewMode = entity_name !== '{{entity_name}}';
-  const clientIdLabel = isPreviewMode
-    ? `${short_name} ID`
-    : '{{short_name}} ID';
+> = ({ organization_name = '{{organization_name}}', trades = [] }) => {
+  const isPreviewMode = organization_name !== '{{organization_name}}';
 
-  // Show the optional Deal ID column only when at least one trade has one.
-  const hasDealId = trades.some(trade => Boolean(trade.dealId));
+  // Show the optional Contract ID column only when at least one trade has one.
+  const hasContractId = trades.some(trade => Boolean(trade.contractId));
 
   const summaryHeaders = [
-    clientIdLabel,
-    ...(hasDealId ? ['Deal ID'] : []),
+    'Trade ID',
+    ...(hasContractId ? ['Contract ID'] : []),
     'Product',
     'Trade Date',
     'Your ID',
@@ -113,20 +105,20 @@ export const AffirmationMultipleSummary: React.FC<
 
       {isPreviewMode ? (
         <BodyText>
-          <span style={{ fontWeight: 'bold' }}>{entity_name}</span> is
+          <span style={{ fontWeight: 'bold' }}>{organization_name}</span> is
           requesting your affirmation of the following trade
           {trades.length !== 1 ? 's' : ''}. All trade details and economics
           below are shown from the perspective of{' '}
-          <span style={{ fontWeight: 'bold' }}>{entity_name}</span>. Please
-          review the detailed trade information provided below.
+          <span style={{ fontWeight: 'bold' }}>{organization_name}</span>.
+          Please review the detailed trade information provided below.
         </BodyText>
       ) : (
         <div
           dangerouslySetInnerHTML={{
             __html: `
               <p style="font-size: 14px; line-height: 1.5; margin: 0 0 12px 0; color: #374151;">
-                <span style="font-weight: bold;">{{entity_name}}</span> is
-                requesting your affirmation of the following trade{{#if (gt trades.length 1)}}s{{/if}}. All trade details and economics below are shown from the perspective of <span style="font-weight: bold;">{{entity_name}}</span>. Please review
+                <span style="font-weight: bold;">{{organization_name}}</span> is
+                requesting your affirmation of the following trade{{#if (gt trades.length 1)}}s{{/if}}. All trade details and economics below are shown from the perspective of <span style="font-weight: bold;">{{organization_name}}</span>. Please review
                 the detailed trade information provided below.
               </p>
             `,
@@ -179,8 +171,10 @@ export const AffirmationMultipleSummary: React.FC<
             {trades.map((trade, i) => (
               <tr key={i}>
                 <td style={summaryBodyCell(false)}>{trade.tradeId}</td>
-                {hasDealId && (
-                  <td style={summaryBodyCell(false)}>{trade.dealId || ''}</td>
+                {hasContractId && (
+                  <td style={summaryBodyCell(false)}>
+                    {trade.contractId || ''}
+                  </td>
                 )}
                 <td style={summaryBodyCell(false)}>{trade.productType}</td>
                 <td style={summaryBodyCell(false)}>
@@ -199,9 +193,9 @@ export const AffirmationMultipleSummary: React.FC<
               <table style="width: 100%; border-collapse: collapse; background-color: #ffffff;">
                 <thead>
                   <tr>
-                    <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">{{short_name}} ID</th>
-                    {{#if trades.0.dealId}}
-                    <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">Deal ID</th>
+                    <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">Trade ID</th>
+                    {{#if trades.0.contractId}}
+                    <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">Contract ID</th>
                     {{/if}}
                     <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">Product</th>
                     <th style="padding: 6px 8px; border: 1px solid #e5e7eb; font-size: 10px; font-weight: 600; color: #374151; background-color: #f9fafb; text-align: left;">Trade Date</th>
@@ -213,8 +207,8 @@ export const AffirmationMultipleSummary: React.FC<
                   {{#each trades}}
                   <tr>
                     <td style="padding: 6px 8px; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827;">{{tradeId}}</td>
-                    {{#if ../trades.0.dealId}}
-                    <td style="padding: 6px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827;">{{dealId}}</td>
+                    {{#if ../trades.0.contractId}}
+                    <td style="padding: 6px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827;">{{contractId}}</td>
                     {{/if}}
                     <td style="padding: 6px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827;">{{productType}}</td>
                     <td style="padding: 6px 8px; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; font-size: 10px; color: #111827;">{{tradeDate}}</td>
@@ -269,9 +263,9 @@ export const AffirmationMultipleSummary: React.FC<
                         color: '#111827',
                       }}
                     >
-                      {short_name} ID: <strong>{trade.tradeId}</strong>
+                      Trade ID: <strong>{trade.tradeId}</strong>
                     </span>
-                    {trade.dealId && (
+                    {trade.contractId && (
                       <span
                         style={{
                           fontWeight: '400',
@@ -280,7 +274,7 @@ export const AffirmationMultipleSummary: React.FC<
                           marginLeft: '12px',
                         }}
                       >
-                        Deal ID: <strong>{trade.dealId}</strong>
+                        Contract ID: <strong>{trade.contractId}</strong>
                       </span>
                     )}
                     <span
@@ -504,11 +498,11 @@ export const AffirmationMultipleSummary: React.FC<
                     <tr>
                       <th colspan="3" style="padding: 10px 8px; border-top: 1px solid #e5e7eb; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 4px solid #4a49a6; font-size: 11px; font-weight: 600; color: #111827; background-color: #f9fafb; text-align: left;">
                         <span style="font-weight: 400; font-size: 12px; color: #111827;">
-                          {{short_name}} ID: <strong>{{tradeId}}</strong>
+                          Trade ID: <strong>{{tradeId}}</strong>
                         </span>
-                        {{#if dealId}}
+                        {{#if contractId}}
                         <span style="font-weight: 400; font-size: 12px; color: #111827; margin-left: 12px;">
-                          Deal ID: <strong>{{dealId}}</strong>
+                          Contract ID: <strong>{{contractId}}</strong>
                         </span>
                         {{/if}}
                         <span style="font-weight: 400; color: #6b7280; margin-left: 12px;">
