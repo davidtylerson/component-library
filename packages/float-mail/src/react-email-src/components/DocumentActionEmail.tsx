@@ -31,8 +31,15 @@ const FONT = 'Helvetica-Neue, Helvetica, Arial, sans-serif';
 const CELL_BORDER = '1px solid #e5e7eb';
 /** Float brand purple, the default card accent. */
 const BRAND_ACCENT = '#4a49a6';
-/** Callout's error accent, used to set disputes apart at a glance. */
-const ERROR_ACCENT = '#ef4444';
+/**
+ * Dispute accent, used to set disputes apart at a glance.
+ *
+ * A deep crimson rather than an alert red. Callout's `#ef4444` was tried
+ * first and read as too loud against an otherwise restrained palette; this
+ * matches the brand purple's darkness, so the two variants differ in hue
+ * rather than in intensity.
+ */
+const DISPUTE_ACCENT = '#d3593a';
 
 const EM_DASH = '—';
 /**
@@ -109,7 +116,7 @@ const VARIANTS: Record<DocumentActionVariant, VariantConfig> = {
     headlineMany: '%s has raised disputes with your trade confirmations',
     messageHeading: 'Dispute Details',
     attachmentNote: false,
-    accentColor: ERROR_ACCENT,
+    accentColor: DISPUTE_ACCENT,
     preheader: 'A dispute has been raised on your trade confirmation',
   },
   return: {
