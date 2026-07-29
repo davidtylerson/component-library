@@ -16,6 +16,7 @@ import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
 import { TradeFileError } from '@/templates/TradeFileError';
 import { ValuationFileError } from '@/templates/ValuationFileError';
+import { ReportReady } from '@/templates/ReportReady';
 
 // Map template names to their components
 const TEMPLATE_COMPONENTS: Record<
@@ -34,6 +35,7 @@ const TEMPLATE_COMPONENTS: Record<
   EmailComponents,
   TradeFileError,
   ValuationFileError,
+  ReportReady,
 };
 
 // Template source code (simplified versions for display)
@@ -578,6 +580,7 @@ export class EnhancedTemplateRenderer {
       EmailComponents: 'Float Email Components Showcase',
       TradeFileError: 'Error processing trade file',
       ValuationFileError: 'Error processing valuation file',
+      ReportReady: 'Your report is ready',
     };
 
     return subjects[templateName] || 'Email from Float';
