@@ -30,6 +30,7 @@ export const ReturnMultiple: React.FC<ReturnMultipleProps> = ({
   <DocumentActionEmail
     variant="return"
     actorName={organization_name}
+    organizationName={organization_name}
     documents={dynamic_table_data}
   />
 );

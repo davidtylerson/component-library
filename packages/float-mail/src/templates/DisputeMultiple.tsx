@@ -32,6 +32,7 @@ export const DisputeMultiple: React.FC<DisputeMultipleProps> = ({
   <DocumentActionEmail
     variant="dispute"
     actorName={organization_name}
+    organizationName={organization_name}
     message={message}
     documents={dynamic_table_data}
   />

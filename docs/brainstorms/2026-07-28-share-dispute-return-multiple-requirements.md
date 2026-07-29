@@ -58,24 +58,24 @@ One card per document. One document means one card — no separate single-docume
 
 - R1. Each document renders as its own card, reusing the per-trade detail-card pattern from `AffirmationMultipleSummary`: a header row carrying the trade identifier and product type with the 4px `#4A49A6` underline, followed by vertical Field/Value rows.
 - R2. Cards are two columns (Field, Value). The affirmation card's third "Counterparty Economics" column is dropped — these emails report a completed action and have nothing for the recipient to fill in.
-- R3. Card header shows `Trade Ref: {party1TradeId}` plus `productType` in muted text alongside it.
-- R4. Card rows, in order: Trade Date, Confirmation Date, Counterparty Ref (`party2TradeId`), Counterparty Contract Ref (`party2ContractId`), Trade Type (`tradeType`), Document.
+- R3. Card header shows `<Org> Contract ID: {party2ContractId}` plus `productType` in muted text alongside it.
+- R4. Card rows, in order: `<Org>` Trade ID (`party2TradeId`), Trade Date, Trade Type, Confirmation Date, Dealer Reference (`party1TradeId`), Document Link — matching the production return email. `party2ContractId` is promoted into the card header.
 - R5. The Document row links to `app.float.tech/documents/{documentId}` using `documentFileName` as the anchor text, falling back to "View document" when the filename is absent.
 - R6. Any absent field value renders as an em dash rather than an empty cell.
 - R7. Cards render at the standard 600px `EmailLayout` width. No fixed 760px container, no `@media` rules, no `.hide-sm` column hiding — the vertical layout removes the need for all three.
 
 **Per-variant content**
 
-- R8. Three templates: Share, Dispute, Return. Each carries its own status pill, headline verb, and actor.
-- R9. Status pills use existing palette values — brand purple tint for Share, `Callout` success green for Return, `Callout` error red for Dispute. No new hex values enter the system.
+- R8. Three templates: Share, Dispute, Return. Each carries its own headline copy, message heading, and actor.
+- R9. No status pill. The pluralized headline distinguishes the three emails, and production carries no pill.
 - R10. Share headline names the person (`person_name`); Dispute and Return headlines name the organization (`organization_name`). A human shares documents; an institution disputes or returns a confirmation.
 - R11. Share and Dispute render an optional `message` block above the cards, as rich HTML (the payload sends `<p>test message</p>`, not plain text). One message covers the whole batch — there is no per-document comment.
 - R12. Return keeps the existing "fully executed trade confirmation attached to this email" line from `ReturnConfirmSimple`, pluralized with the document count.
 
 **One and many**
 
-- R13. Every headline, preheader, and body sentence pluralizes correctly for one document and for many.
-- R14. Pluralization uses SendGrid's documented block-helper form against an explicit count field — `{{#greaterThan document_count 1}}s{{/greaterThan}}` — not a subexpression over `document_ids.length`.
+- R13. Headlines pluralize end to end, not just the trailing noun: "has raised a dispute with your trade confirmation" becomes "has raised disputes with your trade confirmations".
+- R14. Pluralization tests for a second array element — `{{#if dynamic_table_data.[1]}}` — using only `{{#if}}`/`{{else}}` and array index access. No count field and no subexpression over `.length`.
 - R15. When `dynamic_table_data` is empty, the template renders an explicit empty state rather than a bare heading with nothing under it.
 
 **Preview and export parity**
@@ -126,20 +126,24 @@ One card per document. One document means one card — no separate single-docume
 
 ## Dependencies / Assumptions
 
-- **`document_count` is a backend ask.** R14 needs a count field in the payload. `document_ids` is already there and the count is derivable in application code, but not reliably inside SendGrid's Handlebars.
+- **No new payload fields are required.** An earlier draft called for a `document_count`; testing for `dynamic_table_data.[1]` removes that dependency. `organization_name` must be present on the Share payload to label the client-side IDs (it falls back to "Client").
 - **Unverified: SendGrid does not support subexpression helpers.** `{{#if (gt trades.length 1)}}` appears in `AffirmationMultiple` and `AffirmationMultipleSummary` today. SendGrid documents its comparison helpers in block form (`{{#greaterThan a b}}…{{/greaterThan}}`), and the subexpression form is not in that documented set — but this has not been confirmed against a real SendGrid send. If it turns out to be broken, the two affirmation templates have the same latent bug and always render plural.
-- **Assumes `party1` is the sending/Float side and `party2` is the recipient.** The "Counterparty Ref" labels in R4 depend on this. If the perspective is the reverse, or varies per email, the labels invert.
+- **Confirmed against production:** `party2ContractId`/`party2TradeId` are the client-side pair ("BAL Contract ID"/"ROKOS Trade ID") and `party1TradeId` is the "Dealer Reference".
+- **Production prefixes these labels with an uppercase short code** (`BAL`, `ROKOS`), not the full organization name. No short-code field exists in the payload, so `organization_name` is used instead and renders e.g. "Rokos Capital Management Trade ID". Matching production exactly would need a new short-code field.
 - **Assumes documents are linked, not attached, for Share and Dispute.** Only Return states that a PDF is attached, matching today's `ReturnConfirmSimple` copy.
 
 ---
 
 ## Outstanding Questions
 
+### Resolved During Implementation
+
+- Field labels, section headings, and headline copy were taken from the production dispute and return emails after they were shared. The older templates in this package had drifted from what ships and were the wrong source to copy.
+
 ### Deferred to Planning
 
 - [Affects R4][User decision] Does `tradeType` ("EXECUTION") earn a row, or is it only meaningful for lifecycle events? The sloped HTML carries it in the payload but never displays it.
 - [Affects R14][Needs research] Confirm SendGrid's helper support with a real test send before committing to `{{#greaterThan}}`, and check whether the existing affirmation templates are affected.
-- [Affects R9] Exact pill tint for Share — brand purple `#4A49A6` at full strength is heavy for a background; needs a tint picked from the system rather than invented.
 - [Affects R17] Whether the shared card component can emit both the React and Handlebars branches from one source of truth, or whether the duplication is unavoidable given the dual-mode pattern.
 
 ---

@@ -12,15 +12,19 @@ import { EmailLayout } from './EmailLayout';
  *
  * One document means one card. There is no separate single-document layout.
  *
+ * Field labels and section headings mirror the emails currently in production
+ * rather than the older templates in this package, which have drifted from
+ * what actually ships.
+ *
  * Like the other Float templates this is dual-mode:
  *   - Preview mode (real data) -> rendered with React for the in-app preview.
  *   - Export mode (no data)    -> emits raw Handlebars so SendGrid can loop
  *     over `dynamic_table_data` at send time.
  *
- * Both branches are generated from the same `ROW_SPECS` and the same style
- * objects, serialized to inline CSS by `css()`. That is deliberate: hand-
- * maintaining two copies of this markup is how the branches drift apart, and
- * a drifted export branch is invisible in the preview.
+ * Both branches are generated from the same `rowSpecs()` output and the same
+ * style objects, serialized to inline CSS by `css()`. That is deliberate:
+ * hand-maintaining two copies of this markup is how the branches drift apart,
+ * and a drifted export branch is invisible in the preview.
  */
 
 const FONT = 'Helvetica-Neue, Helvetica, Arial, sans-serif';
@@ -47,8 +51,11 @@ const css = (style: React.CSSProperties): string =>
 export interface DocumentRow {
   documentId?: string;
   documentFileName?: string;
+  /** The dealer-side reference. Surfaces as "Dealer Reference". */
   party1TradeId?: string;
+  /** The client-side trade id. Surfaces as "<Org> Trade ID". */
   party2TradeId?: string;
+  /** The client-side contract id. Promoted into the card header. */
   party2ContractId?: string;
   tradeDate?: string;
   confirmationDate?: string;
@@ -59,16 +66,13 @@ export interface DocumentRow {
 export type DocumentActionVariant = 'share' | 'dispute' | 'return';
 
 interface VariantConfig {
-  /** Uppercase status pill label. */
-  pillLabel: string;
-  /** Pill background. Every value is already in the Float palette. */
-  pillColor: string;
   /** Handlebars variable holding the actor name, used for export-mode output. */
   actorVar: string;
-  /** Past-tense verb for the headline. */
-  verb: string;
-  /** Whether the optional `message` block renders above the cards. */
-  showMessage: boolean;
+  /** Headline for one document and for many. `%s` is replaced by the actor. */
+  headlineOne: string;
+  headlineMany: string;
+  /** Heading above the message block, or null when the variant has no message. */
+  messageHeading: string | null;
   /** Whether to state that the executed confirmation is attached. */
   attachmentNote: boolean;
   preheader: string;
@@ -78,78 +82,72 @@ interface VariantConfig {
  * A human shares documents; an institution disputes or returns a confirmation.
  * Hence `person_name` for share and `organization_name` for the other two.
  *
- * Pill colors are the existing brand purple (Button, Header, Footer) and the
- * Callout success/error accents, used as solid backgrounds with white text.
- * Solid-with-white beats a tinted background with colored text here: at 10px
- * bold uppercase, `#10b981` on `#d1fae5` is illegible.
+ * Headline wording follows the emails in production today, pluralized end to
+ * end — "a dispute ... your trade confirmation" becomes "disputes ... your
+ * trade confirmations" rather than only pluralizing the trailing noun.
  */
 const VARIANTS: Record<DocumentActionVariant, VariantConfig> = {
   share: {
-    pillLabel: 'Shared',
-    pillColor: '#4A49A6',
     actorVar: 'person_name',
-    verb: 'shared',
-    showMessage: true,
+    headlineOne: '%s shared the following trade confirmation',
+    headlineMany: '%s shared the following trade confirmations',
+    messageHeading: 'Message',
     attachmentNote: false,
     preheader: 'A trade confirmation has been shared with you',
   },
   dispute: {
-    pillLabel: 'Disputed',
-    pillColor: '#ef4444',
     actorVar: 'organization_name',
-    verb: 'disputed',
-    showMessage: true,
+    headlineOne: '%s has raised a dispute with your trade confirmation',
+    headlineMany: '%s has raised disputes with your trade confirmations',
+    messageHeading: 'Dispute Details',
     attachmentNote: false,
     preheader: 'A dispute has been raised on your trade confirmation',
   },
   return: {
-    pillLabel: 'Signed',
-    pillColor: '#10b981',
     actorVar: 'organization_name',
-    verb: 'signed',
-    showMessage: false,
+    headlineOne: 'You have received a signed trade confirmation from %s',
+    headlineMany: 'You have received signed trade confirmations from %s',
+    messageHeading: null,
     attachmentNote: true,
     preheader: 'You have received a signed trade confirmation',
   },
 };
 
+const TRADE_DETAILS_HEADING = 'Trade Details';
+const DOCUMENT_ROW_LABEL = 'Document Link';
+
+/** Label prefix when no organization name is available. */
+const FALLBACK_ORG_LABEL = 'Client';
+
 /**
- * Card rows, in display order. Labels follow the copy already used in
- * DisputeConfirm — the Float-side identifier is "Trade ID" and the other side
- * is "Counterparty Ref" — rather than the internal `party1`/`party2` model
- * vocabulary. `party1TradeId` is promoted into the card header instead.
+ * Card rows, in the order the production return email shows them: identifiers,
+ * then dates and type, then the counterparty reference. The production dispute
+ * email happens to list the same fields alphabetically instead; that ordering
+ * can't be reproduced anyway once the client-side labels carry a dynamic org
+ * prefix, so one deliberate order is used for all three variants.
+ *
+ * `party2ContractId` is absent because it is promoted into the card header.
  */
-const ROW_SPECS: Array<{ label: string; key: keyof DocumentRow }> = [
+const rowSpecs = (
+  orgLabel: string
+): Array<{ label: string; key: keyof DocumentRow }> => [
+  { label: `${orgLabel} Trade ID`, key: 'party2TradeId' },
   { label: 'Trade Date', key: 'tradeDate' },
-  { label: 'Confirmation Date', key: 'confirmationDate' },
-  { label: 'Counterparty Ref', key: 'party2TradeId' },
-  { label: 'Counterparty Contract Ref', key: 'party2ContractId' },
   { label: 'Trade Type', key: 'tradeType' },
+  { label: 'Confirmation Date', key: 'confirmationDate' },
+  { label: 'Dealer Reference', key: 'party1TradeId' },
 ];
 
 const DOCUMENT_BASE_URL = 'https://app.float.tech/documents';
 
 // ---------------------------------------------------------------- styles ----
 
-const pillStyle = (background: string): React.CSSProperties => ({
-  display: 'inline-block',
-  backgroundColor: background,
-  color: '#ffffff',
-  padding: '4px 10px',
-  borderRadius: '999px',
-  fontFamily: FONT,
-  fontSize: '10px',
-  fontWeight: 'bold',
-  letterSpacing: '0.7px',
-  textTransform: 'uppercase',
-});
-
 const headlineStyle: React.CSSProperties = {
   fontFamily: FONT,
   fontSize: '24px',
   fontWeight: 'bold',
   lineHeight: '1.2',
-  margin: '16px 0 20px 0',
+  margin: '0 0 20px 0',
   color: '#111827',
 };
 
@@ -161,19 +159,24 @@ const bodyStyle: React.CSSProperties = {
   color: '#374151',
 };
 
-const messageLabelStyle: React.CSSProperties = {
+const sectionHeadingStyle: React.CSSProperties = {
   fontFamily: FONT,
-  fontSize: '13px',
+  fontSize: '16px',
   fontWeight: 'bold',
+  lineHeight: '1.3',
+  margin: '24px 0 12px 0',
   color: '#52525B',
-  margin: '0 0 8px 0',
 };
 
 const messageBoxStyle: React.CSSProperties = {
   backgroundColor: '#f3f4f6',
   border: CELL_BORDER,
   borderRadius: '8px',
-  padding: '12px 16px',
+  // `message` arrives as rich HTML and is normally wrapped in a <p>, whose
+  // default ~1em margins stack on top of this padding. Vertical padding is
+  // kept small so the combined inset matches the single-document dispute
+  // email rather than doubling up on it.
+  padding: '4px 16px',
   marginBottom: '20px',
   fontFamily: FONT,
   fontSize: '14px',
@@ -208,7 +211,7 @@ const labelCellStyle: React.CSSProperties = {
   borderBottom: CELL_BORDER,
   fontFamily: FONT,
   fontSize: '12px',
-  fontWeight: 'normal',
+  fontWeight: 'bold',
   color: '#374151',
   backgroundColor: '#f9fafb',
   verticalAlign: 'top',
@@ -251,61 +254,82 @@ const emptyStateStyle: React.CSSProperties = {
 /**
  * Handlebars for SendGrid.
  *
- * Pluralization uses SendGrid's documented *block* helper form against an
- * explicit `document_count`. The subexpression form used elsewhere in this
- * codebase — `{{#if (gt trades.length 1)}}` — is not in SendGrid's documented
- * helper set, and if unsupported it evaluates falsy and silently renders the
- * singular for every send.
+ * Plural copy is selected by testing for a *second* array element rather than
+ * by comparing a count. This needs no extra payload field and relies only on
+ * `{{#if}}`/`{{else}}` and array index access, both of which SendGrid supports.
+ *
+ * The obvious alternative — `{{#if (gt dynamic_table_data.length 1)}}`, the
+ * form used elsewhere in this codebase — is a subexpression, which is not in
+ * SendGrid's documented helper set; if unsupported it evaluates falsy and
+ * silently renders the singular for every send.
  */
-const plural = (suffix = 's') =>
-  `{{#greaterThan document_count 1}}${suffix}{{/greaterThan}}`;
+const pluralized = (one: string, many: string) =>
+  `{{#if dynamic_table_data.[1]}}${many}{{else}}${one}{{/if}}`;
+
+/**
+ * Org name with a fallback, for the Handlebars label prefixes.
+ *
+ * Uses `../` because every use site is inside `{{#each dynamic_table_data}}`,
+ * where a bare `{{organization_name}}` resolves against the row rather than the
+ * payload root — it would silently fall through to the generic label on every
+ * send while the React preview showed the real org name.
+ */
+const HB_ORG_LABEL = `{{#if ../organization_name}}{{../organization_name}}{{else}}${FALLBACK_ORG_LABEL}{{/if}}`;
 
 const handlebarsBody = (variant: DocumentActionVariant): string => {
   const config = VARIANTS[variant];
   const actor = `{{${config.actorVar}}}`;
 
-  const rows = ROW_SPECS.map(
-    spec => `
+  const rows = rowSpecs(HB_ORG_LABEL)
+    .map(
+      spec => `
               <tr>
                 <td style="${css(labelCellStyle)}">${spec.label}</td>
                 <td style="${css(valueCellStyle)}">{{#if this.${spec.key}}}{{this.${spec.key}}}{{else}}${EM_DASH_ENTITY}{{/if}}</td>
               </tr>`
-  ).join('');
+    )
+    .join('');
 
   return `
-<span style="${css(pillStyle(config.pillColor))}">${config.pillLabel}</span>
-
-<h1 style="${css(headlineStyle)}"><strong>${actor}</strong> ${config.verb} the following trade confirmation${plural()}</h1>
+<h1 style="${css(headlineStyle)}">${pluralized(
+    config.headlineOne.replace('%s', `<strong>${actor}</strong>`),
+    config.headlineMany.replace('%s', `<strong>${actor}</strong>`)
+  )}</h1>
 ${
   config.attachmentNote
     ? `
-<p style="${css(bodyStyle)}">The fully executed trade confirmation${plural()} {{#greaterThan document_count 1}}are{{/greaterThan}}{{#lessThan document_count 2}}is{{/lessThan}} attached to this email.</p>
+<p style="${css(bodyStyle)}">${pluralized(
+        'Please find your fully executed trade confirmation attached to this email.',
+        'Please find your fully executed trade confirmations attached to this email.'
+      )}</p>
 `
     : ''
 }${
-    config.showMessage
+    config.messageHeading
       ? `
 {{#if message}}
-<p style="${css(messageLabelStyle)}">Message</p>
+<h2 style="${css(sectionHeadingStyle)}">${config.messageHeading}</h2>
 <div style="${css(messageBoxStyle)}">{{{message}}}</div>
 {{/if}}
 `
       : ''
   }
+<h2 style="${css(sectionHeadingStyle)}">${TRADE_DETAILS_HEADING}</h2>
+
 {{#each dynamic_table_data}}
 <div style="margin-bottom: 24px;">
   <table role="presentation" cellpadding="0" cellspacing="0" style="${css(cardTableStyle)}">
     <thead>
       <tr>
         <th colspan="2" style="${css(cardHeaderStyle)}">
-          Trade ID: <strong>{{#if this.party1TradeId}}{{this.party1TradeId}}{{else}}${EM_DASH_ENTITY}{{/if}}</strong>
+          ${HB_ORG_LABEL} Contract ID: <strong>{{#if this.party2ContractId}}{{this.party2ContractId}}{{else}}${EM_DASH_ENTITY}{{/if}}</strong>
           {{#if this.productType}}<span style="${css(productStyle)}">{{this.productType}}</span>{{/if}}
         </th>
       </tr>
     </thead>
     <tbody>${rows}
       <tr>
-        <td style="${css(labelCellStyle)}">Document</td>
+        <td style="${css(labelCellStyle)}">${DOCUMENT_ROW_LABEL}</td>
         <td style="${css(valueCellStyle)}">{{#if this.documentId}}<a href="${DOCUMENT_BASE_URL}/{{this.documentId}}" target="_blank" style="${css(linkStyle)}">{{#if this.documentFileName}}{{this.documentFileName}}{{else}}View document{{/if}}</a>{{else}}${EM_DASH_ENTITY}{{/if}}</td>
       </tr>
     </tbody>
@@ -323,6 +347,13 @@ interface DocumentActionEmailProps {
   variant: DocumentActionVariant;
   /** Resolved actor name, or the raw `{{...}}` placeholder in export mode. */
   actorName: string;
+  /**
+   * Organization the client-side identifiers belong to. Prefixes the
+   * "<Org> Contract ID" / "<Org> Trade ID" labels. For Dispute and Return this
+   * is the same value as `actorName`; for Share the actor is a person, so the
+   * org is passed separately and falls back to a generic label when absent.
+   */
+  organizationName?: string;
   message?: string;
   documents?: DocumentRow[];
 }
@@ -330,6 +361,7 @@ interface DocumentActionEmailProps {
 export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
   variant,
   actorName,
+  organizationName,
   message,
   documents = [],
 }) => {
@@ -350,32 +382,43 @@ export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
 
   const isPlural = documents.length !== 1;
   const hasMessage = Boolean(message) && message !== '{{message}}';
+  const orgLabel =
+    organizationName && organizationName !== '{{organization_name}}'
+      ? organizationName
+      : FALLBACK_ORG_LABEL;
+  const specs = rowSpecs(orgLabel);
+
+  // Split the headline on the actor placeholder so the name can be bolded.
+  const headline = isPlural ? config.headlineMany : config.headlineOne;
+  const [beforeActor, afterActor] = headline.split('%s');
 
   return (
     <EmailLayout preheader={config.preheader}>
-      <span style={pillStyle(config.pillColor)}>{config.pillLabel}</span>
-
       <h1 style={headlineStyle}>
-        <strong>{actorName}</strong> {config.verb} the following trade
-        confirmation{isPlural ? 's' : ''}
+        {beforeActor}
+        <strong>{actorName}</strong>
+        {afterActor}
       </h1>
 
       {config.attachmentNote && (
         <p style={bodyStyle}>
-          The fully executed trade confirmation{isPlural ? 's are' : ' is'}{' '}
-          attached to this email.
+          {isPlural
+            ? 'Please find your fully executed trade confirmations attached to this email.'
+            : 'Please find your fully executed trade confirmation attached to this email.'}
         </p>
       )}
 
-      {config.showMessage && hasMessage && (
+      {config.messageHeading && hasMessage && (
         <>
-          <p style={messageLabelStyle}>Message</p>
+          <h2 style={sectionHeadingStyle}>{config.messageHeading}</h2>
           <div
             style={messageBoxStyle}
             dangerouslySetInnerHTML={{ __html: message as string }}
           />
         </>
       )}
+
+      <h2 style={sectionHeadingStyle}>{TRADE_DETAILS_HEADING}</h2>
 
       {documents.length === 0 ? (
         <div style={emptyStateStyle}>No document details were provided.</div>
@@ -391,8 +434,8 @@ export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
               <thead>
                 <tr>
                   <th colSpan={2} style={cardHeaderStyle}>
-                    Trade ID:{' '}
-                    <strong>{document.party1TradeId || EM_DASH}</strong>
+                    {orgLabel} Contract ID:{' '}
+                    <strong>{document.party2ContractId || EM_DASH}</strong>
                     {document.productType && (
                       <span style={productStyle}>{document.productType}</span>
                     )}
@@ -400,7 +443,7 @@ export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {ROW_SPECS.map(spec => (
+                {specs.map(spec => (
                   <tr key={spec.key}>
                     <td style={labelCellStyle}>{spec.label}</td>
                     <td style={valueCellStyle}>
@@ -409,7 +452,7 @@ export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
                   </tr>
                 ))}
                 <tr>
-                  <td style={labelCellStyle}>Document</td>
+                  <td style={labelCellStyle}>{DOCUMENT_ROW_LABEL}</td>
                   <td style={valueCellStyle}>
                     {document.documentId ? (
                       <a

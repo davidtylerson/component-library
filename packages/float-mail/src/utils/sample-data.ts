@@ -22,67 +22,61 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     confirmation_date: '2024-01-16',
   },
   // Share / Dispute / Return all share the DocumentActionEmail body, so they
-  // share a payload shape too. ShareMultiple carries two documents and
-  // ReturnMultiple carries one, so the preview exercises both the plural and
-  // singular paths without editing sample data.
+  // share a payload shape too. Share and Dispute carry two documents and
+  // Return carries one, so the preview exercises both the plural and singular
+  // paths without editing sample data.
   ShareMultiple: {
     person_name: 'Tyler Evans',
+    organization_name: 'Alta Capital',
     message: '<p>Sharing both confirmations for your review.</p>',
-    document_id: 'ABC123',
-    document_ids: ['ABC123', 'DEF456'],
-    document_count: 2,
     dynamic_table_data: [
       {
         documentId: 'ABC123',
         documentFileName: 'confirmation_abc.pdf',
-        party1TradeId: '33102816',
-        party2TradeId: '5678ABC',
-        party2ContractId: 'CONTRACT-1',
-        tradeDate: '15 SEP 2024',
-        confirmationDate: '21 SEP 2024',
+        party1TradeId: 'LEOTC33970669 / 192794827',
+        party2TradeId: '123321110.1',
+        party2ContractId: 'MX_123321110',
+        tradeDate: '2026-07-10',
+        confirmationDate: '2026-07-20',
         tradeType: 'EXECUTION',
         productType: 'FX_FORWARD',
       },
       {
         documentId: 'DEF456',
         documentFileName: 'confirmation_def.pdf',
-        party1TradeId: '44556677',
-        party2TradeId: '9012XYZ',
-        party2ContractId: 'CONTRACT-2',
-        tradeDate: '16 SEP 2024',
-        confirmationDate: '22 SEP 2024',
+        party1TradeId: 'LEOTC44821903 / 192794828',
+        party2TradeId: '123321444.1',
+        party2ContractId: 'MX_123321444',
+        tradeDate: '2026-07-11',
+        confirmationDate: '2026-07-21',
         tradeType: 'EXECUTION',
         productType: 'FX_OPTION',
       },
     ],
   },
   DisputeMultiple: {
-    organization_name: 'Acme Corp',
-    message:
-      '<p>The notional on both trades is off by 500,000. Please review and reissue.</p>',
-    document_id: 'ABC123',
-    document_ids: ['ABC123', 'DEF456'],
-    document_count: 2,
+    organization_name: 'Alta Capital',
+    message: '<p>We dispute the following trade confirmation(s).</p>',
     dynamic_table_data: [
       {
         documentId: 'ABC123',
         documentFileName: 'confirmation_abc.pdf',
-        party1TradeId: '33102816',
-        party2TradeId: '5678ABC',
-        party2ContractId: 'CONTRACT-1',
-        tradeDate: '15 SEP 2024',
-        confirmationDate: '21 SEP 2024',
+        party1TradeId: 'LEOTC33970669 / 192794827',
+        party2TradeId: '123321110.1',
+        party2ContractId: 'MX_123321110',
+        tradeDate: '2026-07-10',
+        confirmationDate: '2026-07-20',
         tradeType: 'EXECUTION',
         productType: 'FX_FORWARD',
       },
       {
         documentId: 'DEF456',
         documentFileName: 'confirmation_def.pdf',
-        party1TradeId: '44556677',
-        party2TradeId: '9012XYZ',
-        party2ContractId: 'CONTRACT-2',
-        tradeDate: '16 SEP 2024',
-        confirmationDate: '22 SEP 2024',
+        party1TradeId: 'LEOTC44821903 / 192794828',
+        party2TradeId: '123321444.1',
+        party2ContractId: 'MX_123321444',
+        tradeDate: '2026-07-11',
+        confirmationDate: '2026-07-21',
         tradeType: 'EXECUTION',
         productType: 'FX_OPTION',
       },
@@ -91,19 +85,16 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
   // Single document on purpose: proves the singular copy path and that one
   // document renders as one card with no layout change.
   ReturnMultiple: {
-    organization_name: 'Acme Corp',
-    document_id: 'ABC123',
-    document_ids: ['ABC123'],
-    document_count: 1,
+    organization_name: 'Alta Capital',
     dynamic_table_data: [
       {
         documentId: 'ABC123',
         documentFileName: 'confirmation_abc.pdf',
-        party1TradeId: '33102816',
-        party2TradeId: '5678ABC',
-        party2ContractId: 'CONTRACT-1',
-        tradeDate: '15 SEP 2024',
-        confirmationDate: '21 SEP 2024',
+        party1TradeId: 'LEOTC33970669 / 192794827',
+        party2TradeId: '123321110.1',
+        party2ContractId: 'MX_123321110',
+        tradeDate: '2026-07-10',
+        confirmationDate: '2026-07-20',
         tradeType: 'EXECUTION',
         productType: 'FX_FORWARD',
       },
@@ -676,17 +667,17 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         description: 'Name of the person who shared the documents',
       },
       {
+        name: 'organization_name',
+        type: 'string',
+        required: false,
+        description:
+          'Labels the client-side ID columns. Falls back to "Client" if absent',
+      },
+      {
         name: 'message',
         type: 'string',
         required: false,
         description: 'Optional rich-HTML message shown above the cards',
-      },
-      {
-        name: 'document_count',
-        type: 'number',
-        required: true,
-        description:
-          'Number of documents. Drives pluralization via SendGrid greaterThan',
       },
       {
         name: 'dynamic_table_data',
@@ -714,13 +705,6 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
           'Optional rich-HTML dispute reason covering the whole batch',
       },
       {
-        name: 'document_count',
-        type: 'number',
-        required: true,
-        description:
-          'Number of documents. Drives pluralization via SendGrid greaterThan',
-      },
-      {
         name: 'dynamic_table_data',
         type: 'array',
         required: true,
@@ -737,13 +721,6 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
         type: 'string',
         required: true,
         description: 'Organization that signed the confirmations',
-      },
-      {
-        name: 'document_count',
-        type: 'number',
-        required: true,
-        description:
-          'Number of documents. Drives pluralization via SendGrid greaterThan',
       },
       {
         name: 'dynamic_table_data',
