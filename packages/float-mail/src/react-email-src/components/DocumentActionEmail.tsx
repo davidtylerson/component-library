@@ -29,6 +29,11 @@ import { EmailLayout } from './EmailLayout';
 
 const FONT = 'Helvetica-Neue, Helvetica, Arial, sans-serif';
 const CELL_BORDER = '1px solid #e5e7eb';
+/** Float brand purple, the default card accent. */
+const BRAND_ACCENT = '#4a49a6';
+/** Callout's error accent, used to set disputes apart at a glance. */
+const ERROR_ACCENT = '#ef4444';
+
 const EM_DASH = '—';
 /**
  * The export branch uses the entity rather than the literal character. The
@@ -75,6 +80,8 @@ interface VariantConfig {
   messageHeading: string | null;
   /** Whether to state that the executed confirmation is attached. */
   attachmentNote: boolean;
+  /** Underline beneath each card header. Distinguishes dispute from the rest. */
+  accentColor: string;
   preheader: string;
 }
 
@@ -93,6 +100,7 @@ const VARIANTS: Record<DocumentActionVariant, VariantConfig> = {
     headlineMany: '%s shared the following trade confirmations',
     messageHeading: 'Message',
     attachmentNote: false,
+    accentColor: BRAND_ACCENT,
     preheader: 'A trade confirmation has been shared with you',
   },
   dispute: {
@@ -101,6 +109,7 @@ const VARIANTS: Record<DocumentActionVariant, VariantConfig> = {
     headlineMany: '%s has raised disputes with your trade confirmations',
     messageHeading: 'Dispute Details',
     attachmentNote: false,
+    accentColor: ERROR_ACCENT,
     preheader: 'A dispute has been raised on your trade confirmation',
   },
   return: {
@@ -109,6 +118,7 @@ const VARIANTS: Record<DocumentActionVariant, VariantConfig> = {
     headlineMany: 'You have received signed trade confirmations from %s',
     messageHeading: null,
     attachmentNote: true,
+    accentColor: BRAND_ACCENT,
     preheader: 'You have received a signed trade confirmation',
   },
 };
@@ -190,19 +200,19 @@ const cardTableStyle: React.CSSProperties = {
   backgroundColor: '#ffffff',
 };
 
-const cardHeaderStyle: React.CSSProperties = {
+const cardHeaderStyle = (accent: string): React.CSSProperties => ({
   padding: '10px 8px',
   borderTop: CELL_BORDER,
   borderLeft: CELL_BORDER,
   borderRight: CELL_BORDER,
-  borderBottom: '4px solid #4a49a6',
+  borderBottom: `4px solid ${accent}`,
   fontFamily: FONT,
   fontSize: '12px',
   fontWeight: 'normal',
   color: '#111827',
   backgroundColor: '#f9fafb',
   textAlign: 'left',
-};
+});
 
 const labelCellStyle: React.CSSProperties = {
   padding: '6px 8px',
@@ -321,7 +331,7 @@ ${
   <table role="presentation" cellpadding="0" cellspacing="0" style="${css(cardTableStyle)}">
     <thead>
       <tr>
-        <th colspan="2" style="${css(cardHeaderStyle)}">
+        <th colspan="2" style="${css(cardHeaderStyle(config.accentColor))}">
           ${HB_ORG_LABEL} Contract ID: <strong>{{#if this.party2ContractId}}{{this.party2ContractId}}{{else}}${EM_DASH_ENTITY}{{/if}}</strong>
           {{#if this.productType}}<span style="${css(productStyle)}">{{this.productType}}</span>{{/if}}
         </th>
@@ -433,7 +443,7 @@ export const DocumentActionEmail: React.FC<DocumentActionEmailProps> = ({
             >
               <thead>
                 <tr>
-                  <th colSpan={2} style={cardHeaderStyle}>
+                  <th colSpan={2} style={cardHeaderStyle(config.accentColor)}>
                     {orgLabel} Contract ID:{' '}
                     <strong>{document.party2ContractId || EM_DASH}</strong>
                     {document.productType && (
