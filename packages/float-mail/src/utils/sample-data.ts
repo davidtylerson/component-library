@@ -21,18 +21,91 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     trade_date: '2024-01-15',
     confirmation_date: '2024-01-16',
   },
-  DisputeMultiple: {
-    organization_name: 'Acme Corp',
-    disputedDocuments: [
+  // Share / Dispute / Return all share the DocumentActionEmail body, so they
+  // share a payload shape too. ShareMultiple carries two documents and
+  // ReturnMultiple carries one, so the preview exercises both the plural and
+  // singular paths without editing sample data.
+  ShareMultiple: {
+    person_name: 'Tyler Evans',
+    message: '<p>Sharing both confirmations for your review.</p>',
+    document_id: 'ABC123',
+    document_ids: ['ABC123', 'DEF456'],
+    document_count: 2,
+    dynamic_table_data: [
       {
-        trade_id: 'TXN-12345',
-        counterparty_ref: 'REF-2024-001',
-        comment: 'Trade amount mismatch - expected $10,000, received $9,500',
+        documentId: 'ABC123',
+        documentFileName: 'confirmation_abc.pdf',
+        party1TradeId: '33102816',
+        party2TradeId: '5678ABC',
+        party2ContractId: 'CONTRACT-1',
+        tradeDate: '15 SEP 2024',
+        confirmationDate: '21 SEP 2024',
+        tradeType: 'EXECUTION',
+        productType: 'FX_FORWARD',
       },
       {
-        trade_id: 'TXN-12346',
-        counterparty_ref: 'REF-2024-002',
-        comment: 'Incorrect trade date - should be 2024-01-15, not 2024-01-16',
+        documentId: 'DEF456',
+        documentFileName: 'confirmation_def.pdf',
+        party1TradeId: '44556677',
+        party2TradeId: '9012XYZ',
+        party2ContractId: 'CONTRACT-2',
+        tradeDate: '16 SEP 2024',
+        confirmationDate: '22 SEP 2024',
+        tradeType: 'EXECUTION',
+        productType: 'FX_OPTION',
+      },
+    ],
+  },
+  DisputeMultiple: {
+    organization_name: 'Acme Corp',
+    message:
+      '<p>The notional on both trades is off by 500,000. Please review and reissue.</p>',
+    document_id: 'ABC123',
+    document_ids: ['ABC123', 'DEF456'],
+    document_count: 2,
+    dynamic_table_data: [
+      {
+        documentId: 'ABC123',
+        documentFileName: 'confirmation_abc.pdf',
+        party1TradeId: '33102816',
+        party2TradeId: '5678ABC',
+        party2ContractId: 'CONTRACT-1',
+        tradeDate: '15 SEP 2024',
+        confirmationDate: '21 SEP 2024',
+        tradeType: 'EXECUTION',
+        productType: 'FX_FORWARD',
+      },
+      {
+        documentId: 'DEF456',
+        documentFileName: 'confirmation_def.pdf',
+        party1TradeId: '44556677',
+        party2TradeId: '9012XYZ',
+        party2ContractId: 'CONTRACT-2',
+        tradeDate: '16 SEP 2024',
+        confirmationDate: '22 SEP 2024',
+        tradeType: 'EXECUTION',
+        productType: 'FX_OPTION',
+      },
+    ],
+  },
+  // Single document on purpose: proves the singular copy path and that one
+  // document renders as one card with no layout change.
+  ReturnMultiple: {
+    organization_name: 'Acme Corp',
+    document_id: 'ABC123',
+    document_ids: ['ABC123'],
+    document_count: 1,
+    dynamic_table_data: [
+      {
+        documentId: 'ABC123',
+        documentFileName: 'confirmation_abc.pdf',
+        party1TradeId: '33102816',
+        party2TradeId: '5678ABC',
+        party2ContractId: 'CONTRACT-1',
+        tradeDate: '15 SEP 2024',
+        confirmationDate: '21 SEP 2024',
+        tradeType: 'EXECUTION',
+        productType: 'FX_FORWARD',
       },
     ],
   },
@@ -592,21 +665,91 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
       },
     ],
   },
+  ShareMultiple: {
+    displayName: 'Share Multiple',
+    description: 'One or more trade confirmations shared by a person',
+    variables: [
+      {
+        name: 'person_name',
+        type: 'string',
+        required: true,
+        description: 'Name of the person who shared the documents',
+      },
+      {
+        name: 'message',
+        type: 'string',
+        required: false,
+        description: 'Optional rich-HTML message shown above the cards',
+      },
+      {
+        name: 'document_count',
+        type: 'number',
+        required: true,
+        description:
+          'Number of documents. Drives pluralization via SendGrid greaterThan',
+      },
+      {
+        name: 'dynamic_table_data',
+        type: 'array',
+        required: true,
+        description: 'One entry per document; each renders as a card',
+      },
+    ],
+  },
   DisputeMultiple: {
-    displayName: 'Multiple Disputes',
-    description: 'Multiple dispute confirmation email',
+    displayName: 'Dispute Multiple',
+    description: 'One or more trade confirmations disputed by an organization',
     variables: [
       {
         name: 'organization_name',
         type: 'string',
         required: true,
-        description: 'Organization name',
+        description: 'Organization that raised the dispute',
       },
       {
-        name: 'disputedDocuments',
+        name: 'message',
+        type: 'string',
+        required: false,
+        description:
+          'Optional rich-HTML dispute reason covering the whole batch',
+      },
+      {
+        name: 'document_count',
+        type: 'number',
+        required: true,
+        description:
+          'Number of documents. Drives pluralization via SendGrid greaterThan',
+      },
+      {
+        name: 'dynamic_table_data',
         type: 'array',
         required: true,
-        description: 'Array of disputed documents',
+        description: 'One entry per document; each renders as a card',
+      },
+    ],
+  },
+  ReturnMultiple: {
+    displayName: 'Return Multiple',
+    description: 'One or more signed trade confirmations returned',
+    variables: [
+      {
+        name: 'organization_name',
+        type: 'string',
+        required: true,
+        description: 'Organization that signed the confirmations',
+      },
+      {
+        name: 'document_count',
+        type: 'number',
+        required: true,
+        description:
+          'Number of documents. Drives pluralization via SendGrid greaterThan',
+      },
+      {
+        name: 'dynamic_table_data',
+        type: 'array',
+        required: true,
+        description: 'One entry per document; each renders as a card',
       },
     ],
   },

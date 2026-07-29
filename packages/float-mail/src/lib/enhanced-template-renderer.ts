@@ -11,7 +11,9 @@ import { ReturnConfirmSimple } from '@/templates/ReturnConfirmSimple';
 import { Affirmation } from '@/templates/Affirmation';
 import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
 import { AffirmationMultipleSummary } from '@/templates/AffirmationMultipleSummary';
+import { ShareMultiple } from '@/templates/ShareMultiple';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
+import { ReturnMultiple } from '@/templates/ReturnMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
 import { TradeFileError } from '@/templates/TradeFileError';
@@ -30,7 +32,9 @@ const TEMPLATE_COMPONENTS: Record<
   Affirmation,
   AffirmationMultiple,
   AffirmationMultipleSummary,
+  ShareMultiple,
   DisputeMultiple,
+  ReturnMultiple,
   ReturnConfirmTable,
   EmailComponents,
   TradeFileError,
@@ -479,7 +483,9 @@ export const EmailComponents: React.FC<EmailComponentsProps> = ({
   // Add other templates with minimal source code representations
   DisputeConfirm: `// DisputeConfirm template with dispute confirmation functionality`,
   ReturnConfirmSimple: `// ReturnConfirmSimple template for simple return confirmations`,
-  DisputeMultiple: `// DisputeMultiple template for multiple dispute confirmations`,
+  ShareMultiple: `// ShareMultiple: 1..N shared trade confirmations, via DocumentActionEmail`,
+  DisputeMultiple: `// DisputeMultiple: 1..N disputed trade confirmations, via DocumentActionEmail`,
+  ReturnMultiple: `// ReturnMultiple: 1..N signed trade confirmations returned, via DocumentActionEmail`,
   ReturnConfirmTable: `// ReturnConfirmTable template for return confirmations with table`,
 };
 
@@ -571,7 +577,9 @@ export class EnhancedTemplateRenderer {
       Welcome: 'Welcome to Float',
       PasswordReset: 'Reset your Float password',
       DisputeConfirm: 'Dispute confirmed for transaction',
-      DisputeMultiple: 'Multiple disputes confirmed',
+      ShareMultiple: 'Trade confirmation shared with you',
+      DisputeMultiple: 'Trade confirmation disputed',
+      ReturnMultiple: 'Signed trade confirmation received',
       ReturnConfirmSimple: 'Return confirmed',
       ReturnConfirmTable: 'Return confirmed with details',
       Affirmation: 'Action confirmed',

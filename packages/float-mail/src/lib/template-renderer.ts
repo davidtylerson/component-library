@@ -10,7 +10,9 @@ import { ReturnConfirmSimple } from '@/templates/ReturnConfirmSimple';
 import { Affirmation } from '@/templates/Affirmation';
 import { AffirmationMultiple } from '@/templates/AffirmationMultiple';
 import { AffirmationMultipleSummary } from '@/templates/AffirmationMultipleSummary';
+import { ShareMultiple } from '@/templates/ShareMultiple';
 import { DisputeMultiple } from '@/templates/DisputeMultiple';
+import { ReturnMultiple } from '@/templates/ReturnMultiple';
 import { ReturnConfirmTable } from '@/templates/ReturnConfirmTable';
 import { EmailComponents } from '@/templates/EmailComponents';
 import { TradeFileError } from '@/templates/TradeFileError';
@@ -29,7 +31,9 @@ const TEMPLATE_COMPONENTS: Record<
   Affirmation,
   AffirmationMultiple,
   AffirmationMultipleSummary,
+  ShareMultiple,
   DisputeMultiple,
+  ReturnMultiple,
   ReturnConfirmTable,
   EmailComponents,
   TradeFileError,
@@ -129,39 +133,72 @@ export const DisputeConfirm: React.FC<DisputeConfirmProps> = ({
   );
 };`,
 
-  DisputeMultiple: `import React from 'react';
-import { Container, Section, Text, Table, Td, Tr } from '@react-email/components';
+  ShareMultiple: `import React from 'react';
+import { DocumentActionEmail, type DocumentRow } from '../react-email-src/components';
 
-interface DisputeMultipleProps {
-  organization_name: string;
-  disputedDocuments: Array<{
-    trade_id: string;
-    counterparty_ref: string;
-    comment: string;
-  }>;
+interface ShareMultipleProps {
+  person_name?: string;
+  message?: string;
+  dynamic_table_data?: DocumentRow[];
 }
 
+// A person shares documents, so the headline names person_name.
+export const ShareMultiple: React.FC<ShareMultipleProps> = ({
+  person_name = '{{person_name}}',
+  message,
+  dynamic_table_data,
+}) => (
+  <DocumentActionEmail
+    variant="share"
+    actorName={person_name}
+    message={message}
+    documents={dynamic_table_data}
+  />
+);`,
+
+  DisputeMultiple: `import React from 'react';
+import { DocumentActionEmail, type DocumentRow } from '../react-email-src/components';
+
+interface DisputeMultipleProps {
+  organization_name?: string;
+  message?: string;
+  dynamic_table_data?: DocumentRow[];
+}
+
+// A dispute is raised by an institution, so the headline names
+// organization_name. One message covers the whole batch.
 export const DisputeMultiple: React.FC<DisputeMultipleProps> = ({
-  organization_name,
-  disputedDocuments,
-}) => {
-  return (
-    <Container>
-      <Section>
-        <Text>Multiple Disputes - {organization_name}</Text>
-        <Table>
-          {disputedDocuments.map((doc, index) => (
-            <Tr key={index}>
-              <Td>{doc.trade_id}</Td>
-              <Td>{doc.counterparty_ref}</Td>
-              <Td>{doc.comment}</Td>
-            </Tr>
-          ))}
-        </Table>
-      </Section>
-    </Container>
-  );
-};`,
+  organization_name = '{{organization_name}}',
+  message,
+  dynamic_table_data,
+}) => (
+  <DocumentActionEmail
+    variant="dispute"
+    actorName={organization_name}
+    message={message}
+    documents={dynamic_table_data}
+  />
+);`,
+
+  ReturnMultiple: `import React from 'react';
+import { DocumentActionEmail, type DocumentRow } from '../react-email-src/components';
+
+interface ReturnMultipleProps {
+  organization_name?: string;
+  dynamic_table_data?: DocumentRow[];
+}
+
+// No message block; carries the "executed confirmation attached" line instead.
+export const ReturnMultiple: React.FC<ReturnMultipleProps> = ({
+  organization_name = '{{organization_name}}',
+  dynamic_table_data,
+}) => (
+  <DocumentActionEmail
+    variant="return"
+    actorName={organization_name}
+    documents={dynamic_table_data}
+  />
+);`,
 
   ReturnConfirmSimple: `import React from 'react';
 import { Container, Section, Text } from '@react-email/components';
@@ -427,7 +464,9 @@ export class TemplateRenderer {
       Welcome: 'Welcome to Float',
       PasswordReset: 'Reset your Float password',
       DisputeConfirm: 'Dispute confirmed for transaction',
-      DisputeMultiple: 'Multiple disputes confirmed',
+      ShareMultiple: 'Trade confirmation shared with you',
+      DisputeMultiple: 'Trade confirmation disputed',
+      ReturnMultiple: 'Signed trade confirmation received',
       ReturnConfirmSimple: 'Return confirmed',
       ReturnConfirmTable: 'Return confirmed with details',
       Affirmation: 'Action confirmed',

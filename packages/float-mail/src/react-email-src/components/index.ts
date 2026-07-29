@@ -50,5 +50,7 @@ export { Callout } from './Callout';
 export { DataTable } from './DataTable';
 export { GroupedDataTable } from './GroupedDataTable';
 export { AffirmationTable } from './AffirmationTable';
+export { DocumentActionEmail } from './DocumentActionEmail';
+export type { DocumentRow, DocumentActionVariant } from './DocumentActionEmail';
 export { Button as LegacyButton } from './Button';
 export { Spacer as LegacySpacer } from './Spacer';
