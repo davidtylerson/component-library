@@ -13,7 +13,13 @@ import {
   SidebarProvider,
   ClientThemeToggle,
 } from '@float-vibe-foundry/design-system';
-import { IconSettings, IconComponents, IconEye } from '@tabler/icons-react';
+import {
+  IconSettings,
+  IconComponents,
+  IconEye,
+  IconCode,
+  IconDatabase,
+} from '@tabler/icons-react';
 import { Tabs, TabsList, TabsTrigger } from '@float-vibe-foundry/design-system';
 import CodeMirrorEditor from '../components/CodeMirrorEditor';
 import EmailPreview from '../components/EmailPreview';
@@ -22,7 +28,7 @@ import { TemplateLoader } from '../lib/template-loader';
 import { EnhancedTemplateRenderer } from '../lib/enhanced-template-renderer';
 import { TemplateData } from '../types/template-types';
 
-// Custom icons for template and file-invoice
+// Custom icon for the template list
 const IconTemplate = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -45,28 +51,6 @@ const IconTemplate = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const IconFileInvoice = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-    <path d="M9 7l1 0" />
-    <path d="M9 13l6 0" />
-    <path d="M13 17l2 0" />
-  </svg>
-);
-
 export default function FloatMailPage() {
   const [previewData, setPreviewData] = useState<TemplateData>({});
   const [templateHtmlWithVariables, setTemplateHtmlWithVariables] =
@@ -76,16 +60,23 @@ export default function FloatMailPage() {
   const [availableTemplates, setAvailableTemplates] = useState<string[]>([]);
   const [editMode, setEditMode] = useState<'react' | 'html'>('react');
   const [viewMode, setViewMode] = useState<'preview' | 'code'>('preview');
-
+  const [templateSource, setTemplateSource] = useState<string>('');
   useEffect(() => {
     // Load available templates
     try {
       const templates = TemplateLoader.getAvailableTemplates();
       setAvailableTemplates(templates);
 
-      // Load sample data for default template
-      const sampleData = TemplateLoader.getSampleData('Welcome');
-      setPreviewData(sampleData);
+      // Deep link: ?template=ReportReady selects that template on load, so a
+      // reload (or a shared link) lands back on the same one.
+      const requested = new URLSearchParams(window.location.search).get(
+        'template'
+      );
+      const initial =
+        requested && templates.includes(requested) ? requested : 'Welcome';
+
+      setSelectedTemplate(initial);
+      setPreviewData(TemplateLoader.getSampleData(initial));
     } catch {
       setAvailableTemplates(['Error loading templates']);
     }
@@ -97,12 +88,49 @@ export default function FloatMailPage() {
     const sampleData = TemplateLoader.getSampleData(templateName);
     setPreviewData(sampleData);
     setJsonError(null); // Clear any JSON errors when switching templates
+
+    // replaceState keeps the URL in sync without a Next navigation, so the
+    // page neither re-renders from the router nor scrolls back to the top.
+    const url = new URL(window.location.href);
+    url.searchParams.set('template', templateName);
+    window.history.replaceState(null, '', url.toString());
   };
+
+  // Load the template's real on-disk source for the React tab. Falls back to
+  // the bundled source map if the file can't be read.
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSource = async () => {
+      try {
+        const response = await fetch(
+          `/api/template-source?name=${encodeURIComponent(selectedTemplate)}`
+        );
+        const source = await response.text();
+        if (!cancelled && response.ok) {
+          setTemplateSource(source);
+          return;
+        }
+      } catch {
+        // Fall through to the bundled source map below.
+      }
+      if (!cancelled) {
+        setTemplateSource(
+          EnhancedTemplateRenderer.getTemplateSourceCode(selectedTemplate)
+        );
+      }
+    };
+
+    loadSource();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedTemplate]);
 
   // Get current code to display
   const getCurrentCode = () => {
     if (editMode === 'react') {
-      return EnhancedTemplateRenderer.getTemplateSourceCode(selectedTemplate);
+      return templateSource;
     } else {
       return templateHtmlWithVariables;
     }
@@ -223,18 +251,7 @@ export default function FloatMailPage() {
                 </span>
               </div>
               <div className="ml-auto flex items-center gap-4">
-                <Tabs
-                  value={editMode}
-                  onValueChange={value =>
-                    setEditMode(value as 'react' | 'html')
-                  }
-                  className="w-auto"
-                >
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="react">React</TabsTrigger>
-                    <TabsTrigger value="html">HTML</TabsTrigger>
-                  </TabsList>
-                </Tabs>
+                {/* React/HTML lives in the code panel header, not up here */}
                 <Tabs
                   value={viewMode}
                   onValueChange={value =>
@@ -247,7 +264,7 @@ export default function FloatMailPage() {
                       <IconEye className="h-4 w-4" />
                     </TabsTrigger>
                     <TabsTrigger value="code">
-                      <IconFileInvoice className="h-4 w-4" />
+                      <IconCode className="h-4 w-4" />
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
@@ -255,7 +272,9 @@ export default function FloatMailPage() {
             </div>
 
             {/* Central Canvas */}
-            <div className="min-w-0 flex-1 overflow-hidden bg-white">
+            {/* Cards sit on the canvas token: a subtle darker grey in light
+                mode, the darkest step in dark mode. */}
+            <div className="min-w-0 flex-1 overflow-hidden bg-[var(--panel-canvas)]">
               {viewMode === 'preview' ? (
                 editMode === 'react' ? (
                   <EmailPreview
@@ -264,7 +283,8 @@ export default function FloatMailPage() {
                     viewMode="desktop"
                   />
                 ) : (
-                  <div className="h-full overflow-hidden p-4">
+                  /* Email previews stay full bleed — no panel chrome */
+                  <div className="h-full overflow-hidden">
                     <iframe
                       srcDoc={
                         templateHtmlWithData || templateHtmlWithVariables || ''
@@ -275,22 +295,45 @@ export default function FloatMailPage() {
                   </div>
                 )
               ) : (
-                <div className="h-full overflow-hidden p-4">
-                  <CodeMirrorViewer
-                    code={getCurrentCode()}
-                    language={editMode === 'react' ? 'typescript' : 'html'}
-                  />
-                </div>
+                <CodeMirrorViewer
+                  code={getCurrentCode()}
+                  language={editMode === 'react' ? 'typescript' : 'html'}
+                  label={
+                    editMode === 'react'
+                      ? `${selectedTemplate}.tsx`
+                      : `${selectedTemplate}.html`
+                  }
+                  headerActions={
+                    <Tabs
+                      value={editMode}
+                      onValueChange={value =>
+                        setEditMode(value as 'react' | 'html')
+                      }
+                      className="w-auto"
+                    >
+                      {/* h-8 leaves a 24px inner box after p-1, so the triggers
+                          need py-0 to fit their 16px line-height */}
+                      <TabsList className="grid h-8 w-full grid-cols-2">
+                        <TabsTrigger value="react" className="py-0 text-xs">
+                          React
+                        </TabsTrigger>
+                        <TabsTrigger value="html" className="py-0 text-xs">
+                          HTML
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  }
+                />
               )}
             </div>
           </div>
 
           {/* Data Sidebar - Fixed width */}
-          <div className="bg-bg-app-elevated border-border-tertiary flex w-[450px] flex-shrink-0 flex-col border-l">
+          <div className="border-border-tertiary flex w-[450px] flex-shrink-0 flex-col border-l bg-[var(--panel-canvas)]">
             {/* Data Sidebar Header */}
-            <div className="border-border-tertiary flex h-16 flex-shrink-0 items-center border-b px-6">
+            <div className="border-border-tertiary flex h-16 flex-shrink-0 items-center border-b bg-[var(--panel-surface)] px-6">
               <div className="flex items-center gap-2">
-                <IconFileInvoice className="text-fg-primary h-5 w-5" />
+                <IconDatabase className="text-fg-primary h-5 w-5" />
                 <span className="text-text-primary text-lg font-medium">
                   Data
                 </span>

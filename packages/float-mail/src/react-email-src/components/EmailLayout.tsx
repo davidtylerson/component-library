@@ -10,6 +10,7 @@ import {
 import { Tailwind } from '@react-email/tailwind';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { LIGHT_MODE_CSS } from './light-mode';
 
 interface EmailLayoutProps {
   children: React.ReactNode;
@@ -36,9 +37,15 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
     <Html>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Declaring light-only is what stops Apple Mail / iOS Mail / Outlook
+            for Mac auto-inverting this email when the reader is in dark mode. */}
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
+        <style dangerouslySetInnerHTML={{ __html: LIGHT_MODE_CSS }} />
       </Head>
       <Tailwind>
         <Body
+          className="fl-page"
           style={{
             fontFamily: 'Helvetica-Neue, Helvetica, Arial, sans-serif',
             backgroundColor,
@@ -78,10 +85,18 @@ export const EmailLayout: React.FC<EmailLayoutProps> = ({
             {showHeader && <Header />}
 
             <Section
+              className="fl-card"
+              bgcolor="#ffffff"
               style={{
                 background: '#ffffff',
                 border: '1px solid #eaebed',
                 borderRadius: '16px',
+                // A table only paints a rounded border under `separate`. Email
+                // clients (and SendGrid's editor) commonly inject a
+                // `table { border-collapse: collapse }` reset, which silently
+                // drops the corner arcs and leaves notched corners.
+                borderCollapse: 'separate',
+                borderSpacing: 0,
                 width: '100%',
                 margin: '0 16px',
                 maxWidth: 'calc(100% - 32px)',

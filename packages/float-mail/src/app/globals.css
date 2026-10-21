@@ -23,11 +23,23 @@
 :root {
   --bg-primary-alt: #fcfcfc; /* Gray 25 for light mode */
   --selection-bg: #3b82f6; /* Blue selection for light mode */
+
+  /*
+    Panel surfaces vs. the canvas they sit on.
+    Light: panels are white, the canvas behind them is a subtle darker grey.
+    Dark:  the relationship inverts — panels are the lighter grey, the canvas
+           is darker — so a panel always reads as raised off its background.
+  */
+  --panel-surface: #ffffff;
+  --panel-canvas: #eceef1;
 }
 
 .dark {
   --bg-primary-alt: #16161a; /* Gray 925 for dark mode */
   --selection-bg: #60a5fa; /* Light blue selection for dark mode */
+
+  --panel-surface: #1d1f26;
+  --panel-canvas: #0e0f13;
 }
 
 /* Ensure CodeMirror text selection works properly */

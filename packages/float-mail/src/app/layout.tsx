@@ -26,7 +26,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} bg-bg-app-base font-sans text-text-primary`}
       >
-        <ThemeProvider defaultTheme="system" enableSystem>
+        {/* Emails are authored light-first, so the builder defaults to light
+            rather than following the OS. The sidebar toggle still switches. */}
+        <ThemeProvider defaultTheme="light" enableSystem={false}>
           <SidebarProvider>{children}</SidebarProvider>
         </ThemeProvider>
       </body>

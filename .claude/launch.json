@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "float-mail",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "float-mail", "exec", "next", "dev"],
+      "port": 3004,
+      "autoPort": true
+    }
+  ]
+}

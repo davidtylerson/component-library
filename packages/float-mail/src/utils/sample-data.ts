@@ -482,28 +482,25 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
     url: 'https://app.float.tech/documents/docid',
   },
   ReportReady: {
-    report_count: 2,
-    report_name: 'Daily Position Report',
+    report_count: 3,
+    report_name: 'Open Positions',
+    automation_name: 'Daily Position Report',
+    automation_url: 'https://app.float.tech/automations/daily-position-report',
+    generated_at: '12 Jul 2026 at 07:00 UTC',
     message:
-      'Generated for the period ending 12 Jul 2026.\nReach out to ops@float.tech with any questions.',
-    run_id: 'run_8f3a2c1b-4d5e-4f6a-9b0c-1d2e3f4a5b6c',
+      'Overnight book as of the 07:00 cut. Anything still pending by midday needs chasing before the London close.',
     tables: [
       {
         report_name: 'Open Positions',
-        // Intentionally wide to demonstrate the horizontal scroll behaviour.
         columns: [
           'Trade ID',
           'Counterparty',
           'Product',
           'Notional',
           'Currency',
-          'Trade Date',
           'Value Date',
           'Rate',
           'Status',
-          'Book',
-          'Desk',
-          'Portfolio',
         ],
         rows: [
           [
@@ -512,13 +509,9 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
             'FX Forward',
             '10,000,000.00',
             'USD',
-            '2026-07-10',
             '2026-07-12',
             '1.0842',
             'Confirmed',
-            'FX-NY',
-            'G10 Spot',
-            'Alpha',
           ],
           [
             'TXN-100239',
@@ -526,13 +519,9 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
             'FX Swap',
             '5,250,000.00',
             'EUR',
-            '2026-07-10',
             '2026-07-14',
             '0.9231',
             'Pending',
-            'FX-LDN',
-            'EM Desk',
-            'Beta',
           ],
           [
             'TXN-100240',
@@ -540,34 +529,241 @@ export const SAMPLE_DATA: Record<string, TemplateData> = {
             'NDF',
             '2,000,000.00',
             'BRL',
-            '2026-07-11',
             '2026-08-11',
             '5.4120',
             'Confirmed',
-            'FX-NY',
-            'LatAm',
-            'Gamma',
+          ],
+          [
+            'TXN-100241',
+            'Dunmore Asset Mgmt',
+            'FX Forward',
+            '750,000.00',
+            'GBP',
+            '2026-07-15',
+            '1.2764',
+            'Pending',
+          ],
+          [
+            'TXN-100242',
+            'Eastgate Global',
+            'FX Option',
+            '18,400,000.00',
+            'JPY',
+            '2026-07-20',
+            '156.8300',
+            'Confirmed',
+          ],
+          [
+            'TXN-100243',
+            'Fairwater Funds',
+            'FX Swap',
+            '3,125,500.00',
+            'CHF',
+            '2026-07-16',
+            '0.8894',
+            'Pending',
           ],
         ],
-        columns_truncated: true,
-        shown_columns: 12,
-        total_columns: 28,
-        truncated: true,
-        shown: 3,
-        total: 143,
-        has_attachment: true,
-        document_url: 'https://app.float.tech/reports/open-positions',
       },
       {
-        report_name: 'Settlements',
-        columns: ['Trade ID', 'Amount', 'Currency', 'Settle Date'],
+        report_name: 'Settlements Due Today',
+        columns: ['Trade ID', 'Counterparty', 'Amount', 'Currency', 'Status'],
         rows: [
-          ['TXN-100210', '1,200,000.00', 'USD', '2026-07-12'],
-          ['TXN-100211', '750,000.00', 'GBP', '2026-07-12'],
+          ['TXN-100210', 'Acme Capital', '1,200,000.00', 'USD', 'Settled'],
+          ['TXN-100211', 'Beacon Partners', '750,000.00', 'GBP', 'Settled'],
+          ['TXN-100212', 'Cobalt Securities', '2,480,000.00', 'USD', 'Pending'],
+          ['TXN-100213', 'Eastgate Global', '640,250.00', 'EUR', 'Pending'],
         ],
-        document_url: 'https://app.float.tech/reports/settlements',
+      },
+      {
+        // Empty-state example: the report ran but matched no records, so the
+        // template shows the empty-table callout instead of a header-only table.
+        report_name: 'Failed Settlements',
+        columns: ['Trade ID', 'Counterparty', 'Amount', 'Currency', 'Reason'],
+        rows: [],
       },
     ],
+  },
+  TradeRecap: {
+    counterparty_name: 'Goldman Sachs International',
+    counterparty_org: 'Goldman Sachs',
+    counterparty_shortcode: 'GSI',
+    client_name: 'Northbay Capital Master Fund LP',
+    client_org: 'Northbay',
+    client_shortcode: 'NRTHBAY',
+    salesperson: 'Alexa Vignali',
+    pm: 'Daniel Roth',
+    execution_time: '04 Jun 2026, 10:14 BST',
+    product_type: 'FX Option',
+    legs: [
+      {
+        leg_label: 'Leg 1 of 3',
+        trade_name: 'EURHUF Put 392',
+        dealer_trade_id: 'GSFXO_4-QTRB7X_1',
+        product_type: 'FX Option',
+      },
+      {
+        leg_label: 'Leg 2 of 3',
+        trade_name: 'EURHUF Put 384',
+        dealer_trade_id: 'GSFXO_4-QTRB7X_2',
+        product_type: 'FX Option',
+      },
+      {
+        leg_label: 'Leg 3 of 3',
+        trade_name: 'EURHUF Put 376',
+        dealer_trade_id: 'GSFXO_4-QTRB7X_3',
+        product_type: 'FX Option',
+      },
+    ],
+    groups: [
+      {
+        groupName: 'Trade Terms',
+        rows: [
+          { field: 'Trade Status', values: ['Draft', 'Draft', 'Draft'] },
+          {
+            field: 'Trade Type',
+            values: ['Execution', 'Execution', 'Execution'],
+          },
+          { field: 'Entity', values: ['NRTHBAY', 'NRTHBAY', 'NRTHBAY'] },
+          {
+            field: 'Executing Broker',
+            values: ['JPMLDN', 'JPMLDN', 'JPMLDN'],
+          },
+          { field: 'Prime Broker', values: ['CITIPB', 'CITIPB', 'CITIPB'] },
+          {
+            field: 'Counterparty',
+            values: ['GSI', 'GSI', 'GSI'],
+          },
+          { field: 'Direction', values: ['Buy', 'Sell', 'Buy'] },
+          {
+            field: 'Trade Date',
+            values: ['04 Jun 2026', '04 Jun 2026', '04 Jun 2026'],
+          },
+          {
+            field: 'Trade Time',
+            values: [
+              '04 Jun 2026 10:14',
+              '04 Jun 2026 10:14',
+              '04 Jun 2026 10:14',
+            ],
+          },
+        ],
+      },
+      {
+        groupName: 'Product Terms',
+        rows: [
+          {
+            field: 'Product Type',
+            values: ['FX Option', 'FX Option', 'FX Option'],
+          },
+          { field: 'Asset', values: ['EURHUF', 'EURHUF', 'EURHUF'] },
+          {
+            field: 'Notional Amount',
+            values: ['75,000,000', '150,000,000', '75,000,000'],
+          },
+          { field: 'Notional Currency', values: ['EUR', 'EUR', 'EUR'] },
+          {
+            field: 'Effective Date',
+            values: ['04 Jun 2026', '04 Jun 2026', '04 Jun 2026'],
+          },
+          {
+            field: 'Expiration Date',
+            values: ['04 Sep 2026', '04 Sep 2026', '04 Sep 2026'],
+          },
+          {
+            field: 'Delivery Type',
+            values: ['Deliverable', 'Deliverable', 'Deliverable'],
+          },
+          { field: 'Option Type', values: ['Put', 'Put', 'Put'] },
+          {
+            field: 'Option Style',
+            values: ['European', 'European', 'European'],
+          },
+          { field: 'Strike Price', values: ['392', '384', '376'] },
+          {
+            field: 'Expiration Time',
+            values: ['12:00:00', '12:00:00', '12:00:00'],
+          },
+          {
+            field: 'Expiration Location',
+            values: ['HUBU', 'HUBU', 'HUBU'],
+          },
+        ],
+      },
+      {
+        groupName: 'Settlement Terms',
+        rows: [
+          {
+            field: 'Settlement Type',
+            values: ['Physical', 'Physical', 'Physical'],
+          },
+          {
+            field: 'Settlement Date',
+            values: ['08 Sep 2026', '08 Sep 2026', '08 Sep 2026'],
+          },
+        ],
+      },
+      {
+        groupName: 'Pricing Terms',
+        rows: [
+          { field: 'Premium Currency', values: ['EUR', 'EUR', 'EUR'] },
+          { field: 'Price', values: ['1.212%', '0.351%', '0.058%'] },
+          { field: 'Premium', values: ['909,000', '526,500', '43,500'] },
+          {
+            field: 'Premium Payment Date',
+            values: ['08 Jun 2026', '08 Jun 2026', '08 Jun 2026'],
+          },
+          { field: 'Pay / Receive', values: ['Pay', 'Receive', 'Pay'] },
+        ],
+      },
+    ],
+    delta_exchange_legs: [
+      {
+        trade_name: 'EURHUF Forward',
+        dealer_trade_id: 'GSFXF_4-QTRB7X_4',
+        product_type: 'FX Forward',
+      },
+    ],
+    delta_exchange: [
+      {
+        groupName: 'Trade Terms',
+        rows: [
+          { field: 'Trade Status', values: ['Draft'] },
+          { field: 'Trade Type', values: ['Execution'] },
+          { field: 'Entity', values: ['NRTHBAY'] },
+          { field: 'Executing Broker', values: ['JPMLDN'] },
+          { field: 'Prime Broker', values: ['CITIPB'] },
+          { field: 'Counterparty', values: ['GSI'] },
+          { field: 'Direction', values: ['Buy'] },
+          { field: 'Trade Date', values: ['04 Jun 2026'] },
+          { field: 'Trade Time', values: ['04 Jun 2026 10:14'] },
+        ],
+      },
+      {
+        groupName: 'Product Terms',
+        rows: [
+          { field: 'Product Type', values: ['FX Forward'] },
+          { field: 'Asset', values: ['EURHUF'] },
+          { field: 'Notional Amount', values: ['11,400,000'] },
+          { field: 'Notional Currency', values: ['EUR'] },
+          { field: 'Notional Currency Direction', values: ['Buy'] },
+          { field: 'Reference Currency', values: ['HUF'] },
+          { field: 'Reference Notional Amount', values: ['4,427,988,000'] },
+          { field: 'Reference Currency Direction', values: ['Sell'] },
+          { field: 'Effective Date', values: ['04 Jun 2026'] },
+          { field: 'Delivery Type', values: ['Deliverable'] },
+        ],
+      },
+      {
+        groupName: 'Settlement Terms',
+        rows: [{ field: 'Settlement Date', values: ['08 Sep 2026'] }],
+      },
+      {
+        groupName: 'Pricing Terms',
+        rows: [{ field: 'FX Rate', values: ['388.42'] }],
+      },
+    ],
+    booking_url: 'https://app.float.tech/trades/book/GSFXO_4-QTRB7X_1',
   },
 };
 
@@ -981,40 +1177,167 @@ export const TEMPLATE_INFO: Record<string, Record<string, unknown>> = {
   },
   ReportReady: {
     displayName: 'Report Ready',
-    description:
-      'Notification that generated report tables are available in Float',
+    description: 'Report results delivered by an Automations "Send email" step',
     variables: [
       {
         name: 'report_count',
         type: 'number',
         required: true,
         description:
-          'Number of report tables generated (drives the singular/plural intro copy)',
+          'Number of report tables generated (a single table titles the email with its own name)',
       },
       {
         name: 'report_name',
         type: 'string',
         required: false,
-        description: 'Report name shown in the intro when report_count is 1',
+        description: 'Report name; used as the email title when report_count is 1',
+      },
+      {
+        name: 'automation_name',
+        type: 'string',
+        required: true,
+        description:
+          'Name of the automation that produced this; the title when several tables were generated',
+      },
+      {
+        name: 'automation_url',
+        type: 'string',
+        required: false,
+        description:
+          'Link back to the automation in Float; renders the automation name as a link when present',
+      },
+      {
+        name: 'generated_at',
+        type: 'string',
+        required: false,
+        description:
+          'Preformatted send timestamp, e.g. "12 Jul 2026 at 07:00 UTC" (formatted upstream; the template does no date maths)',
       },
       {
         name: 'message',
         type: 'string',
         required: false,
-        description: 'Optional free-text message (preserves line breaks)',
-      },
-      {
-        name: 'run_id',
-        type: 'string',
-        required: true,
-        description: 'Automation run identifier shown in the footer callout',
+        description:
+          'Free text typed by the automation author in the Send email step (preserves line breaks)',
       },
       {
         name: 'tables',
         type: 'array',
         required: true,
         description:
-          'Array of report tables, each with report_name, columns (string[]), rows (string[][]), optional document_url, and truncation flags (columns_truncated/shown_columns/total_columns, truncated/shown/total, has_attachment)',
+          'Array of report tables, each with report_name, columns (string[]), and rows (string[][]; an empty array renders the empty-table callout)',
+      },
+    ],
+  },
+  TradeRecap: {
+    displayName: 'Trade Recap',
+    description:
+      'Post-execution recap of a trade or multi-leg package, ready to book',
+    variables: [
+      {
+        name: 'counterparty_name',
+        type: 'string',
+        required: true,
+        description: 'Dealer entity that executed the trade',
+      },
+      {
+        name: 'counterparty_org',
+        type: 'string',
+        required: true,
+        description:
+          'Dealer org/firm name; labels the row as "<org> Entity", e.g. "Goldman Sachs Entity"',
+      },
+      {
+        name: 'counterparty_shortcode',
+        type: 'string',
+        required: false,
+        description: 'Dealer shortcode shown after the entity name',
+      },
+      {
+        name: 'client_name',
+        type: 'string',
+        required: true,
+        description: 'Client entity the trade was executed for',
+      },
+      {
+        name: 'client_org',
+        type: 'string',
+        required: true,
+        description:
+          'Client org/firm name; labels the row as "<org> Entity", e.g. "Northbay Entity"',
+      },
+      {
+        name: 'client_shortcode',
+        type: 'string',
+        required: false,
+        description: 'Client shortcode shown after the entity name',
+      },
+      {
+        name: 'salesperson',
+        type: 'string',
+        required: false,
+        description: 'Dealer-side salesperson, shown beside the counterparty row',
+      },
+      {
+        name: 'pm',
+        type: 'string',
+        required: false,
+        description: 'Client-side portfolio manager, shown beside the client row',
+      },
+      {
+        name: 'execution_time',
+        type: 'string',
+        required: true,
+        description:
+          'Preformatted execution time to the minute, e.g. "13 Aug 2026, 14:32 BST"',
+      },
+      {
+        name: 'product_type',
+        type: 'string',
+        required: true,
+        description:
+          'Product type of the structure; the title above the grid (there is no package name)',
+      },
+      {
+        name: 'legs',
+        type: 'array',
+        required: true,
+        description:
+          'One entry per leg, each the identity of a value column: leg_label ("Leg 1 of 2"), dealer_trade_id, trade_name, product_type. One leg renders a single value column',
+      },
+      {
+        name: 'groups',
+        type: 'array',
+        required: true,
+        description:
+          'Grid body: groupName plus rows of { field, values }, where values is positional — one entry per leg, empty string where a leg lacks the field',
+      },
+      {
+        name: 'delta_exchange',
+        type: 'array',
+        required: false,
+        description:
+          'Optional hedge grid rendered under a "Delta exchange" heading; same groupName/rows shape',
+      },
+      {
+        name: 'delta_exchange_legs',
+        type: 'array',
+        required: false,
+        description:
+          'Column identities for the hedge grid; defaults to a single "Hedge" column',
+      },
+      {
+        name: 'leg_count',
+        type: 'number',
+        required: false,
+        description:
+          'Number of legs, shown beside the title; omitted entirely if not supplied',
+      },
+      {
+        name: 'booking_url',
+        type: 'string',
+        required: true,
+        description: 'Destination for the "Start booking" call to action',
       },
     ],
   },

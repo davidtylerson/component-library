@@ -18,6 +18,7 @@ import { EmailComponents } from '@/templates/EmailComponents';
 import { TradeFileError } from '@/templates/TradeFileError';
 import { ValuationFileError } from '@/templates/ValuationFileError';
 import { ReportReady } from '@/templates/ReportReady';
+import { TradeRecap } from '@/templates/TradeRecap';
 
 // Map template names to their components
 const TEMPLATE_COMPONENTS: Record<
@@ -39,6 +40,7 @@ const TEMPLATE_COMPONENTS: Record<
   TradeFileError,
   ValuationFileError,
   ReportReady,
+  TradeRecap,
 };
 
 // Template source code (simplified versions for display)
@@ -476,6 +478,7 @@ export class TemplateRenderer {
       TradeFileError: 'Error processing trade file',
       ValuationFileError: 'Error processing valuation file',
       ReportReady: 'Your report is ready',
+      TradeRecap: 'Trade recap — ready to book',
     };
 
     return subjects[templateName] || 'Email from Float';

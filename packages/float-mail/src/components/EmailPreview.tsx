@@ -61,10 +61,19 @@ export default function EmailPreview({
   }
 
   return (
-    <div className="h-full overflow-auto bg-bg-primary p-4">
+    /* Desktop matches the HTML tab: full bleed, no wrapper cap. The old
+       max-w-2xl here (not the template) is why the React tab rendered narrower
+       than the HTML tab for the same email. */
+    <div
+      className={`h-full overflow-auto bg-bg-primary ${
+        viewMode === 'mobile' ? 'p-4' : ''
+      }`}
+    >
       <div
-        className={`mx-auto h-full overflow-hidden rounded-lg bg-white shadow-lg ${
-          viewMode === 'mobile' ? 'max-w-sm' : 'max-w-2xl'
+        className={`mx-auto h-full overflow-hidden bg-white ${
+          viewMode === 'mobile'
+            ? 'max-w-sm rounded-lg shadow-lg'
+            : 'w-full max-w-none'
         }`}
       >
         <iframe
